@@ -25,11 +25,9 @@ Compilation instructions
 ========================
 
 ```bash
-wget http://waf.googlecode.com/files/waf-1.7.11
-mv waf-1.7.11 waf
-chmod 755 waf
+./
 ./waf -j1 -vvv distclean configure build --data-dir=/home/tjhunter/work/data/thesis
-./waf -j1 build
+./waf -j1 build --data-dir=/home/tjhunter/work/data/thesis
 
 ```
 
