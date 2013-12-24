@@ -39,3 +39,5 @@ nosetests.xml
 build/
 *~
 .*swp
+waf
+.waf*
