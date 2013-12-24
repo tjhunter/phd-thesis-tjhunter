@@ -3,8 +3,7 @@ Created on Nov 27, 2012
 
 @author: tjhunter
 '''
-from papers.streaming.graphs import defs
-import pylab as pl
+import build
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -61,10 +60,10 @@ def makefig(data, figindex, ytop, xlabel=None):
   return fig
 
 fig = makefig(ec2_clean_data, 0, 4800, "Number of nodes")
-defs.save_figure(fig, "spark_em_perf_ec2")
+build.save_figure(fig, "figures-socc/spark_em_perf_ec2")
 #fig.savefig('%s/spark_em_perf_ec2.pdf' % (defs.save_path()), bbox_inches='tight')
 
 fig = makefig(nersc_clean_data, 1, 4800)
-defs.save_figure(fig, "spark_em_perf_nersc")
+build.save_figure(fig, "figures-socc/spark_em_perf_nersc")
 #fig.savefig('%s/spark_em_perf_nersc.pdf' % (defs.save_path()), bbox_inches='tight')
 

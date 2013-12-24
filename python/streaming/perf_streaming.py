@@ -1,4 +1,4 @@
-from defs import save_path
+import build
 import pylab as pl
 import numpy as np
 import matplotlib
@@ -20,5 +20,7 @@ for loc, spine in ax.spines.items():
 ax.set_xticks(num_nodes)
 ax.set_xlim(0,85)
 
-fig.savefig("%s/perf_streaming.pdf"%save_path(), bbox_inches='tight')
-fig.savefig("%s/perf_streaming.svg"%save_path(), bbox_inches='tight')
+build.save_figure(fig,"figures-socc/perf_streaming")
+
+#fig.savefig("%s/perf_streaming.pdf"%save_path(), bbox_inches='tight')
+#fig.savefig("%s/perf_streaming.svg"%save_path(), bbox_inches='tight')

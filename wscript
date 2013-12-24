@@ -23,11 +23,22 @@ def configure(conf):
     conf.fatal('The program LaTex is required')
     
 def build(bld):
+  # Generation of images by python scripts
   bld.build_python("python/myscript.py",'myfile.txt')
+  bld.build_python("python/streaming/perf_streaming.py","figures-socc/perf_streaming.pdf")
+  bld.build_python("python/streaming/spark_em_perf.py","figures-socc/spark_em_perf_nersc.pdf figures-socc/spark_em_perf_ec2.pdf")
   bld.build_python("python/streaming/l1l2_plots.py","""
-        figures-socc/rl1_SlidingBig.pdf
-        figures-socc/rl1_SlidingBig1.pdf
-        figures-socc/rl1_SlidingBig2.pdf
+    figures-socc/ll_SlidingBig4.pdf
+    figures-socc/rl1_SlidingBig3.pdf
+    figures-socc/rl2_SlidingBig1.pdf
+    figures-socc/rl2_SlidingBig4.pdf
+    figures-socc/rl1_SlidingBig1.pdf
+    figures-socc/rl1_SlidingBig4.pdf
+    figures-socc/rl2_SlidingBig2.pdf
+    figures-socc/rl2_SlidingBig.pdf
+    figures-socc/rl1_SlidingBig2.pdf
+    figures-socc/rl1_SlidingBig.pdf
+    figures-socc/rl2_SlidingBig3.pdf
   """.split())
 
 def build2(bld):
