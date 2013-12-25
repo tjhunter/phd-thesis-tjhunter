@@ -1,4 +1,4 @@
-from papers.streaming.graphs import defs
+import build
 from collections import defaultdict
 import json
 import numpy as np
@@ -6,7 +6,9 @@ import os
 import pylab as pl
 
 exp_name = "SlidingBig"
-states_dir = "%s/states/%s/" % (defs.exp_data_dir(), exp_name)
+states_dir = build.data_name("tase/states/%s"%exp_name)
+print "states_dir is ",states_dir
+#states_dir = "%s/states/%s/" % (defs.exp_data_dir(), exp_name)
 #perf_file = "%s/states/perf2010-03-07-0.txt" % defs.exp_data_dir()
 
 #marg_lls = []
@@ -75,4 +77,5 @@ ax.set_title("Mean travel time for a few links")
 ax.set_ylabel("Mean TT (secs)")
 ax.xaxis.set_major_formatter(ticker.FuncFormatter(format_date))
 fig.autofmt_xdate()
-fig.show()
+build.save_figure(fig, "figures-socc/example")
+#fig.show()

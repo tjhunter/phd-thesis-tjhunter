@@ -25,6 +25,7 @@ def configure(conf):
 def build(bld):
   # Generation of images by python scripts
   bld.build_python("python/myscript.py",'myfile.txt')
+  bld.build_python("python/streaming/plots_script.py","figures-socc/example.pdf")
   bld.build_python("python/streaming/perf_streaming.py","figures-socc/perf_streaming.pdf")
   bld.build_python("python/streaming/spark_em_perf.py","figures-socc/spark_em_perf_nersc.pdf figures-socc/spark_em_perf_ec2.pdf")
   bld.build_python("python/streaming/l1l2_plots.py","""
@@ -40,6 +41,7 @@ def build(bld):
     figures-socc/rl1_SlidingBig.pdf
     figures-socc/rl2_SlidingBig3.pdf
   """.split())
+  bld.add_group()
 
 def build2(bld):
   bld.lyx2tex(bld.path.ant_glob('*.lyx'))
