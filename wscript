@@ -42,6 +42,24 @@ def build(bld):
     figures-socc/rl2_SlidingBig3.pdf
   """.split())
   bld.add_group()
+  # Path inference images
+  bld.build_python("python/mm/path_inference_private/plot_em_final.py","""
+		   figures-pif/em_true_points_percentage.pdf
+		   figures-pif/em_true_paths_percentage.pdf
+		   figures-pif/em_ll_paths.pdf
+		   """.split())
+  bld.build_python("python/mm/path_inference_private/plot_final.py","""
+		   figures-pif/true_points_percentage.pdf
+		   figures-pif/true_paths_percentage.pdf
+		   figures-pif/ll_paths.pdf
+		   figures-pif/entropy_paths.pdf
+		   figures-pif/entropy_points.pdf
+		   figures-pif/coverage_paths.pdf
+		   figures-pif/relative_coverage_paths.pdf
+		   figures-pif/proper_length.pdf
+		   figures-pif/proper_std_dev.pdf
+		   figures-pif/left_right.pdf
+		   """.split())
 
 def build2(bld):
   bld.lyx2tex(bld.path.ant_glob('*.lyx'))
