@@ -381,35 +381,11 @@ reference "sec:stop-and-go"
 : a Stop-go algorithm detects the number of stops on a link and compresses
  the GPS traces
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
-Before feeding raw GPS points to the 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-stopgo
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-{}
-\end_layout
-
-\end_inset
-
-, each coordinate is mapped to a link and an offset distance from the beginning
- of the link.
+Before feeding raw GPS points to the Stop-Go model, each coordinate is mapped
+ to a link and an offset distance from the beginning of the link.
  We use an efficient path-matching and path-inference algorithm developed
  in
 \begin_inset space ~

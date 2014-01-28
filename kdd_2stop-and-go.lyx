@@ -61,24 +61,6 @@
 \begin_body
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%!TEX root =article.tex
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 The stops due to traffic signals and other factors (double parking, garbage
  trucks and so on) represent one of the main source of variability in urban
  travel times.

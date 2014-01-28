@@ -92,6 +92,17 @@ def build(bld):
 	       figures-pif/proper_length.pdf'.split()
   tex_deps += ['pif_6conclusion.tex']
   bld.add_group()
+  # KDD MODEL chapter
+  bld.oo2pdf(bld.path.ant_glob('docs-kdd/*.odg'))
+  tex_deps += ['kdd_1introduction.tex']
+  img_deps += ['docs-kdd/pipeline.pdf']
+  img_deps += ['figures-kdd/example_bimodal_link.pdf']
+  tex_deps += ['kdd_2stop-and-go.tex']
+  tex_deps += ['kdd_3graph-model.tex']
+  tex_deps += ['kdd_4inference.tex']
+  tex_deps += ['kdd_5evaluation.tex']
+  tex_deps += ['kdd_6conclusion.tex']
+  bld.add_group()
   # Final assembly
   bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
   
@@ -135,37 +146,5 @@ def build2(bld):
   bld.add_group()
   # GMRF chapter
   tex_deps += ['gmrf.tex']
-  bld.add_group()
-  # KDD MODEL chapter
-  bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odg'))
-  tex_deps += ['kdd_1intro.tex']
-  img_deps += ['docs-kdd/pipeline.pdf']
-  img_deps += ['figures-kdd/example_bimodal_link.pdf']
-  tex_deps += ['kdd_2stop-and-go.tex']
-  tex_deps += ['kdd_3graph-model.tex']
-  tex_deps += ['kdd_4inference.tex']
-  tex_deps += ['kdd_5evaluation.tex']
-  tex_deps += ['kdd_6conclusion.tex']
-  bld.add_group()
   # Final assembly
   bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
-  # Building the image files first
-  #bld.lyx2tex(bld.path.ant_glob('latex/*.lyx'))
-  #bld.build_python("python/myscript.py",['myfile.txt'])
-  #bld.img2eps(bld.path.ant_glob("latex/figures/*.png"))
-  ##Logs.debug("build!")
-  ##bld(rule="echo \"XXX\" > ${TGT}", target='latex/chap3.tex')
-  ##bld(rule="echo \"YYY\" > ${TGT}", target='latex/chap4.tex')
-  ##bld(rule="mkdir ${TGT} && touch ${TGT}/1.txt",target='test/')
-  ##bld(rule="cp ${SRC}/1.txt ${TGT}",source='test/',target='1.txt')
-  #bld.add_group()
-  #bld(
-    #name = 'main tex',
-    #features = 'tex',
-    #type     = 'pdflatex',
-    #source   = 'latex/thesis.tex', # mandatory, the source
-    #outs     = 'pdf', # 'pdf' or 'ps pdf'
-    #prompt   = 0
-    #)  
-
-
