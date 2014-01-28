@@ -1,9 +1,10 @@
-#LyX file created by tex2lyx 2.0.3
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
 \lyxformat 413
 \begin_document
 \begin_header
 \textclass article
 \use_default_options false
+\maintain_unincluded_children false
 \language english
 \language_package none
 \inputencoding auto
@@ -12,14 +13,20 @@
 \font_sans default
 \font_typewriter default
 \font_default_family default
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref 0
+\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
@@ -32,6 +39,10 @@
 \paperorientation portrait
 \suppress_date false
 \use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -50,53 +61,14 @@
 \begin_body
 
 \begin_layout Standard
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-%!TEX root =article.tex
-\end_layout
-
-\begin_layout Standard
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-We develop a travel time model which exploits the compressed data returned by the 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-stopgo
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-{}
-\end_layout
-
-\end_inset
-
- (number of stops and travel time experienced per link). The model captures the state transition probabilities: the probability of the number of stop on a link given the number of stops on the previous link of the trajectory. It also models the correlations of travel times for neighboring links given their state (number of stops). The travel time model is a combination of two models:
+We develop a travel time model which exploits the compressed data returned
+ by the Stop-Go model (number of stops and travel time experienced per link).
+ The model captures the state transition probabilities: the probability
+ of the number of stop on a link given the number of stops on the previous
+ link of the trajectory.
+ It also models the correlations of travel times for neighboring links given
+ their state (number of stops).
+ The travel time model is a combination of two models:
 \begin_inset Newline newline
 \end_inset
 
@@ -104,8 +76,9 @@ status collapsed
 \begin_inset Formula $\bullet$
 \end_inset
 
- A directed Markov model of discrete state random variables gives the joint probability distribution of the link states 
-\begin_inset Formula $\Prob_{\theta}(\{S_{l} \})$
+ A directed Markov model of discrete state random variables gives the joint
+ probability distribution of the link states 
+\begin_inset Formula $\pi_{\theta}(\{S_{l}\})$
 \end_inset
 
 .
@@ -116,40 +89,23 @@ status collapsed
 \begin_inset Formula $\bullet$
 \end_inset
 
- A Gaussian Markov random field gives the joint distribution of the travel times 
-\begin_inset Formula $\Prob_{\theta}(\{Y_{l, s} \}, l \in \Lcal, s \in \{0, \dots, m - 1\})$
+ A Gaussian Markov random field gives the joint distribution of the travel
+ times 
+\begin_inset Formula $\pi_{\theta}(\{Y_{l,s}\},l\in\mathcal{L},s\in\{0,\dots,m-1\})$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset Float figure
 placement h
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-centering
-\end_layout
-
-\end_inset
-
- 
-\begin_inset Graphics 
+\begin_layout Plain Layout
+\begin_inset Graphics
 	filename TikZ/graph_model.pdf
 	width 8cm
 
@@ -158,21 +114,22 @@ centering
  
 \begin_inset Caption
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 Graphical model of the dependency of link travel time 
-\begin_inset Formula $\linkTT{l}$
+\begin_inset Formula $Z^{l}$
 \end_inset
 
- on the state variable (e.g. number of stops) 
+ on the state variable (e.g.
+ number of stops) 
 \begin_inset Formula $S_{l}$
 \end_inset
 
  and the conditional travel times 
-\begin_inset Formula $Y_{l, s}$
+\begin_inset Formula $Y_{l,s}$
 \end_inset
 
-. Here we consider the subgraph consisting of a link 
+.
+ Here we consider the subgraph consisting of a link 
 \begin_inset Formula $l$
 \end_inset
 
@@ -192,9 +149,7 @@ Graphical model of the dependency of link travel time
 
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:graph_model"
@@ -210,20 +165,17 @@ name "fig:graph_model"
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 % 
 \backslash
 audecomment{There is something wrong with the following sentence}
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -231,7 +183,6 @@ audecomment{There is something wrong with the following sentence}
 
 Figure
 \begin_inset space ~
-
 \end_inset
 
 
@@ -241,8 +192,9 @@ reference "fig:graph_model"
 
 \end_inset
 
- presents the graphical model that encodes the dependencies between the link travel time 
-\begin_inset Formula $\linkTT{l}$
+ presents the graphical model that encodes the dependencies between the
+ link travel time 
+\begin_inset Formula $Z^{l}$
 \end_inset
 
 , the link states 
@@ -250,61 +202,42 @@ reference "fig:graph_model"
 \end_inset
 
  and the conditional travel times 
-\begin_inset Formula $Y_{l, s}$
+\begin_inset Formula $Y_{l,s}$
 \end_inset
 
-. The total travel time experienced by a vehicle on link 
+.
+ The total travel time experienced by a vehicle on link 
 \begin_inset Formula $l$
 \end_inset
 
 , is 
-\begin_inset Formula $\linkTT{l} = \sum_{s = 0}^{m - 1} Y_{l, s} \ind{S_{l} = s}$
+\begin_inset Formula $Z^{l}=\sum_{s=0}^{m-1}Y_{l,s}\mathbf{1}_{S_{l}=s}$
 \end_inset
 
-. The left portion of the figure shows a subset of the GMRF of travel time variables, and the right portion shows a subset of the Markov chain of states.
+.
+ The left portion of the figure shows a subset of the GMRF of travel time
+ variables, and the right portion shows a subset of the Markov chain of
+ states.
 \end_layout
 
 \begin_layout Standard
-
-The graphical model shows that conditioning on the states experienced along a path allows one to compute the path travel time by summing over the corresponding variables in the 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-gmrf
-\end_layout
-
+The graphical model shows that conditioning on the states experienced along
+ a path allows one to compute the path travel time by summing over the correspon
+ding variables in the GMRF.
+ Further, when one conditions on the link travel times 
+\begin_inset Formula $Z^{l}$
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-{}
-\end_layout
-
-\end_inset
-
-. Further, when one conditions on the link travel times 
-\begin_inset Formula $\linkTT{l}$
-\end_inset
-
-, then the two models become independent, which allows one to learn the models parameters separately. The rest of this section details the modeling and learning of the two models.
+, then the two models become independent, which allows one to learn the
+ models parameters separately.
+ The rest of this section details the modeling and learning of the two models.
 \end_layout
 
 \begin_layout Subsection
-
 Markov model for state transitions
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:hmm"
@@ -314,7 +247,6 @@ name "sec:hmm"
  
 \begin_inset CommandInset include
 LatexCommand input
-preview false
 filename "hmm.lyx"
 
 \end_inset
@@ -323,37 +255,10 @@ filename "hmm.lyx"
 \end_layout
 
 \begin_layout Subsection
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-gmrf
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-{}
-\end_layout
-
-\end_inset
-
- model for travel time distributions
+GMRF model for travel time distributions
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:gmrf-model"
@@ -361,14 +266,753 @@ name "sec:gmrf-model"
 \end_inset
 
  
-\begin_inset CommandInset include
-LatexCommand input
-preview false
-filename "gmrf.lyx"
+\end_layout
+
+\begin_layout Standard
+We now present the model that describes the correlations between the travel
+ time variables.
+ We assume that the random variables 
+\begin_inset Formula $\left(Y_{l,s}\right)_{l\in\mathcal{L},s\in\mathcal{S}_{l}}$
+\end_inset
+
+ are Gaussian
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+While Gaussian travel times can theoretically predict negative travel time,
+ in practice, these probabilities are virtually zero, as validated in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:evaluation"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+, and they can be stacked into one multivariate Gaussian variable 
+\begin_inset Formula $Y\sim\mathcal{N}\left(\mu,\Sigma\right)$
+\end_inset
+
+ of size 
+\begin_inset Formula $m\in(\mathcal{L})$
+\end_inset
+
+, mean 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and covariance 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+.
+ Recall that 
+\begin_inset Formula $Y_{l,s}$
+\end_inset
+
+ is the travel time on link 
+\begin_inset Formula $l$
+\end_inset
+
+ conditioned on state 
+\begin_inset Formula $s$
+\end_inset
+
+, where 
+\begin_inset Formula $s\in\{0,\dots,m-1\}$
+\end_inset
+
+.
+ This travel time is a Gaussian random variable with mean 
+\begin_inset Formula $\mu_{l,s}$
+\end_inset
+
+ and variance 
+\begin_inset Formula $\sigma_{l,s}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+From the factorization property given by the Hammersley-Clifford Theorem,
+ it is well known that the 
+\emph on
+precision matrix
+\emph default
+ 
+\begin_inset Formula $S=\Sigma^{-1}$
+\end_inset
+
+ encodes the 
+\emph on
+conditional dependencies
+\emph default
+ between the variables.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+audecomment{Shall we formulate that not to use correlations? Since we're
+ talking about the precision matrix}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% done
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+Since a link is assumed to be conditionally correlated only with its neighbors,
+ the precision matrix is very sparse.
+ Furthermore, this sparsity pattern is of particular interest: its pattern
+ is that of a graph which is nearly planar.
+ We take advantage of this structure to devise efficient algorithms that
+ (1) estimate the precision matrix given some observations, and (2), infer
+ the covariance between any pair of variables.
+\end_layout
+
+\begin_layout Standard
+As mentioned earlier, we have a set of 
+\begin_inset Formula $N$
+\end_inset
+
+ trajectories obtained from GPS data.
+ After map-matching and trajectory reconstruction (Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:stop-and-go"
+
+\end_inset
+
+), the set of observed trajectories 
+\begin_inset Formula $\{W_{p}:p=1,\cdots,N\}$
+\end_inset
+
+ are sequences of observed states and variables (travel time)
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+footnote{One could consider that the states and the variables are not directly
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% observed, but guessed after a complicated process.
+ The Expectation-Maximization
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% algorithm could be run to estimate the value of the state and of the
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% variable.%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{eqnarray*}
+W_{p} & = & \left(l_{1},s_{1}\right)\,\left(l_{2},s_{2}\right)\,\,\cdots\left(l_{M_{p}},s_{M_{p}}\right)\\
+y^{p} & = & \left(y_{l,s}^{p}\right)_{(l,s)\in W_{p}}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In our notations, 
+\begin_inset Formula $y^{p}$
+\end_inset
+
+ is an observation of the random vector 
+\begin_inset Formula $Y_{p}=\left(Y_{i}\right)_{i\in W_{p}}$
+\end_inset
+
+, which is a 
+\begin_inset Formula $M_{p}$
+\end_inset
+
+-dimensional marginal (or subset) of the full distribution 
+\begin_inset Formula $Y$
+\end_inset
+
+.
+ Hence 
+\begin_inset Formula $Y_{p}$
+\end_inset
+
+ is also a multivariate Gaussian with mean 
+\begin_inset Formula $\mu_{(W_{p})}$
+\end_inset
+
+ and covariance 
+\begin_inset Formula $\Sigma_{(W_{p})}$
+\end_inset
+
+ obtained by dropping the irrelevant variables (the variables that one wants
+ to marginalize out) from the mean vector 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and the covariance matrix 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+.
+ Its likelihood is thus the likelihood under the marginal distribution:
+ 
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{l}
+\text{log }p\left(y^{p};\mu_{(W_{p})},\Sigma_{(W_{p})}\right)=\\
+C-\frac{1}{2}\log\left|\Sigma_{(W_{p})}\right|-\frac{1}{2}\left(y^{p}-\mu_{(W_{p})}\right)^{T}\Sigma_{(W_{p})}^{-1}\left(y^{p}-\mu_{(W_{p})}\right),
+\end{array}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $C$
+\end_inset
+
+ is a constant which does not depend on the parameters of the model.
+\end_layout
+
+\begin_layout Standard
+The problem of estimating the parameters of the model 
+\begin_inset Formula $\theta=(\mu,\Sigma)$
+\end_inset
+
+ from the i.i.d.
+ set of observations 
+\begin_inset Formula $\mathcal{D}=\{W_{p},y^{p}:p=1,\cdots,N\}$
+\end_inset
+
+ consists in finding the set of parameters 
+\begin_inset Formula $\theta^{\star}$
+\end_inset
+
+ that maximize the sum of the likelihoods of each of the observations 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+footnotetext{The independent and identically distributed (i.i.d.) assumption
+ is defined on the pair of marginal observation and masking subset}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+audecomment{Not sure we are allowed to say IID here since different observations
+ don't actually have the same distribution, because they do not have the
+ same path...)}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% This is a very good point, but I think it may be a bit technical to introduce
+ properly here
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+l\left(\theta|\mathcal{D}\right)=\sum_{p=1}^{N}\text{log }p\left(y^{p};\mu_{(W_{p})},\Sigma_{(W_{p})}\right)\label{eq:gmrf-II}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unfortunately, the problem of maximizing
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:gmrf-II"
+
+\end_inset
+
+ is in general not convex and may have multiple local minima since we have
+ only partially observed variables 
+\begin_inset Formula $y^{p}$
+\end_inset
+
+.
+ A popular strategy in this case is to 
+\emph on
+complete
+\emph default
+ the vector (by computing the most likely completion given the observed
+ variables).
+ This algorithm is called the 
+\shape italic
+Expectation-Maximization
+\shape default
+ (EM) procedure.
+ In our case, the EM procedure is not a good fit for two reasons:
+\end_layout
+
+\begin_layout Itemize
+Since we observe only a small fraction of the values of each vector, the
+ vast majority of the values we would use for learning would be sampled
+ values, which would make the convergence rate dramatically slow.
+ 
+\end_layout
+
+\begin_layout Itemize
+The data completion step would create a complete 
+\begin_inset Formula $n-$
+\end_inset
+
+size sample for each of our observation, thus our complexity for the data
+ completion step would be 
+\begin_inset Formula $\mathcal{O}\left(Nn\right)$
+\end_inset
+
+, which is too large to be practical.
+\end_layout
+
+\begin_layout Standard
+Instead, we solve a related problem by computing sufficient statistics from
+ all the observations.
+ Consider the simpler scenario in which all data has been observed, and
+ denote the empirical covariance matrix by 
+\begin_inset Formula $\tilde{\Sigma}$
+\end_inset
+
+.
+ The maximum likelihood problem to find the most likely precision matrix
+ is then equivalent to: 
+\begin_inset Formula 
+\begin{equation}
+\underset{S}{\mathbf{minimize}}\,\,-\log\left|S\right|+\text{Tr}\left(S\tilde{\Sigma}\right)\label{eq:gmrf-maxll-emp}
+\end{equation}
+
+\end_inset
+
+under the structured sparsity constraints 
+\begin_inset Formula $S_{uv}=0\,\,\forall\,\left(u,v\right)\notin\mathcal{E}$
+\end_inset
+
+.
+ The objective is not defined when 
+\begin_inset Formula $S$
+\end_inset
+
+ is not positive definite, so the constraint that 
+\begin_inset Formula $S$
+\end_inset
+
+ is positive definite is implicit.
+ A key point to notice is that the objective only depends on a restricted
+ subset of terms of the covariance matrix: 
+\begin_inset Formula 
+\[
+\text{Tr}\left(S\tilde{\Sigma}\right)=\sum_{\left(u,v\right)\in\mathcal{E}}S_{uv}\tilde{\Sigma}_{uv}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This observation motivates the following approach: instead of considering
+ the individual likelihoods of each observation individually, we consider
+ the covariance that would be produced if all the observations were aggregated
+ into a single covariance matrix.
+ This approach discards some information, for example the fact that some
+ variables are more often seen than others.
+ However, it lets us solve the full covariance Problem
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:gmrf-maxll-emp"
+
+\end_inset
+
+ using partial observations.
+ Indeed, all we need to do is estimate the values of the coefficients 
+\begin_inset Formula $\tilde{\Sigma}_{uv}$
+\end_inset
+
+ for 
+\begin_inset Formula $\left(u,v\right)$
+\end_inset
+
+ a non-zero in the precision matrix.
+ We present one way to estimate these coefficients.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $N_{i}$
+\end_inset
+
+ be the number of observations of the variable 
+\begin_inset Formula $Y_{i}$
+\end_inset
+
+: 
+\begin_inset Formula $N_{i}=\text{card}\left(\{p:i\in W_{p}\}\right)$
+\end_inset
+
+.
+ Combining all the observations that come across 
+\begin_inset Formula $Y_{i}$
+\end_inset
+
+, we can approximate the mean of any function 
+\begin_inset Formula $f\left(Y_{i}\right)$
+\end_inset
+
+ by some empirical mean, using the 
+\begin_inset Formula $N_{i}$
+\end_inset
+
+ samples: 
+\begin_inset Formula 
+\begin{equation}
+\mathbb{E}_{i}\left[f\left(Y_{i}\right)\right]=\frac{1}{N_{i}}\sum_{p:i\in W_{p}}f\left(y_{i}^{p}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly, defining the number of observations of both 
+\begin_inset Formula $Y_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $Y_{j}$
+\end_inset
+
+: 
+\begin_inset Formula $N_{i\cap j}=\text{card}\left(\left\{ p\,:\, i\in W_{p}\text{ and }j\in W_{p}\right\} \right)$
+\end_inset
+
+, we can approximate the mean of any function 
+\begin_inset Formula $f\left(Y_{i},Y_{j}\right)$
+\end_inset
+
+ of 
+\begin_inset Formula $Y_{i},Y_{j}$
+\end_inset
+
+, using the set of observations that span both variables 
+\begin_inset Formula $Y_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $Y_{j}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{E}_{i\cap j}\left[f\left(Y_{i},Y_{j}\right)\right]=\frac{1}{N_{i\cap j}}\sum_{p\,:\, i,j\in W_{p}}f\left(y_{i}^{p},y_{j}^{p}\right)
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using this notation, the empirical mean is 
+\begin_inset Formula $\hat{\mu}_{i}=\mathbb{E}_{i}\left[Y_{i}\right]$
+\end_inset
+
+.
+ Call 
+\begin_inset Formula $\hat{\Sigma}$
+\end_inset
+
+ the 
+\emph on
+partial empirical covariance matrix
+\emph default
+ (PECM): 
+\begin_inset Formula 
+\[
+\hat{\Sigma}_{ij}=\begin{cases}
+\mathbb{E}_{i\cap j}\left[Y_{i}Y_{j}\right]-\mathbb{E}_{i}\left[Y_{i}\right]\mathbb{E}_{j}\left[Y_{j}\right] & \text{if }\left(i,j\right)\in\mathcal{E}\\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Using this PECM as a proxy for the real covariance matrix, one can then
+ estimate the most likely GMRF by solving the following problem: 
+\begin_inset Formula 
+\begin{equation}
+\underset{S}{\mathbf{minimize}}\,\,-\log\left|S\right|+\left\langle S,\hat{\Sigma}\right\rangle \label{eq:gmrf-maxll-gecm}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that this definition is asymptotically consistent: in the limit, when
+ an infinite number of observations are gathered (
+\begin_inset Formula $N_{ij}\rightarrow\infty$
+\end_inset
+
+), the PECM will converge towards the true covariance: indeed 
+\begin_inset Formula $\hat{\Sigma}_{ij}\rightarrow\mathbb{E}\left[Y_{i}Y_{j}\right]-\mathbb{E}\left[Y_{i}\right]\mathbb{E}\left[Y_{j}\right]$
+\end_inset
+
+ and for all 
+\begin_inset Formula $S$
+\end_inset
+
+, 
+\begin_inset Formula $\left\langle S,\hat{\Sigma}\right\rangle \rightarrow\left\langle S,\mathbb{E}\left[YY^{T}\right]-\mathbb{E}\left[Y\right]\mathbb{E}\left[Y\right]^{T}\right\rangle $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Unfortunately, the problem is not convex because 
+\begin_inset Formula $\hat{\Sigma}$
+\end_inset
+
+ is not necessarily positive semi-definite (even if the limit is), since
+ the variables are only partially observed.
+ For instance, if we have a partially observed bivariate Gaussian variable
+ 
+\begin_inset Formula $X$
+\end_inset
+
+: 
+\begin_inset Formula $\left(10,10\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\left(-10,-10\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\left(1,\star\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\left(-1,\star\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\left(\star,1\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\left(\star,-1\right)$
+\end_inset
+
+, the empirical covariance matrix 
+\begin_inset Formula $\hat{\Sigma}$
+\end_inset
+
+ has diagonal entries 
+\begin_inset Formula $(51,51)$
+\end_inset
+
+ and off-diagonal entries 
+\begin_inset Formula $(100,100)$
+\end_inset
+
+.
+ Its eigenvalues are 
+\begin_inset Formula $-49,151$
+\end_inset
+
+ hence it is not definite positive.
+\end_layout
+
+\begin_layout Standard
+There is a number of ways to correct this.
+ The simplest we found is to scale all the coefficients so that they have
+ the same variance: 
+\begin_inset Formula 
+\[
+\hat{\Sigma}_{ij}=\begin{cases}
+\alpha_{ij}\mathbb{E}_{i\cap j}\left[Y_{i}Y_{j}\right]-\mathbb{E}_{i}\left[Y_{i}\right]\mathbb{E}_{j}\left[Y_{j}\right] & \text{if }N_{ij}>0\\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\alpha_{ij}=\sqrt{\frac{\mathbb{E}_{i}\left[Y_{i}^{2}\right]\mathbb{E}_{j}\left[Y_{j}^{2}\right]}{\mathbb{E}_{i\cap j}\left[Y_{i}^{2}\right]\mathbb{E}_{i\cap j}\left[Y_{j}^{2}\right]}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This transformation has the advantage of being local and easy to compute.
+ This is why it is completed by an increase of the diagonal coefficients
+ by some factor of the identity matrix.
+\end_layout
+
+\begin_layout Standard
+Another problem is due to the relative imbalance between the distributions
+ of samples: cars travel much more on some roads than others.
+ This means that some edges may be much better estimated than some others,
+ but this confidence does not appear in the PECM.
+ In practice, we found that 
+\emph on
+pruning
+\emph default
+ the edges with too few observations improved the results
 \end_layout
 
 \end_body

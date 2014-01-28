@@ -137,7 +137,10 @@ def build2(bld):
   tex_deps += ['gmrf.tex']
   bld.add_group()
   # KDD MODEL chapter
+  bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odg'))
   tex_deps += ['kdd_1intro.tex']
+  img_deps += ['docs-kdd/pipeline.pdf']
+  img_deps += ['figures-kdd/example_bimodal_link.pdf']
   tex_deps += ['kdd_2stop-and-go.tex']
   tex_deps += ['kdd_3graph-model.tex']
   tex_deps += ['kdd_4inference.tex']

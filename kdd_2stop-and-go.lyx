@@ -1,9 +1,10 @@
-#LyX file created by tex2lyx 2.0.3
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
 \lyxformat 413
 \begin_document
 \begin_header
 \textclass article
 \use_default_options false
+\maintain_unincluded_children false
 \language english
 \language_package none
 \inputencoding auto
@@ -12,14 +13,20 @@
 \font_sans default
 \font_typewriter default
 \font_default_family default
+\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref 0
+\use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
@@ -32,6 +39,10 @@
 \paperorientation portrait
 \suppress_date false
 \use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -50,18 +61,15 @@
 \begin_body
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %!TEX root =article.tex
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -71,12 +79,15 @@ status collapsed
 \end_layout
 
 \begin_layout Standard
-
-The stops due to traffic signals and other factors (double parking, garbage trucks and so on) represent one of the main source of variability in urban travel times. More generally, consider that a link can have 
+The stops due to traffic signals and other factors (double parking, garbage
+ trucks and so on) represent one of the main source of variability in urban
+ travel times.
+ More generally, consider that a link can have 
 \begin_inset Formula $m$
 \end_inset
 
- different discrete states. For a vehicle traveling on link 
+ different discrete states.
+ For a vehicle traveling on link 
 \begin_inset Formula $l$
 \end_inset
 
@@ -85,56 +96,59 @@ The stops due to traffic signals and other factors (double parking, garbage truc
 state
 \emph default
  
-\begin_inset Formula $s_l \in \{0, m - 1\}$
+\begin_inset Formula $s_{l}\in\{0,m-1\}$
 \end_inset
 
- of the trajectory is defined as the number of stops on the link. The following algorithm estimates the number of stops given a set of noisy GPS samples from the trajectory on link 
+ of the trajectory is defined as the number of stops on the link.
+ The following algorithm estimates the number of stops given a set of noisy
+ GPS samples from the trajectory on link 
 \begin_inset Formula $l$
 \end_inset
 
-. We consider a generic trajectory on a generic link and drop indices referring to the trajectory and link for notation simplicity.
+.
+ We consider a generic trajectory on a generic link and drop indices referring
+ to the trajectory and link for notation simplicity.
 \end_layout
 
 \begin_layout Standard
-
 The trajectory of the vehicle is represented by an offset function 
-\begin_inset Formula $T: [0, \tau] \rightarrow \Rbb_+$
+\begin_inset Formula $T:[0,\tau]\rightarrow\mathbb{R}_{+}$
 \end_inset
 
-, representing the distance from the beginning of the link to the location of the vehicle at time 
+, representing the distance from the beginning of the link to the location
+ of the vehicle at time 
 \begin_inset Formula $t$
 \end_inset
 
-. The noisy GPS observations are defined by the times 
-\begin_inset Formula $0 = t_0 < \dots < t_J \leq \tau$
+.
+ The noisy GPS observations are defined by the times 
+\begin_inset Formula $0=t_{0}<\dots<t_{J}\leq\tau$
 \end_inset
 
 , and the corresponding offsets 
-\begin_inset Formula $x_j = T(t_j) + \epsilon_j$
+\begin_inset Formula $x_{j}=T(t_{j})+\epsilon_{j}$
 \end_inset
 
 , where 
-\begin_inset Formula $\epsilon_j \sim \Ncal(0, \sigma^2)$
+\begin_inset Formula $\epsilon_{j}\sim\mathcal{N}(0,\sigma^{2})$
 \end_inset
 
- are independent and identically distributed zero mean Gaussian random variables representing the GPS noise.
+ are independent and identically distributed zero mean Gaussian random variables
+ representing the GPS noise.
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %
 \backslash
 subsection{Estimating trajectories}
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -144,15 +158,14 @@ subsection{Estimating trajectories}
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %
 \backslash
 label{sub:trajectories}
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -162,16 +175,16 @@ label{sub:trajectories}
 \end_layout
 
 \begin_layout Standard
-
 We process the observations 
-\begin_inset Formula $(t_j, x_j)_{j = 0, \dots, J}$
+\begin_inset Formula $(t_{j},x_{j})_{j=0,\dots,J}$
 \end_inset
 
  to obtain 
 \emph on
 stop and go
 \emph default
- trajectories of the probe vehicles: the trajectory of a vehicle alternates between phases of 
+ trajectories of the probe vehicles: the trajectory of a vehicle alternates
+ between phases of 
 \emph on
 Stop
 \emph default
@@ -179,34 +192,33 @@ Stop
 \emph on
 Go
 \emph default
- during which the vehicle travels at positive speed. The number of 
+ during which the vehicle travels at positive speed.
+ The number of 
 \emph on
 Stop
 \emph default
- phases represents the state of the trajectory. We assume that the sampling frequency is high enough that the speed between successive observations 
-\begin_inset Formula $(t_j, x_j)$
+ phases represents the state of the trajectory.
+ We assume that the sampling frequency is high enough that the speed between
+ successive observations 
+\begin_inset Formula $(t_{j},x_{j})$
 \end_inset
 
  and 
-\begin_inset Formula $(t_{j+1}, x_{j+1})$
+\begin_inset Formula $(t_{j+1},x_{j+1})$
 \end_inset
 
  is constant
 \begin_inset Foot
 status collapsed
 
-
-\begin_layout Standard
-
+\begin_layout Plain Layout
 The assumption is further justified by traffic modeling
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "hofleitner_isttt_2010"
 
 \end_inset
@@ -221,33 +233,39 @@ Go
 \end_inset
 
  and denoted 
-\begin_inset Formula $v_j$
+\begin_inset Formula $v_{j}$
 \end_inset
 
-. Note that speeds are rarely provided by GPS devices or are too noisy to be valuable for estimation.
+.
+ Note that speeds are rarely provided by GPS devices or are too noisy to
+ be valuable for estimation.
 \end_layout
 
 \begin_layout Standard
-
-Maximizing the log-likelihood of the observations is equivalent to solving the following optimization problem 
-\begin_inset Formula \[
-\underset{(v_j)_{j \in \{0, \ldots, J-1\} }}{\mathbf{minimize}} \frac{1}{2} \sum_{j=0}^{J-1}  \left(x_{j+1} - x_0 -\sum_{j'=0}^j v_{j'}(t_{j'+1} - t_{j'})\right)^2
+Maximizing the log-likelihood of the observations is equivalent to solving
+ the following optimization problem 
+\begin_inset Formula 
+\[
+\underset{(v_{j})_{j\in\{0,\ldots,J-1\}}}{\mathbf{minimize}}\frac{1}{2}\sum_{j=0}^{J-1}\left(x_{j+1}-x_{0}-\sum_{j'=0}^{j}v_{j'}(t_{j'+1}-t_{j'})\right)^{2}
 \]
+
 \end_inset
 
-This is a typical least-square optimization problem, which we conveniently write in matrix form as: 
-\begin_inset Formula \begin{equation}
-\underset{v}{\mathbf{minimize}} \frac{1}{2} || A v \, - \, b||_2^2,
-\label{eq:stop-go:ls}
+This is a typical least-square optimization problem, which we conveniently
+ write in matrix form as: 
+\begin_inset Formula 
+\begin{equation}
+\underset{v}{\mathbf{minimize}}\frac{1}{2}||Av\,-\, b||_{2}^{2},\label{eq:stop-go:ls}
 \end{equation}
+
 \end_inset
 
 with the notation 
-\begin_inset Formula $v = (v_j)_{j \in \{0, \ldots, J-1\} }$
+\begin_inset Formula $v=(v_{j})_{j\in\{0,\ldots,J-1\}}$
 \end_inset
 
 , 
-\begin_inset Formula $b = (x_{j} - x_0)_{j \in \{1, \ldots, J\} }$
+\begin_inset Formula $b=(x_{j}-x_{0})_{j\in\{1,\ldots,J\}}$
 \end_inset
 
  and 
@@ -255,28 +273,27 @@ with the notation
 \end_inset
 
  is the lower triangular matrix whose entry on line 
-\begin_inset Formula $i \in \{0,\ldots, J-1\}$
+\begin_inset Formula $i\in\{0,\ldots,J-1\}$
 \end_inset
 
  and column 
-\begin_inset Formula $k \in \{0,\ldots, i-1\}$
+\begin_inset Formula $k\in\{0,\ldots,i-1\}$
 \end_inset
 
  is given by 
-\begin_inset Formula $t_{k+1} - t_k$
+\begin_inset Formula $t_{k+1}-t_{k}$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-
 To detect the 
 \emph on
 Stop
 \emph default
  phases, we add a 
-\begin_inset Formula $l_1$
+\begin_inset Formula $l_{1}$
 \end_inset
 
  regularization term, with parameter 
@@ -285,7 +302,6 @@ Stop
 
  to Problem
 \begin_inset space ~
-
 \end_inset
 
 
@@ -295,29 +311,28 @@ reference "eq:stop-go:ls"
 
 \end_inset
 
-. The resulting optimization problem is known as the LASSO
+.
+ The resulting optimization problem is known as the LASSO
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "tibshirani1996regression"
 
 \end_inset
 
  and reads 
-\begin_inset Formula \begin{equation}
-\underset{v}{\mathbf{minimize}} \frac{1}{2}|| A v \, - \, b||_2^2 + \lambda ||v||_1,
-\label{eq:stop-go:lasso}
+\begin_inset Formula 
+\begin{equation}
+\underset{v}{\mathbf{minimize}}\frac{1}{2}||Av\,-\, b||_{2}^{2}+\lambda||v||_{1},\label{eq:stop-go:lasso}
 \end{equation}
+
 \end_inset
 
 The solution of
 \begin_inset space ~
-
 \end_inset
 
 
@@ -329,28 +344,28 @@ reference "eq:stop-go:lasso"
 
  is typically sparse
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "tibshirani1996regression"
 
 \end_inset
 
-, which means that there is a limited number of non-zero entries, corresponding to the 
+, which means that there is a limited number of non-zero entries, corresponding
+ to the 
 \emph on
 Go
 \emph default
- phases of the trajectory. The solution is used to compute the number of 
+ phases of the trajectory.
+ The solution is used to compute the number of 
 \emph on
 Stops
 \emph default
-. Figure
+.
+ Figure
 \begin_inset space ~
-
 \end_inset
 
 
@@ -360,79 +375,61 @@ reference "fig:trajectory-estimation-example"
 
 \end_inset
 
- illustrates the result of the trajectory estimation and Stop detection algorithm.
+ illustrates the result of the trajectory estimation and Stop detection
+ algorithm.
 \end_layout
 
 \begin_layout Standard
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-begin{remark}
-\end_layout
-
-\end_inset
-
-[Data compression] In our dataset
+\series bold
+Remark:
+\series default
+ [Data compression] In our dataset
 \begin_inset Foot
 status collapsed
 
-
-\begin_layout Standard
-
-The number of GPS points per link depends on the level of congestion (vehicles spend a longer amount of time on each link), average length of the links of the network and sampling frequency of the probe vehicles.
+\begin_layout Plain Layout
+The number of GPS points per link depends on the level of congestion (vehicles
+ spend a longer amount of time on each link), average length of the links
+ of the network and sampling frequency of the probe vehicles.
 \end_layout
 
 \end_inset
 
-, the average number of GPS points sent by a vehicle on a link is 9.6. The algorithm reduces the GPS trace to: entrance time in the link, travel time, number of stops. The amount of data to be processed by the subsequent algorithms is reduced by a factor of almost 10, which is crucial for large scale applications which process large amounts of historical data. 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-end{remark}
-\end_layout
-
-\end_inset
-
-
+, the average number of GPS points sent by a vehicle on a link is 9.6.
+ The algorithm reduces the GPS trace to: entrance time in the link, travel
+ time, number of stops.
+ The amount of data to be processed by the subsequent algorithms is reduced
+ by a factor of almost 10, which is crucial for large scale applications
+ which process large amounts of historical data.
+ 
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset Float figure
 wide false
 sideways false
 status open
 
+\begin_layout Plain Layout
+\begin_inset Note Comment
+status open
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset FormulaMacro
-\def\svgwidth {.6\columnwidth}
+\newcommand{\svgwidth}{.6\columnwidth}
 \end_inset
 
  
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 % sets the image width, this is optional
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -442,7 +439,7 @@ status collapsed
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -454,8 +451,12 @@ centering
  
 \begin_inset CommandInset include
 LatexCommand input
-preview false
 filename "figures/traj.lyx"
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
@@ -466,8 +467,7 @@ filename "figures/traj.lyx"
  
 \begin_inset Caption
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 Example of trajectory estimation
 \end_layout
 
@@ -476,9 +476,7 @@ Example of trajectory estimation
 
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:trajectory-estimation-example"
@@ -494,20 +492,17 @@ name "fig:trajectory-estimation-example"
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %
 \backslash
 subsection{Assigning travel times}
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -517,15 +512,14 @@ subsection{Assigning travel times}
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %
 \backslash
 label{sub:assigning_travel_times}
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -536,26 +530,15 @@ label{sub:assigning_travel_times}
 
 \begin_layout Standard
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-begin{remark}
-\end_layout
-
-\end_inset
-
-[Fixing 
+\series bold
+Remark:
+\series default
+ [Fixing 
 \begin_inset Formula $\lambda$
 \end_inset
 
 ] In
 \begin_inset space ~
-
 \end_inset
 
 
@@ -569,7 +552,12 @@ reference "eq:stop-go:lasso"
 \begin_inset Formula $\lambda$
 \end_inset
 
- acts as a trade-off between the sparsity of the solution and the fit to the observations. Cross-validation is not appropriate in our setting to fix this parameter as it would require one to decimate the trajectory and use some observations for the learning and others for the validation. Instead, 
+ acts as a trade-off between the sparsity of the solution and the fit to
+ the observations.
+ Cross-validation is not appropriate in our setting to fix this parameter
+ as it would require one to decimate the trajectory and use some observations
+ for the learning and others for the validation.
+ Instead, 
 \begin_inset Formula $\lambda$
 \end_inset
 
@@ -579,26 +567,23 @@ Bayesian Information Criterion
 \emph default
  (BIC), using
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "zou2007degrees"
 
 \end_inset
 
- to estimate the number of degrees of freedom. A LARS implementation
+ to estimate the number of degrees of freedom.
+ A LARS implementation
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "efron2004least"
 
 \end_inset
@@ -607,20 +592,8 @@ key "efron2004least"
 \begin_inset Formula $\lambda$
 \end_inset
 
- and compute the corresponding solution. 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-end{remark}
-\end_layout
-
-\end_inset
-
-
+ and compute the corresponding solution.
+ 
 \end_layout
 
 \end_body
