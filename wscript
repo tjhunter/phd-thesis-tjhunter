@@ -137,7 +137,12 @@ def build2(bld):
   tex_deps += ['gmrf.tex']
   bld.add_group()
   # KDD MODEL chapter
-  tex_deps += ['kdd.tex']
+  tex_deps += ['kdd_1intro.tex']
+  tex_deps += ['kdd_2stop-and-go.tex']
+  tex_deps += ['kdd_3graph-model.tex']
+  tex_deps += ['kdd_4inference.tex']
+  tex_deps += ['kdd_5evaluation.tex']
+  tex_deps += ['kdd_6conclusion.tex']
   bld.add_group()
   # Final assembly
   bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)

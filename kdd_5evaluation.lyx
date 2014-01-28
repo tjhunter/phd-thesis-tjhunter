@@ -1,0 +1,1312 @@
+#LyX file created by tex2lyx 2.0.3
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref 0
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 0
+\use_mathdots 0
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%!TEX root =article.tex
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+The article presents an algorithm to turn GPS traces from a small fraction of the vehicles traveling on the road network into valuable traffic information to develop large scale traffic information platforms and optimal and robust routing capabilities. The value of the model depends crucially on the quality of the estimates of point to point travel time distribution. Another key feature of the algorithm is its computational complexity and its ability to scale on large road networks. The large number of road segments and intersections leads to high-dimensional problems for any network of reasonable size. Moreover, the estimate for travel time distributions between any two points on the network needs to be computed in real-time. It would not be acceptable to wait more than a few seconds to get the results. This section first analyzes the quality of the learning and the estimation of the model. Then, we study the computational complexity of the algorithm and its ability to scale on large networks. In particular, some aspects of the algorithm arise as trade-offs between the computational complexity and the desired precision in the learning and real-time inference.
+\end_layout
+
+\begin_layout Standard
+
+The validation results are based on anonymized GPS traces provided by a GPS data aggregator. We consider an arterial network in the Bay Area of San Francisco, CA with 506,585 links. The algorithm processes 426 million GPS points, aggregated from 2,640,319 individual trajectories. Each trajectory is less than 20 minutes long for privacy reasons. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+todo{Tim: check numbers. Maybe round them? Over 2.6 million trajectories?}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% I like the very precise number
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+Travel time distribution
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:eval-tt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+The full validation of the performance of the algorithm requires the observation of the travel time of every vehicle on every link of the network. This mode of validation is unfortunately not available for any reasonably sized network. We validate the learning capabilities of the algorithm using data which was not used to train the 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+hmm
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+{}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+gmrf
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+{}
+\end_layout
+
+\end_inset
+
+. On this validation dataset, we perform two types of validation: (i) a path-level validation (a limited set of individual paths are evaluated) and (ii) a network-level validation (metrics taken over the entire validation dataset).
+\end_layout
+
+\begin_layout Subsubsection*
+
+Comparison models
+\end_layout
+
+\begin_layout Standard
+
+In this Section, the results of the model are compared to simpler models which arise as special cases of the model presented in the article. We introduce these models and denominations, which we use throughout the evaluation.
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Formula $\bullet$
+\end_inset
+
+ 
+\emph on
+One mode independent
+\emph default
+: The travel time distribution on each segment is Gaussian. The travel time on distinct segments are independent random variables.
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Formula $\bullet$
+\end_inset
+
+ 
+\emph on
+One mode
+\emph default
+: The travel time distribution on the network is a multi-variate Gaussian (one dimension per link). In the precision matrix, element 
+\begin_inset Formula $(i,j) $
+\end_inset
+
+ may be non-zero if 
+\begin_inset Formula $i$
+\end_inset
+
+ and 
+\begin_inset Formula $j$
+\end_inset
+
+ map to neighboring links in the road network.
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Formula $\bullet$
+\end_inset
+
+ 
+\emph on
+Multi-modal independent
+\emph default
+: Same as the MM-GMRF, excepted that the covariance matrix of the multi-variate Gaussian is diagonal, imposing that given the mode, the travel times on different links of the network are independent.
+\begin_inset Newline newline
+\end_inset
+
+ The model developed in this article is referred to as the 
+\emph on
+MM-GMRF
+\emph default
+ model.
+\end_layout
+
+\begin_layout Subsubsection*
+
+Path validation
+\end_layout
+
+\begin_layout Standard
+
+Most probe vehicles have different paths throughout the road network. Among the trajectories of the vehicles in the validation set, we select a set of paths for which a large enough number of vehicles has traveled to perform statistical validation of the distribution of travel times. We impose a minimum length (set to 150 m in the numerical experiments) on these paths to ensure that we validate the learning of the spatial distributions of the modes (Section
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:hmm"
+
+\end_inset
+
+) and the spatial correlations between each mode (Section
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:gmrf-model"
+
+\end_inset
+
+). The paths are selected for having the largest amount of validation data.
+\end_layout
+
+\begin_layout Standard
+
+For each selected path, the box plots on Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:scatter"
+
+\end_inset
+
+ compare the 50% and 90% confidence intervals of the validation data collected on the path (top box) with the intervals computed by the different models (
+\shape italic
+Multi-modal independent
+\shape default
+, 
+\shape italic
+MM-GMRF
+\shape default
+ (our model), 
+\shape italic
+One mode
+\shape default
+ and 
+\shape italic
+One mode independent
+\shape default
+, from top to bottom). We also display the median travel times as a vertical black line, both for the validation data and the different models. Scatter crosses, representing the validation travel times, are super-imposed to the results of each model to improve visualization.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics 
+	filename figs-plots/scatter_box.pdf
+	width 100line%
+
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Standard
+
+50% and 90% confidence intervals computed by the different models and compared to the validation travel times on the selected paths.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:eval:scatter"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+We notice a significant difference in the results between the uni-modal models (
+\shape italic
+One mode
+\shape default
+ and 
+\shape italic
+One mode independent
+\shape default
+) and the multi-modal models (
+\shape italic
+Multi-modal independent
+\shape default
+, 
+\shape italic
+MM-GMRF
+\shape default
+). The uni-modal models tend to over-estimate both the median and the variance of travel times. These models cannot account for the difference of travel times due to stops on trajectories, which is one of the main features of arterial traffic
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+after ""
+key "hofleitner_isttt_2010"
+
+\end_inset
+
+. The over-estimated variance illustrates why it is important to incorporate the variability of travel times due to stops in the structure of the model. On the other side, the multi-modal models are able to capture the features of the distribution fairly accurately. The differences in accuracy between the 
+\shape italic
+Multi-modal independent
+\shape default
+ model and the MM-GMRF model (which takes into account correlations in the Gaussian distribution) are not significant, even though the model with correlations estimates the variability slightly more accurately. It seems that capturing the variability of travel times due to stop is the most important feature of the model.
+\end_layout
+
+\begin_layout Standard
+
+In Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:cdf"
+
+\end_inset
+
+, we display the cumulative distribution of the validation data and the cumulative distribution of each model for the same paths as for Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:scatter"
+
+\end_inset
+
+ (displayed in the same order). The figure displays more precisely the difference in the estimation accuracy of the different models. As seen in Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:scatter"
+
+\end_inset
+
+, the multi-modal models are more accurate than their uni-modal counterparts.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics 
+	filename figs-plots/cdf_val.pdf
+	width 100line%
+
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Standard
+
+Cumulative distribution of travel times computed by the different models and compared to the validation travel times received on the selected paths.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:eval:cdf"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection*
+
+Network scale validation
+\end_layout
+
+\begin_layout Standard
+
+Most points in the observation dataset represent different paths for the probe vehicles. For this reason, the distributions cannot be compared directly. Instead, we compute the log-likelihood of each validation path and analyze the quality of the travel time bounds provided by the distribution for each path.
+\end_layout
+
+\begin_layout Standard
+
+Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:llinterval"
+
+\end_inset
+
+ a) displays the average likelihood of the validation paths computed by the different models. The figure also analyzes how the path length influences the results. There are two motivations for doing so: (i) the length of the path influences the support of the distribution (longer paths are expected to have a larger support) which may affect the likelihood and (ii) the different models may perform differently on different lengths as they do not take into account spatial dependencies in a similar way.
+\end_layout
+
+\begin_layout Standard
+
+As was expected from the analysis of Figures
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:scatter"
+
+\end_inset
+
+ and
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:cdf"
+
+\end_inset
+
+, the multi-modal models perform better than their uni-modal counterparts. Compared to the path validation results, the figure shows more significantly the effect of correlations. The figure shows slight improvements for the multi-modal model which takes into account the correlations. Surprisingly, the contrary is true for the uni-modal models. We also notice that the likelihood decreases with the length of the path, as we were expecting.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics 
+	filename figs-plots/ll__percentile_val.pdf
+	width 8cm
+
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Standard
+
+a) Average log-likelihood of the validation paths (by path length), for each model. b) Validation of the distribution percentiles for each model.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:eval:llinterval"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:llinterval"
+
+\end_inset
+
+ b) analyzes the quality of the travel time distribution computed on the network. For that, we use a 
+\emph on
+p-p plot
+\emph default
+ (or percentile-percentile plot) which assesses how much each learned distribution matches the validation data. To each path 
+\begin_inset Formula $p$
+\end_inset
+
+ in the validation dataset corresponds an inverse cumulative distribution 
+\begin_inset Formula $\Prob_p^{-1}$
+\end_inset
+
+ (computed from the trained model) and a travel time observation 
+\begin_inset Formula $z^p$
+\end_inset
+
+. A point 
+\begin_inset Formula $(\alpha, \beta)$
+\end_inset
+
+ on the curve corresponds to having 
+\begin_inset Formula $\beta$
+\end_inset
+
+ percent of the validation points such that 
+\begin_inset Formula $z^p \leq P_p^{-1}(\alpha)$
+\end_inset
+
+. If the estimation was perfect, there would be exactly 
+\begin_inset Formula $\alpha$
+\end_inset
+
+% of the data points in the percentile 
+\begin_inset Formula $\alpha$
+\end_inset
+
+. To quantify how much each model deviates from perfect estimation, we display two metrics denoted 
+\begin_inset Formula $a$
+\end_inset
+
+ (above) and 
+\begin_inset Formula $b$
+\end_inset
+
+ (below). Let 
+\begin_inset Formula $f$
+\end_inset
+
+ correspond to the p-p curve of a model, the corresponding metrics are computed as follows: 
+\begin_inset Formula \[
+a = \int_0^1 \max(f(\alpha) - \alpha, 0) \, d\alpha \, , \, b= \int_0^1 \max(\alpha - f(\alpha), 0) \, d\alpha
+\]
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+These values provide insight on the quality of the fit of the model. For example, a model with a large 
+\begin_inset Formula $a$
+\end_inset
+
+-value tends to overestimate travel times. Similarly, a model with a large 
+\begin_inset Formula $b$
+\end_inset
+
+-value tends to underestimate travel times. Both uni-modal models have large 
+\begin_inset Formula $a$
+\end_inset
+
+-values. The large variance estimated by the models (already noticed in Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:scatter"
+
+\end_inset
+
+) to account for the variability of travel times leads to non-negligible probability densities for small travel times which are not physically possible. Compared to the likelihood validation of Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:eval:llinterval"
+
+\end_inset
+
+ a), the p-p plot analyzes the quality of fit for different percentiles of the distribution. In particular, we notice that the effect of capturing the correlations in the multi-variate model mostly affects the estimation of the low and high percentiles in the distribution. We expect that this is due to the fact that correlations accounts for the impacts of slow vs. fast drivers or congested vs. lest congested conditions.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+begin{figure}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+centering
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+includegraphics[width=
+\backslash
+linewidth]{figs-plots/percentile_val.pdf}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+caption{Validation of the confidence intervals for each model}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+label{fig:eval:interval}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+%
+\backslash
+end{figure}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+Sampling
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:sampling-evaluation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+In this section, we discuss numerical results regarding the quality of approximate inference using the Gibbs sampling method, on a fixed path on the network. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% Figure~
+\backslash
+ref{fig:approximate_mean_var} compares the mean and variance of path travel time obtained using the sampling approach (for different sample sizes), to the exact mean and variance of the mixture.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+begin{figure}[h]
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+centering
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+includegraphics[width = .24
+\backslash
+textwidth]{figures/sampling_mean.pdf}%
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+includegraphics[width = .24
+\backslash
+textwidth]{figures/sampling_var.pdf}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+caption{Mean (left) and variance (right) of path travel time, as a function of the path length, using exact inference and Gibbs sampling.}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+label{fig:approximate_mean_var}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\backslash
+end{figure}
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% 
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+% Here the mean is computed using equation~
+\backslash
+eqref{eq:inference_mean}, which has linear complexity (in the length of the path), thus we can compute it for long paths. The exact variance however involves an exponential number of terms and cannot be computed in reasonable time for long paths.
+\end_layout
+
+\begin_layout Standard
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics 
+	filename figures/sampling_kl_div.pdf
+	width 24text%
+
+\end_inset
+
+
+\begin_inset Graphics 
+	filename figures/sampling_distribution.pdf
+	width 24text%
+
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Standard
+
+KL-divergence between the approximate distribution and the exact mixture distribution, as a function of the path length (left), and example distributions for a path of length 
+\begin_inset Formula $I = 17$
+\end_inset
+
+ (right).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:kl_div"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:kl_div"
+
+\end_inset
+
+ shows the Kullback-Leibler divergence of the approximate distributions, with respect to the exact distribution. We compare two runs of the sampling, with respective sizes 
+\begin_inset Formula $G = 100 \log(I)$
+\end_inset
+
+ and 
+\begin_inset Formula $G = 1000 \log(I)$
+\end_inset
+
+ where 
+\begin_inset Formula $I$
+\end_inset
+
+ is the length of the path in links. The divergence measures the similarity between two distributions. As can be seen, even a small number of samples (relative to the total size of the mixture) leads to a very close approximation.
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics 
+	filename figs-plots/perf_gmrf.pdf
+	width 50text%
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Standard
+
+Log-log plot of the training time, as a function of the size of the GMRF.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:perf_gmrf"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+Scaling
+\end_layout
+
+\begin_layout Standard
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:eval-scaling"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+In this section, we discuss the scalability aspects of the learning algorithm (it is clear from the discussion in Section
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:gmrf-model"
+
+\end_inset
+
+ that the inference is independent from the size of the network). We ran the learning for networks defined by different bounding boxes. The bounding boxes were adjusted so that the number of links in each subnetworks had different orders of magnitude. The longest step by far is the training of the GMRF. We report in Figure
+\begin_inset space ~
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:perf_gmrf"
+
+\end_inset
+
+ the training time for different networks, all other parameters being equal. As one can see, the training time increases linearly with the number of variables of the GMRF over a large range of network sizes. The graphs associated to each GMRF are extremely sparse: the average vertex degree of the largest graph is 9.46. 
+\end_layout
+
+\end_body
+\end_document
