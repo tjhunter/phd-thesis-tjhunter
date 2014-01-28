@@ -1,0 +1,1146 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass IEEEtran
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Map-matching and path discovery
+\end_layout
+
+\begin_layout Standard
+The road network is described as a directed graph 
+\begin_inset Formula $\mathcal{N}=\left(\mathcal{V},\mathcal{E}\right)$
+\end_inset
+
+ in which the nodes are the road intersections and the edges are the roads,
+ referred to in the text as the 
+\emph on
+links 
+\emph default
+of the road network.
+ Each link is endowed with a number of physical attributes (link geometry,
+ speed limit, number of lanes, type of road, etc.).
+ Since each road link is directed, there will be other road links pointing
+ at the start of that road link, and a set of road link starting at the
+ end of that road link: given a link of the road network, the links into
+ which a vehicle can travel will be called 
+\emph on
+outgoing links
+\emph default
+, and the links from which it can come will be called the 
+\emph on
+incoming links.
+
+\emph default
+ Every location on the road network is completely specified by a given link
+ 
+\begin_inset Formula $l$
+\end_inset
+
+ and offset 
+\begin_inset Formula $o$
+\end_inset
+
+ on this link
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The complex intersections are not given special consideration.
+ Adding some specific features such as described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Zhang2011413"
+
+\end_inset
+
+ would be straightforward.
+\end_layout
+
+\end_inset
+
+.
+ The offset is a non-negative real number bounded by the length of the correspon
+ding link, and represents the position on the link.
+ At any time, the 
+\emph on
+state 
+\emph default
+
+\begin_inset Formula $x$
+\end_inset
+
+ of a vehicle consists of its location on the road network and some other
+ optional information such as speed, or heading.
+ For our example we consider that the state is simply the location on one
+ of the road links (which are directed).
+ Additional information such as speed, heading, lane, etc.
+ can easily be incorporated into the state
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+we will consider that the state is simply the location --> is that true?
+ it seems we should also keep the heading in the state or otherwise we'd
+ lose a lot of information in terms of enforcing consistency?
+\end_layout
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+x=\left(l,o\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+In all the rest of the article, we will consider a single vehicle.
+ It is straightforward to consider multiple vehicles at once.
+ --> Strange statement.
+ IF you had multiple vehicles, wouldn't you already know from which vehicle
+ each GPS reading came, and you'd just treat them as separate problems?
+ Assuming so, I'd phrase this differently, perhaps as: "For the remainder
+ of this article we will consider trajectory inference for a single probe
+ vehicle.
+ In a practical traffic estimation system, one could run our approach independen
+tly for each probe vehicle." I might even leave out the last sentence as
+ it's obvious that's possible and might only raise questions about how perhaps
+ one could do better by doing a joint inference (which would perhaps be
+ the case for a very large number of vehicles, or if mapping out how GPS
+ measurements tend to be noisy as a function of time and location.)
+\end_layout
+
+\end_inset
+
+Furthermore, for the remainder of this article we consider trajectory inference
+ for a single probe vehicle.
+ 
+\end_layout
+
+\begin_layout Subsection
+From GPS points to discrete vehicle states
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Is the projection onto the road network all done in pre-processing? Or does
+ the pre-processing return multiple hypotheses even on the same link? [this
+ is not entirely clear]
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:gps-to-states"
+
+\end_inset
+
+The points are projected to the road following a Bayesian formulation.
+ Consider a GPS observation 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ We study the problem of projecting it to the road network according to
+ our knowledge of how this observation was generated.
+ This generation process is represented by a probability distribution 
+\begin_inset Formula $\omega\left(g|x\right)$
+\end_inset
+
+ that, given a state 
+\begin_inset Formula $x$
+\end_inset
+
+, returns a probability distribution over all possible GPS observations
+ 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ Such distributions 
+\begin_inset Formula $\omega$
+\end_inset
+
+ will be described in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:obs-mmodel"
+
+\end_inset
+
+.
+ Additionally, we may have some 
+\emph on
+prior knowledge
+\emph default
+ over the state of the vehicle.
+ For example, some links may be visited more often than others, and some
+ positions on links may be more frequent, such as when vehicles accumulate
+ at the intersections.
+ This knowledge can be encoded in a 
+\emph on
+prior distribution 
+\emph default
+
+\begin_inset Formula $\Omega\left(x\right)$
+\end_inset
+
+.
+ Under this general setting, the state of a vehicle, given a GPS observation,
+ can be computed using Bayes rule:
+\begin_inset Formula 
+\begin{equation}
+\pi\left(x|g\right)\propto\omega\left(g|x\right)\Omega\left(x\right)\label{eq:bayes-post}
+\end{equation}
+
+\end_inset
+
+The letter 
+\begin_inset Formula $\pi$
+\end_inset
+
+ will define general probabilities, and their dependency on variables will
+ always be included.
+ This probability distribution is defined up to a scaling factor in order
+ to integrate to
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $1$
+\end_inset
+
+.
+ This posterior distribution is usually complicated, owing to the mixed
+ nature of the state.
+ The state space is the product of a discrete space over the links and a
+ continuous space over the link offsets.
+ Instead of representing it in closed form, some sampled values are considered:
+ for each link 
+\begin_inset Formula $l_{i}$
+\end_inset
+
+, a finite number of states from this link are elected to represent the
+ posterior distribution of the states on this link 
+\begin_inset Formula $\pi\left(o|g,l=l_{i}\right)$
+\end_inset
+
+.
+ A first way of accomplishing this task is to grid the state space of each
+ link, as illustrated in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-observation"
+
+\end_inset
+
+.
+ This strategy is robust against the observation errors described in Section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "backward-paths"
+
+\end_inset
+
+, but it introduces a large number of states to consider.
+ Furthermore, when new GPS values are observed every minute, the vehicle
+ can move quite extensively between updates.
+ The grid step is usually small compared to the distance traveled.
+ Instead of defining a coarse grid over each link, another approach is to
+ use some 
+\emph on
+most likely state
+\emph default
+ on each link.
+ Since our state is the pair of a link and an offset on this link, this
+ corresponds to selecting the most likely offset on each state:
+\begin_inset Formula 
+\[
+\forall l_{i},\;\; o_{i_{\text{posterior}}}^{*}=\underset{o}{\text{argmax}}\;\pi\left(o|g,l=l_{i}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In practice, the probability distribution 
+\begin_inset Formula $\pi\left(x|g\right)$
+\end_inset
+
+ decays rapidly, and can be considered overwhelmingly small beyond a certain
+ distance from the observation 
+\emph on
+
+\begin_inset Formula $g$
+\end_inset
+
+
+\emph default
+.
+ Links located beyond a certain radius need not be considered valid projection
+ links, and may be discarded.
+ In our experiments, we found that a value of 300 meters would give good
+ results.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/example_distribution.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of a measurement 
+\begin_inset Formula $g$
+\end_inset
+
+ on a link and two strategies to associate state projections to that measurement
+ on a particular link (gridding and most likely location).
+ The GPS measurement is the triangle denoted 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ For this particular measurement, the observation distribution 
+\begin_inset Formula $\omega\left(x|g\right)$
+\end_inset
+
+ and the posterior distribution 
+\begin_inset Formula $\pi\left(x|g\right)$
+\end_inset
+
+ are also represented.
+ When gridding, we select a number of states 
+\begin_inset Formula $x_{1},\cdots x_{I}$
+\end_inset
+
+ spanning each link at regular intervals.
+ This allows us to use the posterior distribution and have a more precise
+ distribution over the location of the vehicle.
+ However, it is more expensive to compute.
+ Another strategy is to consider a single point at the most probable offset
+ 
+\begin_inset Formula $x_{\text{post}}^{*}$
+\end_inset
+
+ according to the posterior distribution 
+\begin_inset Formula $\pi\left(x|g\right)$
+\end_inset
+
+.
+ However, this location depends on the prior, which is usually not available
+ at this stage (since the prior depends on the location of past and future
+ points, for which we do not also know the location).
+ A simple approximation is to consider the most likely point 
+\begin_inset Formula $x_{\text{obs}}^{*}$
+\end_inset
+
+ according to the observation distribution.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-of-observation"
+
+\end_inset
+
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+should it be 
+\backslash
+omega(g|x) ? would it make sense to start with a plot of the prior, then
+ the likelihood (
+\backslash
+omega(g|x)), and then the posterior ? It's not clear how the gridding interacts
+ with everything else.
+ How about telling the entire story in the figure in continuous space, or
+ entirely in gridded space? I think it would be very cool to show an example
+ prior that accounts for the fact that there is higher likelihood near the
+ end of a link (per waiting for a traffic light).
+ It'd nicely show off some of the capabilities enabled by a sound probabilistic
+ formulation.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the rest of this article, the boldface symbol 
+\begin_inset Formula $\mathbf{x}$
+\end_inset
+
+ will denote a finite collection of states associated with a GPS observation
+ 
+\begin_inset Formula $g$
+\end_inset
+
+ that we will use to represent the posterior distribution 
+\begin_inset Formula $\pi\left(x|g\right)$
+\end_inset
+
+, and the integer 
+\begin_inset Formula $I$
+\end_inset
+
+ will denote its cardinality: 
+\begin_inset Formula $\mathbf{x}=\left(x_{i}\right)_{1:I}$
+\end_inset
+
+.
+ These points are called 
+\emph on
+candidate state projections for the GPS measurement 
+\begin_inset Formula $g$
+\end_inset
+
+.
+
+\emph default
+ These discrete points will then be linked together through trajectory informati
+on that takes into account the trajectory and the dynamics of the vehicle.
+ We now mention a few important points for a practical implementation.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Efficient computation of the projections.
+
+\series default
+ The mapping operations needs be efficient due to the volume of points processed.
+ Modern databases such as Oracle Database or PostgreSQL include functionalities
+ to project a point onto some geographical network.
+ However, our experience with PostGIS, the PostgreSQL topographic library,
+ left us unsatisfied due to poor performance.
+ Eventually, a custom KD-tree implementation was written to find all the
+ graph links in the vicinity of a point.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A Bayesian formulation requires that we endow the state 
+\begin_inset Formula $x$
+\end_inset
+
+ with a prior distribution 
+\begin_inset Formula $\Omega\left(x\right)$
+\end_inset
+
+ that expresses our knowledge about the distribution of points on a link.
+ When no such information is available, since the offset is continuous and
+ bounded on a segment, a natural non-informative prior is the uniform distributi
+on over offsets: 
+\begin_inset Formula $\Omega\sim U\left(\left[0,\text{length}\left(l\right)\right]\right)$
+\end_inset
+
+.
+ In this case, maximizing the posterior is equivalent to maximizing the
+ conditional distribution from the generative model: 
+\begin_inset Formula 
+\begin{equation}
+\forall l_{i},o_{i_{\text{observation}}}^{*}=\text{argmax}_{o}\omega\left(g|x=\left(o,l_{i}\right)\right)\label{eq:best-offset}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Having projected GPS points into discrete points on the road network, we
+ now turn our attention to connecting these points by paths in order to
+ form trajectories.
+\end_layout
+
+\begin_layout Subsection
+From discrete vehicle states to trajectories
+\end_layout
+
+\begin_layout Standard
+At each time step 
+\begin_inset Formula $t$
+\end_inset
+
+, a GPS point 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+ (originating from a single vehicle) is observed.
+ This GPS point is then projected onto 
+\begin_inset Formula $I^{t}$
+\end_inset
+
+ different candidate states denoted 
+\begin_inset Formula $\mathbf{x}^{t}=x_{1}^{t}\cdots x_{I^{t}}^{t}$
+\end_inset
+
+.
+ Because this set of projections is finite, there is only a (small) finite
+ number 
+\begin_inset Formula $J^{t}$
+\end_inset
+
+ of paths that a vehicle can have taken while moving from some state 
+\begin_inset Formula $x_{i}^{t}\in\mathbf{x}^{t}$
+\end_inset
+
+ to some state 
+\begin_inset Formula $x_{i'}^{t+1}\in\mathbf{x}^{t+1}$
+\end_inset
+
+.
+ We denote the set of 
+\emph on
+candidate paths 
+\emph default
+between the observation 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+ and the next observation 
+\begin_inset Formula $g^{t+1}$
+\end_inset
+
+ by 
+\begin_inset Formula $\mathbf{p}^{t}$
+\end_inset
+
+ :
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\mathbf{p}^{t}=\left(p_{j}^{t}\right)_{j=1:J^{t}}
+\]
+
+\end_inset
+
+Each path 
+\begin_inset Formula $p_{j}^{t}$
+\end_inset
+
+ goes from one of the projection states 
+\begin_inset Formula $x_{i}^{t}$
+\end_inset
+
+ of 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+ to a projection state 
+\begin_inset Formula $x_{i'}^{t+1}$
+\end_inset
+
+ of 
+\begin_inset Formula $g^{t+1}$
+\end_inset
+
+.
+ There may be multiple pairs of states to consider, and between each pair
+ of states, there are typically several paths available (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:path_exploration_example"
+
+\end_inset
+
+).
+ Lastly, a 
+\emph on
+trajectory
+\emph default
+ is defined by the succession of states and paths, starting and ending with
+ a state:
+\begin_inset Formula 
+\[
+\tau=x_{1}p_{1}x_{2}\cdots p_{t-1}x_{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ is one element of 
+\begin_inset Formula $\mathbf{x}^{1}$
+\end_inset
+
+, 
+\begin_inset Formula $p_{1}$
+\end_inset
+
+ of 
+\begin_inset Formula $\mathbf{p}^{1}$
+\end_inset
+
+, and so on.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/path_exploration.pdf
+	lyxscale 30
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of path exploration between two observations.
+ The true trajectory and two associated GPS observations are shown on Figure
+ (a).
+ Figure (b) shows the set of candidate projections associated with each
+ observation.
+ A path discovery algorithm computes every acceptable path between between
+ each pair of candidate projections.
+ The four figures (c-1) to (c-4) at the bottom show a few examples of such
+ computed paths.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:path_exploration_example"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Due to speed limits leading to lower bounds on achievable travel times on
+ the network, there is only a finite number of paths a vehicle can take
+ during a time interval 
+\begin_inset Formula $\Delta t$
+\end_inset
+
+.
+ Such paths can be computed using standard graph search algorithms.
+ The depth of the search is bounded by the maximum distance a vehicle can
+ travel on the network at a speed 
+\begin_inset Formula $v_{\text{max}}$
+\end_inset
+
+ within the time interval between each observation.
+ An algorithm that performs well in practice is the A* algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hart1968formal"
+
+\end_inset
+
+, a common graph search algorithm that makes use of a heuristic to guide
+ its search.
+ The cost metric we use here is the expected travel time on each link, and
+ the heuristic is the shortest geographical distance.
+ In order to ensure the correctness of the A* algorithm, the heuristic has
+ to verify some admissibility criteria.
+ In practice, the approximate cost computed by the heuristic has to be lower
+ than the true cost metric.
+ We scale the shortest geographical distance by the inverse of the maximum
+ speed limit of our network (70 m.p.h.), which makes the heuristic admissible.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset CommandInset label
+LatexCommand label
+name "backward-paths"
+
+\end_inset
+
+The case of backward paths.
+
+\series default
+ It is convenient and realistic to assume that a vehicle always drives 
+\emph on
+forward
+\emph default
+, i.e.
+ in the same direction of a link
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Reverse driving is in some cases even illegal.
+ For example, the laws of Glendale, Arizona, prohibit reverse driving.
+\end_layout
+
+\end_inset
+
+.
+ In our notation, a vehicle enters a link at offset 
+\begin_inset Formula $0$
+\end_inset
+
+, drives along the link following a non-decreasing offset, and exits the
+ link when the offset value reaches the total length of the link.
+ However, due to GPS noise, the most likely state projection of a vehicle
+ waiting at a red light may appear to go backward, as shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:failure_loop"
+
+\end_inset
+
+.
+ This leads to incorrect transitions if we assume that paths only go forward
+ on a link.
+ While this issue could be readily solved if we knew the spot speed of the
+ vehicle, we cannot assume this information in our case.
+ Three approaches to solve this issue are discussed, depending on the applicatio
+n:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status collapsed
+
+\begin_layout Plain Layout
+However, this assumption may not be respected because of GPS noise ...
+ ? That's a false statement.
+ GPS noise does not affect the state of the vehicle, it's just a noisy measureme
+nt.
+ ---- This entire discussion is very imprecise from a technical viewpoint
+ (bullet points 1-3).
+ I think the point you are trying to make (but are not explicitly making)
+ is that because of our decision to enumerate the possible states at a given
+ time by only considering nearby onto-the-road projections of the GPS measuremen
+t at that time, it is possible that due to noisy GPS measurements we end
+ up with a set of states such that for two consecutive times there is no
+ reasonable way to make the transition.
+ How about a solution where you try to detect this to be the case, and when
+ it's the case you consider the GPS measurements more noisy and hence incorporat
+e more potential states into your set of state candidates?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/failure_loop.pdf
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of failure when observing strict physical consistency: due to the
+ observation noise, the observation (3) appears physically behind (2) on
+ the same link.
+ Without considering backward paths, the most plausible explanation is that
+ the vehicle performed a complete loop around the neighboring block.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:failure_loop"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+It is possible to keep a single state for each link (the most likely) and
+ explore some backward paths.
+ These paths are assumed to go backward because of observation noise.
+ This solution provides 
+\emph on
+connected states at the expense of physical consistency
+\emph default
+: all the measurements are correctly projected to their most likely location,
+ but the trajectories themselves are not physically acceptable.
+ This is useful for applications that do not require connectedness between
+ pairs of states, for example when computing a distribution of the density
+ of probe data per link.
+\end_layout
+
+\begin_layout Enumerate
+It is also possible to disallow backward paths and consider multiple states
+ per link, such as a grid over the state space.
+ A vehicle never goes backward, and in this case the filter can generally
+ account for the vehicle not moving by associating the same state to successive
+ observations.
+ All the trajectories are physically consistent and the posterior state
+ density is the same as the probability density of the most likely states,
+ but is more burdensome from a computational perspective (the number of
+ paths to consider grows quadratically with the number of states).
+\end_layout
+
+\begin_layout Enumerate
+Finally it is possible to disallow backward paths and use a sparse number
+ of states.
+ The path connectivity issue is solved using some heuristics.
+ Our implementation creates a new state projection on a link 
+\begin_inset Formula $l$
+\end_inset
+
+ using the following approach:
+\begin_inset Newline newline
+\end_inset
+
+Given a new observation 
+\begin_inset Formula $g$
+\end_inset
+
+, and its most likely state projection 
+\begin_inset Formula $x^{*}=\left(l,o^{*}\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If no projection for the link 
+\begin_inset Formula $l$
+\end_inset
+
+ was found at the previous time step, return 
+\begin_inset Formula $x^{*}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+If such a projection 
+\begin_inset Formula $x_{\text{before}}=\left(l,o_{\text{before}}\right)$
+\end_inset
+
+ existed, return 
+\begin_inset Formula $x=\left(l,\max\left(o_{\text{before}},o^{*}\right)\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+With this heuristic, all the points will be well connected, but the density
+ of the states will not be the same as the density of the most likely reconstruc
+ted states.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+How about making one page, that is pretty much all figure, and that explains
+ the concept of discrete states we consider, and paths we consider? It's
+ great to have the text to make notation precise, but I think it's much
+ easier to grasp graphically on a first read.
+ You already have most of the figures, they are just in various places right
+ now.
+ Something: subfigure 1: true trajectory of a probe vehicle drawn on a map
+ + note this will not be known in practice, subfigure 2: GPS measurements,
+ subfigure 3: State that we discretize time at the same rate as GPS measurements
+ come in.
+ Show candidate states for each GPS measurements.
+ Include orientation of the vehicle! State that we only consider a discrete
+ set of states, obtained through projections.
+ subfigure 4: for every pair of consecutive measurements, we ran A* search
+ to find all candidate paths that could have connected them assuming V <
+ V_{
+\backslash
+rm max}.
+ Depending on visualization capabilities, show all of them, or just for
+ two potential states, or even a subset thereof.
+ Here it'll be obvious how orientation of the vehicle matters.
+ subfigure 5: Our inference algorithm will associate a score with each potential
+ path (I'd say at least 3 time steps, just 2 steps is not that interesting
+ to look at).
+ Show a few of them with different thickness reflecting their probability.
+\end_layout
+
+\end_inset
+
+In summary, the first solution is better for density estimations and the
+ third approach works better for travel time estimations.
+ The second option is currently only used for high-frequency offline filtering,
+ for which paths are short, and for which more expensive computations is
+ an acceptable cost.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Handling errors
+\series default
+ Maps may contains some inaccuracies, and may not cover all the possible
+ driving patterns.
+ Two errors were found to have a serious effect on the performance of the
+ filter:
+\end_layout
+
+\begin_layout Itemize
+Out of network driving: This usually occurs in parking lots or commercials
+ driveways.
+\end_layout
+
+\begin_layout Itemize
+Topological errors: Some links may be missing on the base map, or one-way
+ roads may have changed to two-way roads.
+ These situations are handled by running 
+\emph on
+flow analysis 
+\emph default
+on the trajectory graph
+\emph on
+.
+
+\emph default
+ For every new incoming GPS point, after computing the paths and states,
+ it is checked if any candidate position of the first point of the trajectory
+ is reachable from any candidate position on the latest incoming point,
+ or equivalently if the trajectory graph has a positive flow.
+ The set of state projections of an observation may end up being disconnected
+ from the start point even if at every step, there exists a set of paths
+ between each points.
+ In this situation, the probability model will return a probability of 0
+ (non-physical trajectories) for any trajectory.
+ If a point becomes unreachable from the start point, the trajectory is
+ broken, and restarted again from this point.
+ Trajectory breaks were few (less than a dozen for our dataset), and a visual
+ inspection showed that the vehicle was not following the topology of the
+ network and instead made U-turns or breached through one-way roads.
+ Although we have not implemented these extensions, it is very natural to
+ express the map errors in the probabilistic framework.
+ These extensions are discussed in Sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:transition"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:obs-mmodel"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The GPS also has a complex error model and may return some location estimates
+ completely off the trajectory.
+ We found these errors to appear at random, in an uncorrelated fashion.
+ The reference implementation detects these errors during the flow analysis
+ with the following heuristic: consider a sequence of points 
+\begin_inset Formula $g^{\left(1\right)},g^{\left(2\right)},g^{\left(3\right)}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $g^{\left(1\right)}$
+\end_inset
+
+ cannot reach 
+\begin_inset Formula $g^{\left(2\right)}$
+\end_inset
+
+, then compute the reachability of 
+\begin_inset Formula $g^{\left(3\right)}$
+\end_inset
+
+: if 
+\begin_inset Formula $g^{\left(3\right)}$
+\end_inset
+
+ is reachable from 
+\begin_inset Formula $g^{\left(1\right)}$
+\end_inset
+
+, then the point 
+\begin_inset Formula $g^{\left(2\right)}$
+\end_inset
+
+ is an outlier and is dropped.
+ If 
+\begin_inset Formula $g^{\left(3\right)}$
+\end_inset
+
+ is not reachable from 
+\begin_inset Formula $g^{\left(1\right)}$
+\end_inset
+
+, we consider the trajectory is breached between 
+\begin_inset Formula $g^{\left(1\right)}$
+\end_inset
+
+ and 
+\begin_inset Formula $g^{\left(2\right)}$
+\end_inset
+
+, and we restart the flow analysis from 
+\begin_inset Formula $g^{\left(2\right)}$
+\end_inset
+
+.
+ The reference implementation offers an elegant recursive implementation.
+\end_layout
+
+\end_body
+\end_document

@@ -24,24 +24,8 @@ def configure(conf):
     
 def build(bld):
   # Generation of images by python scripts
+  # Small test
   bld.build_python("python/myscript.py",'myfile.txt')
-  bld.build_python("python/streaming/plots_script.py","figures-socc/example.pdf")
-  bld.build_python("python/streaming/perf_streaming.py","figures-socc/perf_streaming.pdf")
-  bld.build_python("python/streaming/spark_em_perf.py","figures-socc/spark_em_perf_nersc.pdf figures-socc/spark_em_perf_ec2.pdf")
-  bld.build_python("python/streaming/l1l2_plots.py","""
-    figures-socc/ll_SlidingBig4.pdf
-    figures-socc/rl1_SlidingBig3.pdf
-    figures-socc/rl2_SlidingBig1.pdf
-    figures-socc/rl2_SlidingBig4.pdf
-    figures-socc/rl1_SlidingBig1.pdf
-    figures-socc/rl1_SlidingBig4.pdf
-    figures-socc/rl2_SlidingBig2.pdf
-    figures-socc/rl2_SlidingBig.pdf
-    figures-socc/rl1_SlidingBig2.pdf
-    figures-socc/rl1_SlidingBig.pdf
-    figures-socc/rl2_SlidingBig3.pdf
-  """.split())
-  bld.add_group()
   # Path inference images
   bld.build_python("python/mm/path_inference_private/plot_em_final.py","""
 		   figures-pif/em_true_points_percentage.pdf
@@ -61,7 +45,26 @@ def build(bld):
 		   figures-pif/left_right.pdf
 		   """.split())
 
-def build2(bld):
+  # The SOCC images
+  bld.build_python("python/streaming/plots_script.py","figures-socc/example.pdf")
+  bld.build_python("python/streaming/perf_streaming.py","figures-socc/perf_streaming.pdf")
+  bld.build_python("python/streaming/spark_em_perf.py","figures-socc/spark_em_perf_nersc.pdf figures-socc/spark_em_perf_ec2.pdf")
+  bld.build_python("python/streaming/l1l2_plots.py","""
+    figures-socc/ll_SlidingBig4.pdf
+    figures-socc/rl1_SlidingBig3.pdf
+    figures-socc/rl2_SlidingBig1.pdf
+    figures-socc/rl2_SlidingBig4.pdf
+    figures-socc/rl1_SlidingBig1.pdf
+    figures-socc/rl1_SlidingBig4.pdf
+    figures-socc/rl2_SlidingBig2.pdf
+    figures-socc/rl2_SlidingBig.pdf
+    figures-socc/rl1_SlidingBig2.pdf
+    figures-socc/rl1_SlidingBig.pdf
+    figures-socc/rl2_SlidingBig3.pdf
+  """.split())
+  bld.add_group()
+  
+  # The text parts
   bld.lyx2tex(bld.path.ant_glob('*.lyx'))
   bld.add_group()
   bib_deps = 'references.bib path_inference.bib'.split()
@@ -86,8 +89,13 @@ def build2(bld):
 	       figures-pif/ll_paths.pdf figures-pif/entropy_points.pdf figures-pif/entropy_paths.pdf\
 	       figures-pif/relative_coverage_paths.pdf figures-pif/left_right.pdf figures-pif/proper_std_dev.pdf\
 	       figures-pif/em_ll_paths.pdf figures-pif/em_true_points_percentage.pdf figures-pif/em_true_paths_percentage.pdf\
-	       figures-pif/proper_length.png'.split()
+	       figures-pif/proper_length.pdf'.split()
   tex_deps += ['pif_6conclusion.tex']
+  bld.add_group()
+  # Final assembly
+  bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
+  
+def build2(bld):
   # MMOC chapter deps
   bld.oo2pdf(bld.path.ant_glob('docs-socc/*.odp'))
   bld.oo2pdf(bld.path.ant_glob('docs-socc/*.odg'))

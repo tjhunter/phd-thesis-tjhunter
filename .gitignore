@@ -41,3 +41,8 @@ build/
 .*swp
 waf
 .waf*
+.lock-waf*
+
+# Idea
+python/.idea/
+python/thesis/.idea/

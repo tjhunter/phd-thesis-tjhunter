@@ -1,0 +1,2065 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass IEEEtran
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Results from field operational test
+\end_layout
+
+\begin_layout Standard
+The path inference filter and its learning procedures were tested using
+ field data through the 
+\emph on
+Mobile Millennium
+\emph default
+ system.
+ Ten San Francisco taxicabs were fit with high frequency GPS (1 second sampling
+ rate) in October 2010 during a two-day experiment.
+ Together, they collected about seven hundred thousand measurement points
+ that provided a high-accuracy ground truth.
+ Additionally, the unsupervised learning filtering was tested on a significantly
+ larger dataset: one day one-minute samples of 600 taxis from the same fleet,
+ which represents 600 000 points.
+ For technical reasons, the two datasets could not be collected the same
+ day, but were collected the same day of the week (a Wednesday) three weeks
+ prior to the high-frequency collection campaign.
+ Even if the GPS equipment was different, both datasets presented the same
+ distribution of GPS dispersion.
+ Thus we evaluate two datasets collected from the same source with the same
+ spatial features: a smaller set at high frequency, called 
+\begin_inset Quotes eld
+\end_inset
+
+Dataset 1
+\begin_inset Quotes erd
+\end_inset
+
+, and a larger dataset sampled at 1 minute for which we do not know ground
+ truth, called 
+\begin_inset Quotes eld
+\end_inset
+
+Dataset 2
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The map of the road network is a highly accurate map provided by a commercial
+ vendor.
+ It covers the complete Bay Area and comprises about 560,000 road links.
+ 
+\end_layout
+
+\begin_layout Subsection
+Experiment design
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/example_driving.pdf
+	display false
+	width 50text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of points collected in 
+\begin_inset Quotes eld
+\end_inset
+
+Dataset 1
+\begin_inset Quotes erd
+\end_inset
+
+, in the Russian Hill neighborhood in San Francisco.
+ The (red) dots are the GPS observations (collected every second), and the
+ green lines are road links that contain a state projection.
+ The black lines show the most likely projections of the GPS points on the
+ road network, using the Viterbi algorithm on a gridded state-space with
+ a 1-meter grid for the offsets.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+Given a set of high-frequency sequences of raw GPS data:
+\end_layout
+
+\begin_layout Enumerate
+Map the raw high-frequency sequences on the road network
+\end_layout
+
+\begin_layout Enumerate
+Run the Viterbi algorithm with default settings
+\end_layout
+
+\begin_layout Enumerate
+Extract the most likely high frequency trajectory on the road network for
+ each sequence
+\end_layout
+
+\begin_layout Enumerate
+Given a set of projected high frequency trajectories:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Decimate the trajectories to a given sampling rate
+\end_layout
+
+\begin_layout Enumerate
+Separate the set into a training subset and a test subset
+\end_layout
+
+\begin_layout Enumerate
+Compute the best model parameters for a number of learning methods (most
+ likely, EM with a simple model or a more complex model)
+\end_layout
+
+\begin_layout Enumerate
+Evaluate the model parameters with respect to different computing strategies
+ (Viterbi, online, offline, lagged smoothing) on the test subset
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Evaluation procedure
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "enu:evaluation-procedure"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+The testing procedure is described in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "enu:evaluation-procedure"
+
+\end_inset
+
+: the filter was first run in trajectory reconstruction mode (Viterbi algorithm)
+ with settings and tuned for a high-frequency application, using all the
+ samples, in order to build a set of ground truth trajectories.
+ The trajectories were then downsampled to different temporal resolutions
+ and were used to test the filter in different configurations.
+ The following features were tested:
+\end_layout
+
+\begin_layout Itemize
+The sampling rate.
+ The following values were tested: 1 second, 10 seconds, 30 seconds, one
+ minute, one and a half minute and two minutes
+\end_layout
+
+\begin_layout Itemize
+The computing strategy: pure filtering (
+\begin_inset Quotes eld
+\end_inset
+
+online
+\begin_inset Quotes erd
+\end_inset
+
+ or forward filtering), fixed-lagged smoothing with a one- or two-point
+ buffer (
+\begin_inset Quotes eld
+\end_inset
+
+1-lag
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+2-lag
+\begin_inset Quotes erd
+\end_inset
+
+ strategies), Viterbi and smoothing (
+\begin_inset Quotes eld
+\end_inset
+
+offline
+\begin_inset Quotes erd
+\end_inset
+
+, or forward-backward procedure).
+\end_layout
+
+\begin_layout Itemize
+Different models:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Hard closest point
+\begin_inset Quotes erd
+\end_inset
+
+: A greedy deterministic model that computes the closest point and then
+ finds the shortest path to reach this closest point from the previous point.
+ This non-probabilistic model is the baseline against which we make comparison
+ on 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "greenfeld2002matching"
+
+\end_inset
+
+.
+ This greedy model may lead to non-feasible trajectories, for example by
+ assigning an observation to a dead end link from which it cannot recover.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Closest point
+\begin_inset Quotes erd
+\end_inset
+
+ : A non-greedy version of 
+\begin_inset Quotes eld
+\end_inset
+
+Hard closest point
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Among all the feasible trajectories, this (naive, deterministic) model
+ projects all the GPS data to their closest projections and then selects
+ the shortest path between each projection.
+ The computing strategy chosen is important because the filter may determine
+ that some projections lead to dead end and force the trajectory to break.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Shortest path
+\begin_inset Quotes erd
+\end_inset
+
+: A naive model that selects the shortest path.
+ Given paths of the same length, it will take the path leading to the closest
+ point.
+ The points projections are then recovered from the paths.
+ This is similar to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "giovannininovel,white2000some"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Simple
+\begin_inset Quotes erd
+\end_inset
+
+ A simple model that considers two features that could be tuned by hand:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $\xi_{1}$
+\end_inset
+
+ : The length of the path
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\xi_{2}$
+\end_inset
+
+ : The distance of a point projection to its GPS coordinate
+\end_layout
+
+\begin_layout Standard
+This model was trained on learning data by two procedures: 
+\end_layout
+
+\begin_layout Itemize
+Supervised learning, in which the true trajectory is provided to the learning
+ algorithm leading to the 
+\begin_inset Quotes eld
+\end_inset
+
+MaxLL-Simple
+\begin_inset Quotes erd
+\end_inset
+
+ model
+\end_layout
+
+\begin_layout Itemize
+Unsupervised learning, which produced the model called 
+\begin_inset Quotes eld
+\end_inset
+
+EM-Simple
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Complex
+\begin_inset Quotes erd
+\end_inset
+
+ : A more complex model with a more diverse set of features, which is complicate
+d enough to discourage manual tuning:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Length of the path
+\end_layout
+
+\begin_layout Enumerate
+Number of stop signs along the path
+\end_layout
+
+\begin_layout Enumerate
+Number of signals (red lights)
+\end_layout
+
+\begin_layout Enumerate
+Number of left turns made by the vehicle at road intersections
+\end_layout
+
+\begin_layout Enumerate
+Number of right turns made by the vehicle at road intersections
+\end_layout
+
+\begin_layout Enumerate
+Minimum average travel time (based on the speed limit)
+\end_layout
+
+\begin_layout Enumerate
+Maximum average speed
+\end_layout
+
+\begin_layout Enumerate
+Maximum number of lanes (representative of the class of the road)
+\end_layout
+
+\begin_layout Enumerate
+Minimum number of lanes
+\end_layout
+
+\begin_layout Enumerate
+Distance of a point to its GPS point
+\end_layout
+
+\begin_layout Standard
+This model was first evaluated using supervised learning leading to the
+ model called 
+\begin_inset Quotes eld
+\end_inset
+
+MaxLL-Complex
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The unsupervised learning procedure was also tried but failed to properly
+ converge when using 
+\begin_inset Quotes eld
+\end_inset
+
+Dataset 1
+\begin_inset Quotes erd
+\end_inset
+
+, obtained from high-frequency samples: since this dataset is quite small,
+ the EM procedure was able to find an unbounded maximum and unbounded parameters.
+ Unsupervised learning was run again with 
+\begin_inset Quotes eld
+\end_inset
+
+Dataset 2
+\begin_inset Quotes erd
+\end_inset
+
+, using the simple model as a start point and converged properly this time.
+ This set of parameters is presented under the label 
+\begin_inset Quotes eld
+\end_inset
+
+EM-Complex
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+All the models above are specific cases of our framework: 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Simple
+\begin_inset Quotes erd
+\end_inset
+
+ is a specific case of 
+\begin_inset Quotes eld
+\end_inset
+
+Complex
+\begin_inset Quotes erd
+\end_inset
+
+, by restricting the complex model to only two features.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Shortest path
+\begin_inset Quotes erd
+\end_inset
+
+ is a specific case of 
+\begin_inset Quotes eld
+\end_inset
+
+Simple
+\begin_inset Quotes erd
+\end_inset
+
+ with 
+\begin_inset Formula $\left|\xi_{1}\right|\gg1$
+\end_inset
+
+, 
+\begin_inset Formula $\left|\xi_{2}\right|\ll1$
+\end_inset
+
+.
+ We used 
+\begin_inset Formula $\xi_{1}=-1000$
+\end_inset
+
+ and 
+\begin_inset Formula $\xi_{2}=-0.001$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Closest point
+\begin_inset Quotes erd
+\end_inset
+
+ is a specific case of 
+\begin_inset Quotes eld
+\end_inset
+
+Simple
+\begin_inset Quotes erd
+\end_inset
+
+ with 
+\begin_inset Formula $\left|\xi_{1}\right|\ll1$
+\end_inset
+
+, 
+\begin_inset Formula $\left|\xi_{2}\right|\gg1$
+\end_inset
+
+.
+ We used 
+\begin_inset Formula $\xi_{1}=-0.001$
+\end_inset
+
+ and 
+\begin_inset Formula $\xi_{2}=-1000$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Quotes eld
+\end_inset
+
+Hard closest point
+\begin_inset Quotes erd
+\end_inset
+
+ can be reasonably approximated by running the 
+\begin_inset Quotes eld
+\end_inset
+
+Closest point
+\begin_inset Quotes erd
+\end_inset
+
+ model with the Online filtering strategy.
+\end_layout
+
+\begin_layout Standard
+Thanks to this observation, we implemented all the model using the same
+ code and simply changed the set of features and the parameters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pythonimpl"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+how about studying the performance of the learned approaches as a function
+ of the amount of training data?
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These models were evaluated under a number of metrics:
+\end_layout
+
+\begin_layout Itemize
+The proportion of path misses: for each trajectory, it is the number of
+ times the most likely path was not the true path followed, divided by the
+ number of time steps in the trajectory.
+\end_layout
+
+\begin_layout Itemize
+The proportion of state misses: for each trajectory, the number of times
+ the most likely projection was not the true projection.
+ 
+\end_layout
+
+\begin_layout Itemize
+The log-likelihood of the true point projection.
+ This is indicative of how often the true point is identified by the model.
+\end_layout
+
+\begin_layout Itemize
+The log-likelihood of the true path.
+\end_layout
+
+\begin_layout Itemize
+The entropy of the path distribution and of the point distribution.
+ This statistical measure indicates the confidence assigned by the filter
+ to its result.
+ A small entropy (close to 0) indicates that one path is strongly favored
+ by the filter against all the other ones, whereas a large entropy indicates
+ that all paths are equal.
+\end_layout
+
+\begin_layout Itemize
+The miscoverage of the route.
+ Given two paths 
+\begin_inset Formula $p$
+\end_inset
+
+ and 
+\begin_inset Formula $p'$
+\end_inset
+
+ the coverage of 
+\begin_inset Formula $p$
+\end_inset
+
+ by 
+\begin_inset Formula $p'$
+\end_inset
+
+, denoted 
+\begin_inset Formula $\text{cov}\left(p,p'\right)$
+\end_inset
+
+ is the amount of length of 
+\begin_inset Formula $p$
+\end_inset
+
+ that is shared with 
+\begin_inset Formula $p'$
+\end_inset
+
+ (it is a semi-distance since it is not symmetric).
+ It is thus lower than the total length 
+\begin_inset Formula $\left|p\right|$
+\end_inset
+
+ of the path 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ We measure the dissimilarity of two paths by the 
+\emph on
+relative miscoverage
+\emph default
+: 
+\begin_inset Formula $\text{mc}\left(p\right)=1-\frac{\text{cov}\left(p^{*},p\right)}{\left|p^{*}\right|}$
+\end_inset
+
+.
+ If a path is perfectly covered, its relative miscoverage will be 0.
+ 
+\end_layout
+
+\begin_layout Standard
+For about 0.06% of pairs of points, the true path could not be found by the
+ A* algorithm and was manually added to the set of discovered paths
+\end_layout
+
+\begin_layout Standard
+Each training session was evaluated with k-fold cross-validation, using
+ the following parameters:
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="1.5cm">
+<column alignment="center" valignment="top" width="1.5cm">
+<column alignment="center" valignment="top" width="1.5cm">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Sampling rate (seconds)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Batches used for validation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Batches used for training
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+60
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+90
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+120
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Results
+\end_layout
+
+\begin_layout Standard
+Given the number of parameters to adjust, we only present the most salient
+ results here.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/true_points_percentage.pdf
+	width 3.5in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Flo:point_miss"
+
+\end_inset
+
+Point misses using trajectory reconstruction (Viterbi algorithm) for different
+ sampling rates, as a percentage of incorrect point reconstructions for
+ each trajectory (positive, smaller is better).
+ The solid line denotes the median, the squares denote the mean and the
+ dashed lines denote the 94% confidence interval.
+ The black curve is the performance of a greedy reconstruction algorithm,
+ and the colored plots are the performances of probabilistic algorithms
+ for different features and weights learned by different methods.
+ As expected, the error rate is close to 0 for high frequencies (low sampling
+ rates): all the points are correctly identified by all the algorithms -
+ except for the shortest path reconstruction, which greedily chooses the
+ nearest reachable projection.
+ In the low frequencies (high sampling rates), the error still stays low
+ (around 10%) for the probabilistic models, and also for the greedy model.
+ For sampling rates between 10 seconds and 90 seconds, tuned models show
+ a much higher performance compared to greedy models (Hard closest point,
+ closest point and shortest path).
+ However, we will see that the errors made by tuned models are more benign
+ than errors made by simple greedy models.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/true_paths_percentage.pdf
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Flo:path_miss"
+
+\end_inset
+
+Path misses using the Viterbi reconstruction for different models and different
+ sampling rates, as a percentage on each trajectory (lower is better).
+ The solid line denotes the median, the squares denote the mean and the
+ dashed lines denote the 98% percentiles.
+ The error rate is close to 0 for high frequencies: the paths are correctly
+ identified.
+ In higher sampling regions, there are many more paths to consider and the
+ error increases substantially.
+ Nevertheless, the probabilistic models still perform very well: even at
+ 2 minute intervals, they are able to recover about 75% of the true paths.
+ In particular, in these regions the shortest path becomes a viable choice
+ for most paths.
+ Note how the greedy path reconstruction fails rapidly as the sampling increases.
+ Also note how the shortest path heuristic performs poorly.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The most important practical result is the raw accuracy of the filter: for
+ each trajectory, which proportion of the paths or of the points was correctly
+ identified? These results are presented in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Flo:point_miss"
+
+\end_inset
+
+ and Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Flo:path_miss"
+
+\end_inset
+
+.
+ As expected, the error rate is 0 for high frequencies (low sampling period):
+ all the points are correctly identified by all the algorithms.
+ In the low frequencies (high sampling periods), the error is still low
+ (around 10%) for the trained models, and also for the greedy model (
+\begin_inset Quotes eld
+\end_inset
+
+Hard closest point
+\begin_inset Quotes erd
+\end_inset
+
+).
+ For sampling rates between 10 seconds and 90 seconds, trained models (
+\begin_inset Quotes eld
+\end_inset
+
+Simple
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+Complex
+\begin_inset Quotes erd
+\end_inset
+
+) show a much higher performance compared to untrained models (
+\begin_inset Quotes eld
+\end_inset
+
+Hard closest point
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Closest point
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+Shortest path
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/ll_paths.pdf
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Flo:path_ll"
+
+\end_inset
+
+(Negative of) Log likelihood of true paths for different strategies and
+ different sampling rates (positive, lower is better).
+ The error bars denote the first and last quartiles (the 25th and 75th percentil
+es).
+ The solid line denotes the median, the squares denote the mean and the
+ dashed lines denote the 98% confidence interval.
+ The likelihood decreases as the sampling interval increases, which was
+ to be expected.
+ Note the relatively high mean likelihood compared to the median: a number
+ of true paths are assigned very low likelihood by the model, but this phenomeno
+n is mitigated by using better filtering strategies (2-lagged and smoothing).
+ The use of a more complex model (that accounts for a finer set of features
+ for each path) brings some improvements on the order of 25% of all metrics.
+ The behavior around high frequencies (1 and 10 second time intervals) is
+ also very interesting.
+ Most of the paths are chosen nearly perfectly (the median is 0), but the
+ filters are generally too confident and assign very low probabilities to
+ their outputs, which is why the likelihood has a very heavy tail at high
+ frequency.
+ Note also that in the case of high frequency, the use of an offline filter
+ brings significantly more accurate results than a 2-lagged filter.
+ This difference disappears rapidly (it becomes insignificant at 10 second
+ intervals).
+ Note how the EM trained filter performs worse in the low frequencies (note
+ the difference of scale).
+ The points for online strategy (red) and for 2-lagged filtering (green)
+ do not appear because they are too close to the 1-lagged and offline strategies
+, respectively.
+ Again in the EM setting, the offline and 2-lagged filters perform considerably
+ better than the cruder strategies.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/entropy_points.pdf
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Flo:point_entropy"
+
+\end_inset
+
+Distributions of point entropies with respect to sampling and for different
+ models.
+ The colors show the performance of different filtering strategies (pure
+ online, 1-lag, 2-lag and offline).
+ The entropy is a measure of the confidence of the filter on its output
+ and quantifies the spread of the probability distribution over all the
+ candidate points.
+ The solid line denotes the median, the squares denote the mean and the
+ dashed lines denote the 95% confidence interval.
+ The entropy starts at nearly zero for high frequency sampling : the filters
+ are very confident in their outputs.
+ As sampling time increases, the entropy at the output of the online filter
+ increases notably.
+ Since the online filter cannot go back to update its belief, it is limited
+ to pure forward prediction and as such cannot confidently choose a trajectory
+ that would work in all settings.
+ For the other filtering strategies, the median is close to zero while the
+ mean is substantially higher.
+ Indeed, the filter is very confident in its output most of the time and
+ assigns a weight of nearly one to one candidate, and nearly zero to all
+ the other outputs, but it is uncertain in a few cases.
+ These few cases are at the origin of the fat tail of the distributions
+ of entropies and the relatively wide confidence intervals.
+ Note that using a more complex model improves the mean entropy by about
+ 15%.
+ Also, in the case of EM, the entropy is very low (note the difference of
+ scale): the EM model is overconfident in its predictions and tends to assigns
+ very large weights to a single choice, even if it not the good one.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/entropy_paths.pdf
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Flo:path_entropy"
+
+\end_inset
+
+Distributions of path entropies with respect to sampling period and for
+ different models (positive, lower is better).
+ The colors show the performance of different filtering strategies (purely
+ online, 1-lag, 2-lag and offline) The entropy is a measure of the confidence
+ of the filter on its output and quantifies the spread of the probability
+ distribution over all the candidate paths.
+ The solid line denotes the median, the squares denote the mean and the
+ dashed lines denote the 95% confidence interval.
+ Compared to the points, the paths distributions have a higher entropy:
+ the filter is much less confident in choosing a single path and spreads
+ the probability weights across several choices.
+ Again, the use of 2-lagged smoothing is as good as pure offline smoothing,
+ for the same computing cost and a fraction of the data.
+ Online and 1-lagged smoothing perform about as well, and definitely worse
+ than 2-lagged smoothing.
+ The use of a more complex model strongly improves the performance of the
+ filter: it results in more compact distribution over candidate paths.
+ Again, the model learned with EM is overconfident and tends to offer favor
+ a single choice, except for a few path distributions.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now turn our attention to the resilience of the models, i.e.
+ how they perform when they make mistakes.
+ We use two statistical measures: the (log) likelihood of the true paths
+ (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Flo:path_ll"
+
+\end_inset
+
+) and the entropy of the distribution of points or paths (Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Flo:point_entropy"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Flo:path_entropy"
+
+\end_inset
+
+).
+ Note that in a perfect reconstruction with no ambiguity, the log likelihood
+ would be zero.
+ Interestingly, the log likelihoods appear very stable as the sampling interval
+ grows: our algorithm will continue to assign high probabilities to the
+ true projections even when many more paths can be used to travel from one
+ point to the other.
+ The performance of the simple and the complex models improves greatly when
+ some backward filtering steps are used, and stays relatively even across
+ different time intervals.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/relative_coverage_paths.pdf
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Flo:relative-coverage-paths"
+
+\end_inset
+
+Distribution of relative miscoverage of the paths (between 0 and 1, lower
+ is better).
+ The solid line denotes the median, the squares denote the mean and the
+ dashed lines denote the 98% confidence interval.
+ This metric evaluates how much of the true path the most likely path covers
+ , with respect to length (0 if it is completely different, 1 if the two
+ paths overlap completely).
+ Two groups clearly emerge as far as computing strategies are concerned:
+ the online/1-lag group (orange and red curves) and the 2-lag and offline
+ group (green and blue curves).
+ The relative miscoverage for the latter group is so low that more than
+ half of the mass is at the 0 and cannot be seen on the curve.
+ There are still a number of outliers that raise the curve of the last quartile
+ as well as the mean, especially in the lower frequencies.
+ Note that the paths offered by the filter are never dramatically different:
+ at two minute time intervals (for which the paths are 1.7km on average),
+ the returned path spans more than 80% of the true path on average.
+ The use of a more complicated model decreases the mean miscoverage as well
+ as the quartile metrics by more than 15%.
+ Note that there is a large spread of values at high frequency: indeed the
+ metric is based on length covered and at high frequency, the vehicle may
+ be stopped and cover 0 length.
+ This metric is thus less indicative at high frequency.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We conclude the performance analysis by a discussion of the miscoverage
+ (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Flo:relative-coverage-paths"
+
+\end_inset
+
+).
+ The miscoverage gives a good indication of how far the path chosen by the
+ filter differs from the true path.
+ Even if the paths are not exactly the same, some very similar path may
+ get selected, that may differ by a turn around a block.
+ Note that the metric is based on length covered.
+ At high frequency however, the vehicle may be stopped and cover a length
+ 0.
+ This metric is thus less useful at high frequency.
+ A more complex model improves the coverage by about 15% in smoothing.
+ In high sampling resolution, the error is close to zero: the paths considered
+ by the filter, even if they do not match perfectly, are very close to the
+ true trajectory for lower frequencies.
+ Two groups clearly emerge as far as computing strategies are concerned:
+ the online/1-lag group (orange and red curves) and the 2-lag and offline
+ group (green and blue curves).
+ The relative miscoverage for the latter group is so low that more than
+ half of the probability mass is at zero.
+ A number of outliers still raise the curve of the last quartile as well
+ as the mean, especially in the lower frequencies.
+ The paths inferred by the filter are never dramatically different: at two
+ minute time intervals (for which the paths are 1.7km on average), the returned
+ path spans more than 80% of the true path on average.
+ The use of a more complicated model decreases the mean miscoverage as well
+ as all quartile metrics by more than 15%.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-pif/left_right.pdf
+	width 90col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:left-right"
+
+\end_inset
+
+Learned weights for left or right turns preferences.
+ The error bars indicate the complete span of values computed for each time
+ (0th and 100th percentile).
+ For small time intervals, any turning gets penalized but rapidly the model
+ learns how to favor paths with right turns against paths with left turns.
+ A positive weight even means that - all other factors being equal! - the
+ driver would prefer turning on the right than going straight.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the case of the complex model, the weights can provide some insight into
+ the features involved in the decision-making process of the driver.
+ In particular, for extended sampling rates (t=120s), some interesting patterns
+ appear.
+ For example, the drivers do not show a preference between driving through
+ stop signs (
+\begin_inset Formula $w_{3}=-0.24\pm0.07$
+\end_inset
+
+) or through signals (
+\begin_inset Formula $w_{4}=-0.21\pm0.11$
+\end_inset
+
+).
+ However, drivers show a clear preference to turn on the right as opposed
+ to the left, as seen in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:left-right"
+
+\end_inset
+
+.
+ This is may be attributed, in part, to the difficulty in crossing an intersecti
+on in the United States.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/proper_std_dev.pdf
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Standard deviation learned by the simple models, in the supervised (Maximum
+ Likelihood) setting and the EM setting.
+ The error bars indicate the complete span of values computed for each time.
+ Note that the maximum likelihood estimator rapidly converges toward a fixed
+ value of about 6 meters across any sampling time.
+ The EM procedure also rapidly converges, but it is overconfident and assigns
+ a lower standard deviation overall.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/proper_length.pdf
+	display false
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Characteristic length learned by the simple models, in the supervised (Maximum
+ Likelihood) setting and the EM setting.
+ As hoped, it roughly corresponds to the expected path length.
+ The error bars indicate the complete span of values computed for each time
+ (0th and 100th percentile).
+ Note how the spread increases for large time intervals.
+ Indeed, vehicles have different travel lengths at such time intervals,
+ ranging from nearly 0 (when waiting at a signal) to more than 3 km (on
+ the highway) and the models struggle to accommodate a single characteristic
+ length.
+ This justifies the use of more complicated models.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From a computation perspective, given a driver model, the filtering algorithm
+ can be dramatically improved for about as much computations by using a
+ full backward-forward (smoothing) filter.
+ Smoothing requires backing up an arbitrary sequence of points while 2-lagged
+ smoothing only requires the last two points.
+ For a slightly greater computing cost, the filter can offer a solution
+ with a lag of one or two interval time units that is very close to the
+ full smoothing solution.
+ Fixed-lag smoothing will be the recommended solution for practical applications
+, as it strikes a good balance of computation costs, accuracy and timeliness
+ of the results.
+\end_layout
+
+\begin_layout Standard
+It should be noted the algorithm continues to provide decent results even
+ when points grow further apart.
+ The errors steadily increase with the sampling rate until the 30 seconds
+ time interval, after which most metrics reach some plateau.
+ This algorithm could be used in tracking solutions to improve the battery
+ life of the device by up to an order of magnitude for GPSs that do not
+ need extensive warm up.
+ In particular, the tracking devices of fleet vehicle are usually designed
+ to emit every minute as the road-level accuracy is not a concern in most
+ cases.
+ 
+\end_layout
+
+\begin_layout Subsection
+Unsupervised learning results
+\end_layout
+
+\begin_layout Standard
+The filter was also trained for the simple and complex models using Dataset
+ 2.
+ This dataset does not include true observations but is two orders of magnitude
+ larger than Dataset 1 for the matching sampling period (1 minute).
+ We report some comparisons between the models previously trained with Dataset
+ 1 (
+\begin_inset Quotes eld
+\end_inset
+
+MaxLL-Simple
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+EM-Simple
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+MaxLL-Complex
+\begin_inset Quotes erd
+\end_inset
+
+) and the same simple and complex models trained on Dataset 2: 
+\begin_inset Quotes eld
+\end_inset
+
+EM-Simple large
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+EM-Complex large
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The learning procedure was calibrated using cross-validation and was run
+ in the following way: all unsupervised models were initialized with a hand-tune
+d heuristic model involving only the standard deviation and the characteristic
+ length (with the weight of all the features set to 0).
+ The Expectation-Maximization algorithm was then run for 3 iterations.
+ Inside each EM iteration, the M-step was run with a single Newton-Raphson
+ iteration at each time, using the full gradient and Hessian and a quadratic
+ penalty of 
+\begin_inset Formula $10^{-2}$
+\end_inset
+
+.
+ During the E step, each sweep over the data took 13 hours 400 thousand
+ points on a 32-core Intel Xeon server.
+\end_layout
+
+\begin_layout Standard
+We limit our discussion to the main findings for brevity.
+ The unsupervised training finds some weight values similar to those found
+ with supervised learning.
+ The magnitude of these weights is larger than in the supervised settings.
+ Indeed, during the E step, the algorithm is free to assign any sensible
+ value to the choice of the path.
+ This may lead to a self-reinforcing behavior and the exploration of a bad
+ local minimum.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/em_ll_paths.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Expected likelihood of the true path.
+ The central point is the mean log-likelihood, the error bars indicate the
+ 70% confidence interval.
+ Note that the simple model trained unsupervised with the small dataset
+ has a much larger error, i.e.
+ it assigns low probabilities to the true path.
+ Both unsupervised models tend to express the same behavior but are much
+ more robust.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:em_ll_paths"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As Figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:em_ll_paths"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:em_true_paths_percentage"
+
+\end_inset
+
+, and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:em_true_points_percentage"
+
+\end_inset
+
+ show, a large training dataset puts unsupervised methods on par with supervised
+ methods as far as performance metrics are concerned.
+ Also, the inspection of the parameters learned on this dataset corroborates
+ the finding made earlier.
+ One is tempted to conclude that given enough observations, there no need
+ to collect expensive high-frequency data to train a model.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/em_true_points_percentage.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Proportion of true points incorrectly identified, for different models evaluated
+ with 1-minute sampling (lower is better).
+ The central point is the mean proportion, the error bars indicate the 70%
+ confidence interval.
+ Unsupervised models are very competitive against supervised models, and
+ the complex unsupervised model slightly outperforms all supervised models.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:em_true_points_percentage"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/em_true_paths_percentage.pdf
+	width 90col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Proportion of true paths incorrectly identified, for different models evaluated
+ with 1-minute sampling (lower is better).
+ The central point is the mean proportion, the error bars indicate the 70%
+ confidence interval.
+ The complex unsupervised model is as good as the best supervised model.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:em_true_paths_percentage"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Key findings
+\end_layout
+
+\begin_layout Standard
+Our algorithm can reconstruct a sensible approximation of the trajectory
+ followed by the vehicles analyzed, even in complex urban environments.
+ In particular, the following conclusions can be made:
+\end_layout
+
+\begin_layout Itemize
+An intuitive deterministic heuristic (
+\begin_inset Quotes eld
+\end_inset
+
+Hard closest point
+\begin_inset Quotes erd
+\end_inset
+
+) dramatically fails for paths at low frequencies, less so for points.
+ It should not be considered for sampling intervals larger than 30 seconds.
+\end_layout
+
+\begin_layout Itemize
+A simple probabilistic heuristic (
+\begin_inset Quotes eld
+\end_inset
+
+closest point
+\begin_inset Quotes erd
+\end_inset
+
+) gives good results for either very low frequencies (2 minutes) or very
+ high frequencies (a few seconds) with more 75% of paths and 94% points
+ correctly identified.
+ However, the incorrect values are not as close to the true trajectory as
+ they are with more accurate models (
+\begin_inset Quotes eld
+\end_inset
+
+Simple
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+Complex
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Itemize
+For the medium range (10 seconds to 90 seconds), trained models (either
+ supervised or unsupervised) have a greatly improved accuracy compared to
+ untrained models, with 80% to 95% of the paths correctly identified by
+ the former.
+\end_layout
+
+\begin_layout Itemize
+For the paths that are incorrectly identified, trained models (
+\begin_inset Quotes eld
+\end_inset
+
+Simple
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+Complex
+\begin_inset Quotes erd
+\end_inset
+
+) provide better results compared to untrained models (the output paths
+ are closer to the true paths, and the uncertainty about which paths may
+ have been taken is much reduced).
+ Furthermore, using a complex model (
+\begin_inset Quotes eld
+\end_inset
+
+Complex
+\begin_inset Quotes erd
+\end_inset
+
+) improves these results even more by a factor of 13-20% on all metrics.
+\end_layout
+
+\begin_layout Itemize
+For filtering strategies: online filtering gives the worst results and its
+ performance is very similar to 1-lagged smoothing.
+ The slower strategies (2-lagged smoothing and offline) outperform the other
+ two by far.
+ Two-lagged smoothing is nearly as good as offline smoothing, except in
+ very high frequencies (less than 2 second sampling) for which smoothing
+ clearly provides better results.
+\end_layout
+
+\begin_layout Itemize
+Using a trained algorithm in a purely unsupervised fashion provides an accuracy
+ as good as when training in a supervised setting - within some limits and
+ assuming enough data is available.
+ The model produced by EM (
+\begin_inset Quotes eld
+\end_inset
+
+EM-Simple
+\begin_inset Quotes erd
+\end_inset
+
+) is equally good in terms of raw performance (path and point misses) but
+ it may be overconfident.
+\end_layout
+
+\begin_layout Itemize
+With more complex models, the filter can be used to infer some interesting
+ patterns about the behavior of the drivers.
+\end_layout
+
+\end_body
+\end_document

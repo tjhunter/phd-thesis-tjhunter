@@ -1,0 +1,3307 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass IEEEtran
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Discrete filtering using a Conditional Random Field
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:hmm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the previous section, we reduced the trajectory reconstruction problem
+ to a discrete selection problem between sets of candidate projection points,
+ interleaved with sets of candidate paths.
+ A probabilistic framework can now be applied to infer a reconstructed trajector
+y 
+\begin_inset Formula $\tau$
+\end_inset
+
+ or probability distributions over candidate states and candidate paths.
+ Without further assumptions, one would have to enumerate and compute probabilit
+ies for every possible trajectory.
+ This is not possible for long sequences of observations, as the number
+ of possible trajectories grows exponentially with the number of observations
+ chained together.
+ By assuming additional independence relations, we turn this intractable
+ inference problem into a tractable one.
+ 
+\end_layout
+
+\begin_layout Subsection
+Conditional Random Fields to weight trajectories
+\end_layout
+
+\begin_layout Standard
+The observation model provides the joint distribution of a state on the
+ road network given an observation.
+ We have described the 
+\emph on
+noisy generative model 
+\emph default
+for the observations in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:gps-to-states"
+
+\end_inset
+
+.
+ Assuming that the vehicle is at a point 
+\begin_inset Formula $x$
+\end_inset
+
+, a GPS observation 
+\begin_inset Formula $g$
+\end_inset
+
+ will be observed according to a model 
+\begin_inset Formula $\omega$
+\end_inset
+
+ that describes a noisy observation channel.
+ The value of 
+\begin_inset Formula $g$
+\end_inset
+
+ only depends on the state of the vehicle, i.e.
+ the model reads 
+\begin_inset Formula $\omega\left(g|x\right)$
+\end_inset
+
+.
+ For every time step 
+\begin_inset Formula $t$
+\end_inset
+
+, assuming that the vehicle is at the location 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+, a GPS observation 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+ is created according to the distribution 
+\begin_inset Formula $\omega\left(g^{t}|x^{t}\right)$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Additionally, we endow the set of all possible paths on the road network
+ with a probability distribution.
+ The 
+\emph on
+transition model
+\emph default
+ 
+\begin_inset Formula $\eta$
+\end_inset
+
+ describes the preference of a driver for a particular path.
+ In probabilistic terms, it provides a distribution 
+\begin_inset Formula $\eta\left(p\right)$
+\end_inset
+
+ defined over all possible paths 
+\begin_inset Formula $p$
+\end_inset
+
+ across the road network.
+ This distribution is not a distribution over actually observed paths as
+ much as a model of the 
+\emph on
+preferences 
+\emph default
+of the driver when given the choice between several options.
+\end_layout
+
+\begin_layout Standard
+We introduce the following 
+\emph on
+Markov assumptions
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+Given a start state 
+\begin_inset Formula $x_{\text{start}}$
+\end_inset
+
+ and an end state 
+\begin_inset Formula $x_{\text{end}}$
+\end_inset
+
+, the path 
+\begin_inset Formula $p$
+\end_inset
+
+ followed by the vehicle between these two points will only depend on the
+ start state, the end state and the path itself.
+ In particular, it will not depend on previous paths or future paths.
+\end_layout
+
+\begin_layout Itemize
+Consider a state 
+\begin_inset Formula $x$
+\end_inset
+
+ followed by a path 
+\begin_inset Formula $p_{\text{next}}$
+\end_inset
+
+ and preceded by a path 
+\begin_inset Formula $p_{\text{previous}}$
+\end_inset
+
+, and associated to a GPS measurement 
+\begin_inset Formula $g$
+\end_inset
+
+.
+ Then the paths taken by the vehicle are independent from the GPS measurement
+ 
+\begin_inset Formula $g$
+\end_inset
+
+ if the state 
+\begin_inset Formula $x$
+\end_inset
+
+ is known.
+ In other words, the GPS measurement does not add subsequent information
+ given the knowledge of the state of the vehicle.
+\end_layout
+
+\begin_layout Standard
+Since a state is composed of an offset and a link, a path is completely
+ determined by a start state, an end state and a list of links in between.
+ Conditional on the start state and end state, the number of paths between
+ these points is finite (it is the number of link paths that join the start
+ link and the end link).
+\end_layout
+
+\begin_layout Standard
+Not every path is compatible with given start point and end point: the path
+ must start at the start state and must end at the end state.
+ We formally express the compatibility between a state 
+\begin_inset Formula $x$
+\end_inset
+
+ and the start state of a path 
+\begin_inset Formula $p$
+\end_inset
+
+ with the compatibility function 
+\begin_inset Formula $\underline{\delta}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\underline{\delta}\left(x,p\right)=\begin{cases}
+1 & \text{if the path }p\text{ starts at point }x\\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly, we introduce the compatibility function 
+\begin_inset Formula $\bar{\delta}$
+\end_inset
+
+ to express the agreement between a state and the end state of a path:
+\begin_inset Formula 
+\[
+\bar{\delta}\left(p,x\right)=\begin{cases}
+1 & \text{if the path }p\text{ ends at point }x\\
+0 & \text{otherwise}
+\end{cases}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given a sequence of observations 
+\begin_inset Formula $g^{1:T}=g^{1}\cdots g^{T}$
+\end_inset
+
+ and an associated trajectory 
+\begin_inset Formula $\tau=x^{1}p^{1}\cdots x^{T}$
+\end_inset
+
+, we define the 
+\emph on
+unnormalized score, 
+\emph default
+or 
+\emph on
+potential
+\emph default
+,
+\emph on
+ 
+\emph default
+of the trajectory as:
+\begin_inset Formula 
+\begin{eqnarray}
+\phi\left(\tau|g^{1:T}\right) & = & \left[\prod_{t=1}^{T-1}\omega\left(g^{t}|x^{t}\right)\underline{\delta}\left(x^{t},p^{t}\right)\eta\left(p^{t}\right)\bar{\delta}\left(p^{t},x^{t+1}\right)\right]\nonumber \\
+ &  & \cdot\omega\left(g^{T}|x^{T}\right)\label{eq:phi}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The non-negative function 
+\begin_inset Formula $\phi$
+\end_inset
+
+ is called the 
+\emph on
+potential function.
+
+\emph default
+ A trajectory 
+\begin_inset Formula $\tau$
+\end_inset
+
+ is said to be a 
+\emph on
+compatible trajectory with the observation sequence 
+\emph default
+
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+ if 
+\begin_inset Formula $\phi\left(\tau|g^{1:T}\right)>0$
+\end_inset
+
+.
+ When properly scaled, the potential 
+\begin_inset Formula $\phi$
+\end_inset
+
+ defines a probability distribution over all possible trajectories, given
+ a sequence of observations:
+\begin_inset Formula 
+\begin{equation}
+\pi\left(\tau|g^{1:T}\right)=\frac{\phi\left(\tau|g^{1:T}\right)}{Z}\label{eq:pi}
+\end{equation}
+
+\end_inset
+
+The variable 
+\begin_inset Formula $Z$
+\end_inset
+
+, called the 
+\emph on
+partition function
+\emph default
+, is the sum of the potentials over all the compatible trajectories:
+\begin_inset Formula 
+\[
+Z=\sum_{\tau}\phi\left(\tau|g^{1:T}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We have combined the observation model 
+\begin_inset Formula $\omega$
+\end_inset
+
+ and the transition model 
+\begin_inset Formula $\eta$
+\end_inset
+
+ into a single potential function 
+\begin_inset Formula $\phi$
+\end_inset
+
+, which defines an unnormalized distribution over all trajectories.
+ Such a probabilistic framework is called a 
+\emph on
+Conditional Random Field 
+\emph default
+(CRF) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lafferty2001conditional"
+
+\end_inset
+
+.
+ A CRF is an undirected graphical model which is defined as the unnormalized
+ product of factors over cliques of factors (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:crf_model"
+
+\end_inset
+
+).
+ There can be an exponentially large number of paths, so the partition function
+ cannot be computed by simply summing the value of 
+\begin_inset Formula $\phi$
+\end_inset
+
+ over every possible trajectory.
+ As will be seen in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:training"
+
+\end_inset
+
+, the value of 
+\begin_inset Formula $Z$
+\end_inset
+
+ needs to be computed only during the training phase.
+ Furthermore it can be computed efficiently using dynamic programming.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/crf_model.pdf
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Illustration of the Conditional Random Field defined over a trajectory 
+\begin_inset Formula $\tau=x^{1}p^{1}x^{2}p^{2}x^{3}$
+\end_inset
+
+ and a sequence of observations 
+\begin_inset Formula $g^{1:3}$
+\end_inset
+
+.
+ The gray nodes indicate the observed values.
+ The solid lines indicate the factors between the variables: 
+\begin_inset Formula $\omega\left(g^{t}|x^{t}\right)$
+\end_inset
+
+ between a state 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+ and an observation 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+, 
+\begin_inset Formula $\underline{\delta}\left(x^{t},p^{t}\right)\eta\left(p^{t}\right)$
+\end_inset
+
+ between a state 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+ and a path 
+\begin_inset Formula $p^{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{\delta}\left(p^{t},x^{t+1}\right)$
+\end_inset
+
+ between a path 
+\begin_inset Formula $p^{t}$
+\end_inset
+
+ and a subsequent state 
+\begin_inset Formula $x^{t+1}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:crf_model"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/dbn_model.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+A Dynamic Bayesian Network (DBN) commonly used to model the trajectory reconstru
+ction problem.
+ The arrows indicate the directed dependencies of the variables.
+ The GPS observations 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+ are generated from states 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+.
+ The unobserved paths 
+\begin_inset Formula $p^{t}$
+\end_inset
+
+ are generated from a state 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+, following a transition probability distribution 
+\begin_inset Formula $\hat{\pi}\left(p|x\right)$
+\end_inset
+
+.
+ The transition from a path 
+\begin_inset Formula $p^{t}$
+\end_inset
+
+ to a state 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+ follows the transition model 
+\begin_inset Formula $\hat{\pi}\left(x|p\right)$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:dbn_model"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+The case against the Hidden Markov Model approach
+\series default
+.
+ The classical approach to filtering in the context of trajectories is based
+ on Hidden Markov Models (HMMs), or their generalization, Dynamic Bayesian
+ Networks (DBNs)
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "murphy2002dynamic"
+
+\end_inset
+
+: a sequence of states and trajectories form a trajectory, and the coupling
+ of trajectories and states is done using transition models 
+\begin_inset Formula $\hat{\pi}\left(x|p\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\pi}\left(p|x\right)$
+\end_inset
+
+.
+ See Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:dbn_model"
+
+\end_inset
+
+ for a representation.
+\end_layout
+
+\begin_layout Standard
+This results in a chain-structured directed probabilistic graphical model
+ in which the path variables 
+\begin_inset Formula $p^{t}$
+\end_inset
+
+ are unobserved.
+ Depending on the specifics of the transition models, 
+\begin_inset Formula $\hat{\pi}\left(x|p\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{\pi}\left(p|x\right)$
+\end_inset
+
+, probabilistic inference has been done with Kalman filters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ochieng2009map,pyo2001development"
+
+\end_inset
+
+, the forward algorithm or the Viterbi algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bierlaire2011probabilistic,bierlaire2008route"
+
+\end_inset
+
+, or particle filters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gustafsson2002particle"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Hidden Markov Model representations, however, suffer from the 
+\emph on
+selection bias problem
+\emph default
+, first noted in the labeling of words sequences 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lafferty2001conditional"
+
+\end_inset
+
+, which makes them not the best fit for solving path inference problems.
+ Consider the example trajectory 
+\begin_inset Formula $\tau=x^{1}p^{1}x^{2}$
+\end_inset
+
+ observed in our data, represented in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:hmm_failure"
+
+\end_inset
+
+.
+ For clarity, we consider only two states 
+\begin_inset Formula $x_{1}^{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{2}^{1}$
+\end_inset
+
+ associated with the GPS reading 
+\begin_inset Formula $g^{1}$
+\end_inset
+
+ and a single state 
+\begin_inset Formula $x_{1}^{2}$
+\end_inset
+
+ associated with 
+\begin_inset Formula $g^{2}$
+\end_inset
+
+.
+ The paths 
+\begin_inset Formula $\left(p_{j}^{1}\right)_{j}$
+\end_inset
+
+ between 
+\begin_inset Formula $x^{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $x^{2}$
+\end_inset
+
+ may either be the lone path 
+\begin_inset Formula $p_{1}^{1}$
+\end_inset
+
+ from 
+\begin_inset Formula $x_{1}^{1}$
+\end_inset
+
+ to 
+\begin_inset Formula $x_{1}^{2}$
+\end_inset
+
+ that allows a vehicle to cross the Golden Gate Park, or one of the many
+ paths between Cabrillo Street and Fulton Street that go from 
+\begin_inset Formula $x_{2}^{1}$
+\end_inset
+
+ to 
+\begin_inset Formula $x^{1}$
+\end_inset
+
+, including 
+\begin_inset Formula $p_{3}^{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $p_{2}^{1}$
+\end_inset
+
+.
+ In the HMM representation, the transition probabilities must sum to 1 when
+ conditioned on a starting point.
+ Since there is a single path from 
+\begin_inset Formula $x_{2}^{1}$
+\end_inset
+
+ to 
+\begin_inset Formula $x^{2}$
+\end_inset
+
+, the probability of taking this path from the state 
+\begin_inset Formula $x_{1}^{1}$
+\end_inset
+
+ will be 
+\begin_inset Formula $\hat{\pi}\left(p_{1}^{1}|x_{1}^{1}\right)=1$
+\end_inset
+
+ so the overall probability of this path is 
+\begin_inset Formula $\hat{\pi}\left(p_{1}^{1}|g^{1}\right)=\hat{\pi}\left(x_{1}^{1}|g^{1}\right)$
+\end_inset
+
+.
+ Consider now the paths from 
+\begin_inset Formula $x_{2}^{1}$
+\end_inset
+
+ to 
+\begin_inset Formula $x_{1}^{2}$
+\end_inset
+
+: a lot of these paths will have a similar weight, since they correspond
+ to different turns and across the lattice of roads.
+ For each path 
+\begin_inset Formula $p$
+\end_inset
+
+ amongst these 
+\begin_inset Formula $N$
+\end_inset
+
+ paths of similar weight, Bayes assumption implies 
+\begin_inset Formula $\hat{\pi}\left(p|x_{2}^{1}\right)\approx\frac{1}{N}$
+\end_inset
+
+ so the overall probability of this path is 
+\begin_inset Formula $\hat{\pi}\left(p|g^{1}\right)\approx\frac{1}{N}\hat{\pi}\left(x_{2}^{1}|g^{1}\right)$
+\end_inset
+
+.
+ In this case, 
+\begin_inset Formula $N$
+\end_inset
+
+ can be large enough that 
+\begin_inset Formula $\hat{\pi}\left(p_{1}^{1}|g^{1}\right)\geq\hat{\pi}\left(p|g^{1}\right)$
+\end_inset
+
+, and the remote path will be selected as the most likely path.
+\end_layout
+
+\begin_layout Standard
+Due to their structures, all HMM models will be biased towards states that
+ have the least expansions.
+ In the case of a road network, this can be pathological.
+ In particular, the HMM assumption will carry the effect of the selection
+ bias as long as there are long disconnected segments of road.
+ This can be particularly troublesome in the case of road networks since
+ HMM models will end up being forced to assign too much weight to a highway
+ (which is highly disconnected) and not enough to the road network alongside
+ the highway.
+ Our model, which is based on Conditional Random Fields, does not have this
+ problem since the renormalization happens just once and is over all paths
+ from start to end, rather than renormalizing for every single state transition
+ independently.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/hmm_failure_example2.pdf
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of a failure case when using a Hidden Markov Model: the solid black
+ path will be favored over all the other paths.
+ The paths 
+\begin_inset Formula $p_{i}^{1}$
+\end_inset
+
+ connect the states 
+\begin_inset Formula $x_{j}^{1}$
+\end_inset
+
+ to 
+\begin_inset Formula $x_{k}^{2}$
+\end_inset
+
+.
+ See section II for more details on the notations.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:hmm_failure"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Efficient filtering algorithms.
+
+\series default
+ Using the probabilistic framework of the CRF, we wish to infer:
+\end_layout
+
+\begin_layout Itemize
+the most likely trajectory 
+\begin_inset Formula $\tau$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\tau^{*}=\underset{\tau}{\text{argmax}}\;\;\pi\left(\tau|g^{1:T}\right)\label{eq:most-likely-traj}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+the posterior distributions over the elements of the trajectory, i.e.
+ the conditional marginals 
+\begin_inset Formula $\pi\left(x^{t}|g^{1:T}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\pi\left(p^{t}|g^{1:T}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As will be seen, both elements can be computed without having to obtain
+ the partition function 
+\begin_inset Formula $Z$
+\end_inset
+
+.
+ The solution to both problems is a particular case of the 
+\emph on
+Junction Tree algorithm
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "murphy2002dynamic"
+
+\end_inset
+
+ and can be computed in time complexity linear in the time horizon by using
+ a dynamic programing formulation.
+ Computing the most likely trajectory is a particular instantiation of a
+ standard dynamic programing algorithm called the 
+\emph on
+Viterbi algorithm
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "forney1973viterbi"
+
+\end_inset
+
+.
+ Using a classic Machine Learning algorithm for chain-structured junction
+ trees (the 
+\emph on
+forward-backward algorithm
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "seymore1999learning,bilmes1998gentle"
+
+\end_inset
+
+), all the conditional marginals can be computed in two passes over the
+ variables.
+ In the next section, we detail the justification for the Viterbi algorithm
+ and in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:filtering"
+
+\end_inset
+
+ we describe an efficient implementation of the forward-backward algorithm
+ in the context of this application.
+\end_layout
+
+\begin_layout Subsection
+Finding the most likely path
+\end_layout
+
+\begin_layout Standard
+For the rest of this section, we fix a sequence of observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+.
+ For each observation 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+, we consider a set of candidate state projections 
+\begin_inset Formula $\mathbf{x}^{t}$
+\end_inset
+
+.
+ At each time step 
+\begin_inset Formula $t\in\left[1\cdots T-1\right]$
+\end_inset
+
+, we consider a set of paths 
+\begin_inset Formula $\mathbf{p}^{t}$
+\end_inset
+
+, so that each path 
+\begin_inset Formula $p^{t}$
+\end_inset
+
+ from 
+\begin_inset Formula $\mathbf{p}^{t}$
+\end_inset
+
+ starts from some state 
+\begin_inset Formula $x^{t}\in\mathbf{x}^{t}$
+\end_inset
+
+ and ends at some state 
+\begin_inset Formula $x^{t+1}\in\mathbf{x}^{t+1}$
+\end_inset
+
+.
+ We will consider the set 
+\begin_inset Formula $\varsigma$
+\end_inset
+
+ of valid trajectories in the Cartesian space defined by these projections
+ and these paths:
+\begin_inset Formula 
+\[
+\varsigma=\left\{ \tau=x^{1}p^{1}\cdots p^{T-1}x^{T}|\begin{array}{c}
+x^{t}\in\mathbf{x}^{t}\\
+p^{t}\in\mathbf{p}^{t}\\
+\bar{\delta}\left(x^{t},p^{t}\right)=1\\
+\underline{\delta}\left(p^{t},x^{t+1}\right)=1
+\end{array}\right\} 
+\]
+
+\end_inset
+
+ In particular, if 
+\begin_inset Formula $I^{t}$
+\end_inset
+
+ is the number of candidate states associated with 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+ (i.e.
+ the cardinal of 
+\begin_inset Formula $\mathbf{x}^{t}$
+\end_inset
+
+) and 
+\begin_inset Formula $J^{t}$
+\end_inset
+
+ is the number of candidate paths in 
+\begin_inset Formula $\mathbf{p}^{t}$
+\end_inset
+
+, then there are at most 
+\begin_inset Formula $\prod_{1}^{T}I^{t}\prod_{1}^{T-1}J^{t}$
+\end_inset
+
+ possible trajectories to consider.
+ We will see, however, that most likely trajectory 
+\begin_inset Formula $\tau^{*}$
+\end_inset
+
+ can be computed in 
+\begin_inset Formula $O\left(TI^{*}J^{*}\right)$
+\end_inset
+
+ computations, with 
+\begin_inset Formula $I^{*}=\max_{t}I^{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $J^{*}=\max_{t}J^{t}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The partition function 
+\begin_inset Formula $Z$
+\end_inset
+
+ does not depend on the current trajectory 
+\begin_inset Formula $\tau$
+\end_inset
+
+ and need not be computed when solving Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:most-likely-traj"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{cccc}
+\tau^{*} & = & \underset{\tau\in\varsigma}{\text{argmax}} & \pi\left(\tau|g^{1:T}\right)\\
+ & = & \underset{\tau\in\varsigma}{\text{argmax}} & \phi\left(\tau|g^{1:T}\right)
+\end{array}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Call 
+\begin_inset Formula $\phi^{*}\left(g^{1:T}\right)$
+\end_inset
+
+ the maximum value over all the potentials of the trajectories compatible
+ with the observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\phi^{*}\left(g^{1:T}\right)=\max_{\tau\in\varsigma}\phi\left(\tau|g^{1:T}\right)\label{eq:most-likely-phi}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The trajectory 
+\begin_inset Formula $\tau$
+\end_inset
+
+ that realizes this maximum value is found by tracing back the computations.
+ For example, some pointers to the intermediate partial trajectories can
+ be stored to trace back the complete trajectory, as done in the referring
+ implementation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pythonimpl"
+
+\end_inset
+
+.
+ This is why we will only consider the computation of this maximum.
+ The function 
+\begin_inset Formula $\phi$
+\end_inset
+
+ depends on the probability distributions 
+\begin_inset Formula $\omega$
+\end_inset
+
+ and 
+\begin_inset Formula $\eta$
+\end_inset
+
+, left undefined so far.
+ These distributions will be presented in depth in Sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:obs-mmodel"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:transition"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+It is useful to introduce notation related to a 
+\emph on
+partial trajectory
+\emph default
+.
+ Call 
+\begin_inset Formula $\tau^{1:t}$
+\end_inset
+
+ the 
+\emph on
+partial trajectory
+\emph default
+ until time step 
+\begin_inset Formula $t$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\tau^{1:t}=x^{1}p^{1}\cdots x^{t}
+\]
+
+\end_inset
+
+For a partial trajectory, we define some partial potentials 
+\begin_inset Formula $\phi\left(\tau^{1:t}|g^{1:t}\right)$
+\end_inset
+
+ that depend only on the observations seen so far:
+\begin_inset Formula 
+\begin{eqnarray}
+\phi\left(\tau^{1:t}|g^{1:t}\right) & = & \omega\left(g^{1}|x^{1}\right)\prod_{t'=1}^{t-1}\underline{\delta}\left(x^{t'},p^{t'}\right)\eta\left(p^{t'}\right)\nonumber \\
+ &  & \cdot\bar{\delta}\left(p^{t'},x^{t'+1}\right)\omega\left(g^{t'+1}|x^{t'+1}\right)\label{eq:def-partial-phi}
+\end{eqnarray}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For each time step 
+\begin_inset Formula $t$
+\end_inset
+
+, given a state index 
+\begin_inset Formula $i\in\left[1,I^{t}\right]$
+\end_inset
+
+ we introduce the potential function for trajectories that end at the state
+ 
+\begin_inset Formula $x_{i}^{t}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\phi_{i}^{t}=\max_{\tau^{1:t}=x^{1}p^{1}\cdots.x^{t-1}p^{t-1}x_{i}^{t}}\phi\left(\tau^{1:t}|g^{1:t}\right)
+\]
+
+\end_inset
+
+One sees:
+\begin_inset Formula 
+\[
+\phi^{*}=\max_{i\in\left[1,I^{T}\right]}\phi_{i}^{T}
+\]
+
+\end_inset
+
+The partial potentials defined in Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:def-partial-phi"
+
+\end_inset
+
+ follow an inductive identity:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\phi_{i}^{1}=\omega\left(g^{1}|x_{i}^{t}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\forall t,\phi_{i}^{t+1}=\max_{\begin{array}{c}
+i'\in\left[1,I^{t}\right]\\
+j\in\left[1,J^{t}\right]
+\end{array}}\begin{array}{l}
+\left[\phi_{i'}^{t}\underline{\delta}\left(x_{i'}^{t},p_{j}^{t}\right)\eta\left(p_{j}^{t}\right)\right.\\
+\left.\cdot\bar{\delta}\left(p_{j}^{t},x_{i}^{t+1}\right)\omega\left(g^{t+1}|x_{i}^{t+1}\right)\right]
+\end{array}\label{eq:rec-phi}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By using this identity, the maximum potential 
+\begin_inset Formula $\phi^{*}$
+\end_inset
+
+ can be computed efficiently from the partial maximum potentials 
+\begin_inset Formula $\phi_{i}^{t}$
+\end_inset
+
+.
+ The computation of the trajectory that realizes this maximum potential
+ ensues by tracing back the computation to find which partial trajectory
+ realized 
+\begin_inset Formula $\phi_{i}^{t}$
+\end_inset
+
+ for each step 
+\begin_inset Formula $t$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Trajectory filtering and smoothing
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/failure_exit_ramp.pdf
+	width 6cm
+
+\end_inset
+
+
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of case handled by lagged smoothing which disambiguates the results
+ provided by tracking.
+ An observation is available close to an exit ramp of a highway, for which
+ the algorithm has to decide if it corresponds to the vehicle exiting the
+ highway.
+ Lagged smoothing analyzes subsequent points in the trajectory and can disambigu
+ate the situation.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:highway-exit"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:filtering"
+
+\end_inset
+
+We now turn our attention to the problem of computing the marginals of the
+ posterior distributions over the trajectories, i.e.
+ the probability distributions 
+\begin_inset Formula $\pi\left(x^{t}|g^{1:T}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\pi\left(p^{t}|g^{1:T}\right)$
+\end_inset
+
+ for all 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ We introduce some additional notation to simplify the subsequent derivations.
+ The posterior probability 
+\begin_inset Formula $\bar{q}_{i}^{t}$
+\end_inset
+
+ of the vehicle being at the state 
+\begin_inset Formula $x_{i}^{t}\in\mathbf{x}^{t}$
+\end_inset
+
+ at time 
+\begin_inset Formula $t$
+\end_inset
+
+, given all the observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+ of the trajectory, is defined as:
+\begin_inset Formula 
+\[
+\overline{q}_{i}^{t}\propto\pi\left(x_{i}^{t}|g^{1:T}\right)=\frac{1}{Z}\sum_{\tau=x^{1}\cdots p^{t-1}x_{i}^{t}p^{t}\cdots x^{T}}\phi\left(\tau|g^{1:T}\right)
+\]
+
+\end_inset
+
+The operator 
+\begin_inset Formula $\propto$
+\end_inset
+
+ indicates that this distribution is defined up to some scaling factor,
+ which does not depend on 
+\begin_inset Formula $x$
+\end_inset
+
+ or 
+\begin_inset Formula $p$
+\end_inset
+
+ (but may depend on 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+).
+ Indeed, we are interested in the probabilistic weight of a state 
+\begin_inset Formula $x_{i}^{t}$
+\end_inset
+
+ relative to the other possible states 
+\begin_inset Formula $x_{i'}^{t}$
+\end_inset
+
+ at the state time 
+\begin_inset Formula $t$
+\end_inset
+
+ (and not to the actual, unscaled value of 
+\begin_inset Formula $\pi\left(x_{i}^{t}|g^{1:T}\right)$
+\end_inset
+
+).
+ This is why we consider 
+\begin_inset Formula $\left(\bar{q}_{i}^{t}\right)_{i}$
+\end_inset
+
+ as a choice between a (finite) set of discrete variables, one choice per
+ possible state 
+\begin_inset Formula $x_{i}^{t}$
+\end_inset
+
+.
+ A natural choice is to scale the distribution 
+\begin_inset Formula $\bar{q}_{i}^{t}$
+\end_inset
+
+ so that the probabilistic weight of all possibilities is equal to 1:
+\begin_inset Formula 
+\[
+\sum_{1\leq i\leq I^{t}}\bar{q}_{i}^{t}=1
+\]
+
+\end_inset
+
+From a practical perspective, 
+\begin_inset Formula $\bar{q}^{t}$
+\end_inset
+
+ can be computed without the knowledge of the partition function 
+\begin_inset Formula $Z$
+\end_inset
+
+.
+ Indeed, the only required elements are the unscaled values of 
+\begin_inset Formula $\pi\left(x_{i}^{t}|g^{1:T}\right)$
+\end_inset
+
+ for each 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ The distribution 
+\begin_inset Formula $\bar{q}^{t}=\left(\bar{q}_{i}^{t}\right)_{i}$
+\end_inset
+
+ is a multinomial distribution between 
+\begin_inset Formula $I^{t}$
+\end_inset
+
+ choices, one for each state.
+ The quantity 
+\begin_inset Formula $\bar{q}_{i}^{t}$
+\end_inset
+
+ has a clear meaning: it is the probability that the vehicle is in state
+ 
+\begin_inset Formula $x_{i}^{t}$
+\end_inset
+
+, when choosing amongst the set 
+\begin_inset Formula $\left(x_{i'}^{t}\right)_{1\leq i\leq I^{t}}$
+\end_inset
+
+, given all the observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For each time 
+\begin_inset Formula $t$
+\end_inset
+
+ and each path index 
+\begin_inset Formula $j\in\left[1\cdots J^{t}\right]$
+\end_inset
+
+, we also introduce (up to a scaling constant) the discrete distribution
+ over the paths at time 
+\begin_inset Formula $t$
+\end_inset
+
+ given the observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\overline{r}_{j}^{t}\propto\pi\left(p_{j}^{t}|g^{1:T}\right)
+\]
+
+\end_inset
+
+which are scaled so that 
+\begin_inset Formula $\sum_{1\leq j\leq J^{t}}\overline{r}_{j}^{t}=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This problem of smoothing in CRFs is a classic application of the Junction
+ Tree algorithm to chain-structured graphs 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "murphy2002dynamic"
+
+\end_inset
+
+.
+ For the sake of completeness, we derive an efficient smoothing algorithm
+ using our notations.
+\end_layout
+
+\begin_layout Standard
+The definition of 
+\begin_inset Formula $\pi\left(x_{i}^{t}|g^{1:T}\right)$
+\end_inset
+
+ requires summing the potentials of all the trajectories that pass through
+ the state 
+\begin_inset Formula $x_{i}^{t}$
+\end_inset
+
+ at time 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ The key insight for efficient filtering or smoothing is to make use of
+ the chain structure of the graph, which lets us factorize the summation
+ into two terms, each of which can be computed much faster than the exponentiall
+y large summation.
+ Indeed, one can show from the structure of the clique graph that the following
+ holds for all time steps 
+\begin_inset Formula $t$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\pi\left(x^{t}|g^{1:T}\right)\propto\pi\left(x^{t}|g^{1:t}\right)\pi\left(x^{t}|g^{t+1:T}\right)\label{eq:forback-decomposition}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first term of the pair corresponds to the effect that the 
+\emph on
+past and present observations
+\emph default
+ (
+\begin_inset Formula $g^{1:t}$
+\end_inset
+
+) have on our belief of the present state 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+.
+ The second term corresponds to the effect that the 
+\emph on
+future observations 
+\emph default
+(
+\begin_inset Formula $g^{t+1:T}$
+\end_inset
+
+) have on our estimation of the present state.
+ The terms 
+\begin_inset Formula $\pi\left(x^{t}|g^{1:t}\right)$
+\end_inset
+
+ are related to each other by an equation that propagates 
+\emph on
+forward 
+\emph default
+in time, while the terms 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+
+\begin_inset Formula $\pi\left(x^{t}|g^{t+1:T}\right)$
+\end_inset
+
+ are related through an equation that goes 
+\family default
+\series default
+\shape default
+\size default
+\emph on
+\bar default
+\noun default
+\color inherit
+backward 
+\emph default
+in time.
+ This is why we call 
+\begin_inset Formula $\pi\left(x^{t}|g^{1:t}\right)$
+\end_inset
+
+ the 
+\emph on
+forward distribution
+\emph default
+ 
+\emph on
+for the states
+\emph default
+, and we denote it 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The arrow notation indicates that the computations for 
+\begin_inset Formula $\left.\overrightarrow{q}\right._{i}^{t}$
+\end_inset
+
+ will be done forward in time.
+\end_layout
+
+\end_inset
+
+ by 
+\begin_inset Formula $\left(\left.\overrightarrow{q}\right._{i}^{t}\right)_{1\leq i\leq I^{t}}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left.\overrightarrow{q}\right._{i}^{t}\propto\pi\left(x_{i}^{t}|g^{1:t}\right)
+\]
+
+\end_inset
+
+The distribution 
+\begin_inset Formula $\left.\overrightarrow{q}\right._{i}^{t}$
+\end_inset
+
+ is proportional to the posterior probability 
+\begin_inset Formula $\pi\left(x_{i}^{t}|g^{1:t}\right)$
+\end_inset
+
+ and the vector 
+\begin_inset Formula $\left.\overrightarrow{q}\right.^{t}=\left(\left.\overrightarrow{q}\right._{i}^{t}\right)_{i}$
+\end_inset
+
+ is normalized so that 
+\begin_inset Formula $\sum_{i=1}^{I^{t}}\left.\overrightarrow{q}\right._{i}^{t}=1$
+\end_inset
+
+.
+ We do this for the paths, by defining the 
+\emph on
+forward distribution for the paths
+\emph default
+: 
+\begin_inset Formula 
+\[
+\left.\overrightarrow{r}\right._{j}^{t}\propto\pi\left(p_{j}^{t}|g^{1:t}\right)
+\]
+
+\end_inset
+
+Again, the distributions are defined up to a normalization factor so that
+ each component sums to 
+\begin_inset Formula $1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In the same fashion, we introduce the 
+\emph on
+backward distributions for the states and the paths:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\left.\overleftarrow{q}\right._{i}^{t}\propto\pi\left(x_{i}^{t}|g^{t+1:T}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\left.\overleftarrow{r}\right._{j}^{t}\propto\pi\left(p_{j}^{t}|g^{t+1:T}\right)
+\]
+
+\end_inset
+
+Using this set of notations, Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:forback-decomposition"
+
+\end_inset
+
+ can be rewritten: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\overline{q}_{i}^{t} & \propto & \left.\overrightarrow{q}\right._{i}^{t}\cdot\left.\overleftarrow{q}\right._{i}^{t}\\
+\overline{r}_{j}^{t} & \propto & \left.\overrightarrow{r}\right._{j}^{t}\cdot\left.\overleftarrow{r}\right._{j}^{t}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Furthermore, 
+\begin_inset Formula $\left.\overrightarrow{r}\right.^{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left.\overrightarrow{q}\right.^{t}$
+\end_inset
+
+ are related through a pair of recursive equations: 
+\begin_inset Formula 
+\[
+\left.\overrightarrow{q}\right._{i}^{1}\propto\pi\left(x_{i}^{1}|g^{1}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left.\overrightarrow{r}\right._{j}^{t}\propto\eta\left(p_{j}^{t}\right)\left(\sum_{j:\underline{\delta}\left(x_{i}^{t},p_{j}^{t}\right)=1}\left.\overrightarrow{q}\right._{i}^{t}\right)\label{eq:r_forward}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\left.\overrightarrow{q}\right._{i}^{t}\propto\omega\left(x_{i}^{t}|g^{t}\right)\left(\sum_{j:\bar{\delta}\left(p_{j}^{t-1},x_{i}^{t}\right)=1}\left.\overrightarrow{r}\right._{j}^{t-1}\right)\label{eq:q_forward}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Similarly, the backward distributions can be defined recursively, starting
+ from 
+\begin_inset Formula $t=T$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\left.\overleftarrow{q}\right._{i}^{T}\propto1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left.\overleftarrow{r}\right._{j}^{t}\propto\eta\left(p_{j}^{t}\right)\left(\sum_{j:\bar{\delta}\left(p_{j}^{t},x_{i}^{t+1}\right)=1}\left.\overleftarrow{q}\right._{i}^{t+1}\right)\label{eq:r_backward}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\left.\overleftarrow{q}\right._{i}^{t}\propto\omega\left(x_{i}^{t}|g^{t}\right)\left(\sum_{j:\underline{\delta}\left(x_{i}^{t},p_{j}^{t}\right)=1}\left.\overleftarrow{r}\right._{j}^{t}\right)\label{eq:q_backward}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Details of the forward algorithm and backward algorithm are provided in
+ the Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:forward"
+
+\end_inset
+
+ and Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:backward"
+
+\end_inset
+
+ below.
+ The complete algorithm for smoothing is detailed in the Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:smoothing"
+
+\end_inset
+
+ below.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Given a sequence of observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+, a sequence of sets of candidate projections 
+\begin_inset Formula $\mathbf{x}^{1:T}$
+\end_inset
+
+ and a sequence of sets of candidate paths 
+\begin_inset Formula $\mathbf{p}^{1:T-1}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+Initialize the forward state distribution:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\forall i=1\cdots I^{1}$
+\end_inset
+
+: 
+\begin_inset Formula $\left.\overrightarrow{q}\right._{i}^{1}\leftarrow\omega\left(x_{i}^{1}|g^{1}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Normalize 
+\begin_inset Formula $\left.\overrightarrow{q}\right.^{1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+For every time step 
+\begin_inset Formula $t$
+\end_inset
+
+ from 1 to 
+\begin_inset Formula $T-1$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Compute the forward probability over the paths:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\begin{array}{lc}
+\forall j=1\cdots J^{t}:\\
+\,\,\,\left.\overrightarrow{r}\right._{j}^{t}\leftarrow\eta\left(p_{j}^{t}\right)\left(\sum_{j:\underline{\delta}\left(x_{i}^{t},p_{j}^{t}\right)=1}\left.\overrightarrow{q}\right._{i}^{t}\right)
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Normalize 
+\begin_inset Formula $\left.\overrightarrow{r}\right.^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Compute the forward probability over the states:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\begin{array}{lc}
+\forall i=1\cdots I^{t+1}:\\
+\,\,\,\left.\overrightarrow{q}\right._{i}^{t+1}\leftarrow\omega\left(x_{i}^{t+1}|g^{t+1}\right)\left(\sum_{j:\bar{\delta}\left(p_{j}^{t},x_{i}^{t+1}\right)=1}\left.\overrightarrow{r}\right._{j}^{t}\right)
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Normalize 
+\begin_inset Formula $\left.\overrightarrow{q}\right.^{t+1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Return the set of vectors 
+\begin_inset Formula $\left(\left.\overrightarrow{q}\right.^{t}\right)_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(\left.\overrightarrow{r}\right.^{t}\right)_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Description of forward recursion
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:forward"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Given a sequence of observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+, a sequence of sets of candidate projections 
+\begin_inset Formula $\mathbf{x}^{1:T}$
+\end_inset
+
+ and a sequence of sets of candidate paths 
+\begin_inset Formula $\mathbf{p}^{1:T-1}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+Initialize the backward state distribution
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\forall i=1\cdots I^{T}$
+\end_inset
+
+: 
+\begin_inset Formula $\left.\overleftarrow{q}\right._{i}^{T}\leftarrow1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+For every time step 
+\begin_inset Formula $t$
+\end_inset
+
+ from 
+\begin_inset Formula $T-1$
+\end_inset
+
+ to 1:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Compute the forward probability over the paths:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\forall j=1\cdots J^{t}:$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\left.\overleftarrow{r}\right._{j}^{t}\leftarrow\eta\left(p_{j}^{t}\right)\left(\sum_{j:\bar{\delta}\left(p_{j}^{t},x_{i}^{t+1}\right)=1}\left.\overleftarrow{q}\right._{i}^{t+1}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Normalize 
+\begin_inset Formula $\left.\overleftarrow{r}\right.^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Compute the forward probability over the states:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\forall i=1\cdots I^{t}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\left.\overleftarrow{q}\right._{i}^{t}\leftarrow\omega\left(x_{i}^{t+1}|g^{t+1}\right)\left(\sum_{j:\underline{\delta}\left(x_{i}^{t},p_{j}^{t}\right)=1}\left.\overleftarrow{r}\right._{j}^{t}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Normalize 
+\begin_inset Formula $\left.\overleftarrow{q}\right.^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Return the set of vectors 
+\begin_inset Formula $\left(\left.\overleftarrow{q}\right.^{t}\right)_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(\left.\overleftarrow{r}\right.^{t}\right)_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Description of backward recursion
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:backward"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:smoothing"
+
+\end_inset
+
+ (smoothing) requires all the observations of a trajectory in order to run.
+ We have presented so far an 
+\emph on
+a posteriori 
+\emph default
+algorithm that requires full knowledge of measurements 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+.
+ In this form, it is not directly suitable for real-time applications that
+ involve streaming data, for which the data is available up to 
+\begin_inset Formula $t$
+\end_inset
+
+ only.
+ However, this algorithm can be adapted for a variety of scenarios:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Smoothing
+\emph default
+, also called 
+\emph on
+offline filtering
+\emph default
+.
+ This corresponds to getting the best estimate given all observations, i.e.
+ to computing 
+\begin_inset Formula $\pi\left(x^{t}|g^{1:T}\right)$
+\end_inset
+
+.
+ The Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:smoothing"
+
+\end_inset
+
+ describes this procedure.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Tracking, filtering
+\emph default
+, or 
+\emph on
+online estimation.
+
+\emph default
+ This usage corresponds to updating the current state of the vehicle as
+ soon as a new streaming observation is available, i.e.
+ to computing 
+\begin_inset Formula $\pi\left(x^{t}|g^{1:t}\right)$
+\end_inset
+
+.
+ This is exactly the case the forward algorithm (Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:forward"
+
+\end_inset
+
+) is set to solve.
+ If one is simply interested in the most recent estimate, then only the
+ previous forward distribution 
+\begin_inset Formula $\left.\overrightarrow{q}\right.^{t}$
+\end_inset
+
+ needs to be kept, and all distributions 
+\begin_inset Formula $\left.\overrightarrow{q}\right.^{t-1}\cdots\left.\overrightarrow{q}\right.^{1}$
+\end_inset
+
+ at previous times can be discarded.
+ This application minimizes the latency and the computations at the expense
+ of the accuracy.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Lagged smoothing
+\emph default
+, or 
+\emph on
+lagged filtering
+\emph default
+.
+ A few points of data are stored and processed before returning a result.
+ Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:lagged-smoothing"
+
+\end_inset
+
+ details this procedure, which involves computing 
+\begin_inset Formula $\pi\left(x^{t}|g^{1:t+k}\right)$
+\end_inset
+
+ for some 
+\begin_inset Formula $k>0$
+\end_inset
+
+.
+ A trade-off is being made between the latency and the accuracy, as the
+ information from the points 
+\begin_inset Formula $g^{t+1:t+k}$
+\end_inset
+
+ is used to update the estimate of the state 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+.
+ As shown in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:results"
+
+\end_inset
+
+, even for small values of 
+\begin_inset Formula $k$
+\end_inset
+
+ (2 or 3), such a procedure can bring significant improvements in the accuracy
+ while keeping the latency within reasonable bounds.
+ A common ambiguity solved by lagged smoothing is presented in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:highway-exit"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Given a sequence of observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+, a sequence of sets of candidate projections 
+\begin_inset Formula $\mathbf{x}^{1:T}$
+\end_inset
+
+ and a sequence of sets of candidate paths 
+\begin_inset Formula $\mathbf{p}^{1:T-1}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+Compute 
+\begin_inset Formula $\left(\left.\overrightarrow{q}\right.^{t}\right)_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(\left.\overrightarrow{r}\right.^{t}\right)_{t}$
+\end_inset
+
+ using the forward algorithm.
+\end_layout
+
+\begin_layout Plain Layout
+Compute 
+\begin_inset Formula $\left(\left.\overleftarrow{q}\right.^{t}\right)_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(\left.\overleftarrow{r}\right.^{t}\right)_{t}$
+\end_inset
+
+ using the backward algorithm.
+\end_layout
+
+\begin_layout Plain Layout
+For every time step 
+\begin_inset Formula $t$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\forall j=1\cdots J^{t}:\overline{r}_{j}^{t}\leftarrow\left.\overrightarrow{r}\right._{j}^{t}\cdot\left.\overleftarrow{r}\right._{j}^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Normalize 
+\begin_inset Formula $\overline{r}^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\forall i=1\cdots I^{t}$
+\end_inset
+
+: 
+\begin_inset Formula $\overline{q}_{i}^{t}\leftarrow\left.\overrightarrow{q}\right._{i}^{t}\cdot\left.\overleftarrow{q}\right._{i}^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Normalize 
+\begin_inset Formula $\overline{q}^{t}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Return the set of vectors 
+\begin_inset Formula $\left(\overline{q}^{t}\right)_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(\overline{r}^{t}\right)_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Trajectory smoothing algorithm
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:smoothing"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Given an integer 
+\begin_inset Formula $k>0$
+\end_inset
+
+, and a LIFO queue of observations:
+\end_layout
+
+\begin_layout Plain Layout
+Initialize the queue to the empty queue.
+\end_layout
+
+\begin_layout Plain Layout
+When receiving a new observation 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Push the observation in the queue
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Run the forward filter on this observation
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+If 
+\begin_inset Formula $t>k$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Run the backward filter on the queue
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Compute 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+
+\begin_inset Formula $\overline{q}^{t-k}$
+\end_inset
+
+, 
+\begin_inset Formula $\overline{r}^{t-k}$
+\end_inset
+
+ on the first element of the queue
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Pop the queue and return 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\noun off
+\color none
+
+\begin_inset Formula $\overline{q}^{t-k}$
+\end_inset
+
+ and 
+\begin_inset Formula $\overline{r}^{t-k}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Lagged smoothing algorithm
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:lagged-smoothing"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Observation model
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:obs-mmodel"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now describe the observation model 
+\begin_inset Formula $\omega$
+\end_inset
+
+.
+ The observation probability is assumed only to depend on the distance between
+ the point and the GPS measurements.
+ We take an isoradial Gaussian noise model:
+\begin_inset Formula 
+\begin{eqnarray}
+\omega\left(g|x\right) & = & p\left(\text{d}\left(g,x\right)\right)\nonumber \\
+ & = & \frac{1}{\sqrt{2\pi}\sigma}\left(-\frac{1}{2\sigma^{2}}\text{d}\left(g,x\right)^{2}\right)\label{eq:obs-model}
+\end{eqnarray}
+
+\end_inset
+
+in which the function d is the distance function between geocoordinates.
+ The standard deviation 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ is assumed to be constant over all the network.
+ This is not true in practice because of well documented urban canyoning
+ effects 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cui2003autonomous,thiagarajan2010cooperative,thiagarajan2009vtrack"
+
+\end_inset
+
+ and satellite occlusions.
+ Updating the model accordingly presents no fundamental difficulty, and
+ can be done by geographical clustering of the regions of interest.
+ Using the estimation techniques described later in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:mle"
+
+\end_inset
+
+ and Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:em"
+
+\end_inset
+
+, an value of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ between 10 and 15 meters could be estimated for data of interest in this
+ article.
+\end_layout
+
+\begin_layout Subsection
+Driver model
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:transition"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The second model to consider is the driver behavior model.
+ This model assigns a weight to any acceptable path on the road network.
+ We consider a model in the 
+\emph on
+exponential family
+\emph default
+, in which the weight distribution over any path 
+\begin_inset Formula $p$
+\end_inset
+
+ only depends on a selected number of features 
+\begin_inset Formula $\varphi\left(p\right)\in\mathbb{R}^{K}$
+\end_inset
+
+ of the path.
+ Possible features include the length of the path, the number of stop signs,
+ and the speed limits on the road.
+ If the distribution is parametrized by a vector 
+\begin_inset Formula $\mu\in\mathbb{R}^{K}$
+\end_inset
+
+ so that the logarithm of the distribution of paths is a linear combination
+ of the features of the path:
+\begin_inset Formula 
+\begin{equation}
+\eta\left(p\right)\propto\exp\left(\mu^{T}\varphi\left(p\right)\right)\label{eq:trans-model}
+\end{equation}
+
+\end_inset
+
+The function 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ is called the 
+\emph on
+feature function, 
+\emph default
+and the vector 
+\begin_inset Formula $\mu$
+\end_inset
+
+ is called the behavioral 
+\emph on
+parameter vector
+\emph default
+, and simply encodes a weighted combination of the features.
+\end_layout
+
+\begin_layout Standard
+In a simple model the vector 
+\begin_inset Formula $\varphi\left(p\right)$
+\end_inset
+
+ may be reduced to a single scalar, such as the length of the path.
+ Then the inverse of 
+\begin_inset Formula $\mu$
+\end_inset
+
+, a length, can be interpreted as a characteristic length.
+ This model simply states that the driver has a preference for shorter paths,
+ and 
+\begin_inset Formula $\mu^{-1}$
+\end_inset
+
+ indicates how aggressively this driver wants to follow the shortest path.
+ Such a model is explored in Section 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "sec:results"
+
+\end_inset
+
+.
+ Other models considered include the mean speed and travel times, the stop
+ signs and signals, and the turns to the right or to the left.
+\end_layout
+
+\begin_layout Standard
+In the 
+\emph on
+Mobile Millennium
+\emph default
+ system, the path inference filter is the input to a model designed to learn
+ travel times, so the feature function does not include dynamic features
+ such as the current travel time.
+ Assuming this information is available, it would be easy to add as a feature.
+\end_layout
+
+\end_body
+\end_document

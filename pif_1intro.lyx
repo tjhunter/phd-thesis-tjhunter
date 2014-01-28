@@ -1,0 +1,991 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass IEEEtran
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+Amongst the modern man-made plagues, traffic congestion is a universally
+ recognized challenge 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "downs2004still"
+
+\end_inset
+
+.
+ Building reliable and cost-effective traffic monitoring systems is a prerequisi
+te to addressing this phenomenon.
+ Historically, the estimation of traffic congestion has been limited to
+ highways, and has relied mostly on a static, dedicated sensing infrastructure
+ such as loop detectors or cameras 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Work08"
+
+\end_inset
+
+.
+ The estimation problem is more challenging in the case of the secondary
+ road network, also called the 
+\emph on
+arterial network
+\emph default
+, due to the cost of deploying a wide network of sensors in large metropolitan
+ areas.
+ The most promising source of data is the GPS receiver in personal smartphones
+ and commercial fleet vehicles 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "6214607"
+
+\end_inset
+
+.
+ According to some studies 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schrank2009"
+
+\end_inset
+
+, devices with a data connection and a GPS will represent 80% of the cellphone
+ market by 2015.
+ GPS observations in cities are noisy 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cui2003autonomous"
+
+\end_inset
+
+, and are usually provided at low sampling rates (on the order of one minute)
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cabspotting"
+
+\end_inset
+
+.
+ One of the common problems which occurs when dealing with GPS traces is
+ the correct mapping of these observations to the road network, and the
+ reconstruction of the trajectory of the vehicle.
+ We present a new class of algorithms, called the 
+\emph on
+path inference filter, 
+\emph default
+that solves this problem in a principled and efficient way.
+ Specific instantiations of this algorithm have been deployed as part of
+ the 
+\emph on
+Mobile Millennium
+\emph default
+ system, which is a traffic estimation and prediction system developed at
+ the University of California 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mmfinalreport"
+
+\end_inset
+
+.
+ 
+\emph on
+Mobile Millennium
+\emph default
+ infers real-time traffic conditions using GPS measurements from drivers
+ running cell phone applications, taxicabs, and other mobile and static
+ data sources.
+ This system was initially deployed in the San Francisco Bay area and later
+ expanded to other locations such as Sacramento, Stockholm, and Porto.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/example_cloud_point_sf.png
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+An example of dataset available to 
+\emph on
+Mobile Millennium
+\emph default
+ and processed by the path inference filter: taxicabs in San Francisco from
+ the Cabspotting program 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cabspotting"
+
+\end_inset
+
+.
+ Large circles in red show the position of the taxis at a given time and
+ small dots (in black) show past positions (during the last five hours)
+ of the fleet.
+ The position of each vehicle is observed every minute.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:mm_cloud_point"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+GPS receivers have enjoyed a widespread use in transportation and they are
+ rapidly becoming a commodity.
+ They offer unique capabilities for tracking fleets of vehicles (for companies),
+ and routing and navigation (for individuals).
+ These receivers are usually attached to a car or a truck, also called a
+ 
+\emph on
+probe vehicle
+\emph default
+, and they relay information to a base station using the data channels of
+ cellphone networks (3G, 4G).
+ A typical datum provided by a probe vehicle includes an identifier of the
+ vehicle, a (noisy) position and a timestamp
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The experiments in this article use GPS observations only.
+ However, nothing prevents the application of the algorithms presented in
+ this article to other types of localized data.
+\end_layout
+
+\end_inset
+
+.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:mm_cloud_point"
+
+\end_inset
+
+ graphically presents a subset of probe data collected by 
+\emph on
+Mobile Millennium
+\emph default
+.
+ In addition to these geolocalization attributes, data points contain other
+ attributes such as heading, spot speed, etc.
+ We will show how this additional information can be integrated in the rest
+ of the framework presented in this article.
+\end_layout
+
+\begin_layout Standard
+The two most important characteristics of GPS data for traffic estimation
+ purposes are the GPS localization accuracy and the sampling strategy followed
+ by the probe vehicle.
+ In order to reduce power consumption or transmission costs, probe vehicles
+ do not continuously report their location to the base station.
+ The probe data currently available are generated using a combination of
+ the two following strategies:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Geographical sampling
+\emph default
+: GPS probes are programmed to send information in the vicinity of 
+\emph on
+virtual landmarks
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "liu2008study"
+
+\end_inset
+
+.
+ This concept was popularized by Nokia under the term 
+\emph on
+Virtual Trip Line
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hoh_2008"
+
+\end_inset
+
+.
+ These landmarks are usually laid over some predetermined route followed
+ by drivers.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Temporal sampling
+\emph default
+: GPS probes send their position at fixed rate.
+ The critical factor is then the 
+\emph on
+temporal resolution 
+\emph default
+of the probe data.
+ A low temporal resolution carries some uncertainty as to which trajectory
+ was followed.
+ A high temporal resolution gives access to the complete and precise trajectory
+ of the vehicle.
+ However, the device usually consumes more power and communication bandwidth.
+\end_layout
+
+\begin_layout Standard
+In the case of a high temporal resolution (typically, a frequency greater
+ than an observation per second), some highly successful methods have been
+ developed for continuous estimation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "thrun2002probabilistic,miwa2004route,du2004lane"
+
+\end_inset
+
+.
+ However, most data collected at large scale today is generated by commercial
+ fleet vehicles.
+ It is primarily used for tracking the vehicles and usually has a low temporal
+ resolution (1 to 2 minutes) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "navteq,inrix,telenav,cabspotting"
+
+\end_inset
+
+.
+ In the span of a minute, a vehicle in a city can cover several blocks.
+ Therefore, information on the precise path followed by the vehicle is lost.
+ Furthermore, due to GPS localization errors, recovering the location of
+ a vehicle that just sent an observation is a non trivial task: there are
+ usually several roads that could be compatible with any given GPS observation.
+ Simple deterministic algorithms to reconstruct trajectories fail due to
+ misprojection (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:failure_shortest_path"
+
+\end_inset
+
+) or shortcuts (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:failure_shortest_proj"
+
+\end_inset
+
+).
+ Such shortcomings have motivated our search for a principled approach that
+ jointly considers the mapping of observations to the network and the reconstruc
+tion of the trajectory.
+\end_layout
+
+\begin_layout Standard
+The problem of mapping data points onto a map can be traced back to 1980
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bentley1980efficient"
+
+\end_inset
+
+.
+ Researchers started systematic studies after the introduction of the GPS
+ system to civilian applications in the 1990s 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "quddus2003general,6162985"
+
+\end_inset
+
+.
+ These early approaches followed a 
+\emph on
+geometric
+\emph default
+ perspective, associating each observation datum to some point in the network
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "white2000some"
+
+\end_inset
+
+.
+ Later, this projection technique was refined to use more information such
+ as heading and road curvature.
+ This greedy matching, however, leads to poor trajectory reconstruction
+ since it does not consider the path leading up to a point 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yuan2010interactive,6338641,rogers2000creating"
+
+\end_inset
+
+.
+ New deterministic algorithms emerged to directly match partial trajectories
+ to the road by using the topology of the network 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "greenfeld2002matching"
+
+\end_inset
+
+ and topological metrics based on the Fréchet distance 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "brakatsoulas2005map,wenk2006addressing"
+
+\end_inset
+
+.
+ These deterministic algorithms cannot readily cope with ambiguous observations
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "miwa2004route"
+
+\end_inset
+
+, and were soon expanded into probabilistic frameworks.
+ A number of implementations were explored: particle filters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pyo2001development,gustafsson2002particle"
+
+\end_inset
+
+, Kalman filters 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ochieng2009map"
+
+\end_inset
+
+, Hidden Markov Models 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bierlaire2011probabilistic"
+
+\end_inset
+
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Note that 
+\begin_inset Quotes eld
+\end_inset
+
+probabilistic
+\begin_inset Quotes erd
+\end_inset
+
+ models, as well as most of the 
+\begin_inset Quotes eld
+\end_inset
+
+advanced
+\begin_inset Quotes erd
+\end_inset
+
+ models (Kalman Filtering, Particle Filtering, Hidden Markov Models) fall
+ under the general umbrella of 
+\emph on
+Dynamic Bayesian Filters
+\emph default
+, presented in great detail in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "thrun2002probabilistic"
+
+\end_inset
+
+.
+ As such, they deserve a common theoretical treatment, and in particular
+ all suffer from the same pitfalls detailed in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:hmm"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+, and less mainstream approaches based on Belief Theory 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "el2005road"
+
+\end_inset
+
+ and Fuzzy Logic 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "syed2004fuzzy"
+
+\end_inset
+
+.
+ We refer the reader to the very exhaustive review by Quddus et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "quddus2007current"
+
+\end_inset
+
+ for a more comprehensive history of map-matching.
+\end_layout
+
+\begin_layout Standard
+Two types of information are missing in a sequence of GPS readings: the
+ exact location of the vehicle on the road network when the observation
+ was emitted, and the path followed from the previous location to the new
+ location.
+ These problems are correlated.
+ The aforementioned approaches focus on high-frequency sampling observations,
+ for which the path followed is extremely short (less than a few hundred
+ meters, with very few intersections).
+ In this context, there is usually a dominant path that starts from a well-defin
+ed point, and Bayesian filters accurately reconstruct paths from observations
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ochieng2009map,thrun2002probabilistic,gustafsson2002particle"
+
+\end_inset
+
+.
+ When sampling rates are lower and observed points are further apart, however,
+ a large number of paths are possible between two points.
+ Researchers have recently focused on efficiently identifying these correct
+ paths and have separated the joint problem of finding the paths and finding
+ the projections into two distinct problems.
+ The first problem is path identification and the second step is projection
+ matching 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zheng2011weight,bierlaire2011probabilistic,yuan2010interactive,giovannininovel,thiagarajan2009vtrack"
+
+\end_inset
+
+.
+ Some interesting trajectories mixing points and paths that use a voting
+ scheme have also recently been proposed 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yuan2010interactive"
+
+\end_inset
+
+.
+ Our filter aims at solving the two problems at the same time, by considering
+ a single unified notion of 
+\emph on
+trajectory
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+path inference filter
+\emph default
+ is a probabilistic framework that aims at recovering trajectories and road
+ positions from low-frequency probe data in real time, and in a computationally
+ efficient manner.
+ As will be shown, the performance of the filter degrades gracefully
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+gracefully not good?
+\end_layout
+
+\end_inset
+
+ as the sampling frequency decreases, and it can be tuned to different scenarios
+ (such as real time estimation with limited computing power or offline,
+ high accuracy estimation).
+\end_layout
+
+\begin_layout Standard
+The filter is justified from the Bayesian perspective of the noisy channel
+ and falls into the general class of 
+\emph on
+Conditional Random Fields 
+\emph default
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lafferty2001conditional"
+
+\end_inset
+
+.
+ Our framework can be decomposed into the following steps:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Map matching
+\emph default
+: each GPS measurement from the input is projected onto a set of possible
+ candidate states on the road network.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Path discovery:
+\emph default
+ admissible paths are computed between pairs of candidate points on the
+ road network.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+Filtering
+\emph default
+: probabilities are assigned to the paths and the points using both a stochastic
+ model for the vehicle dynamics and probabilistic driver preferences learned
+ from data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/pif_diagram.pdf
+	width 80col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pif_diagram"
+
+\end_inset
+
+Dataflow of the Path Inference Filter.
+ The filter takes GPS measurements as inputs, and returns probability distributi
+ons over paths and points.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The path inference filter presents a number of compelling advantages over
+ the work found in the current literature:
+\end_layout
+
+\begin_layout Enumerate
+The approach presents a general framework grounded in established statistical
+ theory that encompasses, as special cases, most techniques presented as
+ 
+\begin_inset Quotes eld
+\end_inset
+
+geometric
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+topological
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+probabilistic
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In particular, it combines information about paths, points and network
+ topology in a single unified notion of 
+\emph on
+trajectory.
+\end_layout
+
+\begin_layout Enumerate
+Nearly all work on Map Matching is segmented into (and presents results
+ for) either high-frequency or low-frequency sampling.
+ The path inference filter performs as well as the current state-of-the-art
+ approaches for sampling rates less than 30 seconds, and improves upon the
+ state of the art 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zheng2011weight,yuan2010interactive"
+
+\end_inset
+
+ by a factor of more than 10% for sampling intervals greater than 60 seconds
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Performance comparisons are complicated by the lack of a single agreed-upon
+ benchmark dataset.
+ Nevertheless, the city we study is complex enough to compare favorably
+ with cities studied with other works.
+\end_layout
+
+\end_inset
+
+.
+ We also analyze failure cases and we show that the output provided by the
+ path inference filter is always 
+\begin_inset Quotes eld
+\end_inset
+
+close
+\begin_inset Quotes erd
+\end_inset
+
+ to the true output for some metric.
+\end_layout
+
+\begin_layout Enumerate
+As will be seen in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:hmm"
+
+\end_inset
+
+, most existing approaches (which are based on Dynamic Bayesian Networks)
+ do not work well at lower frequencies due to the 
+\emph on
+selection bias problem
+\emph default
+.
+ Our work directly addresses this problem by performing inference on a Random
+ Field.
+\end_layout
+
+\begin_layout Enumerate
+The path inference filter can be used with complex path models such as those
+ used in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bierlaire2011probabilistic"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "giovannininovel"
+
+\end_inset
+
+.
+ In the present article, we restrict ourselves to a class of models (the
+ exponential family distributions) that is rich enough to provide insight
+ on the driving patterns of the vehicles.
+ Furthermore, when using this class of models, the learning of new parameters
+ leads to a convex problem formulation that is fast to solve.
+ These parameters can be learned using standard Machine Learning algorithms,
+ even when no ground truth is available.
+\end_layout
+
+\begin_layout Enumerate
+With careful engineering, it is possible to achieve high throughput on large-sca
+le networks.
+ Our reference implementation achieves an average throughput of hundreds
+ of GPS observations per second on a single core in real time.
+ Furthermore, the algorithm scales well on multiple cores and has achieved
+ average throughput of several thousands of points per second on a multicore
+ architecture.
+\end_layout
+
+\begin_layout Standard
+Algorithms often need to trade off accuracy for timeliness, and are considered
+ either 
+\begin_inset Quotes eld
+\end_inset
+
+local
+\begin_inset Quotes erd
+\end_inset
+
+ (greedy) or 
+\begin_inset Quotes eld
+\end_inset
+
+global
+\begin_inset Quotes erd
+\end_inset
+
+ (accumulating some number of points before returning an answer) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "yuan2010interactive"
+
+\end_inset
+
+.
+ The path inference filter is designed to work across the full spectrum
+ of accuracy versus latency.
+ As we will show, we can still achieve good accuracy by delaying computations
+ by only one or two time steps.
+ We will also present an offline variation of the algorithm that performs
+ full trajectory reconstruction with high throughput (at the expense of
+ latency).
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/failure_closest_point.pdf
+	width 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of failure in which an intuitive algorithm projects each GPS measurement
+ to the closest link.
+ The raw GPS measurements are the triangles, the actual true trajectory
+ is the dashed line, and the reconstructed trajectory is the continuous
+ line.
+ Due to noise in the observation, the point at 
+\begin_inset Formula $t=2$
+\end_inset
+
+ is closer to the orthogonal road and forces the algorithm to add a left
+ turn, while the vehicle is actually going straight.
+ This problem is frequently observed for GPS data in cities.
+ The 
+\emph on
+path inference filter 
+\emph default
+provides one solution to this problem.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:failure_shortest_proj"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/failure_shortest_path.pdf
+	width 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of failure when trying to minimize the path length between a sequence
+ of points.
+ The raw observations are the triangles, the actual true trajectory is the
+ dashed line, and the reconstructed trajectory is the continuous line.
+ The circles are possible locations of the vehicle corresponding to the
+ observations.
+ The hashed circles are the states chosen by this reconstruction algorithm.
+ Due to GPS errors that induce problems explained in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:failure_shortest_proj"
+
+\end_inset
+
+, we must consider point projections on all links within a certain distance
+ from the observed GPS points.
+ However, the path computed by a shortest path algorithm may not correspond
+ to the true trajectory.
+ Note how, for 
+\begin_inset Formula $t=2$
+\end_inset
+
+ and 
+\begin_inset Formula $t=3$
+\end_inset
+
+, the wrong link and the wrong states are elected to reconstruct the trajectory.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:failure_shortest_path"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

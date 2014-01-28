@@ -1,0 +1,1515 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass IEEEtran
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Training procedure
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:training"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The procedure detailed so far requires the calibration of the observation
+ model and the driver behavior model by setting some values for the weight
+ vector 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and the standard deviation 
+\begin_inset Formula $\sigma$
+\end_inset
+
+.
+ Using standard machine learning techniques, we maximize the likelihood
+ of the observations with respect to the parameters, and we evaluate the
+ result against held-out trajectories using several metrics detailed in
+ Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:results"
+
+\end_inset
+
+.
+ Computing likelihood will require the computation of the partition function
+ (which depends on 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+).
+ We first present a procedure that is valid for any path or point distributions
+ that belong to the 
+\emph on
+exponential family
+\emph default
+, and then show how the models we presented in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:hmm"
+
+\end_inset
+
+ fit into this framework.
+\end_layout
+
+\begin_layout Subsection
+Learning within the exponential family and sparse trajectories
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:learning-exp-family"
+
+\end_inset
+
+There is a striking similarity between the state variables 
+\begin_inset Formula $x^{1:T}$
+\end_inset
+
+ and the path variables 
+\begin_inset Formula $p^{1:T}$
+\end_inset
+
+ - especially between the forward and backward distributions introduced
+ in Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:r_forward"
+
+\end_inset
+
+.
+ This suggests to generalize our procedure to a context larger than states
+ interleaved with paths.
+ Indeed, each step of choosing a path or a variable corresponds to making
+ a 
+\emph on
+choice 
+\emph default
+between a finite number of possibilities, and there is a limited number
+ of pairwise compatible choices (as encoded by the functions 
+\begin_inset Formula $\underline{\delta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{\delta}$
+\end_inset
+
+).
+ Following a trajectory corresponds to choosing a new state (subject to
+ the compatibility constraints of the previous state).
+ In this section, we introduce the proper notation to generalize our learning
+ problem, and then show how this learning problem can be efficiently solved.
+ In the next section, we will describe the relation between the new variables
+ we are going to introduce and the parameters of our model.
+\end_layout
+
+\begin_layout Standard
+Consider a joint sequence of multinomial random variables 
+\begin_inset Formula $\mathbf{z}^{1:L}=\mathbf{z}^{1}\cdots\mathbf{z}^{L}$
+\end_inset
+
+ drawn from some space 
+\begin_inset Formula $\prod_{l=1}^{L}\left\{ 1\cdots K^{l}\right\} $
+\end_inset
+
+ where 
+\begin_inset Formula $K^{l}$
+\end_inset
+
+ is the dimensionality of the multinomial variable 
+\begin_inset Formula $\mathbf{z}^{l}$
+\end_inset
+
+.
+ Given a realization 
+\begin_inset Formula $z^{1:L}$
+\end_inset
+
+ from 
+\begin_inset Formula $\mathbf{z}^{1:L}$
+\end_inset
+
+, we define a non-negative potential function 
+\begin_inset Formula $\psi\left(z^{1:L}\right)$
+\end_inset
+
+ over the sequence of variables.
+ This potential function is controlled by a parameter vector 
+\begin_inset Formula $\theta\in\mathbb{R}^{M}$
+\end_inset
+
+: 
+\begin_inset Formula $\psi\left(z^{1:L}\right)=\psi\left(z^{1:L};\theta\right)$
+\end_inset
+
+ 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The semicolon notation indicates that this function is parametrized by 
+\begin_inset Formula $\theta$
+\end_inset
+
+, but that 
+\begin_inset Formula $\theta$
+\end_inset
+
+ is not a random variable.
+\end_layout
+
+\end_inset
+
+.
+ Furthermore, we assume that this potential function is also defined and
+ non-negative over any subsequence 
+\begin_inset Formula $\psi\left(z^{1:l}\right)$
+\end_inset
+
+.
+ Lastly, we assume that there exists at least one sequence 
+\begin_inset Formula $z^{1:L}$
+\end_inset
+
+ that has a positive potential.
+ As in the previous section, the potential function 
+\begin_inset Formula $\psi$
+\end_inset
+
+, when properly normalized, defines a probability distribution of density
+ 
+\begin_inset Formula $\pi$
+\end_inset
+
+ over the variables 
+\begin_inset Formula $\mathbf{z}$
+\end_inset
+
+, and this distribution is parametrized by the vector 
+\begin_inset Formula $\theta$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\pi\left(z;\theta\right)=\frac{\psi\left(z;\theta\right)}{Z\left(\theta\right)}\label{eq:distribution-generic}
+\end{equation}
+
+\end_inset
+
+with 
+\begin_inset Formula $Z=\sum_{z}\psi\left(z;\theta\right)$
+\end_inset
+
+ called the 
+\emph on
+partition function
+\emph default
+.
+ We will show the partition function defined here is the partition function
+ introduced in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:filtering"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We assume that 
+\begin_inset Formula $\psi$
+\end_inset
+
+ is an unscaled member of the 
+\emph on
+exponential family
+\emph default
+: it is of the form:
+\begin_inset Formula 
+\begin{equation}
+\psi\left(z;\theta\right)=h\left(z\right)\prod_{l=1}^{L}e^{\theta\cdot T^{l}\left(z^{l}\right)}\label{eq:expo-family}
+\end{equation}
+
+\end_inset
+
+In this representation, 
+\begin_inset Formula $h$
+\end_inset
+
+ is a non-negative function of 
+\begin_inset Formula $z$
+\end_inset
+
+ which does not depend on the parameters, the operator 
+\begin_inset Formula $\cdot$
+\end_inset
+
+ is the vector dot product, and the vectors 
+\begin_inset Formula $T^{l}\left(z^{l}\right)$
+\end_inset
+
+ are vector mappings from the realization 
+\begin_inset Formula $z^{l}$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathbb{R}^{M}$
+\end_inset
+
+ for some 
+\begin_inset Formula $M\in\mathbb{N}$
+\end_inset
+
+, called 
+\emph on
+feature vectors
+\emph default
+.
+ Since the variable 
+\begin_inset Formula $z^{l}$
+\end_inset
+
+ is discrete and takes on values in 
+\begin_inset Formula $\left\{ 1\cdots K^{l}\right\} $
+\end_inset
+
+, it is convenient to have a specific notation for the feature vector associated
+ with each value of this variable:
+\begin_inset Formula 
+\[
+\forall i\in\left\{ 1\cdots K^{l}\right\} ,T_{i}^{l}=T^{l}\left(z^{l}=i\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The sequence of variables 
+\series bold
+
+\begin_inset Formula $\mathbf{z}$
+\end_inset
+
+ 
+\series default
+represents the choices associated with a single trajectory, i.e.
+ the concatenation of the 
+\begin_inset Formula $x$
+\end_inset
+
+s and 
+\begin_inset Formula $p$
+\end_inset
+
+s.
+ In general, we will observe and would like to learn from multiple trajectories
+ at the same time.
+ This is why we need to consider a collection of variables 
+\begin_inset Formula $\left(\mathbf{z}^{\left(u\right)}\right)_{u}$
+\end_inset
+
+, each of which follows the form above and each of which we can define a
+ potential 
+\begin_inset Formula $\psi\left(z^{\left(u\right)};\theta\right)$
+\end_inset
+
+ and a partition function 
+\begin_inset Formula $Z^{\left(u\right)}\left(\theta\right)$
+\end_inset
+
+ for.
+ There the variable 
+\begin_inset Formula $u$
+\end_inset
+
+ indexes the set of sequences of observations, i.e.
+ the set of consecutive GPS measurements of a vehicle.
+ Since each of these trajectories will take place on a different portion
+ of the road network, each of the sequences 
+\begin_inset Formula $\mathbf{z}^{\left(u\right)}$
+\end_inset
+
+ will have a different state space.
+ For each of these sequences of variables 
+\begin_inset Formula $\mathbf{z}^{\left(u\right)}$
+\end_inset
+
+, we observe the respective realizations 
+\begin_inset Formula $z^{\left(u\right)}$
+\end_inset
+
+ (which correspond to the observation of a trajectory), and we wish to infer
+ the parameter vector 
+\begin_inset Formula $\theta^{*}$
+\end_inset
+
+ that maximizes the likelihood of all the realizations of the trajectories:
+\begin_inset Formula 
+\begin{equation}
+\begin{aligned}\theta^{*} & =\underset{\theta}{\arg\max}\sum_{u}\log\pi^{\left(u\right)}\left(z^{\left(u\right)};\theta\right)\\
+ & =\underset{\theta}{\arg\max}\sum_{u}\log\psi\left(z^{\left(u\right)};\theta\right)-\log Z^{\left(u\right)}\left(\theta\right)\\
+ & =\underset{\theta}{\arg\max}\sum_{u}\sum_{l=1}^{L^{\left(u\right)}}\theta\cdot T^{l^{\left(u\right)}}\left(z^{l^{\left(u\right)}}\right)-\log Z^{\left(u\right)}\left(\theta\right)
+\end{aligned}
+\label{eq:MaxLL-problem}
+\end{equation}
+
+\end_inset
+
+where again the indexing 
+\begin_inset Formula $u$
+\end_inset
+
+ is for sets of measurements of a given trajectory.
+ Similarly, the length of a trajectory is indexed by 
+\begin_inset Formula $u$
+\end_inset
+
+: 
+\begin_inset Formula $L^{\left(u\right)}$
+\end_inset
+
+.
+ From Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:MaxLL-problem"
+
+\end_inset
+
+, it is clear that the log-likelihood function simply sums together the
+ respective likelihood functions of each trajectory.
+ For clarity, we consider a single sequence 
+\begin_inset Formula $z^{\left(u\right)}$
+\end_inset
+
+ only and we remove the indexing with respect to 
+\begin_inset Formula $u$
+\end_inset
+
+.
+ With this simplification, we have for a single trajectory: 
+\begin_inset Formula 
+\begin{equation}
+\begin{aligned}\log\psi\left(z;\theta\right)-\log Z\left(\theta\right) & =\sum_{l=1}^{L}\theta\cdot T^{l}\left(z^{l}\right)-\log Z\left(\theta\right)\end{aligned}
+\label{eq:z-exp}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The first part of Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:z-exp"
+
+\end_inset
+
+ is linear with respect to 
+\begin_inset Formula $\theta$
+\end_inset
+
+ and 
+\begin_inset Formula $\log Z\left(\theta\right)$
+\end_inset
+
+ is concave in 
+\begin_inset Formula $\theta$
+\end_inset
+
+ (it is the logarithm of a sum of exponentiated linear combinations of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boyd2004convex"
+
+\end_inset
+
+) .
+ As such, maximizing Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:z-exp"
+
+\end_inset
+
+ yields a unique solution (assuming no singular parametrization), and some
+ superlinear algorithms exist to solve this equation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "boyd2004convex"
+
+\end_inset
+
+.
+ These algorithms rely on the computation of the gradient and the Hessian
+ matrix of 
+\begin_inset Formula $\log Z\left(\theta\right)$
+\end_inset
+
+.
+ We now detail some closed-form recursive formulas to compute these elements.
+\end_layout
+
+\begin_layout Subsubsection
+Efficient estimation of the partition function
+\end_layout
+
+\begin_layout Standard
+A naive approach to the computation of the partition function 
+\begin_inset Formula $Z\left(\theta\right)$
+\end_inset
+
+ leads to consider 
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
+???
+\end_layout
+
+\end_inset
+
+exponentially many paths.
+ Most of these computations can be factored using dynamic programming 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This is - again - a specific application of the junction tree algorithm.
+ See 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "murphy2002dynamic"
+
+\end_inset
+
+ for an explanation of the general framework.
+\end_layout
+
+\end_inset
+
+.
+ Recall the definition of the partition function:
+\begin_inset Formula 
+\[
+Z\left(\theta\right)=\sum_{z}h\left(z\right)\prod_{l=1}^{L}e^{\theta\cdot T^{l}\left(z^{l}\right)}
+\]
+
+\end_inset
+
+So far, the function 
+\begin_inset Formula $h$
+\end_inset
+
+ was defined in in a generic way (it is non-negative and does not depend
+ on 
+\begin_inset Formula $\theta$
+\end_inset
+
+).
+ We consider a particular shape that generalizes the functions 
+\begin_inset Formula $\underline{\delta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{\delta}$
+\end_inset
+
+ introduced in the previous section.
+ In particular, the function 
+\begin_inset Formula $h$
+\end_inset
+
+ is assumed to be a binary function, from the Cartesian space 
+\begin_inset Formula $\prod_{l=1}^{L}\left\{ 1\cdots K^{l}\right\} $
+\end_inset
+
+ to 
+\begin_inset Formula $\left\{ 0,1\right\} $
+\end_inset
+
+, that decomposes to the product of binary functions over consecutive pairs
+ of variables:
+\begin_inset Formula 
+\[
+h\left(z\right)=\prod_{l=1}^{L-1}h^{l}\left(z^{l},z^{l-1}\right)
+\]
+
+\end_inset
+
+in which every function 
+\begin_inset Formula $h^{l}$
+\end_inset
+
+ is a binary indicator 
+\begin_inset Formula $h^{l}:\left\{ 1\cdots K^{l}\right\} \times\left\{ 1\cdots K^{l-1}\right\} \rightarrow\left\{ 0,1\right\} $
+\end_inset
+
+.
+ These functions 
+\begin_inset Formula $h^{l}$
+\end_inset
+
+ generalize the functions 
+\begin_inset Formula $\underline{\delta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\overline{\delta}$
+\end_inset
+
+ for arguments 
+\begin_inset Formula $z$
+\end_inset
+
+ equal to either the 
+\begin_inset Formula $x$
+\end_inset
+
+s or the 
+\begin_inset Formula $p$
+\end_inset
+
+s.
+ It indicates the compatibility of the values of the instantiations 
+\begin_inset Formula $z^{l}$
+\end_inset
+
+ and 
+\begin_inset Formula $z^{l-1}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Finally, we introduce the following notation.
+ For each index 
+\begin_inset Formula $l\in\left[1\cdots L\right]$
+\end_inset
+
+ and subindex 
+\begin_inset Formula $i\in[1\cdots K^{l}]$
+\end_inset
+
+, we call 
+\begin_inset Formula $Z_{i}^{l}$
+\end_inset
+
+ the partial summation of all partial paths 
+\begin_inset Formula $\mathbf{z}{}^{1:l}$
+\end_inset
+
+ that terminate at the value 
+\begin_inset Formula $z^{l}=i$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{eqnarray*}
+Z_{i}^{l}\left(\theta\right) & = & \sum_{z^{1:l}:z^{l}=i}h\left(z^{1:l}\right)\prod_{m=1}^{l}e^{\theta\cdot T^{m}\left(z^{m}\right)}\\
+ & = & \sum_{z^{1:l}:z^{l}=i}e^{\theta\cdot T^{1}\left(z^{1}\right)}\prod_{m=2}^{l}h^{m}\left(z^{m},z^{m-1}\right)e^{\theta\cdot T^{m}\left(z^{m}\right)}
+\end{eqnarray*}
+
+\end_inset
+
+This partial summation can also be defined recursively:
+\begin_inset Formula 
+\begin{equation}
+\begin{aligned}Z_{i}^{l}\left(\theta\right) & =e^{\theta\cdot T_{i}^{l}}\sum_{j\in\left[1...K^{l-1}\right]:h^{l}\left(z^{i},z^{j}\right)=1}Z_{j}^{l-1}\left(\theta\right)\end{aligned}
+\label{eq:Z-recursive-definition}
+\end{equation}
+
+\end_inset
+
+The start of the recursion is for all 
+\begin_inset Formula $i\in\left\{ 1\cdots K^{1}\right\} $
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+Z_{i}^{1}\left(\theta\right)=e^{\theta\cdot T_{i}^{1}}
+\]
+
+\end_inset
+
+ and the complete partition function is the summation of the auxiliary values:
+\begin_inset Formula 
+\[
+Z\left(\theta\right)=\sum_{i=1}^{K^{L}}Z_{i}^{L}\left(\theta\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Computing the partition function can be done in polynomial time complexity
+ by a simple application of dynamic programming.
+ By using sparse data structures to implement 
+\begin_inset Formula $h$
+\end_inset
+
+, some additional savings in computations can be made
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+In particular, care should be taken to implement all the relevant computations
+ in log-domain due to the limited precision of floating point arithmetic
+ on computers.
+ The reference implementation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pythonimpl"
+
+\end_inset
+
+ shows one way to do it.
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Estimation of the gradient
+\end_layout
+
+\begin_layout Standard
+The estimation of the gradient for the first part of the log likelihood
+ function is straightforward.
+ The gradient of the partition function can also be computed using Equation
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Z-recursive-definition"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{aligned}\nabla_{\theta}Z_{i}^{l}\left(\theta\right) & =Z_{i}^{l}\left(\theta\right)T_{i}^{l}+e^{\theta\cdot T_{i}^{l}}\sum_{j:h^{l}\left(z^{i},z^{j}\right)=1}\nabla_{\theta}Z_{j}^{l-1}\left(\theta\right)\end{aligned}
+\]
+
+\end_inset
+
+The Hessian matrix can be evaluated in similar fashion:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{aligned}\triangle_{\theta\theta}Z_{i}^{l}\left(\theta\right)= & Z_{i}^{l}\left(\theta\right)\left(T_{i}^{l}\right)\left(T_{i}^{l}\right)^{'}\\
+ & +e^{\theta\cdot T_{i}^{l}}\left(\sum_{j:h^{l}\left(z^{i},z^{j}\right)=1}\nabla_{\theta}Z_{j}^{l-1}\left(\theta\right)\right)\left(T_{i}^{l}\right)^{'}\\
+ & +e^{\theta\cdot T_{i}^{l}}\left(T_{i}^{l}\right)\left(\sum_{j:h^{l}\left(z^{i},z^{j}\right)=1}\nabla_{\theta}Z_{j}^{l-1}\left(\theta\right)\right)^{'}\\
+ & +e^{\theta\cdot T_{i}^{l}}\sum_{j:h^{l}\left(z^{i},z^{j}\right)=1}\triangle_{\theta\theta}Z_{j}^{l-1}\left(\theta\right)
+\end{aligned}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Exponential family models
+\end_layout
+
+\begin_layout Standard
+We now express our formulation of Conditional Random Fields to a form compatible
+ with Equation
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:expo-family"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Consider 
+\begin_inset Formula $\epsilon=\sigma^{-2}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta$
+\end_inset
+
+ the stacked vector of the desired parameters: 
+\begin_inset Formula 
+\[
+\theta=\left(\begin{array}{c}
+\epsilon\\
+\mu
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is a direct correspondence between the path and state variables with
+ the 
+\begin_inset Formula $\mathbf{z}$
+\end_inset
+
+ variables introduced above.
+ Let us pose 
+\begin_inset Formula $L=2T-1$
+\end_inset
+
+, then for all 
+\begin_inset Formula $l\in\left[1,L\right]$
+\end_inset
+
+ we have:
+\begin_inset Formula 
+\[
+z^{2t}=r^{t}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+z^{2t-1}=q^{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and the feature vectors are simply the alternating values of 
+\begin_inset Formula $\varphi$
+\end_inset
+
+ and d, completed by some zero values:
+\begin_inset Formula 
+\[
+T_{i}^{2t}=\left(\begin{array}{c}
+0\\
+\varphi\left(p_{i}^{t}\right)
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+T_{j}^{2t-1}=\left(\begin{array}{c}
+-\frac{1}{2}\text{d}\left(g,x_{j}^{t}\right)^{2}\\
+\mathbf{0}
+\end{array}\right)
+\]
+
+\end_inset
+
+These formulas establish how we can transform our learning problem that
+ involves paths and states into a more abstract problem that considers a
+ single set of variables.
+\end_layout
+
+\begin_layout Subsection
+Supervised learning with known trajectories
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:mle"
+
+\end_inset
+
+The most straightforward way to learn 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+, or equivalently to learn the joint vector 
+\begin_inset Formula $\theta$
+\end_inset
+
+, is to maximize the likelihood of some GPS observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+, knowing the complete trajectory followed by the vehicle.
+ For all time 
+\begin_inset Formula $t$
+\end_inset
+
+, we also know which path 
+\begin_inset Formula $p_{\text{observed}}^{t}$
+\end_inset
+
+ was taken and which state 
+\begin_inset Formula $x_{\text{observed}}^{t}$
+\end_inset
+
+ produced the GPS observation 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+.
+ We make the assumption that the observed path 
+\begin_inset Formula $p_{\text{observed}}^{t}$
+\end_inset
+
+ is one of the possible path amongst the set of candidate paths 
+\begin_inset Formula $\left(p_{j}^{t}\right)_{j}$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\exists j\in\left[1\cdots J^{t}\right]\;:\; p_{\text{observed}}^{t}=p_{j}^{t}
+\]
+
+\end_inset
+
+and similarly, that the observed state 
+\begin_inset Formula $x_{\text{observed}}^{t}$
+\end_inset
+
+ is one of the possible states:
+\begin_inset Formula 
+\[
+\exists i\in\left[1\cdots I^{t}\right]\;:\; x_{\text{observed}}^{t}=x_{i}^{t}
+\]
+
+\end_inset
+
+In this case, the values of 
+\begin_inset Formula $r^{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $q^{t}$
+\end_inset
+
+ are known (they are the matching indexes), and the optimization problem
+ of Equation
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:MaxLL-problem"
+
+\end_inset
+
+ can be solved using methods outlined in Section
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:learning-exp-family"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Unsupervised learning with incomplete observations: Expectation-Maximization
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:em"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Usually, only the GPS observations 
+\begin_inset Formula $g^{1:T}$
+\end_inset
+
+ are available; the values of 
+\begin_inset Formula $r^{1:T-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $q^{1:T}$
+\end_inset
+
+ (and thus 
+\begin_inset Formula $z^{1:L}$
+\end_inset
+
+) are hidden to us.
+ In this case, we estimate the 
+\emph on
+expected likelihood 
+\begin_inset Formula $\mathcal{L}$
+\end_inset
+
+
+\emph default
+, which is the expected value of the likelihood under the distribution over
+ the assignment variables 
+\series bold
+
+\begin_inset Formula $\mathbf{z}^{1:L}$
+\end_inset
+
+
+\series default
+:
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Formula 
+\begin{eqnarray}
+\mathcal{L}\left(\theta\right) & = & \mathbb{E}_{z\sim\pi\left(\cdot|\theta\right)}\left[\log\left(\pi\left(z;\theta\right)\right)\right]\label{eq:MaxLL-expected}\\
+ & = & \sum_{z}\pi\left(z;\theta\right)\log\left(\pi\left(z;\theta\right)\right)
+\end{eqnarray}
+
+\end_inset
+
+
+\series default
+The intuition behind this expression is quite natural: since we do not know
+ the value of the assignment variable 
+\begin_inset Formula $z$
+\end_inset
+
+, we consider the 
+\emph on
+expectation
+\emph default
+ of the likelihood over this variable.
+ This expectation is done with respect to the distribution 
+\begin_inset Formula $\pi\left(z;\theta\right)$
+\end_inset
+
+.
+ The challenge lies in the dependency in 
+\begin_inset Formula $\theta$
+\end_inset
+
+ of the very distribution used to take the expectation.
+ Computing the expected likelihood becomes much more complicated than simply
+ solving the optimization problem described in Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:MaxLL-problem"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+One strategy is to find some 
+\begin_inset Quotes eld
+\end_inset
+
+fill in
+\begin_inset Quotes erd
+\end_inset
+
+ values for 
+\begin_inset Formula $z$
+\end_inset
+
+ that would correspond to our guesses of which path was taken, and which
+ point made the observation.
+ However, such a guess would likely involve our model for the data, which
+ we are currently trying to learn.
+ A solution to this chicken and egg problem is the Expectation Maximization
+ (EM) algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "moon1996expectation"
+
+\end_inset
+
+.
+ This algorithm performs an iterative projection ascent by assigning some
+ 
+\emph on
+distributions
+\emph default
+ (rather than singular values) to every 
+\begin_inset Formula $z^{l}$
+\end_inset
+
+, and uses these distributions to updates the parameters 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ using the procedures seen in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:mle"
+
+\end_inset
+
+.
+ This iterative procedure performs two steps:
+\end_layout
+
+\begin_layout Enumerate
+Fixing some value for 
+\begin_inset Formula $\theta$
+\end_inset
+
+, it computes a distribution 
+\begin_inset Formula $\tilde{\pi}\left(z\right)=\pi\left(z;\theta\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+It then uses this distribution 
+\begin_inset Formula $\tilde{\pi}\left(z\right)$
+\end_inset
+
+ to compute some new value of 
+\begin_inset Formula $\theta$
+\end_inset
+
+ by solving the approximate problem in which the expectation is fixed with
+ respect to 
+\begin_inset Formula $\theta$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\max_{\theta}\mathbb{E}_{z\sim\tilde{\pi}\left(\cdot\right)}\left[\log\left(\pi\left(z;\theta\right)\right)\right]\label{eq:MaxLL-EM}
+\end{equation}
+
+\end_inset
+
+This problem is significantly simpler than the optimization problem in Equation
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:MaxLL-expected"
+
+\end_inset
+
+ since the expectation itself does not depend on 
+\begin_inset Formula $\theta$
+\end_inset
+
+ and thus is not part of the optimization problem.
+\end_layout
+
+\begin_layout Standard
+An algorithmic description of this algorithm is given in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Expectation-maximization-algorit"
+
+\end_inset
+
+.
+ Under this procedure, the expected likelihood is shown to converge to a
+ local maximum 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "murphy2002dynamic"
+
+\end_inset
+
+.
+ It can be shown that good values for the plug-in distribution 
+\begin_inset Formula $\tilde{\pi}$
+\end_inset
+
+ are simply the values of the posterior distributions 
+\begin_inset Formula $\pi\left(p^{t}|g^{1:T}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\pi\left(x^{t}|g^{1:T}\right)$
+\end_inset
+
+, i.e.
+ the values 
+\begin_inset Formula $\overline{q}^{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{r}^{t}$
+\end_inset
+
+.
+ Furthermore, owing to the particular shape of the distribution 
+\begin_inset Formula $\pi\left(z\right)$
+\end_inset
+
+, taking the expectation is a simple task: we simply replace the value of
+ the feature vector by its 
+\emph on
+expected value 
+\emph default
+under the distribution 
+\begin_inset Formula $\tilde{\pi}\left(z\right)$
+\end_inset
+
+.
+ More practically, we simply have to consider:
+\begin_inset Formula 
+\begin{equation}
+\begin{aligned}T^{2t}\left(z^{2t}\right) & =\mathbb{E}_{p\sim\pi\left(\cdot|\theta,g^{1:T}\right)}\left[\left(\begin{array}{c}
+0\\
+\varphi\left(p_{r}^{t}\right)
+\end{array}\right)\right]\\
+ & =\left(\begin{array}{c}
+0\\
+\mathbb{E}_{p\sim\pi\left(\theta,g^{1:T}\right)}\left[\varphi\left(p_{r}^{t}\right)\right]
+\end{array}\right)
+\end{aligned}
+\label{eq:T-expected-paths}
+\end{equation}
+
+\end_inset
+
+in which 
+\begin_inset Formula 
+\[
+\mathbb{E}_{p\sim\pi\left(\theta,g^{1:T}\right)}\left[\varphi\left(p_{r}^{t}\right)\right]=\sum_{i=1}^{I^{t}}\overline{r}_{i}^{t}\varphi_{i}^{t}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and 
+\begin_inset Formula 
+\begin{equation}
+T^{2t-1}\left(z^{2t-1}\right)=\left(\begin{array}{c}
+-\frac{1}{2}\mathbb{E}_{x\sim\pi\left(\cdot|\theta,g^{1:T}\right)}\left[\text{d}\left(g,x_{q^{t}}^{t}\right)^{2}\right]\\
+\mathbf{0}
+\end{array}\right)\label{eq:T-expected-states}
+\end{equation}
+
+\end_inset
+
+so that
+\begin_inset Formula 
+\[
+\mathbb{E}_{x\sim\pi\left(\cdot|\theta,g^{1:T}\right)}\left[\text{d}\left(g,x_{q^{t}}^{t}\right)^{2}\right]=\sum_{i=1}^{J^{t}}\bar{q}_{i}^{t}\text{d}\left(g,x_{i}^{t}\right)^{2}
+\]
+
+\end_inset
+
+These values of feature vectors plug directly into the supervised learning
+ problem in Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:MaxLL-problem"
+
+\end_inset
+
+ and produce updated parameters 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma$
+\end_inset
+
+, which are then used in turn for updating the values of 
+\begin_inset Formula $\bar{q}$
+\end_inset
+
+ and 
+\begin_inset Formula $\bar{r}$
+\end_inset
+
+ and so on.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement t
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status collapsed
+
+\begin_layout Plain Layout
+Given a set of sequences of observations, an initial value of 
+\begin_inset Formula $\theta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Repeat until convergence:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+For each sequence, compute 
+\begin_inset Formula $\overline{r}^{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $\overline{q}^{t}$
+\end_inset
+
+ using Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:smoothing"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+For each sequence, update expected values of 
+\begin_inset Formula $T^{t}$
+\end_inset
+
+ using 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:T-expected-paths"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:T-expected-states"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Compute a solution of Problem 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:MaxLL-problem"
+
+\end_inset
+
+ using these new values of 
+\begin_inset Formula $T^{t}$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Expectation maximization algorithm for learning parameters without complete
+ observations.
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Expectation-maximization-algorit"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
