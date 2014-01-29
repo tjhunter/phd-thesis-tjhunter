@@ -106,7 +106,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename TikZ/graph_model.pdf
+	filename figures-kdd/graph_model.pdf
 	width 8cm
 
 \end_inset
@@ -245,9 +245,1141 @@ name "sec:hmm"
 \end_inset
 
  
-\begin_inset CommandInset include
-LatexCommand input
-filename "hmm.lyx"
+\end_layout
+
+\begin_layout Standard
+We consider the state variables 
+\begin_inset Formula $\{S_{l}\}_{l,\in\mathcal{L}}$
+\end_inset
+
+.
+ Each variable 
+\begin_inset Formula $S_{l}$
+\end_inset
+
+ has support 
+\begin_inset Formula $\{0,\dots,m-1\}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Given the path 
+\begin_inset Formula $p=(l_{0},\dots,l_{M})$
+\end_inset
+
+ of a vehicle, the variables 
+\begin_inset Formula $\{S_{l_{i}}\}_{i\in\{1,\dots,M\}}$
+\end_inset
+
+ have a Markov property, i.e.
+ given the state of the 
+\emph on
+upstream link
+\emph default
+ 
+\begin_inset Formula $l_{i-1}$
+\end_inset
+
+, the conditional state 
+\begin_inset Formula $(S_{l_{i}}|S_{l_{i-1}})$
+\end_inset
+
+ is independent of the state of other upstream links:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+audecomment{In other words sounds weird just before an equation ;-) Maybe
+ "this can be formalized as"?}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\mathbb{P}(S_{l_{i}}|\{S_{l_{i-1}},\dots,S_{l_{0}}\})=\mathbb{P}(S_{l_{i}}|S_{l_{i-1}})\label{eq:state_markov_prop}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We parametrize the model using an initial probability vector 
+\begin_inset Formula 
+\begin{equation}
+\pi_{s}^{l}=\mathbb{P}(S_{l}=s)\label{eq:init_proba_vector}
+\end{equation}
+
+\end_inset
+
+and a transition probability matrix 
+\begin_inset Formula 
+\begin{equation}
+T_{s_{u},s_{l}}^{u\rightarrow l}=\mathbb{P}(S_{l}=s_{l}|S_{u}=s_{u})\label{eq:transition_matrix}
+\end{equation}
+
+\end_inset
+
+here 
+\begin_inset Formula $T_{s_{u},s_{l}}^{u\rightarrow l}$
+\end_inset
+
+ is the probability that 
+\begin_inset Formula $l$
+\end_inset
+
+ is in state 
+\begin_inset Formula $s_{l}$
+\end_inset
+
+ given that the upstream link 
+\begin_inset Formula $u$
+\end_inset
+
+ is in state 
+\begin_inset Formula $s_{u}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%-------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+jdrcomment{I would recommend shortening this subsection substantially since
+ it is pretty standard results.
+ The format I would have is:
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% The LL is given by:
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% .....
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% which is maximized by setting $T=
+\backslash
+bar T,
+\backslash
+pi=
+\backslash
+bar 
+\backslash
+pi$, where $
+\backslash
+bar T$ is the emperical ........
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% No need to introduce a lot of notation for standard results, especially
+ since results are not reused later.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% }
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We learn the initial probability vector 
+\begin_inset Formula $\pi^{l}$
+\end_inset
+
+ and the transition probability matrices 
+\begin_inset Formula $T^{u\rightarrow l}$
+\end_inset
+
+ of the Markov Chain by maximizing the likelihood of observing 
+\begin_inset Formula $(s^{(n)},y^{(n)})$
+\end_inset
+
+.
+ The log-likelihood is given by 
+\begin_inset Formula 
+\[
+\sum_{n=1}^{M}\left(\log(\pi_{s_{0}^{(n)}}^{l_{0}^{(n)}})+\sum_{u\rightarrow l}\log(T_{s_{u}^{(n)},s_{l}^{(n)}}^{u\rightarrow l})\right)
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+audecomment{Not sure I've seen $N$ defined anywhere}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% Old notation...
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% Let
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+bar{T}^{
+\backslash
+rell u l d}_{s_u, s_l} = 
+\backslash
+card 
+\backslash
+{n | 
+\backslash
+rellpn u l d, 
+\backslash
+  s_u^{(n)} = s_u, 
+\backslash
+ s_l^{(n)} = s_l
+\backslash
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% be the empirical transition counts, and
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+bar{
+\backslash
+pi}^{
+\backslash
+rel l d} (s_l) = 
+\backslash
+card 
+\backslash
+{n | (l, d) = (p^{(n)}_0, p^{(n)}_1)  , 
+\backslash
+ s_l^{(n)} = s_l
+\backslash
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% be the empirical counts of initial states.
+ Then the log-likelihood becomes simply
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+begin{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+sum_{
+\backslash
+rel l d}
+\backslash
+sum_{s} 
+\backslash
+bar{
+\backslash
+pi}^{
+\backslash
+rel l d}_s 
+\backslash
+log(
+\backslash
+pi^{
+\backslash
+rel l d}_s) + 
+\backslash
+sum_{
+\backslash
+rell u l d} 
+\backslash
+sum_{s, s_u} 
+\backslash
+bar{T}^{
+\backslash
+rell u l d}_{s_u, s} 
+\backslash
+log (T^{
+\backslash
+rell u l d}_{s_u, s})
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+end{equation}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% maximizing the log-likelihood is equivalent to solving simple constrained
+ problems of the form
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+begin{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% &
+\backslash
+text{maximize}_{
+\backslash
+pi_s 
+\backslash
+geq 0} &&
+\backslash
+sum_s 
+\backslash
+bar{
+\backslash
+pi}_s 
+\backslash
+log(
+\backslash
+pi_s) 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% &
+\backslash
+text{subject to} &&
+\backslash
+sum_s 
+\backslash
+pi_s = 1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+end{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% and
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+[
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+begin{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% &
+\backslash
+text{maximize}_{T_{s_u, s} 
+\backslash
+geq 0} &&
+\backslash
+sum_{s_u, s} 
+\backslash
+bar{T}_{s_u, s} 
+\backslash
+log(T_{s_u, s}) 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% &
+\backslash
+text{subject to} &&
+\backslash
+forall s_u, 
+\backslash
+ 
+\backslash
+sum_{s} T_{s_u, s} = 1
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+end{aligned}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The parameters that maximize the log-likelihood are: 
+\begin_inset Formula 
+\begin{align*}
+\pi_{s}^{l}\propto\bar{\pi}_{s}^{l}\quad\textrm{and}\quad T_{s_{u},s_{l}}^{u\rightarrow l}\propto\bar{T}_{s_{u},s_{l}}^{u\rightarrow l}
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $\bar{\pi}_{s}^{l}$
+\end_inset
+
+ are the empirical counts of initial states and 
+\begin_inset Formula $\bar{T}_{s_{u},s_{l}}^{u\rightarrow l}$
+\end_inset
+
+ are the empirical transition counts.
+ This solution corresponds to transitions and initial probabilities that
+ are consistent with the empirical counts of initial states and transitions.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%Solution of the first problem: taking the partial Lagrangian of the first
+ problem (associating Lagrange multiplier $
+\backslash
+lambda$ to the constraint $
+\backslash
+sum_s 
+\backslash
+pi_s = 1$), the Lagrangian is given by
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+[L(
+\backslash
+{
+\backslash
+pi_s
+\backslash
+}, 
+\backslash
+lambda) = 
+\backslash
+sum_s 
+\backslash
+bar{
+\backslash
+pi}_s 
+\backslash
+log(
+\backslash
+pi_s) + 
+\backslash
+lambda (1 - 
+\backslash
+sum_s 
+\backslash
+pi_s)
+\backslash
+]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%stationarity of the Lagrangian gives a necessary condition $
+\backslash
+frac{
+\backslash
+bar{
+\backslash
+pi}_s}{
+\backslash
+pi_s} - 
+\backslash
+lambda = 0$, therefore $
+\backslash
+pi_s = 
+\backslash
+lambda 
+\backslash
+bar{
+\backslash
+pi}_s$ for all $s$.
+ The solution to the second problem is obtained similarly by associating
+ a Lagrance multiplier $
+\backslash
+lambda_{s_u}$ to each equality constraint.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+begin{figure}[ht]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+centering
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+includegraphics[width=12cm]{figures/mm_instance.png}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+caption{The Markov Model graph for a small subgraph of the San Francisco
+ peninsula network.}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+label{fig:mm_instance}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+end{figure}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+begin{remark}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%The first order Markov property is expressive enough to model important
+ traffic phenomena, such as synchronization of traffic lights: on some sequences
+ of road segments $l_1 
+\backslash
+rightarrow l_2 
+\backslash
+rightarrow 
+\backslash
+dots, l_n$, the traffic lights can be synchronized (usually by creating
+ a wave of green lights).
+ This can be captured to some extent by the transition matrix.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+end{remark}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 

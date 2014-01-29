@@ -307,7 +307,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figs-plots/scatter_box.pdf
+	filename figures-kdd/scatter_box.pdf
 	width 100line%
 
 \end_inset
@@ -438,7 +438,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figs-plots/cdf_val.pdf
+	filename figures-kdd/cdf_val.pdf
 	width 100line%
 
 \end_inset
@@ -560,7 +560,7 @@ centering
 
  
 \begin_inset Graphics
-	filename figs-plots/ll__percentile_val.pdf
+	filename figures-kdd/ll__percentile_val.pdf
 	width 8cm
 
 \end_inset
@@ -1072,14 +1072,14 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figures/sampling_kl_div.pdf
+	filename figures-kdd/sampling_kl_div.pdf
 	width 24text%
 
 \end_inset
 
 
 \begin_inset Graphics
-	filename figures/sampling_distribution.pdf
+	filename figures-kdd/sampling_distribution.pdf
 	width 24text%
 
 \end_inset
@@ -1158,7 +1158,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename figs-plots/perf_gmrf.pdf
+	filename figures-kdd/perf_gmrf.pdf
 	width 50text%
 
 \end_inset

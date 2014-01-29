@@ -1,0 +1,428 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 0
+\use_mathdots 0
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Discretized streams: large-scale real-time processing of data streams
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:d-streams"
+
+\end_inset
+
+We now describe the design of the data processing pipeline of the 
+\emph on
+Mobile Millennium 
+\emph default
+system.
+ This framework takes as an input streams of raw GPS data from various sources,
+ and outputs states of traffic, in the form of parameters of travel time
+ distributions.
+ We had the following requirements, which are shared with most automation
+ system: 
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+low latency
+\emph default
+: we wanted to investigate update rates as high as every few seconds.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+scalability and high throughput
+\emph default
+: the system should be able to handle tens or hundreds of thousands of measureme
+nts per second
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+robustness to failures
+\emph default
+: the failure of machines should have a limited impact on the performance
+ of the system
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+testing multiple scenarios
+\emph default
+: the GPS data needs to go through some complex filtering process (map-matching
+ and trajectory reconstruction) before it can be used for estimation, and
+ the ability to perform cross-validation is a prerequisite to tuning these
+ algorithms.
+ Thus, we needed to rerun or even run multiple instances of our algorithm
+ in parallel.
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+flexible deployment solution
+\emph default
+: from the outset, our goal was to deploy our framework on a generic cloud
+ solution such as Amazon EC2.
+ This implies limited control over the topology of the computer network
+ and over the characteristics of the computers.
+\end_layout
+
+\begin_layout Standard
+Streams of hundreds of thousands of elements per second are common in cloud-base
+d environment.
+ However, in our application, the Expectation step of the EM algorithm generates
+ a large number of samples for each observation.
+ This multiplies the internal throughput rate by a factor of 1000 to 10,000.
+ Single computers cannot work at this rate, and a cloud-based solution is
+ required.
+ Furthermore, these samples are ephemeral and can be deterministically recreated
+ from an observation: there is no need to store them.
+ The novelty of our application lies in combining the competing requirements
+ of the different stages: the initial and final steps have average throughput
+ and their respective inputs and outputs require fault-tolerant storage,
+ while the intermediate computation steps must have high throughput and
+ be resilient to individual node failures.
+\end_layout
+
+\begin_layout Standard
+In particular, since this is a research platform, we needed the ability
+ to test and monitor complex iterative algorithms.
+ In this section, we will present the notion of Discretized Streams, a concept
+ recently introduced 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zaharia2012discretized"
+
+\end_inset
+
+ and implemented in the Spark computing framework.
+ We will present how the design of D-Stream lets users build cyberphysical
+ systems at scale.
+\end_layout
+
+\begin_layout Subsection
+Limitations of current techniques
+\end_layout
+
+\begin_layout Standard
+Current techniques to process large amounts of live streaming data can be
+ broadly classified into the following two categories.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\shape italic
+Using traditional streaming processing systems
+\shape default
+: Streaming databases like StreamBase
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "streambase"
+
+\end_inset
+
+ and Telegraph
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "telegraph"
+
+\end_inset
+
+, and stream processing systems like Storm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "storm"
+
+\end_inset
+
+ have been used to meet such processing requirements.
+ While they do achieve low latencies, they either have limited fault-tolerance
+ properties (data lost on machine failure) or limited scalability (cannot
+ be run on large clusters).
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\shape italic
+Using traditional batch processing systems
+\shape default
+: The live data is stored reliably in a replicated file system like HDFS
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hadoop"
+
+\end_inset
+
+ and later processed in large batches (minutes to hours) using traditional
+ batch processing frameworks like Hadoop
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hadoop"
+
+\end_inset
+
+.
+ By design, these systems can process large volumes of data on large clusters
+ in a fault-tolerant manner, but they can only achieve latencies of minutes
+ at best.
+ Furthermore, the processing model is too low level to conveniently express
+ complex stream computations.
+ 
+\end_layout
+
+\begin_layout Subsection
+D-Streams
+\begin_inset space \space{}
+\end_inset
+
+- A programming model for stream processing
+\end_layout
+
+\begin_layout Standard
+D-Streams execute deterministic computations similar to those in MapReduce
+ for fault tolerance, but they do so at a much lower latency than previous
+ systems, by keeping state 
+\emph on
+in memory
+\emph default
+, as opposed to saving it on disk between each step.
+ The input data received from various input sources (e.g., webservices, sensors,
+ etc) during each interval is stored reliably across the cluster to form
+ an input dataset for that interval.
+ Once the time interval completes, this dataset is processed via deterministic
+ parallel operations (like mapping transformations or filtering) to produce
+ new datasets representing program outputs or intermediate states.
+ Finally, these datasets can be saved to external source such as databases.
+ The advantage of this model is that it provides the developer a convenient
+ high-level programming model to easily express complex stream computations
+ while allowing the underlying system to process the data in small batches
+ thus achieving excellent fault-tolerance properties.
+ D-Streams support the same stateless transformations available in typical
+ batch frameworks, including map, reduce, groupBy, and join.
+ In addition, D-Streams also provide stateful operators like windowing and
+ moving average operators that share data across time intervals.
+ All the intermediate data computed using D-Streams are by design fault-tolerant
+, that is, no data is lost if any machine fails.
+ This is achieved by treating each batch of data (and each new batch derived
+ through transforms of the original dataset) as a dataset distributed across
+ the machines.
+ Each dataset maintains a 
+\emph on
+lineage
+\emph default
+ of operations that was used to create it from the raw input data (stored
+ reliably by the system by automatic replication)
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "spark"
+
+\end_inset
+
+.
+ Hence, in the event of computer failure, if any partition is lost, it can
+ be recomputed from raw input data using the lineage.
+ As these operations are deterministic, the recomputation can be done using
+ fine-grained tasks in parallel.
+ This ensures fast recovery minimizing the effect of the failure on the
+ stream processing system.
+ This novel technique is called 
+\shape italic
+parallel-recovery
+\shape default
+ and sets this abstraction apart from existing stream processing systems,
+ that need to write intermediate steps to disk or implement complex recovery
+ mechanisms.
+\end_layout
+
+\begin_layout Standard
+To implement D-Stream, we use Spark, an existing open-source, batch processing
+ framework, to create Spark Streaming.
+ Spark is a fast, in-memory batch processing framework, and we naturally
+ extend this framework to implement D-Streams.
+ Both these systems are implemented in Scala
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "scala"
+
+\end_inset
+
+ (a language based on the Java Virtual Machine), which allows them integrate
+ well with existing Java and Scala libraries for linear algebra, machine
+ learning, etc.
+ Furthermore, the compact syntax of the Scala language hides all the complexitie
+s of distribution, replication and data access pattern behind an intuitive
+ programming interface.
+ A relevant portion of the code of the algorithm is provided in the Appendix.
+ This code instantiates a D-Stream with the raw data and derives some other
+ D-Streams that correspond to each step of the algorithm.
+ As can be seen, this code leverages the functional API of Spark and Scala
+ to express stream transformations in a very natural way.
+ Spark Streaming can scale to hundreds of cores while achieving latencies
+ as low as hundreds of milliseconds.
+ We use this system to implement our traffic estimation algorithms, which
+ we shall explain next.
+ 
+\end_layout
+
+\begin_layout Subsection
+Lessons learned
+\end_layout
+
+\begin_layout Standard
+In the process of designing this framework, we experienced several challenges
+ and we made several design decisions that we feel should be taken into
+ consideration when considering building a large system for cyberphysical
+ computations.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Computing in memory
+\series default
+ Keeping the computations in memory leads to dramatic performance improvements,
+ as the processes do not need to seek or write data on the disk.
+ We found that this improves both the throughput and the latency.
+ The fault recovery is provided by the lineage information, and is typically
+ fast enough (a few seconds) for our experiments.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Interfacing with databases
+\series default
+ One of the bottlenecks that came to us as a surprise is the interaction
+ with our primary storage (an Oracle database).
+ After map-matching, the data is written to the database.
+ The nodes of the computing cloud then open a connection periodically to
+ read the new data at every beat.
+ However, the database could not keep up with hundreds of queries at the
+ same time.
+ Replicating the database in the cluster did not lead to much improvement.
+ Our solution was to use the database as a end point that would not be queried
+ by the cloud computers: at the end of the map-matching step, the stream
+ of map-matched observations is not only pushed to the database, but also
+ to the Hadoop filesystem (HDFS) that is spread on the cluster.
+ We found the insertion mechanism to be fast enough for this pattern.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Using immutable, stateless transforms
+\series default
+ working with immutable distributed datasets called for a different programming
+ style that emphasizes function-based transforms of data.
+ In this style, a filter would be implemented as a function that takes a
+ state and some observations, and creates a new object that contains the
+ updated state: the original state object is not modified.
+ We found this style to be a significant departure from the common practices
+ in control and automation.
+ Thus, a stream is defined as a sequence of transforms on a dataset.
+ The Scala programming language provides an elegant interface for expressing
+ these transformations (see Annex).
+ The immutability is a key factor in performing operations in memory and
+ in a fault-tolerant way.
+ We found that in practice, we did not experience performance bottleneck
+ from using this programming style.
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,1094 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+A case study: taxis in the San Francisco Bay Area
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:experiments"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Having now described an algorithm for computing travel time distributions
+ in real time on a road network, we describe our validation experiments.
+ These experiments explore two settings: 
+\end_layout
+
+\begin_layout Itemize
+The raw performance of the machine learning algorithm, given a limited amount
+ of data and a computational budget, 
+\end_layout
+
+\begin_layout Itemize
+The performance of the Streaming Spark framework in distributing computations
+ across a cluster, and the computational performance improvement gained
+ by additional hardware.
+ 
+\end_layout
+
+\begin_layout Standard
+The performance of the algorithm is computed by asking the model to give
+ travel time distributions on unseen trajectories, slightly in the future.
+ The observed travel time of the trajectory is then compared with the distributi
+on provided by the model.
+ We measured the L1 and L2 losses between the observed travel time and the
+ distribution mean, and the likelihood of the observed travel time with
+ respect to the predicted travel time distribution.
+ This is done with different amount of data and different time horizons.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement tb
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+ 
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/travel_times.png
+	width 3.3in
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+An example output of traffic estimates from our algorithm: mean travel times
+ on different road links in the business district of San Francisco during
+ a complete day.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:example-output"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The computational efficiency of the algorithm is validated in two steps.
+ First, we demonstrate that our algorithm scales well: given twice as many
+ computation nodes, it perform the same task about twice as fast.
+ We also see that this algorithm is bounded by computations.
+ Then, we demonstrate that it can sustain massive data flow rates under
+ strict scheduling constraints: we fix a completion time of a few seconds
+ for each time step, and we find the maximum flow rate under a given computation
+al budget.
+\end_layout
+
+\begin_layout Subsection
+Taxis in San Francisco
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:experiment-data"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Our implementation was run on a road network that corresponds to the greater
+ San Francisco Bay Area (506,685 road links), using some taxi data provided
+ by the Cabspotting project 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cabspotting"
+
+\end_inset
+
+.
+ This dataset contains GPS samples of a few thousand taxicabs emitted every
+ minute, for more than a year.
+ All in all, it represents hundred of millions of GPS points.
+ We ran our algorithm on a typical day (August 12th 2010, a Tuesday) with
+ different settings.
+ An example of input data is given in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:cabspotting-example"
+
+\end_inset
+
+.
+ A typical output of travel times provided by the algorithm is given in
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:example-output"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-pif/example_cloud_point_sf.png
+	width 90col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+An example of dataset available to 
+\emph on
+Mobile Millennium
+\emph default
+ and processed by the path inference filter: taxicabs in San Francisco from
+ the Cabspotting program.
+ Large circles in red show the position of the taxis at a given time and
+ small dots (in black) show past positions (during the last five hours)
+ of the fleet.
+ The position of each vehicle is observed every minute.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:cabspotting-example"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Good scalability results using a large cluster
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:experiment-scalability"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this section, we evaluate how much the cloud implementation helped with
+ scaling the 
+Mobile Millennium 
+ EM traffic estimation algorithm.
+ Distributing the computation across machines provides a twofold advantage:
+ each machine can perform computations in parallel, and the overall amount
+ of memory available is much greater.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Scaling.
+
+\series default
+ First, we evaluated how the runtime performance of the EM job could improve
+ with an increasing number of nodes/cores.
+ The job was to learn some historical traffic estimate for San Francisco
+ downtown for a half-hour time-slice, using a large portion of the data
+ split in one-hour intervals.
+ This data included 259,215 observed trajectories, and the network consisted
+ of 15,398 road links.
+ We ran the experiment on two cloud platforms: the first was using Amazon
+ EC2 
+\family typewriter
+m1.large
+\family default
+ instances with 2 cores per node, and the second was a cloud managed by
+ the 
+\emph on
+National Energy Research Scientific Computing Center
+\emph default
+ (NERSC) with 4 cores per node.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Experiments-with-Spark"
+
+\end_inset
+
+ (bottom) shows near-linear scaling on EC2 until 80--160 cores.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Experiments-with-Spark"
+
+\end_inset
+
+ (top) shows near-linear scaling for all the NERSC experiments.
+ The limiting factor for EC2 seems to have been network performance.
+ In particular, some tasks were lost due to repeated connection timeouts.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/spark_em_perf_nersc.pdf
+	width 80col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/spark_em_perf_ec2.pdf
+	width 80col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Experiments with Spark to build historical estimates of traffic, on NERSC
+ (top) and Amazon EC2 (bottom).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Experiments-with-Spark"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Scaling on Streaming Spark.
+
+\series default
+ After having found the bottlenecks in the Spark program, we wrote another
+ version in Streaming Spark.
+ The two programs are strikingly similar (see program listing in Appendix
+ B).
+ We then benchmarked the application.
+ We ported this application to Spark Streaming using an online version of
+ the EM algorithm that merges in new data every five seconds.
+ The implementation was about 200 lines of Spark Streaming code, and wrapped
+ the existing map and reduce functions in the offline program.
+ In addition, we found that only using the real-time data could cause overfittin
+g, because the data received in five seconds is so sparse.
+ We took advantage of D-Streams to also combine this data with historical
+ data from the same time during the past 10 days to resolve this problem.
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Experiments-with-Streaming"
+
+\end_inset
+
+ shows the performance of the algorithm on up to 80 quad-core EC2 nodes.
+ The algorithm scales almost perfectly, largely because it is so CPU-bound,
+ and provides answers an order of magnitude faster than the previous implementat
+ion.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/perf_streaming.pdf
+	width 70col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Experiments with Streaming Spark: rate of observation processing for different
+ cluster sizes.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Experiments-with-Streaming"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Our algorithm can be adjusted for trade-offs between amount of data, computation
+al resources and quality of the output
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:experiment-ml"
+
+\end_inset
+
+We now study the accuracy of our algorithm in estimating the traffic.
+ Even if we receive a large number of observations per day, this number
+ is not sufficient to cover properly in real time all the road network:
+ indeed, some sections of the road network are much less traveled than the
+ busy downtown areas.
+ We use several strategies to mitigate this spatial discrepancy: 
+\end_layout
+
+\begin_layout Itemize
+We use a prior on the Gamma distribution, itself a Gamma distribution since
+ the Gamma is in the exponential family and conjugate with itself.
+ The parameters of this prior are to 70% of the speed limit in mean and
+ 1 minute or 50% of the travel time in standard deviation, whichever is
+ greater.
+ 
+\end_layout
+
+\begin_layout Itemize
+We incorporate some data from the same day before the current time step,
+ weighted by an exponential decay scheme: the traffic in the arterial network
+ is assumed to change slowly enough.
+ 
+\end_layout
+
+\begin_layout Itemize
+We also incorporate some data from previous days, corresponding to the same
+ day of the week (Monday, Tuesday, etc.).
+ Traffic is expected to follow a weekly pattern during the same month.
+ 
+\end_layout
+
+\begin_layout Standard
+To summarize, a large number of observations are lumped together and weighted
+ according to the formula: 
+\begin_inset Formula 
+\[
+w=e^{-\Delta t_{\text{day}}^{-1}\left(t_{\text{obs}}-t_{\text{current}}\right)}e^{-\Delta t_{\text{week}}^{-1}\left(week_{\text{obs}}-week_{\text{current}}\right)}
+\]
+
+\end_inset
+
+ The half-time decaying factors 
+\begin_inset Formula $\Delta t_{\text{day}}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta t_{\text{week}}$
+\end_inset
+
+ are set so that the corresponding weight is 0.2 at the end of the window.
+\end_layout
+
+\begin_layout Standard
+Since the EM learning algorithm is not linear in the observations, we cannot
+ reduce each observation to some sufficient statistics.
+ As the algorithm moves forward in time, each observation will appear at
+ different time steps with a different weight and needs to be reprocessed.
+ This is a significant limitation from this approach, but it makes for a
+ good testing ground of Streaming Spark.
+\end_layout
+
+\begin_layout Standard
+Our EM algorithm can be adjusted in several ways: 
+\end_layout
+
+\begin_layout Itemize
+The number of weeks of data to look back (between 1 and 10) 
+\end_layout
+
+\begin_layout Itemize
+The time window to consider before the current observation (between 20 minutes
+ and 2 hours) 
+\end_layout
+
+\begin_layout Itemize
+The number of samples generated during the E-steps (10-100) 
+\end_layout
+
+\begin_layout Itemize
+The number of EM iterations (1-5) 
+\end_layout
+
+\begin_layout Itemize
+The duration of each time step (5 seconds-15 minutes) 
+\end_layout
+
+\begin_layout Standard
+The observations we process all have a duration of one minute, but travel
+ times experienced by users are usually much longer (10 minutes to a few
+ hours).
+ As such, a good metric for assessing the quality of a model should not
+ be on predicting travel times for one-minute observations, but on longer
+ distances.
+ Hour-long travels are very likely to go be spent mostly on highways, which
+ is not the scope of this study, and taxicabs usually make small trips (10
+ to 30 minutes).
+ This is why we focus our attention to travel times between one minute (the
+ observations) and 30 minutes (typical durations for taxi rides).
+ As far as we know, this study of different durations is seldom done in
+ the study of traffic, which limits any attempt to compare the performance
+ between different algorithms.
+\end_layout
+
+\begin_layout Standard
+The longer trajectories are obtained from the Path Inference Filter.
+ They are then cuts into different pieces of the same length (1 minute,
+ 5 minutes, 10 minutes, 20 minutes).
+ Each piece of trajectory is considered as an independent piece of trajectory
+ for the purpose of travel time prediction.
+\end_layout
+
+\begin_layout Standard
+We ran the algorithm with 4 different settings: 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+SBO
+\end_layout
+
+\end_inset
+
+: the most expensive setting (10 weeks of data, 2 hours of data, 100 EM
+ samples, 5 EM iterations, 15 time steps), used as the baseline for comparison.
+ Travel time estimates are produced every 20 minutes, 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+SBA
+\end_layout
+
+\end_inset
+
+: uses less data (40 minutes of data), 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+SBB
+\end_layout
+
+\end_inset
+
+: uses less data (10 days), 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+SBC
+\end_layout
+
+\end_inset
+
+: uses the same amount of data, but performs only a single EM iteration
+ every 4 minutes instead of 5 EM iterations every 20 minutes, 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+SBD
+\end_layout
+
+\end_inset
+
+: uses the same amount of data, but generates only 10 EM samples for each
+ observation 
+\end_layout
+
+\begin_layout Standard
+For all these experiments, the prior was fixed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl1_SlidingBig.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl1_SlidingBig1.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl1_SlidingBig2.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl1_SlidingBig3.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl1_SlidingBig4.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+L1 residuals for different settings and for different travel times.
+ The dashed lines indicate the 95% confidence interval.
+ On the 
+\begin_inset Formula $x$
+\end_inset
+
+ axis, the travel time of the the observations considered for this metric.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:L1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now compare the results obtained with the different experiments.
+ We first turn our attention to the L1 loss in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:L1"
+
+\end_inset
+
+.
+ As expected, the best performance is obtained for experiment 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+SBO
+\end_layout
+
+\end_inset
+
+, which uses the most data.
+ Interestingly enough, the best performance is obtained for travels of medium
+ length (4-11 minutes), and not for short trajectories.
+ This can be explained by the conversion step that transforms trajectory
+ readings on partial links into weighted observations on complete links.
+ The relation between link travel time and location on a link is more complex
+ than a linear weighting.
+ Nevertheless, the model gives relatively good performance by this simple
+ transform.
+ When a vehicle is stopped at a red light, it does not travel along the
+ link but still has a non-zero travel time.
+ In this case, the weight of an observation is taken to be half of the total
+ travel time of the link.
+ In particular, the relative error increases as the duration (and the length)
+ of travels increases.
+ Performance is not too different between experiments, which suggests some
+ even smaller amount of data could be considered.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl2_SlidingBig.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl2_SlidingBig1.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl2_SlidingBig2.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl2_SlidingBig3.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/rl2_SlidingBig4.pdf
+	width 40col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+L2 residuals for different settings and for different travel times.
+ The dashed lines indicate the 95% confidence interval.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:L2"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The results for the L2 loss, presented in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:L2"
+
+\end_inset
+
+, provide some similar, if more acute, results.
+ The RMSE is lowest for small to medium travels (in the range of 3-10 minutes).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/ll_SlidingBig4.pdf
+	width 45col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/mean_ll_SlidingBig4.pdf
+	width 45col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Log-likelihood of unobserved trajectories, for different trajectory lengths
+ and different settings.
+ The median is presented on the left, while the mean is presented on the
+ right.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:LL"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A probabilistic metric (the log-likelihood) gives a different insight, as
+ shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:LL"
+
+\end_inset
+
+.
+ The model best explains the data for very short travel times (similar to
+ what is was trained on) but its precision falls down as the length of trajector
+ies increases.
+ All in all, this results should not be unexpected: this model with independent
+ links cannot take into account the correlations that occur due to light
+ synchronizations or drivers' behavior.
+ As such, the probability density of a longer travel rapidly dilutes as
+ the number of links increases As we saw with our study of L1 and L2 errors,
+ the mean travel time becomes the only significant value of interest for
+ longer travel times.
+ In the light of this result, there seems to be little to gain by modeling
+ travel time with physically realistic, link-based, independent distributions,
+ as the independence assumption will strongly weigh on the quality of the
+ travel time for longer travels.
+ Instead, we recommend focusing effort on simpler models of travel times
+ that take into account the correlations between links.
+ We also present in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:LL"
+
+\end_inset
+
+ (Right) the mean of the log-likelihood.
+ As one can see in this plot, the Gaussian distribution is significantly
+ worse than the Gamma distribution: from inspection of the data, we could
+ conclude that it performs very badly with long tail observations (unusually
+ long stops at red lights).
+ Furthermore, its symmetric nature causes a significant portion of the probabili
+stic mass to be assigned to negative travel times: a Gaussian distribution
+ cannot at the same time have a small mean, a high standard deviation and
+ mostly positive values.
+ This experiment should serve as another confirmation that modelling travel
+ time noise with a Normal distribution is not only unrealistic, but also
+ leads to erratic results in the face of real data.
+\end_layout
+
+\end_body
+\end_document

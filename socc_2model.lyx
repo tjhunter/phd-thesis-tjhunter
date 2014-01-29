@@ -1,0 +1,1484 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 0
+\use_mathdots 0
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Scalable traffic estimation from streaming data
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:model"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Most GPS data available today is generated at low frequencies due to energy
+ and bandwidth constraints.
+ This data is extremely noisy and provides indirect observations of the
+ travel time distributions on each link of the road network.
+ We introduce here 
+\emph on
+Mobile Millennium
+\emph default
+, a traffic information system that is designed to process such data at
+ low latencies and for very large urban areas.
+ In this section, we will discuss the overall architecture of the arterial
+ estimation pipeline.
+ This pipeline make few assumptions about the actual travel time distribution
+ considered.
+ This lets us define a highly scalable algorithm that is amenable to distributio
+n on cloud computing.
+ In the next section, we will present a particular choice of travel time
+ distribution, along with some algorithms to perform the different steps.
+ It should be noted that the choice of the distribution can be made independentl
+y from our framework: most distributions for travel times can be plugged
+ into our framework and yield a very scalable algorithm.
+\end_layout
+
+\begin_layout Standard
+We define the road network as a graph 
+\begin_inset Formula $\mathcal{D}=(\mathcal{V},\mathcal{E})$
+\end_inset
+
+, where the set 
+\begin_inset Formula $\mathcal{E}$
+\end_inset
+
+ will be referred to as the 
+\begin_inset Quotes eld
+\end_inset
+
+links
+\begin_inset Quotes erd
+\end_inset
+
+ of the road network (streets) and 
+\begin_inset Formula $\mathcal{L}$
+\end_inset
+
+ as the 
+\begin_inset Quotes eld
+\end_inset
+
+nodes
+\begin_inset Quotes erd
+\end_inset
+
+ (road intersections).
+ For each link 
+\begin_inset Formula $l\in\mathcal{E}$
+\end_inset
+
+, the algorithm outputs 
+\begin_inset Formula $X_{l}^{t}$
+\end_inset
+
+, the time it takes at time index 
+\begin_inset Formula $t$
+\end_inset
+
+ to traverse link 
+\begin_inset Formula $l$
+\end_inset
+
+.
+ This time is described as a probability distribution parametrized by a
+ vector 
+\begin_inset Formula $\nu_{l}$
+\end_inset
+
+.
+ Our goal is then to estimate 
+\begin_inset Formula $X^{t}$
+\end_inset
+
+, the joint distribution of all link travel times across all links in 
+\begin_inset Formula $\mathcal{E}$
+\end_inset
+
+, for each time index 
+\begin_inset Formula $t$
+\end_inset
+
+.
+ We assume that the traffic is varying slowly enough that it can be considered
+ a steady state between each evaluation: our algorithm will consider that
+ all the observations between two consecutive time steps have been generated
+ according to the same state.
+ To simplify notations, we will consider a single time interval and drop
+ the reference to time: the joint distribution of travel time is the multidimens
+ional variable 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We will first give an overview of the GPS data that is commercially available
+ today, and an algorithm that converts raw GPS points to map-matched trajectorie
+s with high accuracy: the 
+\emph on
+Path Inference Filter
+\emph default
+ (PIF) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter12pathinference"
+
+\end_inset
+
+.
+ We will then present our modeling approach to infer the traffic conditions
+ from these GPS observations.
+ Then we will explain how the 
+\emph on
+Mobile Millennium
+\emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mm-socc"
+
+\end_inset
+
+ pipeline implements this algorithm using a computing cloud as a computation
+ backend.
+\end_layout
+
+\begin_layout Subsection
+Overview of the Mobile Millennium pipeline
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+Mobile Millennium 
+\emph default
+system incorporates a complete pipeline for receiving probe data, filtering
+ it, distributing it to estimation engines and displaying it, all in in
+ real-time.
+ This software stack, written in Java and Scala, evaluates 
+\emph on
+probabilistic distribution of travel times
+\emph default
+ over the road links, and uses as input the 
+\emph on
+sparse, noisy
+\emph default
+ GPS measurements from probe vehicles.
+\end_layout
+
+\begin_layout Standard
+The most computation-intensive parts of this pipeline have all been ported
+ to a cloud environment.
+ We briefly describe the operations of the pipeline, pictured in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:system_schema"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The observations are grouped into time intervals and sent to a traffic estimatio
+n engine, which runs the learning algorithm described in the next section
+ and returns distributions of travel times for each link (Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Map-matching-algorithm"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+The travel time distributions are then stored and broadcast to clients and
+ to a web interface.
+ Examples of means of travel times are shown in Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:example-output"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+It is important to point out that 
+\emph on
+Mobile Millennium
+\emph default
+ is intended to work at the scale of large metropolitan areas.
+ The road network considered in this work is a real road network (a large
+ portion of San Francisco downtown and of the greater Bay Area, comprising
+ 506,685 road links) and the data is collected from the field (as opposed
+ to simulated).
+ A consequence of this setting is the scalability requirement for the traffic
+ algorithms we employ.
+ Thus, from the outset, our research has focused on designing algorithms
+ that could work for large urban areas with hundreds of thousands of links
+ and millions of observations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement tb
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename docs-socc/big_system_diagram.png
+	display false
+	width 3.35in
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+ Schematic architecture of the 
+\emph on
+Mobile Millennium
+\emph default
+ system.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:system_schema"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset VSpace -1em*
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Map-matching GPS probe data with the Path Inference Filter
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:map-matching"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to reduce power consumption and transmission costs, probe vehicles
+ do not continuously report their location to the base station.
+ A high temporal resolution gives access to the complete and precise trajectory
+ of the vehicle, but this causes the device to consume more power and communicat
+ion bandwidth.
+ Also, such data is not available at large scale today, except in a very
+ fragmented portion of the the private sector.
+ A low temporal resolution carries some uncertainty as to which trajectory
+ was followed.
+ In the case of a high temporal resolution (typically, a frequency greater
+ than an observation per second), some highly successful methods have been
+ developed for continuous estimation 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "thrun2002probabilistic,miwa2004route,du2004lane"
+
+\end_inset
+
+.
+ However, most data collected at large scale today is generated by commercial
+ fleet vehicles.
+ It is primarily used for tracking the vehicles and usually has a low temporal
+ resolution (1 to 2 minutes) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "navteq,inrix,telenav,cabspotting"
+
+\end_inset
+
+.
+ In the span of a minute, a vehicle in a city can cover several blocks (see
+ Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-observation"
+
+\end_inset
+
+ for an example).
+ Information on the precise path followed by the vehicle is lost.
+ Furthermore, due to GPS localization errors, recovering the location of
+ a vehicle that just sent an observation is a non trivial task: there are
+ usually several streets that could be compatible with any given GPS observation.
+ Simple deterministic algorithms to reconstruct trajectories fail due to
+ misprojection or shortcuts.
+ The Path Inference Filter 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter12pathinference"
+
+\end_inset
+
+ is a probabilistic framework that recovers trajectories and road positions
+ from low-frequency probe data in real time, and in a computationally efficient
+ manner.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename docs-socc/observation_example.pdf
+	width 100col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of observation.
+ The green mark represents an initial GPS reading, the orange mark represents
+ a subsequent reading.
+ The black line marks the path of the vehicle, as reconstructed by the Path
+ Inference Filter between the two GPS points and the numbers are the indexes
+ of each road link covered by this observation.
+ Given a realization 
+\begin_inset Formula $x^{4}$
+\end_inset
+
+ of the travel time distribution at time 
+\begin_inset Formula $t=4$
+\end_inset
+
+, all the information on travel times encoded by this observation is summarized
+ in the equation above.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-of-observation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement tb
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:edge-a"
+
+\end_inset
+
+(1)
+\begin_inset Graphics
+	filename figures-socc/road_net_for_pif_projections.pdf
+	display false
+	width 1.2in
+	rotateAngle -90
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:edge-b"
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+(2)
+\begin_inset Graphics
+	filename figures-socc/road_net_for_pif_paths_with_probs.pdf
+	display false
+	width 1.2in
+	rotateAngle -90
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:edge-c"
+
+\end_inset
+
+(3)
+\begin_inset Graphics
+	filename figures-socc/road_net_for_pif_filtered_paths.pdf
+	display false
+	width 1.2in
+	rotateAngle -90
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:edge-d"
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+(4)
+\begin_inset Graphics
+	filename figures-socc/road_net_for_pif_colors.pdf
+	display false
+	width 1.2in
+	rotateAngle -90
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Map-matching algorithm: the raw GPS readings a first projected onto candidate
+ points on the road network (Step 1).
+ Then all feasible paths between each pair of candidate points are computed
+ (Step 2).
+ A dynamic programing algorithm then finds the most likely trajectory, using
+ a Conditional Random Field (Step 3).
+ Trajectory measurements are the input to the Expectation Maximization algorithm.
+ This algorithm outputs distributions of travel times (Step 4).
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Map-matching-algorithm"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This algorithm first projects the raw points onto candidate projections
+ on the road network and then builds candidate trajectories to link these
+ candidate projections.
+ An observation model and a driver model are then combined in a Conditional
+ Random Field to find the most probable trajectories, using the Viterbi
+ algorithm.
+ More precisely, the algorithm performs the following steps: 
+\end_layout
+
+\begin_layout Itemize
+We map each point of raw (and possibly noisy) GPS data to a collection of
+ nearby 
+\emph on
+candidate projections
+\emph default
+ on the road network (Figure 2-1).
+ 
+\end_layout
+
+\begin_layout Itemize
+For each vehicle, we reconstruct the most likely trajectory using a Conditional
+ Random Field 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter12pathinference"
+
+\end_inset
+
+ (Figure 2-2).
+ 
+\end_layout
+
+\begin_layout Itemize
+Each segment of the trajectory between two GPS points is referred as an
+ 
+\emph on
+trajectory measurement
+\emph default
+ (Figure 2-3).
+ A trajectory measurement consists in a start time, an end time and a route
+ on the road network.
+ This route may span multiple road links, and starts and ends at some offset
+ within some links.
+ 
+\end_layout
+
+\begin_layout Standard
+At the output of the PIF, we have transformed sequences of GPS readings
+ into sequences of trajectory readings.
+ These readings are the input for our travel time estimation algorithm.
+\end_layout
+
+\begin_layout Subsection
+Fundamental generative model
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:basic-model"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Estimating the travel time distributions is made difficult by the fact that
+ we do not observe travel times for individual links.
+ Instead, each reading only specifies the total travel time for an entire
+ list of links traveled.
+ We formally describe our estimation task as a maximum likelihood estimation
+ problem.
+\end_layout
+
+\begin_layout Standard
+We consider one reading, described by an offset on a first road link 
+\begin_inset Formula $o_{\text{start}}$
+\end_inset
+
+, an offset on a last link 
+\begin_inset Formula $o_{\text{end}}$
+\end_inset
+
+, a list of 
+\begin_inset Formula $m$
+\end_inset
+
+ visited links 
+\begin_inset Formula $l_{1}\cdots l_{m}$
+\end_inset
+
+, a start time, and a travel duration 
+\begin_inset Formula $d$
+\end_inset
+
+ (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-observation"
+
+\end_inset
+
+ for an example of a reading).
+ The observed travel time is a sum of (unobserved) travel times on the visited
+ links:
+\begin_inset Formula 
+\[
+X_{l_{1}}\left(o_{\text{start}},L\left(l\right)\right)+X_{l_{2}}+\cdots X_{l_{m-1}}+X_{l_{m}}\left(0,o_{\text{end}}\right)=d
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We are going to introduce two assumptions: independence and scaling.
+ The first one is critical to our framework, and is widely used in practice.
+ The scaling assumption is not necessary, but offers some convenience for
+ the development of the discussion.
+ When working with more sophisticated distributions and with enough data,
+ it could easily be dispensed with.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Independence assumption.
+
+\series default
+ To make the inference problem tractable, we model the link travel times
+ for each link 
+\begin_inset Formula $l$
+\end_inset
+
+ as a univariate distribution with parameter vector 
+\begin_inset Formula $\nu_{l}=\left(k_{l},\theta_{l}\right)$
+\end_inset
+
+, and we assume these distributions are pairwise independent.
+ The independence assumption is standard in the transportation literature
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hofleitner_itsc_2011,hofleitnerTRBstatTraffic_2012"
+
+\end_inset
+
+ and it also leads to a highly scalable estimation algorithm.
+ We will discuss the validity of this assumption in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:experiment-ml"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Scaling assumption.
+
+\series default
+ The distribution of travel time 
+\begin_inset Formula $X_{l}\left(a,b\right)$
+\end_inset
+
+ between two offsets 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ of a road link 
+\begin_inset Formula $l$
+\end_inset
+
+ can be significantly different in shape from the distribution 
+\begin_inset Formula $X_{l}$
+\end_inset
+
+ over the full link.
+ We simplify the problem by assuming that the partial travel time from the
+ start of a road link to some offset 
+\begin_inset Formula $o$
+\end_inset
+
+ is proportional to the distribution over the full link:
+\begin_inset Formula 
+\[
+X_{\text{partial}}\left(o_{\text{start}},o_{\text{end}}\right)=f_{l}\left(o_{\text{start}},o_{\text{end}}\right)X_{l}
+\]
+
+\end_inset
+
+wher 
+\begin_inset Formula $f_{l}$
+\end_inset
+
+ is a function in values between 
+\begin_inset Formula $0$
+\end_inset
+
+ and 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ In our implementation, we make the use of the following function:
+\begin_inset Formula 
+\[
+f\left(o_{\text{start}},o_{\text{end}},L\left(l\right)\right)=\left(\frac{o_{\text{end}}}{L\left(l\right)}\right)^{r}-\left(\frac{o_{\text{start}}}{L\left(l\right)}\right)^{r}
+\]
+
+\end_inset
+
+for some 
+\begin_inset Formula $r>0$
+\end_inset
+
+.
+ It is well-known that the travel time on a part of a road link is not proportio
+nal to the travel time over the complete link
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hofleitnerTRBstatTraffic_2012"
+
+\end_inset
+
+.
+ The function 
+\begin_inset Formula $f$
+\end_inset
+
+ captures some of this non-linearity.
+ The factor 
+\begin_inset Formula $r$
+\end_inset
+
+ is selected by cross-validation and was set to be 
+\begin_inset Formula $2.1$
+\end_inset
+
+.
+ In all generality, this assumption may not be representative of empirical
+ data, and it is a convenient way to consider partial travel times without
+ introducing additional parameters to the model.
+ However, in our streaming setting, the updates happen at high frequency
+ (every few second), and there is not enough observation to fully update
+ the distributions, which may lead to some overfitting.
+ As we will see in the next section, this assumption may be dispensed with
+ when more complex traffic distributions are considered.
+\end_layout
+
+\begin_layout Standard
+Using the two assumptions outlined above, the duration 
+\begin_inset Formula $d$
+\end_inset
+
+ of a travel is the linear combination of realizations of travel times on
+ the different links of the road network:
+\begin_inset Formula 
+\begin{eqnarray*}
+d & = & \sum_{l\in\mathcal{E}}\alpha\left(l\right)x_{l}\\
+ & = & \sum_{l\in p}\alpha\left(l\right)x_{l}
+\end{eqnarray*}
+
+\end_inset
+
+where the vector 
+\begin_inset Formula $\alpha\in\left[0,1\right]^{n}$
+\end_inset
+
+ is defined as follows
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+In practice, the definition of 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ needs to be adapted when an observation spans a only single link.
+ 
+\end_layout
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\alpha\left(l_{1}\right)=f_{l}\left(o_{\text{start}},L\left(l_{1}\right)\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\alpha\left(l_{m}\right)=f_{l}\left(0,o_{\text{end}}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\alpha\left(l_{i}\right)=1\text{ for \ensuremath{i\in\left[2...m-1\right]}}
+\]
+
+\end_inset
+
+and 
+\begin_inset Formula $\alpha\left(l\right)=0$
+\end_inset
+
+ for all other links 
+\begin_inset Formula $l$
+\end_inset
+
+.
+ The vector 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is called the 
+\emph on
+path activation vector
+\emph default
+ for this reading.
+ Note that fewer than 10 links are covered in a typical trajectory measurement,
+ so the path activation vectors are extremely sparse (the fill-in factor
+ is less than 0.001%).
+ We will use this fact to achieve very good scaling of our algorithm.
+\end_layout
+
+\begin_layout Standard
+For a given time interval, we can completely represent a trajectory reading
+ by an 
+\emph on
+observation
+\emph default
+ 
+\begin_inset Formula $Y=\left(\alpha,d\right)\in\left(\mathbb{R}^{+}\right)^{n}\times\mathbb{R}_{+}^{*}$
+\end_inset
+
+.
+ Each observation 
+\begin_inset Formula $Y^{\left(r\right)}=\left(\alpha^{\left(r\right)},D^{\left(r\right)}\right)$
+\end_inset
+
+ describes the 
+\begin_inset Formula $r$
+\end_inset
+
+th trajectory's travel time 
+\begin_inset Formula $D^{\left(r\right)}$
+\end_inset
+
+ and path 
+\begin_inset Formula $\alpha^{\left(r\right)}$
+\end_inset
+
+ as inferred by earlier stages of the 
+\emph on
+Mobile Millennium
+\emph default
+ pipeline.
+ The travel time 
+\begin_inset Formula $D^{\left(r\right)}$
+\end_inset
+
+ is the time interval between consecutive GPS observations and is roughly
+ one minute for our source of data.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename docs-socc/bayes_net.pdf
+	width 60col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Graphical-model"
+
+\end_inset
+
+Directed (Bayesian) graph of the travel time model.
+ Grey nodes are observed variables, white nodes are hidden variables.
+ The arrows represent conditional dependencies between the variables.
+ Boxes encode 
+\emph on
+plates
+\emph default
+, i.e.
+ a factorization of repeating variables.
+ (Right) an expansion of a few elements of the plates.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The dependencies between the observations and the parameter vector 
+\begin_inset Formula $\nu$
+\end_inset
+
+ can be represented as a Bayesian graphical model, which encodes all the
+ dependencies between the variables in a very compact form (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:basic-model"
+
+\end_inset
+
+).
+ We now formalize the problem of estimating the set of parameters 
+\begin_inset Formula $\nu=\left(\nu_{l}\right)_{l}$
+\end_inset
+
+ for a set of observations 
+\begin_inset Formula $\left(Y^{\left(r\right)}\right)_{r=1\cdots R}$
+\end_inset
+
+ as a learning problem.
+ We consider that the the current estimate of the traffic is completely
+ described by independent distributions (parametrized by some vectors 
+\begin_inset Formula $\nu_{l}$
+\end_inset
+
+) of the travel times over each road link.
+ These travel times are indirectly observed through a set of observations
+ 
+\begin_inset Formula $Y^{\left(r\right)}=\left(\alpha^{\left(r\right)},d^{\left(r\right)}\right)$
+\end_inset
+
+.
+ The set of parameters that maximizes the likelihood of these observations
+ is solution to the 
+\emph on
+maximum likelihood problem
+\emph default
+: 
+\begin_inset Formula 
+\begin{eqnarray}
+\max_{\nu}\,\, ll\left(Y;\nu\right) & = & \sum_{r}\log\pi\left(D^{\left(r\right)}\bigg|\alpha^{\left(r\right)};\nu\right)\label{eq:max-ll}
+\end{eqnarray}
+
+\end_inset
+
+with 
+\begin_inset Formula $\pi\left(D^{\left(r\right)}\bigg|\alpha^{\left(r\right)};\nu\right)$
+\end_inset
+
+ the probability of observing the duration 
+\begin_inset Formula $d=\sum_{l}\left(\alpha\left(l\right)\right)x_{l}$
+\end_inset
+
+ when 
+\begin_inset Formula $x_{l}$
+\end_inset
+
+ is generated according to the distribution 
+\begin_inset Formula $\pi\left(\cdot;\nu_{l}\right)$
+\end_inset
+
+ of the variable 
+\begin_inset Formula $X_{l}$
+\end_inset
+
+.
+ This likelihood can be decomposed using the relations of independence between
+ variables:
+\begin_inset Formula 
+\begin{flalign*}
+\pi\left(D^{\left(r\right)}\bigg|\alpha^{\left(r\right)};\nu\right) & =\int_{X}\pi\left(D^{\left(r\right)}\bigg|X,\alpha^{\left(i\right)}\right)\pi\left(X;\nu\right)\text{d}X\\
+ & =\int_{X}\pi\left(D^{\left(r\right)}\bigg|X,\alpha^{\left(i\right)}\right)\left(\prod_{l\,:\,\alpha^{\left(r\right)}\left(l\right)>0}\pi\left(X_{l};\nu_{l}\right)\text{d}X_{l}\right)\\
+ & =\int_{X}\pi\left(D^{\left(r\right)}\bigg|X,\alpha^{\left(i\right)}\right)\left(\prod_{l\,:\,\alpha^{\left(r\right)}\left(l\right)>0}\pi\left(X_{l};\nu_{l}\right)\text{d}X_{l}\right)
+\end{flalign*}
+
+\end_inset
+
+ Estimating the travel time distributions is made difficult by the fact
+ that we do not observe travel times 
+\begin_inset Formula $X$
+\end_inset
+
+ for individual links.
+ Instead, each observation only specifies the total travel time 
+\begin_inset Formula $D$
+\end_inset
+
+ for an entire list 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ of links traveled.
+ To get around this problem, we use the 
+\emph on
+Expectation Maximization
+\emph default
+ (EM) algorithm
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "dempster1977maximum,nh99:avoteatjisaov"
+
+\end_inset
+
+.
+ The EM algorithm operates in two phases: In the E-step it considers each
+ travel time measurement and computes a distribution over allocations of
+ travel time to each of the links.
+ In the M-step it computes the link parameters that maximizes the likelihood
+ of the travel times for the allocations made in the E-step.
+ By iterating this process the EM algorithm converges to a set of link parameter
+s that are a local maximum of the likelihood of the data.
+ In our setting, we run the EM algorithm in an online fashion: for each
+ time step, we use the previous time step as a value, perform a few (iterations
+ and we monitor the convergence through the expected complete log-likelihood.
+ This form of online EM gives good results for our application (Section
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:experiments"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsection
+Dataflow of the algorithm
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:dataflow-algorithm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Figure
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:em_flow"
+
+\end_inset
+
+ shows the data flow in the algorithm in more detail.
+ In the E-step, we generate per-link travel time samples from whole observations
+; specifically, for each observation 
+\begin_inset Formula $Y^{\left(r\right)}=\left(\alpha^{\left(r\right)},d^{\left(r\right)}\right)$
+\end_inset
+
+, we produce a set of 
+\begin_inset Formula $U$
+\end_inset
+
+ weighted samples 
+\begin_inset Formula $\mathbf{X}^{\left(r\right)}=\left\{ \left(x^{\left(r,u\right)},w^{\left(r,u\right)}\right)\right\} _{u=1\cdots U}$
+\end_inset
+
+, each sample 
+\begin_inset Formula $x^{\left(r,u\right)}$
+\end_inset
+
+ produced by randomly dividing travel time 
+\begin_inset Formula $d^{\left(r\right)}$
+\end_inset
+
+ among its constituent links (producing a travel time 
+\begin_inset Formula $x_{l_{i}}^{\left(r,u\right)}$
+\end_inset
+
+ for each edge 
+\begin_inset Formula $l_{i}\in\alpha^{\left(r\right)}$
+\end_inset
+
+).
+ We assign a weight 
+\begin_inset Formula $w^{\left(r,u\right)}$
+\end_inset
+
+ as the likelihood of travel time 
+\begin_inset Formula $x^{\left(r,u\right)}$
+\end_inset
+
+ according to the current distribution parameters 
+\begin_inset Formula $\nu$
+\end_inset
+
+.
+ In the shuffle step, we regroup the samples 
+\begin_inset Formula $\mathbf{X}^{\left(r\right)}$
+\end_inset
+
+ by link, so that each link 
+\begin_inset Formula $l$
+\end_inset
+
+ now has samples 
+\begin_inset Formula $\tilde{\mathbf{X}}_{l}=\left\{ \left(s_{l}^{\left(r,u\right)},w_{l}^{\left(r,u\right)}\right)\right\} _{r,u}$
+\end_inset
+
+ from all the observations 
+\begin_inset Formula $r$
+\end_inset
+
+ that go over it.
+ In the M-step, we recompute the parameters 
+\begin_inset Formula $\nu_{l}$
+\end_inset
+
+ to fit link 
+\begin_inset Formula $l$
+\end_inset
+
+'s travel time distribution to the samples 
+\begin_inset Formula $\tilde{\mathbf{X}}_{l}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename docs-socc/workflow.pdf
+	width 80col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+System workflow of the EM algorithm.
+ In the E-step, we generate per-link travel time samples from whole observations
+; specifically, for each observation 
+\begin_inset Formula $Y^{\left(r\right)}=\left(\alpha^{\left(r\right)},d^{\left(r\right)}\right)$
+\end_inset
+
+, we produce a set of 
+\begin_inset Formula $U$
+\end_inset
+
+ weighted samples 
+\begin_inset Formula $\mathbf{X}^{\left(r\right)}=\left\{ \left(x^{\left(r,u\right)},w^{\left(r,u\right)}\right)\right\} _{u=1\cdots U}$
+\end_inset
+
+, each sample 
+\begin_inset Formula $x^{\left(r,u\right)}$
+\end_inset
+
+ produced by randomly dividing travel time 
+\begin_inset Formula $d^{\left(r\right)}$
+\end_inset
+
+ among its constituent links (producing a travel time 
+\begin_inset Formula $x_{l_{i}}^{\left(r,u\right)}$
+\end_inset
+
+ for each edge 
+\begin_inset Formula $l_{i}\in\alpha^{\left(r\right)}$
+\end_inset
+
+).
+ We assign a weight 
+\begin_inset Formula $w^{\left(r,u\right)}$
+\end_inset
+
+ as the likelihood of travel time 
+\begin_inset Formula $x^{\left(r,u\right)}$
+\end_inset
+
+ according to the current distribution parameters 
+\begin_inset Formula $\nu$
+\end_inset
+
+.
+ In the shuffle step, we regroup the samples 
+\begin_inset Formula $\mathbf{X}^{\left(r\right)}$
+\end_inset
+
+ by link, so that each link 
+\begin_inset Formula $l$
+\end_inset
+
+ now has samples 
+\begin_inset Formula $\tilde{\mathbf{X}}_{l}=\left\{ \left(s_{l}^{\left(r,u\right)},w_{l}^{\left(r,u\right)}\right)\right\} _{r,u}$
+\end_inset
+
+ from all the observations 
+\begin_inset Formula $r$
+\end_inset
+
+ that go over it.
+ In the M-step, we recompute the parameters 
+\begin_inset Formula $\nu_{l}$
+\end_inset
+
+ to fit link 
+\begin_inset Formula $l$
+\end_inset
+
+'s travel time distribution to the samples 
+\begin_inset Formula $\tilde{\mathbf{X}}_{l}$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:em_flow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So far, we have not introduced a particular distribution for the travel
+ times 
+\begin_inset Formula $X_{l}$
+\end_inset
+
+.
+ This will be the subject of the next section.
+ We require only few operations on a distribution of travel times:
+\end_layout
+
+\begin_layout Itemize
+sampling under a constraint: the Expectation step involves sampling 
+\begin_inset Formula $X_{1}\cdots X_{U}$
+\end_inset
+
+ under some constraint 
+\begin_inset Formula $a^{T}X=d$
+\end_inset
+
+.
+ We will show in the next section how this operation can be performed efficientl
+y in the case of Gamma distributions.
+ For more complicated distributions, importances sampling may be used.
+ This technique in turn only requires the knowledge of the unnormalized
+ p.d.f.
+ of the distribution, which is usually not a concern.
+\end_layout
+
+\begin_layout Itemize
+solving the maximum likelihood problem: in the M step, for each of the links,
+ we solve a problem of the form 
+\begin_inset Formula $\max_{\nu}\sum\tilde{w}^{\left(i\right)}\log\pi\left(\tilde{x}^{\left(i\right)};\nu\right)$
+\end_inset
+
+ given a set of weighted samples 
+\begin_inset Formula $\left(\tilde{w}^{\left(i\right)},\tilde{x}^{\left(i\right)}\right)_{i}$
+\end_inset
+
+.
+ This problem can be solved approximately, using gradient descent for example.
+ If the number of parameters is small (typically less than 4), grid search
+ may even yield an appropriate solution in a reasonable time.
+\end_layout
+
+\begin_layout Standard
+As one can see, the minimum requirements for travel time distributions are
+ very mild and may satisfy complex, multi-modal distributions.
+ However, using complex distributions involves learning a large number of
+ parameters and may lead to overfitting when data is scarce.
+ Since our goal is to study the validity of the framework for very large
+ networks and datasets, we will consider in our discussion simple distributions.
+ It will be interesting to compare in the future with some other more realistic
+ distributions.
+\end_layout
+
+\end_body
+\end_document

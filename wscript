@@ -92,21 +92,6 @@ def build(bld):
 	       figures-pif/proper_length.pdf'.split()
   tex_deps += ['pif_6conclusion.tex']
   bld.add_group()
-  # KDD MODEL chapter
-  bld.oo2pdf(bld.path.ant_glob('docs-kdd/*.odg'))
-  tex_deps += ['kdd_1introduction.tex']
-  img_deps += ['docs-kdd/pipeline.pdf']
-  img_deps += ['figures-kdd/example_bimodal_link.pdf']
-  tex_deps += ['kdd_2stop-and-go.tex']
-  tex_deps += ['kdd_3graph-model.tex']
-  tex_deps += ['kdd_4inference.tex']
-  tex_deps += ['kdd_5evaluation.tex']
-  tex_deps += ['kdd_6conclusion.tex']
-  bld.add_group()
-  # Final assembly
-  bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
-  
-def build2(bld):
   # MMOC chapter deps
   bld.oo2pdf(bld.path.ant_glob('docs-socc/*.odp'))
   bld.oo2pdf(bld.path.ant_glob('docs-socc/*.odg'))
@@ -144,6 +129,29 @@ def build2(bld):
 """.split()
   tex_deps += ['socc_6conclusion.tex']
   bld.add_group()
+  # KDD MODEL chapter
+  bld.oo2pdf(bld.path.ant_glob('docs-kdd/*.odg'))
+  tex_deps += ['kdd_1introduction.tex']
+  img_deps += ['docs-kdd/pipeline.pdf']
+  img_deps += ['figures-kdd/example_bimodal_link.pdf']
+  tex_deps += ['kdd_2stop-and-go.tex']
+  tex_deps += ['kdd_3graph-model.tex']
+  img_deps += ['figures-kdd/graph_model.pdf']
+  tex_deps += ['kdd_4inference.tex']
+  tex_deps += ['kdd_5evaluation.tex']
+  img_deps += """ figures-kdd/cdf_val.pdf
+	       figures-kdd/ll__percentile_val.pdf
+	       figures-kdd/perf_gmrf.pdf
+	       figures-kdd/sampling_distribution.pdf
+	       figures-kdd/sampling_kl_div.pdf
+	       figures-kdd/scatter_box.pdf
+	       """.split()
+  tex_deps += ['kdd_6conclusion.tex']
+  bld.add_group()
+  # Final assembly
+  bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
+  
+def build2(bld):
   # GMRF chapter
   tex_deps += ['gmrf.tex']
   # Final assembly

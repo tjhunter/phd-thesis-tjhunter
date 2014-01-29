@@ -1,0 +1,1042 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass amsbook
+\use_default_options true
+\begin_modules
+theorems-ams
+eqs-within-sections
+figs-within-sections
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Modeling travel times with Gamma distributions
+\end_layout
+
+\begin_layout Standard
+The Gamma distribution is a simple unimodal, heavy-tailed distribution with
+ a mean and a scale parameter.
+ In this section, we show how it can be used as a travel time distribution
+ and how it fits into our framework.
+ 
+\end_layout
+
+\begin_layout Standard
+Gamma distributions substantially complicate the Expectation step, because
+ sums of independent Gamma distributions have no closed form.
+ This is why we approximate the conditional expectation 
+\begin_inset Formula $X^{\left(r\right)}|\left(\alpha^{\left(r\right)}\right)^{T}X^{\left(r\right)}=D^{\left(r\right)}$
+\end_inset
+
+ by sampling from this distribution.
+ As we will see, there is a surprisingly simple algorithm in the case of
+ Gamma distributions.
+ While not strictly necessary, it is also useful to compute the value of
+ the marginal likelihood of each observation 
+\begin_inset Formula $\mathbb{P}\left(\left(\alpha^{\left(r\right)}\right)^{T}X^{\left(r\right)}=D^{\left(r\right)}\right)$
+\end_inset
+
+ in order to track the converge of the EM algorithm.
+ Since the computations are independent for each of the observations, they
+ are good candidates for cloud computing.
+\end_layout
+
+\begin_layout Standard
+This section is self contained and does not make use of concepts from the
+ other sections.
+ We introduce it to show how a non-trivial distribution can be incorporated
+ into the rest of the framework, and what computations are necessary to
+ fit in the framework presented is Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:The-Gamma-Dirichlet-distribution"
+
+\end_inset
+
+.
+ We present the main results in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:learning-with-gamma"
+
+\end_inset
+
+.
+ Since the justification of these results requires some measure-theoretic
+ technicalities, the proofs are derived in the subsequent sections.
+ These justifications will require introducing a new statistical distribution:
+ the Gamma-Dirichlet distribution.
+\end_layout
+
+\begin_layout Subsection
+Learning with Gamma distributions
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:learning-with-gamma"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consider a set of 
+\begin_inset Formula $n$
+\end_inset
+
+ independent Gamma distributions 
+\begin_inset Formula $T_{i}\sim\Gamma\left({k}_{i},\theta_{i}\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $k\in\left(\mathbb{R}_{+}^{*}\right)^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta\in\left(\mathbb{R}_{+}^{*}\right)^{n}$
+\end_inset
+
+, a 
+\begin_inset Formula $n$
+\end_inset
+
+-dimensional vector of positive numbers 
+\begin_inset Formula $\alpha\in\left(\mathbb{R}_{+}^{*}\right)^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $d>0$
+\end_inset
+
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The bivariate function 
+\begin_inset Formula $\Gamma\left(\cdot,\cdot\right)$
+\end_inset
+
+ will refer to the Gamma distribution and the univariate function 
+\begin_inset Formula $\Gamma\left(\cdot\right)$
+\end_inset
+
+ will refer to the Gamma function.
+ Which one is used should be clear from the context.
+\end_layout
+
+\end_inset
+
+.
+ Call 
+\begin_inset Formula $T$
+\end_inset
+
+ the joint distribution of all 
+\begin_inset Formula $T_{i}$
+\end_inset
+
+s.
+ The purpose of this paragraph is to present some practical formulas to
+ sample and compute the density function of the sum 
+\begin_inset Formula $\sum_{i}\alpha_{i}T_{i}$
+\end_inset
+
+ , which is a univariate distribution.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Marginal likelihood
+\series default
+ Call 
+\begin_inset Formula $U=\sum_{i}\alpha_{i}T_{i}$
+\end_inset
+
+.
+ Call 
+\begin_inset Formula $\underline{\theta}=\min_{i}\alpha_{i}\theta_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\underline{k}=\sum_{i}k_{i}$
+\end_inset
+
+.
+ The probability density function of 
+\begin_inset Formula $U$
+\end_inset
+
+ is an infinite series 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Moschopoulos,Alouini2001"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+f_{U}\left(d\right)=\underline{\theta}^{\underline{k}}\prod_{i}\left(\alpha_{i}\theta_{i}\right)^{-\underline{k}}\sum_{l=0}^{\infty}\delta_{l}f_{\Gamma}\left(d;\underline{k}+l,\underline{\theta}\right)
+\]
+
+\end_inset
+
+in which 
+\begin_inset Formula $f_{\Gamma}$
+\end_inset
+
+ is the density function of the Gamma distribution: 
+\begin_inset Formula $f_{\Gamma}\left(x;a,b\right)=\Gamma\left(a\right)^{-1}b^{-a}x^{a-1}e^{-b^{-1}x}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left(\delta_{j}\right)_{j}$
+\end_inset
+
+ a series defined by the recursive formula: 
+\begin_inset Formula 
+\[
+\begin{cases}
+\delta_{0}= & 1\\
+\delta_{l}= & \frac{1}{l}\sum_{m=0}^{l}\delta_{l}\left(\sum_{i=1}^{n}k_{i}\left(1-\alpha_{i}\theta_{i}^{-1}\underline{\theta}\right)^{l-m}\right)
+\end{cases}
+\]
+
+\end_inset
+
+This result is a direct application of 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Moschopoulos"
+
+\end_inset
+
+, using the scaling property of the Gamma distribution: 
+\begin_inset Formula $\alpha_{i}T_{i}\sim\Gamma\left(k_{i},\alpha_{i}\theta_{i}\right)$
+\end_inset
+
+ for 
+\begin_inset Formula $\alpha_{i}>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Sampling from conditional gamma distributions.
+
+\series default
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+Given 
+\begin_inset Formula $\alpha\in\left(\mathbb{R}_{+}^{*}\right)^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $d>0$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Generate 
+\begin_inset Formula $n$
+\end_inset
+
+ independent samples 
+\begin_inset Formula $a_{i}\sim\Gamma\left({k}_{i},d^{-1}\alpha_{i}\theta_{i}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $z_{i}=d\alpha_{i}^{-1}\frac{a_{i}}{\sum_{k}a_{k}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Then 
+\begin_inset Formula $z\sim T|\alpha^{T}T=d$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:Sampler-for-Gamma"
+
+\end_inset
+
+Sampler for Gamma distributions conditioned on a hyperplane
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ Our algorithm must provide values from the conditional distribution 
+\begin_inset Formula $Z\sim T|\alpha^{T}T=d$
+\end_inset
+
+.
+ While this distribution has a complex shape (in particular, it is defined
+ over a zero-measure hyperplane of the space of variable), there happens
+ to exist a remarkably simple procedure to sample values from the conditional
+ Gamma distribution 
+\begin_inset Formula $Z$
+\end_inset
+
+: sample 
+\begin_inset Formula $n$
+\end_inset
+
+ independent values from Gamma distributions:
+\begin_inset Formula 
+\begin{equation}
+A_{i}\sim\Gamma\left(k_{i},\frac{\alpha_{i}\theta_{i}}{d}\right)\label{eq:gamma-sample-1}
+\end{equation}
+
+\end_inset
+
+Then a suitably rescaled value of 
+\begin_inset Formula $A_{i}$
+\end_inset
+
+ follows the distribution of 
+\begin_inset Formula $Z$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+Z_{i}=\frac{d}{\alpha_{i}}\frac{A_{i}}{\sum_{l}A_{l}}\label{eq:gamma-sample-2}
+\end{equation}
+
+\end_inset
+
+To our knowledge, this is a new result regarding Gamma distributions.
+ We present the proof of correctness in the next Section.
+ The proof requires some technical arguments that may be skipped in a first
+ reading.
+ The algorithm is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Sampler-for-Gamma"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+The Gamma-Dirichlet distribution
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:The-Gamma-Dirichlet-distribution"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In order to show that the equations 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:gamma-sample-1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:gamma-sample-2"
+
+\end_inset
+
+ give the correct distribution for 
+\begin_inset Formula $Z$
+\end_inset
+
+, we formally introduce a generalization of the Dirichlet distribution,
+ which we call the 
+\emph on
+Gamma-Dirichlet distribution
+\emph default
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+To our knowledge, the following results have not been presented in the literatur
+e so far.
+\end_layout
+
+\end_inset
+
+.
+ This distribution can be sampled using a closed for solution.
+ We show in a second step that its p.d.f.
+ is the same as the p.d.f.
+ of the conditional distribution 
+\begin_inset Formula $T|\sum_{i}T_{i}=1$
+\end_inset
+
+.
+ We then generalize to arbitrary positive combinations.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+The Gamma-Dirichlet distribution.
+
+\series default
+ The regular simplex 
+\begin_inset Formula $\mathcal{S}^{n}\subset\mathbb{R}^{n}$
+\end_inset
+
+ is the convex hull of the elementary vertices 
+\begin_inset Formula $\left(\mathbf{e}_{i}\right)_{i\in\left[1,n\right]}$
+\end_inset
+
+.
+ Given a vector 
+\begin_inset Formula ${k}\in\left(\mathbb{R}^{+}\right)^{n}$
+\end_inset
+
+ and a vector 
+\begin_inset Formula $\theta\in\left(\mathbb{R}^{+}\right)^{n}$
+\end_inset
+
+, we define the 
+\emph on
+Gamma-Dirichlet distribution
+\emph default
+: 
+\begin_inset Formula 
+\[
+X\sim\Gamma D\left({k},\theta\right)
+\]
+
+\end_inset
+
+ with values over the regular simplex 
+\begin_inset Formula $\mathcal{S}^{n}$
+\end_inset
+
+ as the normalized sum of 
+\begin_inset Formula $n$
+\end_inset
+
+ elements drawn from independent Gamma distributions: 
+\begin_inset Formula 
+\[
+X_{i}=\frac{Y_{i}}{\sum_{j}Y_{j}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+with 
+\begin_inset Formula 
+\begin{equation}
+Y_{i}\sim\Gamma\left({k}_{i},\theta_{i}\right)\label{eq:Y}
+\end{equation}
+
+\end_inset
+
+ and 
+\begin_inset Formula $Y_{i}$
+\end_inset
+
+ all pairwise independent.
+ The Gamma-Dirichlet distribution is a simple of the Dirichlet distribution:
+ if 
+\begin_inset Formula $\theta=a\mathbf{1}$
+\end_inset
+
+ for some 
+\begin_inset Formula $a>0$
+\end_inset
+
+, this is the Dirichlet distribution of the 
+\begin_inset Formula $n$
+\end_inset
+
+th order.
+ The definition gives a straightforward procedure to sample some values
+ from 
+\begin_inset Formula $X$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Density.
+
+\series default
+ Note first that one needs to be careful in defining the underlying 
+\begin_inset Formula $\sigma$
+\end_inset
+
+-algebra of our probability space, as the values of 
+\begin_inset Formula $X$
+\end_inset
+
+ are located in an embedding of 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+ of measure 
+\begin_inset Formula $0$
+\end_inset
+
+ (a hyperplane).
+ Consider the 
+\begin_inset Formula $n$
+\end_inset
+
+-dimensional hyperplane 
+\begin_inset Formula $\mathcal{H}^{n}=\left\{ x|x^{T}\mathbf{1}=1\right\} $
+\end_inset
+
+.
+ This hyperplane includes the simplex 
+\begin_inset Formula $\mathcal{S}^{n}$
+\end_inset
+
+.
+ The Lebesgue measure of this set in 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+ is zero.
+ However, we can consider the Lebesgue measure 
+\begin_inset Formula $\tilde{\mu}$
+\end_inset
+
+ defined over 
+\begin_inset Formula $\mathbb{R}^{n-1}$
+\end_inset
+
+ and the transform: 
+\begin_inset Formula $\phi:\mathbb{R}^{n-1}\rightarrow\mathcal{H}^{n}$
+\end_inset
+
+ defined by 
+\begin_inset Formula $\phi\left(u\right)=\left(u\,-\mathbf{1}^{T}u\right)^{T}$
+\end_inset
+
+.
+ This transform is a linear mapping and it defines a new measure 
+\begin_inset Formula $\hat{\mu}$
+\end_inset
+
+ for the space 
+\begin_inset Formula $\mathcal{H}^{n}$
+\end_inset
+
+ based on 
+\begin_inset Formula $\tilde{\mu}$
+\end_inset
+
+.
+ Under this measure, the measure of the simplex 
+\begin_inset Formula $\mathcal{S}^{n}$
+\end_inset
+
+ is positive.
+ Call 
+\begin_inset Formula $\mu$
+\end_inset
+
+ the measure defined over 
+\begin_inset Formula $\mathcal{S}^{n}$
+\end_inset
+
+ by 
+\begin_inset Formula $\mu\left(\cdot\right)=\hat{\mu}\left(\mathcal{S}^{n}\right)^{-1}\hat{\mu}\left(\cdot\right)$
+\end_inset
+
+.
+ Consider the conditional distribution 
+\begin_inset Formula $Z_{i}=Y_{i}|\sum_{j}Y_{j}=1$
+\end_inset
+
+ with 
+\begin_inset Formula $Y_{i}$
+\end_inset
+
+ defined in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Y"
+
+\end_inset
+
+.
+ The density function of this distribution is 
+\begin_inset Formula $0$
+\end_inset
+
+ over 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+ nearly everywhere, however it has non-zero measure over the regular simplex
+ 
+\begin_inset Formula $\mathcal{S}^{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Call 
+\begin_inset Formula $f_{\Gamma D}\left(x\right)$
+\end_inset
+
+ the p.d.f.
+ of the Gamma-Dirichlet distribution over 
+\begin_inset Formula $\mathcal{S}^{n}$
+\end_inset
+
+.
+ Then we have: 
+\begin_inset Formula 
+\[
+f_{\Gamma D}\left(x\right)\propto\prod_{i=1}^{n}f_{\Gamma}\left(x_{i};k_{i},\theta_{i}\right)
+\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $f_{\Gamma}\left(x;k,\theta\right)$
+\end_inset
+
+ defined above.
+\end_layout
+
+\begin_layout Proof
+euoe This proof is adapted from a similar proof 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "devroye1986non"
+
+\end_inset
+
+ for the Dirichlet distribution.
+ Using the same notations as above, define 
+\begin_inset Formula $Y=\sum_{j}Y_{j}$
+\end_inset
+
+ and 
+\begin_inset Formula $X_{i}=Y_{i}/Y$
+\end_inset
+
+ for 
+\begin_inset Formula $i\leq n$
+\end_inset
+
+.
+ The joint density for the 
+\begin_inset Formula $Y$
+\end_inset
+
+'s is: 
+\begin_inset Formula 
+\[
+f\left(y\right)\propto\prod_{i}y_{i}^{{k}_{i}-1}e^{-\sum\theta_{i}^{-1}y_{i}}
+\]
+
+\end_inset
+
+ Define the transform 
+\begin_inset Formula $\tilde{\varphi}:\,\mathbb{R}^{n}\rightarrow\mathbb{R}^{n}$
+\end_inset
+
+ by: 
+\begin_inset Formula $\tilde{y}=\sum_{i}\theta_{i}^{-1}y_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{x}_{i}=\tilde{y}^{-1}\theta_{i}^{-1}y_{i}$
+\end_inset
+
+ for 
+\begin_inset Formula $i\leq n-1$
+\end_inset
+
+.
+ We are going to show that the joint density of 
+\begin_inset Formula $\tilde{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{y}$
+\end_inset
+
+ can be written as 
+\begin_inset Formula $g\left(\tilde{x},\tilde{y}\right)=a\left(\tilde{x}\right)b\left(\tilde{y}\right)$
+\end_inset
+
+, which implies that the variables 
+\begin_inset Formula $\tilde{x}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{y}$
+\end_inset
+
+ are independent.
+ This mapping is invertible and its Jacobian at 
+\begin_inset Formula $\tilde{y}$
+\end_inset
+
+ is 
+\begin_inset Formula $\left(\prod_{i}\theta_{i}^{-1}\right)\tilde{y}$
+\end_inset
+
+.
+ Thus the joint density of 
+\begin_inset Formula $\left(\tilde{y},\tilde{x}\right)$
+\end_inset
+
+ is: 
+\begin_inset Formula 
+\[
+g\left(\tilde{y},\tilde{x}\right)\propto\left[\left(1-\sum_{i=1}^{n-1}\tilde{x}_{i}\right)^{{k}_{n}-1}\prod_{i=1}^{n-1}\tilde{x}_{i}^{{k}_{i}-1}\right]\left[\tilde{y}^{\sum_{i}{k}_{i}-1}e^{-\tilde{y}}\right]
+\]
+
+\end_inset
+
+ This shows that the variables 
+\begin_inset Formula $\tilde{y}$
+\end_inset
+
+ and 
+\begin_inset Formula $\tilde{x}$
+\end_inset
+
+ are independent.
+ Furthermore, from the expression above, the distribution of 
+\begin_inset Formula $\tilde{x}$
+\end_inset
+
+ is a Dirichlet distribution and the distribution of 
+\begin_inset Formula $\tilde{y}$
+\end_inset
+
+ is a Gamma distribution.
+ The marginal for 
+\begin_inset Formula $\tilde{x}$
+\end_inset
+
+ writes:
+\begin_inset Formula 
+\[
+g\left(\tilde{x}\right)\propto\left(1-\sum_{i=1}^{n-1}\tilde{x}_{i}\right)^{{k}_{n}-1}\prod_{i=1}^{n-1}\tilde{x}_{i}^{{k}_{i}-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Now, we consider a change of variables for the joint variables 
+\begin_inset Formula $y$
+\end_inset
+
+ to remove the conditional constraint 
+\begin_inset Formula $\sum_{i}y_{i}=1$
+\end_inset
+
+.
+ Define the transform 
+\begin_inset Formula $\varphi:\,\hat{y}=\sum_{i}y_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $\hat{x}_{i}=\hat{y}^{-1}y_{i}$
+\end_inset
+
+ for 
+\begin_inset Formula $k\leq n-1$
+\end_inset
+
+.
+ This mapping is also invertible, with Jacobin 
+\begin_inset Formula $\hat{y}^{k}$
+\end_inset
+
+.
+ The joint density of 
+\begin_inset Formula $\left(\hat{y},\hat{x}\right)$
+\end_inset
+
+ is: 
+\begin_inset Formula 
+\[
+g\left(\hat{y},\hat{x}\right)\propto\left[\left(1-\sum_{i=1}^{n-1}\hat{x}_{i}\right)^{{k}_{n}-1}\prod_{i=1}^{n-1}\hat{x}_{i}^{{k}_{i}-1}\right]\left[\hat{y}^{\sum_{i}{k}_{i}-1}e^{-\theta_{n}\hat{y}}\right]
+\]
+
+\end_inset
+
+ By identification, we get: 
+\begin_inset Formula $g\left(x|y=1\right)=g\left(\Delta^{-1}\tilde{x}\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $\Delta$
+\end_inset
+
+ the diagonal matrix defined by 
+\begin_inset Formula $\Delta_{ii}=\theta_{i}$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $\tilde{\varphi}^{-1}\left(\left(\Delta^{-1}\tilde{x},1\right)^{T}\right)=\tilde{x}$
+\end_inset
+
+, the result ensues.
+ 
+\end_layout
+
+\begin_layout Standard
+The previous result proves that the sampling procedure in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:Sampler-for-Gamma"
+
+\end_inset
+
+ is correct for the simplex 
+\begin_inset Formula $\mathcal{S}^{n}$
+\end_inset
+
+ (i.e.
+ 
+\begin_inset Formula $d=1$
+\end_inset
+
+).
+ We can then use the scaling transform of the Gamma distribution to show
+ it is also correct for other values of 
+\begin_inset Formula $d$
+\end_inset
+
+.
+ Indeed, the constraint 
+\begin_inset Formula $\alpha^{T}T=d$
+\end_inset
+
+ is also equivalent to 
+\begin_inset Formula $\sum Y_{i}=1$
+\end_inset
+
+ with 
+\begin_inset Formula $Y_{i}=d^{-1}\alpha_{i}T_{i}\sim\Gamma\left(k_{i,},d^{-1}\alpha_{i}\theta_{i}\right)$
+\end_inset
+
+.
+ We can perform the conditional sampling on the variables 
+\begin_inset Formula $Y_{i}$
+\end_inset
+
+, and then rescale the values obtained to get the correct distribution.
+\end_layout
+
+\begin_layout Proof
+Consider a set of 
+\begin_inset Formula $n$
+\end_inset
+
+ independent Gamma distributions 
+\begin_inset Formula $T_{i}\sim\Gamma\left(k_{i},\theta_{i}\right)$
+\end_inset
+
+, a 
+\begin_inset Formula $n$
+\end_inset
+
+-dimensional vector of positive numbers 
+\begin_inset Formula $\alpha\in\left(\mathbb{R}_{+}^{*}\right)^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $t>0$
+\end_inset
+
+.
+ The purpose of this section is to present some practical formulas to sample
+ and compute the density function of the conditional distribution:
+\end_layout
+
+\begin_layout Proof
+\begin_inset Formula 
+\[
+Z=T\bigg|\sum_{i}\alpha_{i}T_{i}=d
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+We define this distribution over the 
+\begin_inset Formula $n$
+\end_inset
+
+-dimensional simplex 
+\begin_inset Formula 
+\[
+\mathcal{S}_{\alpha,d}=\left\{ x\in\left(\mathbb{R}^{+}\right)\bigg|\alpha^{T}x=d\right\} 
+\]
+
+\end_inset
+
+ As before, we define a new measure over the hyperplane defined by 
+\begin_inset Formula $\alpha^{T}x=d$
+\end_inset
+
+ by an isomorphism from 
+\begin_inset Formula $\mathbb{R}^{n-1}$
+\end_inset
+
+, and use it as our base measure 
+\begin_inset Formula $\text{d}z$
+\end_inset
+
+ for 
+\begin_inset Formula $Z$
+\end_inset
+
+.
+ We call 
+\begin_inset Formula $f$
+\end_inset
+
+ the probability density function of variable 
+\begin_inset Formula $Z$
+\end_inset
+
+ with respect to this measure.
+ With respect to this measure, the probability density function of 
+\begin_inset Formula $Z$
+\end_inset
+
+ is that of a Gamma-Dirichlet distribution: 
+\begin_inset Formula 
+\[
+f\left(z\right)\propto f_{\Gamma D}\left(y;k,\hat{\theta}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+with: 
+\begin_inset Formula 
+\[
+\hat{\theta}_{i}=t^{-1}\alpha_{i}\theta_{i}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

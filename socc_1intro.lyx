@@ -1,0 +1,439 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:intro"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Traffic congestion affects nearly everyone in the world due to the environmental
+ damage and transportation delays it causes.
+ The
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $2007$
+\end_inset
+
+ Urban Mobility Report
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tti"
+
+\end_inset
+
+ states that traffic congestion causes
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $4.2$
+\end_inset
+
+ billion hours of extra travel in the United States every year, which accounts
+ for 2.9 billion extra gallons of fuel and an additional cost of
+\begin_inset space ~
+\end_inset
+
+$78 billion.
+ Providing drivers with accurate traffic information reduces the stress
+ associated with congestion and allows drivers to make informed decisions,
+ which generally increases the efficiency of the entire road network
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "ban_optimal_2008"
+
+\end_inset
+
+.
+ Researchers on Traffic Information Systems (TIS) broadly agree that accurate
+ information is critical to increase their usage 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "chorus2006use"
+
+\end_inset
+
+.
+ So far however, it seems only a small fraction of the drivers uses TIS
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gao2011cognitive"
+
+\end_inset
+
+.
+ In this scenario, we can consider that revealing the true state of the
+ traffic to the participants will not change the dynamics of the overall
+ phenomenon: the informed drivers will optimize their routes or schedule
+ without changing (much) the global equilibrium of the other road users
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+A working draft of this article was presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunterlarge"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Modeling highway traffic conditions has been well-studied by the transportation
+ community with work dating back to the pioneering work of Lighthill, Whitham
+ and Richards
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lighthill_kinematic_1955"
+
+\end_inset
+
+.
+ Recently, researchers demonstrated that estimating highway traffic conditions
+ can be done using only GPS probe vehicle data
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "work2010traffic"
+
+\end_inset
+
+.
+ Arterial roads, which are major urban city streets that connect population
+ centers within and between cities, provide additional challenges for traffic
+ estimation.
+ Recent studies focusing on estimating real-time arterial traffic conditions
+ have investigated traffic flow reconstruction for single intersections
+ using dedicated traffic sensors.
+ Dedicated traffic sensors are expensive to install, maintain and operate,
+ which limits the number of sensors that governmental agencies can deploy
+ on the road network.
+ The lack of sensor coverage across the arterial network thus motivates
+ the use of GPS probe vehicle data for estimating traffic conditions.
+\end_layout
+
+\begin_layout Standard
+The specific problem we address in this use case is how to extract travel
+ time distributions from 
+\emph on
+sparse, noisy
+\emph default
+ GPS measurements collected 
+\emph on
+in real-time
+\emph default
+ from vehicles, and over a 
+\emph on
+very large network
+\emph default
+.
+ A probabilistic model of travel times on the arterial network is presented
+ along with an online 
+\emph on
+Expectation Maximization
+\emph default
+ (EM) algorithm for learning the parameters of this model (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:model"
+
+\end_inset
+
+).
+ The algorithm is expensive due to the large dimension of the network and
+ the complexity inherent to the evolution of traffic.
+ Furthermore, our EM algorithm has no closed-form expression and requires
+ sampling and non-linear optimization techniques.
+ This is why the use of a distributed system is appropriate.
+ 
+\end_layout
+
+\begin_layout Standard
+This EM algorithm is the core of an estimation pipeline deployed inside
+ the 
+\emph on
+Mobile Millennium
+\emph default
+ traffic information system 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mm,mm-socc"
+
+\end_inset
+
+.
+ This engine gathers GPS observations from participating vehicles and produces
+ estimates of the travel times on the road network.
+ 
+\emph on
+Mobile Millennium
+\emph default
+ is intended to work at the scale of large metropolitan areas: the road
+ network considered in this work is a real road network (a large portion
+ of the greater Bay Area, comprising 506,685 road links) and the data for
+ this work is collected from thousands of vehicles that generate millions
+ of observations per day.
+ As a consequence of these specifications and requirements, we employ highly
+ scalable traffic algorithms.
+ Furthermore, 
+\emph on
+Mobile Millennium 
+\emph default
+is a research platform and can be used with various models of travel times.
+ The fundamental unit of estimation is the probability distribution of travel
+ times over a single link of the road network.
+ As we will see, our framework can accommodate 
+\emph on
+any 
+\emph default
+distribution of travel times that provided they expose a few functionalities
+ (sampling, parameter estimation from observations).
+ This should be of interest to the traffic researchers and practitioners
+ since our framework solves all the issues of using raw GPS samples to build
+ traffic estimates at a very large scale with low latency.
+ Our framework has been released under an open-sources license and is available
+ for download 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bots-arterial-streaming-code"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+More generally, our system presents a way to cope with large amounts of
+ data from automation systems in a principled way.
+ Industries such as genomic and astronomy have learned to cope with extremely
+ large datasets over the last decade.
+ What makes cyberphysical systems stand out amongst these applications is
+ the fast decay of the value of information: in robotics systems for example,
+ the data collected from sensors is usually fed into a control system.
+ Past information is often of limited or no value, sometimes as fast as
+ in the span of a few minutes or tens of seconds.
+ This is unlike genomic records which, rather than being processed immediately,
+ need to be stored reliably for a long time.
+ In essence, the incoming information in cyberphysical systems needs to
+ be considered as a stream, and not so much as an ever-growing dataset.
+ In this setting, the design of the computing platform becomes critical
+ to achieve both 
+\emph on
+scalability 
+\emph default
+(which implies robustness to computer failures) and 
+\emph on
+latency
+\emph default
+, which is all the more important as estimates are usually part of a larger
+ decision system.
+ In this article, we investigate the use of Discretized Streams (D-Streams)
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zaharia2012discretized"
+
+\end_inset
+
+, a novel computing technique that process flows of incoming data on a cluster.
+\end_layout
+
+\begin_layout Standard
+The present work is novel for three reasons:
+\end_layout
+
+\begin_layout Itemize
+Our framework can work with a very large class of travel time distributions
+ proposed in the literature 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "lin2004short,hellinga2002reducing,hofleitner2012arterial"
+
+\end_inset
+
+.
+ If a travel time distribution can perform some elementary operations described
+ in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:dataflow-algorithm"
+
+\end_inset
+
+ (conditional sampling, maximum likelihood estimation), then it can be used
+ in our highly scalable architecture.
+ Thus transportation researchers can focus on designing good travel time
+ distributions, leaving the system aspects aside should they wish to deploy
+ it on a real system.
+\end_layout
+
+\begin_layout Itemize
+Our framework can accommodate complex distributions and spread the computations
+ across a large cluster.
+ The natural baseline is Gaussian distributions, because a number of important
+ operations have close-formed solutions, unlike other distributions.
+ However, Gaussian distributions are not adapted to represent traffic distributi
+ons: they are not limited to the positive reals, and they lack a heavy tail
+ (i.e., they are sensitive to noise and outliers).
+ These considerations drive our use of another simple distribution: the
+ Gamma distribution.
+ We present novel results regarding the sampling from conditioned Gamma
+ distributions.
+\end_layout
+
+\begin_layout Itemize
+Building such a system is at the forefront of research in large scale systems.
+ Our algorithm (an EM algorithm on streaming data) is representative of
+ a large class of Machine Learning algorithms used in robotics and automation,
+ and our overall design could be used as well for these other algorithms
+ and applications.
+ This is why we present and explain the design of our system, as we find
+ there are valuable lessons for practitioners.
+\end_layout
+
+\begin_layout Standard
+We start by presenting our general approach to traffic estimation and the
+ 
+\emph on
+Mobile Millennium 
+\emph default
+framework in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:model"
+
+\end_inset
+
+.
+ We then present in details how a non-trivial distribution of travel times
+ (a Gamma distribution) can be used on the system.
+ We then present the system aspects and the overall design of the system
+ in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:d-streams"
+
+\end_inset
+
+.
+ We finally evaluate our implementation in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:experiments"
+
+\end_inset
+
+ from the perspective of scalability (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:experiment-scalability"
+
+\end_inset
+
+) and accuracy (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:experiment-ml"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\end_body
+\end_document
