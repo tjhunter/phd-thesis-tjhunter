@@ -38,8 +38,19 @@ TEXINPUTS=$PWD::$PWD/build lyx
 Berkeley requirements
 ======================
 
+To push to the website:
+```bash
+scp build/thesis.pdf tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf
+```
+
+The file is available at:
+
+http://www.eecs.berkeley.edu/~tjhunter/publications/thesis.pdf
+
 http://www.grad.berkeley.edu/policies/pdf/disguide.pdf
+
 http://grad.berkeley.edu/policies/guides/dissertation
+
 https://buffy.eecs.berkeley.edu/PHP/facres/menu.php?f_submit=gradrpts&studid=
 
  The Dissertation
