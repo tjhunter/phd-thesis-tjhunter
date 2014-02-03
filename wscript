@@ -78,7 +78,7 @@ def build(bld):
   # The text parts
   bld.lyx2tex(bld.path.ant_glob('*.lyx'))
   bld.add_group()
-  bib_deps = 'references.bib path_inference.bib'.split()
+  bib_deps = 'references.bib path_inference.bib socc.bib'.split()
   tex_deps = 'ucbthesis.cls preamble.tex'.split()
   img_deps = []
   # INTRO chapter deps
@@ -159,11 +159,5 @@ def build(bld):
 	       """.split()
   tex_deps += ['kdd_6conclusion.tex']
   bld.add_group()
-  # Final assembly
-  bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
-  
-def build2(bld):
-  # GMRF chapter
-  tex_deps += ['gmrf.tex']
   # Final assembly
   bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
