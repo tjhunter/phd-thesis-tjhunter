@@ -38,7 +38,7 @@ def process_lyx(task):
 
 class PostprocessLyx(Task.Task):
   def run(self):
-    Logs.debug("in post process")
+    #Logs.debug("in post process")
     return postprocess_lyx(self.inputs[0].abspath(),self.outputs[0].abspath())
 
 @conf

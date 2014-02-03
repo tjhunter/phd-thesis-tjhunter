@@ -19,10 +19,21 @@ def configure(conf):
   conf.load('img2eps',tooldir="wafextras")
   conf.load('thesis',tooldir="wafextras")
   conf.load('unoconv',tooldir="wafextras")
+  conf.load('data',tooldir="wafextras")
   if not conf.env.LATEX:
     conf.fatal('The program LaTex is required')
     
 def build(bld):
+  # Get the data files first:
+  bld.download_data("http://www.eecs.berkeley.edu/~tjhunter/data/tase.zip", "tase.zip")
+  #bld(rule="wget http://www.eecs.berkeley.edu/~tjhunter/data/path_inference.zip -O ${TGT}", target="path_inference.zip", name='pif_data')
+  bld.download_data("http://www.eecs.berkeley.edu/~tjhunter/data/path_inference.zip", "path_inference.zip")
+  data_dir = bld.path.get_bld().make_node("data")
+  data_dir.mkdir()
+  bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="path_inference.zip")
+  bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="tase.zip")
+  #bld(rule="unzip ${SRC[0].abspath()} -d ${TGT[0].abspath()}", source="tase.zip",target=data_dir)
+  bld.add_group()
   # Generation of images by python scripts
   # Small test
   bld.build_python("python/myscript.py",'myfile.txt')

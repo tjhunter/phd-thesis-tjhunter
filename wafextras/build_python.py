@@ -16,7 +16,10 @@ def configure(conf):
     conf.env.DATA_DIR = conf.options.data_dir
     conf.end_msg(conf.env.DATA_DIR)
   else:
-    conf.end_msg('DATA_DIR is not set')
+    data_dir = conf.path.get_bld().make_node("data")
+    data_dir_name = data_dir.abspath()
+    conf.env.DATA_DIR = data_dir_name
+    conf.end_msg('DATA_DIR is not set, using local directory %r'%data_dir_name)
 
 @conf
 def build_python(bld, source_, targets_):
