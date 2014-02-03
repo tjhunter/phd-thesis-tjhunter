@@ -85,8 +85,85 @@ epigraph{A famous citation}{A famous author}
 \end_layout
 
 \begin_layout Standard
+
+\series bold
+Sensor fusion.
+ 
+\series default
+The integration of sensors and data, the increase in data volume, the decrease
+ in costs is transforming most physical systems.
+ The digital world is pervasively invading all aspects of manufacturing
+ and sensing.
+ Nowadays, every significant system collects enormous amounts of informations
+ about its inner state.
+ This information however is usually collected on a ad-hoc basis and does
+ not fullfill the requirements that one would like in terms of coverage,
+ signal-to-noise ratio.
+ In other terms, its relevance to the monitoring task is indirect, unlike
+ a gauge that measures the level of gas in a tank.
+ For these cyberphysical systems, the reconstruction of the inner state
+ has to be done by merging massive streams of data.
+ We present here an application of these in the realm of civil engineering:
+ the case of estimating traffic in a city.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Arterial traffic.
+ 
+\end_layout
+
+\begin_layout Standard
 Talk about real-time state estimation at scale.
  Here is an example in traffic.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Data driven inference.
+
+\series default
+ Consider that we want to build some model of the traffic phenomenon.
+ The ultimate goal is to use the measurements currently at hand to build
+ a function that given new (unseen) data, provides some estimate of the
+ state of the system, and some validation of this state.
+ This function often have a fixed structure and some parameters that depend
+ on this particular structure that can be tuned given some data.
+ This includes some physical model where the physical constants have to
+ be calibrated, some statistical model in which the statistical parameters
+ have to be adjusted to best match the observations, etc.
+ Another approach is to assume that all observations are points in some
+ arbitratry space, and that their distribution can be described in terms
+ of these data points only.
+ This is the non-parametric approach, which we will not consider here.
+ There are two ways to approach the problem of building a model, which relate
+ into how much the existing data at hand play a role in elaborating a structure:
+ a statistical approach and a first principle approach.
+ These two ways are complementary.
+ In the statistical approach, the data is used to prescribe a structure,
+ which is then tuned using this data.
+ In the first principle approach, the scientist has some additional knowledge
+ about the general laws that govern the phenomenon, such as the law of physics,
+ some particular assumptions about speed, people's behaviour, etc.
+ Based on these laws, some general patterns can describe the phenomenon.
+ For example, if cars on a highway were represented as a continuous fluid,
+ then the treatment of highways through fluid dynamics will predict shockwaves,
+ traffic jams around intersections, etc.
+ without having seen data.
+ One could argue that with enough information and computing power, one could
+ in principle select a set of optimal statistical model that could predict
+ (but not explain) the most minute details of the phenomenon.
+ In the other hand, with the perfect knowledge of the conditions and a rigorous
+ derivation that takes into account all the experimental flaws, the first
+ principle approach could full predict the data collected.
+ In practice, due to our ignorance of some important parts of the experiments,
+ we need to make some simplifying assumptions in a model and compensate
+ by inferring some constants from the data.
+ Also, given a data-driven approach, our prior knowledge of the phenomenon
+ will influence our choice of variable (representation problem), and give
+ us some insight about the structure of dependencies between these variables.
 \end_layout
 
 \begin_layout Standard
@@ -94,6 +171,25 @@ We describe here a big problem that is driven by data.
  The classical approach is to look first for first principles and then deduce
  some facts based these principles, and then pick a problem that one can
  solve based on these facts.
+\end_layout
+
+\begin_layout Standard
+Our approach will focus on extracting structure from data.
+ In the case of traffic, there is a wealth of research focused on explaining
+ observations based on first principles (more on that later).
+ Our data exploration will be motivated by the general physical principals
+ behind the phenomenon.
+ However, it will not try to 
+\emph on
+explain
+\emph default
+ as much as 
+\emph on
+predict
+\emph default
+ the future or the unobserved data.
+ In particural, some very strong simplifying assumptions will be made, and
+ justified only by the power of the prediction they let us make.
 \end_layout
 
 \begin_layout Standard
@@ -116,6 +212,49 @@ Such systems are only interesting in the sense that they can lead to computable
  models that perform inference at fast enough a rate.
  We present some new paradigms to perform these computations in the third
  chapter.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Pipeline.
+
+\series default
+ In this data-intensive task, the final output looks like a complete pipeline
+ separated in multiple stages, each of the stages being responsible for
+ a separate task.
+ Our traffic pipeline is decomposed in the steps shown in figure XXXX.
+ We will focus on the step in BLUE in the pipeline.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Diversity in GPS data.
+
+\series default
+ 
+\end_layout
+
+\begin_layout Standard
+The rest of this discussion will be decomposed as the following.
+ In a first chapter, we will study how to recover travel time informations
+ from GPS data.
+ In today's world, there are different characteristics in the data.
+ This is why we are going to explore two possible scenarios:
+\end_layout
+
+\begin_layout Itemize
+A first scenario in which we have a lot of sparse GPS data
+\end_layout
+
+\begin_layout Itemize
+A second scenario in which we have more high-frequency data
+\end_layout
+
+\begin_layout Standard
+In both cases, we want to work at the scale of the city, and we will highlight
+ the contributions towards scaling the problem to very large metropolis.
 \end_layout
 
 \begin_layout Standard
