@@ -26,8 +26,8 @@ Compilation instructions
 
 ```bash
 ./get_waf.sh
-./waf -j1 -vvv distclean configure build --data-dir=/home/tjhunter/work/data/thesis
-./waf -j1 build --data-dir=/home/tjhunter/work/data/thesis
+./waf -j1 -vvv distclean configure build
+./waf -j1 build
 
 ```
 
