@@ -73,6 +73,8 @@ def build(bld):
   """.split())
   # The KDD images.
   bld.build_python("python/kdd/plot_network.py",'figures-kdd/network_export_6.pdf')
+  bld.build_python("python/kdd/plot_subnetworks.py",'figures-kdd/hmm_graph.pdf')
+  bld.build_python("python/kdd/plot_subnetworks.py",'figures-kdd/tt_graph.pdf')
   bld.add_group()
   
   # The text parts
