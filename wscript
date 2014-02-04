@@ -26,13 +26,11 @@ def configure(conf):
 def build(bld):
   # Get the data files first:
   bld.download_data("http://www.eecs.berkeley.edu/~tjhunter/data/tase.zip", "tase.zip")
-  #bld(rule="wget http://www.eecs.berkeley.edu/~tjhunter/data/path_inference.zip -O ${TGT}", target="path_inference.zip", name='pif_data')
   bld.download_data("http://www.eecs.berkeley.edu/~tjhunter/data/path_inference.zip", "path_inference.zip")
   data_dir = bld.path.get_bld().make_node("data")
   data_dir.mkdir()
   bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="path_inference.zip")
   bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="tase.zip")
-  #bld(rule="unzip ${SRC[0].abspath()} -d ${TGT[0].abspath()}", source="tase.zip",target=data_dir)
   bld.add_group()
   # Generation of images by python scripts
   # Small test
@@ -73,6 +71,8 @@ def build(bld):
     figures-socc/rl1_SlidingBig.pdf
     figures-socc/rl2_SlidingBig3.pdf
   """.split())
+  # The KDD images.
+  bld.build_python("python/kdd/plot_network.py",'figures-kdd/network_export_6.pdf')
   bld.add_group()
   
   # The text parts
@@ -144,7 +144,8 @@ def build(bld):
   bld.oo2pdf(bld.path.ant_glob('docs-kdd/*.odg'))
   tex_deps += ['kdd_1introduction.tex']
   img_deps += ['docs-kdd/pipeline.pdf']
-  img_deps += ['figures-kdd/example_bimodal_link.pdf']
+  img_deps += ['figures-kdd/example_bimodal_link.pdf',
+	       'figures-kdd/network_export_6.pdf']
   tex_deps += ['kdd_2stop-and-go.tex']
   tex_deps += ['kdd_3graph-model.tex']
   img_deps += ['figures-kdd/graph_model.pdf']
