@@ -87,8 +87,11 @@ def build(bld):
   tex_deps = 'ucbthesis.cls preamble.tex'.split()
   img_deps = []
   # INTRO chapter deps
+  bld.oo2pdf(bld.path.ant_glob('docs-intro/*.odp'))
+  bld.oo2pdf(bld.path.ant_glob('docs-intro/*.odg'))
   tex_deps += ['acks.tex']
   tex_deps += ['intro.tex']
+  img_deps += ["docs-intro/%s.pdf"%d for d in 'power_law tt_function'.split()]
   # PIF chapter deps
   bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odp'))
   bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odg'))
@@ -147,6 +150,7 @@ def build(bld):
   bld.add_group()
   # KDD MODEL chapter
   bld.oo2pdf(bld.path.ant_glob('docs-kdd/*.odg'))
+  bld.oo2pdf(bld.path.ant_glob('docs-kdd/*.odp'))
   tex_deps += ['kdd_1introduction.tex']
   img_deps += ['docs-kdd/pipeline.pdf']
   img_deps += ['figures-kdd/example_bimodal_link.pdf',
