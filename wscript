@@ -27,10 +27,12 @@ def build(bld):
   # Get the data files first:
   bld.download_data("http://www.eecs.berkeley.edu/~tjhunter/data/tase.zip", "tase.zip")
   bld.download_data("http://www.eecs.berkeley.edu/~tjhunter/data/path_inference.zip", "path_inference.zip")
+  bld.download_data("http://www.eecs.berkeley.edu/~tjhunter/data/kdd.zip", "kdd.zip")
   data_dir = bld.path.get_bld().make_node("data")
   data_dir.mkdir()
   bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="path_inference.zip")
   bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="tase.zip")
+  bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="kdd.zip")
   bld.add_group()
   # Generation of images by python scripts
   # Small test

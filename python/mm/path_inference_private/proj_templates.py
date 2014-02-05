@@ -14,12 +14,13 @@ import re
 # pylint: disable=W0402
 from string import Template
 import gzip
-
+import logging
 import simplejson as json
 
 def get_data_dir():
-  if 'MM_DATA_DIR' in os.environ:
-    return os.environ['MM_DATA_DIR']
+  if 'DATA_DIR' in os.environ:
+    s = os.environ['DATA_DIR']
+    return "%s/path_inference/" % s
   else:
     return "%s/path_inference/"%data_path()
   #return "/windows/D/arterial_data/high_frequency/"
@@ -142,6 +143,9 @@ def get_em_evaluation_fnames(res=None, batch=None):
   (full path name, driver id)
   """
   files = os.listdir(get_data_dir())
+  #logging.info("data dir: %r",get_data_dir())
+  #logging.info("Files:")
+  #logging.info(files)
   p = re.compile(_evaluation_em_data_re)
   for f in files:
     m = p.match(f)
