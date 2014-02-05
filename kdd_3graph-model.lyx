@@ -60,6 +60,10 @@
 
 \begin_body
 
+\begin_layout Section
+A graphical model for travel times
+\end_layout
+
 \begin_layout Standard
 We develop a travel time model which exploits the compressed data returned
  by the Stop-Go model (number of stops and travel time experienced per link).

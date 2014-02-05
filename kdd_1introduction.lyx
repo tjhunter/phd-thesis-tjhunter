@@ -60,6 +60,10 @@
 
 \begin_body
 
+\begin_layout Section
+Introduction
+\end_layout
+
 \begin_layout Standard
 A common problem in trip planning is to make a given deadline, for example
  arriving at the airport within 45 minutes.
