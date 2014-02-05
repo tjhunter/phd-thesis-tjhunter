@@ -34,7 +34,7 @@ with open(build.data_name('kdd/hmm_graph_export_vertices.json')) as f:
   lons = dct['lons']
   lats = dct['lats']
   ax.scatter(lons, lats, zorder=11, **node_style)
-build.save_figure(fig, 'figures-kdd/hmm_graph',save_svg=False)
+build.save_figure(fig, 'figures-kdd/hmm_graph',save_svg=True)
 
 
 var_style = {'marker':'o','zorder':2}
@@ -55,4 +55,4 @@ with open(build.data_name('kdd/ttgraph_export_vertices.json')) as f:
   node_lats = dct['lats']
   node_lons = dct['lons']
   ax.scatter(node_lons, node_lats, **var_style)
-build.save_figure(fig, 'figures-kdd/tt_graph',save_svg=False)
+build.save_figure(fig, 'figures-kdd/tt_graph',save_svg=True)

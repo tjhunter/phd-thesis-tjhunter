@@ -22,6 +22,7 @@ def configure(conf):
   conf.load('data',tooldir="wafextras")
   if not conf.env.LATEX:
     conf.fatal('The program LaTex is required')
+  conf.find_program('inkscape',var='INKSCAPE')
     
 def build(bld):
   # Get the data files first:
@@ -152,7 +153,13 @@ def build(bld):
 	       'figures-kdd/network_export_6.pdf']
   tex_deps += ['kdd_2stop-and-go.tex']
   tex_deps += ['kdd_3graph-model.tex']
-  img_deps += ['figures-kdd/graph_model.pdf']
+  # Special rule for the travel time graph, it is too big to be handled by
+  # LibreOffice
+  bld(rule="${INKSCAPE} -z -T --export-pdf=${TGT[0].abspath()} ${SRC[0].abspath()}",
+      source="docs-kdd/network_example.svg", 
+      target="docs-kdd/network_example.pdf")
+  img_deps += ['figures-kdd/graph_model.pdf', 
+               'docs-kdd/network_example.pdf']
   tex_deps += ['kdd_4inference.tex']
   tex_deps += ['kdd_5evaluation.tex']
   img_deps += """ figures-kdd/cdf_val.pdf

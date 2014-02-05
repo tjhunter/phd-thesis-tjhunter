@@ -169,14 +169,31 @@ name "fig:graph_model"
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
+\begin_inset Float figure
+wide false
+sideways false
+status open
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename docs-kdd/network_example.pdf
+	width 10cm
 
-% 
-\backslash
-audecomment{There is something wrong with the following sentence}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of travel time graph for the San Francisco area
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -185,6 +202,10 @@ audecomment{There is something wrong with the following sentence}
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 Figure
 \begin_inset space ~
 \end_inset

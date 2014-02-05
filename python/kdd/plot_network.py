@@ -35,5 +35,5 @@ with open(fname) as f:
   ax.set_xlim(*xlims)
   ax.set_ylim(*ylims)
 # Saving in pdf is a bit slow
-build.save_figure(fig, 'figures-kdd/network_export_6',save_svg=False)
+build.save_figure(fig, 'figures-kdd/network_export_6',save_svg=True)
 
