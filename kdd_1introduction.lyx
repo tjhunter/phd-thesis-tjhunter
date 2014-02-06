@@ -226,22 +226,26 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset Graphics
 	filename figures-kdd/example_bimodal_link.pdf
 	width 80col%
 
 \end_inset
 
- 
-\begin_inset VSpace -0.2cm*
+
+\begin_inset space \hfill{}
 \end_inset
 
  
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Histogram of travel times collected on a link fit (solid line) using a mixture
- of Gaussian distributions.
+Histogram of travel times collected on a road link in San Francisco, fit
+ (solid line) using a mixture of two Gaussian distributions.
 \end_layout
 
 \end_inset
@@ -254,10 +258,6 @@ Histogram of travel times collected on a link fit (solid line) using a mixture
 LatexCommand label
 name "fig:example_bimodal_link"
 
-\end_inset
-
- 
-\begin_inset VSpace -0.5cm*
 \end_inset
 
  

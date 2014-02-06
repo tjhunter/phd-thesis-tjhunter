@@ -83,7 +83,7 @@ def build(bld):
   # The text parts
   bld.lyx2tex(bld.path.ant_glob('*.lyx'))
   bld.add_group()
-  bib_deps = 'references.bib path_inference.bib socc.bib'.split()
+  bib_deps = 'references.bib path_inference.bib socc.bib biblio_arterial_spark.bib mendeley_biblio.bib'.split()
   tex_deps = 'ucbthesis.cls preamble.tex'.split()
   img_deps = []
   # INTRO chapter deps

@@ -17,9 +17,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
 \floatstyle{ruled}
-\newfloat{algorithm}{tbp}{loa}
-\providecommand{\algorithmname}{Algorithm}
-\floatname{algorithm}{\protect\algorithmname}
+% \newfloat{algorithm}{tbp}{loa}
+% \providecommand{\algorithmname}{Algorithm}
+% \floatname{algorithm}{\protect\algorithmname}
 
 \include{preamble}
 \setlength{\epigraphwidth}{0.5\textwidth}
@@ -37,6 +37,8 @@
 \bibliography{references}
 \bibliography{path_inference}
 \bibliography{socc}
+\bibliography{biblio_arterial_spark}
+\bibliography{mendeley_biblio}
 
 \hyphenation{mar-gin-al-ia}
 
@@ -72,7 +74,7 @@
 \approvalpage
 \copyrightpage
 
-% \include{abstract}
+% \input{abstract}
 
 \begin{frontmatter}
 
@@ -86,7 +88,7 @@ To Ossie Bernosky\\\vspace{12pt}
 
 \tableofcontents
 \clearpage
-\listoffigures
+{\listoffigures}
 \clearpage
 \listoftables
 
@@ -98,35 +100,35 @@ To Ossie Bernosky\\\vspace{12pt}
 
 \pagestyle{headings}
 
-\include{intro}
+\input{intro}
 
 \chapter{A map-matching algorithm for GPS data}
 \epigraph{Pourquoi donc, reprit le Sirien, citez-vous un certain Aristote en grec?
 C'est, r\'{e}pliqua le savant, qu'il faut bien citer ce qu'on ne comprend point
 du tout dans la langue qu'on entend le moins.}{Voltaire \emph{in} Micromegas}
 % \epigraph{Le faux se r\'{e}pand vite, et le vrai surnage lentement.}{George Sand, \emph{in} C\'{e}sarine Dietrich}
-\include{pif_1intro}
-\include{pif_2pathdiscovery}
-\include{pif_3model}
-\include{pif_4training}
-\include{pif_5experiments}
-\include{pif_6conclusion}
+\input{pif_1intro}
+\input{pif_2pathdiscovery}
+\input{pif_3model}
+\input{pif_4training}
+\input{pif_5experiments}
+\input{pif_6conclusion}
 
 \chapter{A large-scale distributed streaming model}
 \epigraph{A lawyer without history or literature is a mechanic, a mere working mason;
 if he possesses some knowledge of these, he may venture to call himself an architect.}{Sir Walter Scott, in Guy Mannering}
-\include{socc_1intro}
-\include{socc_2model}
-\include{socc_3model_gamma}
-\include{socc_4dstreams}
+\input{socc_1intro}
+\input{socc_2model}
+\input{socc_3model_gamma}
+\input{socc_4dstreams}
 \epigraph{Mais on ne se bat pas dans l espoir du succes! Non! non! c'est bien plus beau lorsque c'est inutile!}{Cyrano de Bergerac}
-\include{socc_5experiments}
-\include{socc_6conclusion}
+\input{socc_5experiments}
+\input{socc_6conclusion}
 
 % \appendix
 % \chapter{More Monticello Candidates}
 
-% \include{gmrf}
+% \input{gmrf}
 
 \chapter{Large scale something}
 \epigraph{
@@ -136,12 +138,12 @@ sa corbeille o\`{u} les huissiers
 le ramassaient avec les papiers qu'ils allaient vendre 
 aux attach\'{e}s militaires de l'empire voisin.
 }{Anatole France, \emph{in} L'\^{i}le des pingouins}
-\include{kdd_1introduction}
-\include{kdd_2stop-and-go}
-\include{kdd_3graph-model}
-\include{kdd_4inference}
-\include{kdd_5evaluation}
-\include{kdd_6conclusion}
+\input{kdd_1introduction}
+\input{kdd_2stop-and-go}
+\input{kdd_3graph-model}
+\input{kdd_4inference}
+\input{kdd_5evaluation}
+\input{kdd_6conclusion}
 
 \chapter{Conclusion}
 \epigraph{He attacked everything in life with a mixture of extraordinary genius and naive incompetence
