@@ -65,6 +65,16 @@ Stop and go
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:kdd_stopandgo"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The stops due to traffic signals and other factors (double parking, garbage
  trucks and so on) represent one of the main source of variability in urban
  travel times.

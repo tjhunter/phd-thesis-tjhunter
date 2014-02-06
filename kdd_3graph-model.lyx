@@ -65,6 +65,16 @@ A graphical model for travel times
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:kdd_graphmodel"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 We develop a travel time model which exploits the compressed data returned
  by the Stop-Go model (number of stops and travel time experienced per link).
  The model captures the state transition probabilities: the probability
@@ -109,13 +119,6 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename figures-kdd/graph_model.pdf
-	width 8cm
-
-\end_inset
-
- 
 \begin_inset Caption
 
 \begin_layout Plain Layout
@@ -1569,7 +1572,7 @@ As mentioned earlier, we have a set of
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:stop-and-go"
+reference "sec:kdd_stopandgo"
 
 \end_inset
 

@@ -89,6 +89,10 @@ epigraph{From the midst of this darkness a sudden light broke in upon me--a
 
 \end_layout
 
+\begin_layout Section
+Car traffic as a cyberphysical system
+\end_layout
+
 \begin_layout Standard
 
 \series bold
@@ -255,13 +259,22 @@ status open
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:tt_function"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
-The travel time function
+The travel time function that we desire to compute: given a start time and
+ a path across a road network, we wish to provide a statistical distribution
+ of arrival times.
 \end_layout
 
 \end_inset
@@ -317,6 +330,13 @@ status open
 \end_inset
 
 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:power_law"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -338,6 +358,78 @@ The travel times vs lenght
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Data-driven insights
+\end_layout
+
+\begin_layout Standard
+Our final objective is to give good information about travel times to user.
+ We aim at a model of travel times that can give useful bounds on the travel
+ times (in a statistical sense).
+ This goal informs the complexity of the model that we want to build.
+ In particular, we should aim at a model that can capture significant correlatio
+ns to the travel times between different links, since the unit of inference
+ that we choose is the link on a road network.
+\end_layout
+
+\begin_layout Standard
+We studied some high-frequency data collected during an experiment in San
+ Francisco (see Section XXX for more details).
+ This experiment provided detailled trajectory information along stretches
+ of the main arterial network in San Francisco.
+ After mapping the GPS points to the road, and reconstructing the trajectories,
+ we had a very precise account of the patterns of traffic on the ground.
+ In particular, we reached the following conclusions for the travel times
+ on each link:
+\end_layout
+
+\begin_layout Itemize
+discrete number of modes.
+ The travel times follow a multi-modal distribution across each block.
+ There are generally two main modes that correspond to the light signal
+ at the end of the intersection (see Figure XXX).
+ This distribution can be predicted by simple physical models that take
+ into account the dynamics of cars (CITE aude).
+\end_layout
+
+\begin_layout Itemize
+lights correlation.
+ The traffic lights are synchronized, the synchronization scheme being managed
+ at the level of the district.
+ However, this synchronization pattern is usually fairly complex: it combines
+ traffic sensing equipment with written rules and random pedestrian events,
+ and each district has a different set of rules.
+ From the perspective of a travelling vehicle, we consider the synchronization
+ of the lights a 
+\emph on
+discrete stochastic process
+\emph default
+, the parameters of which can be inferred from observing enough vehicles.
+ We will see in section XXX how we can accurately model this process as
+ Markov graph.
+\end_layout
+
+\begin_layout Itemize
+travel time correlation inside each mode.
+ It is well known that vehicles at lights tend to travel together at the
+ same speed.
+ Furnthermore, it is natural to consider that if a vehicle travels at constant
+ speed across several green lights: there is no reason to believe that the
+ driver would randomly adjust her speed as she crosses a light.
+ This is why, if we were to fix a pattern of red and green lights across
+ the whole network, we could assume that all the travel times are still
+ correllated.
+ This is referred to as inner mode correlation.
+\end_layout
+
+\begin_layout Section
+Litterature review
+\end_layout
+
+\begin_layout Standard
+XXX put all the litterature review here.
 \end_layout
 
 \end_body
