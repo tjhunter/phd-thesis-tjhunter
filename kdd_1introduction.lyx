@@ -60,8 +60,83 @@
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+chapter{Large scale something}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+epigraph{ Crombile maintenant ne venait plus au conseil;
+\end_layout
+
+\begin_layout Plain Layout
+
+lev
+\backslash
+'{e} 
+\backslash
+`{a} cinq heures du matin,
+\end_layout
+
+\begin_layout Plain Layout
+
+ il travaillait dix-huit heures 
+\backslash
+`{a} son bureau et tombait 
+\end_layout
+
+\begin_layout Plain Layout
+
+epuis
+\backslash
+'{e} dans  sa corbeille o
+\backslash
+`{u} les huissiers 
+\end_layout
+
+\begin_layout Plain Layout
+
+le ramassaient avec les papiers qu'ils allaient vendre 
+\end_layout
+
+\begin_layout Plain Layout
+
+aux attach
+\backslash
+'{e}s militaires de l'empire voisin.
+ }{Anatole France, 
+\backslash
+emph{in} L'
+\backslash
+^{i}le des pingouins} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "chapter:kdd"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
-Introduction
+Large-scale statistical inference of traffic
 \end_layout
 
 \begin_layout Standard
@@ -120,7 +195,7 @@ key "limpractical"
 statistical distributions
 \emph default
  of travel times.
- The main contribution of the article is precisely to addresses this gap:
+ The main contribution of the chapter is precisely to addresses this gap:
  we present a scalable algorithm for learning path travel time distributions
  on the entire road network using probe vehicle data.
 \end_layout
@@ -195,8 +270,9 @@ key "westgate2011travel"
 \end_layout
 
 \begin_layout Standard
-The main physical insights modeled in the article are described in the following
- paragraphs.
+XXX We have already explored in Chapter XXX the main physical insights that
+ we wish to model.
+ We recall the main insights.
  First, arterial traffic is characterized by important travel time variability
  amongst users of the network (Figure
 \begin_inset space ~
@@ -211,8 +287,8 @@ reference "fig:example_bimodal_link"
 
 ).
  This variability is mainly due to the presence of traffic lights and other
- impediments such as pedestrian crossings and garbage trucks which cause
- a fraction of the vehicles to stop while others do not.
+ impediments such as pedestrian crossings and garbage trucks or buses which
+ cause a fraction of the vehicles to stop while others do not.
  Arterial traffic research
 \begin_inset space ~
 \end_inset
@@ -233,7 +309,7 @@ ons.
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -256,6 +332,8 @@ status collapsed
 \begin_layout Plain Layout
 Histogram of travel times collected on a road link in San Francisco, fit
  (solid line) using a mixture of two Gaussian distributions.
+ The two modes corresponding to the green light and to the delay of the
+ red light are clearly visible.
 \end_layout
 
 \end_inset
@@ -280,7 +358,7 @@ name "fig:example_bimodal_link"
 
 \begin_layout Standard
 Second, the number of stops on a trajectory exhibits strong spatial and
- temporal correlations.
+ temporal correlations (See Figure XXX).
  Traffic lights on major streets may be synchronized to create 
 \begin_inset Quotes eld
 \end_inset
@@ -289,8 +367,8 @@ green waves
 \begin_inset Quotes erd
 \end_inset
 
-: a vehicle which does not stop on a link is likely to not stop on the subsequen
-t link.
+ (Figure XXX): a vehicle which does not stop on a link is likely to not
+ stop on the subsequent link.
  A different vehicle arriving 10 seconds later may hit the red light on
  the first link and have a high probability to stop on the subsequent link.
  This phenomenon is analyzed in
@@ -345,7 +423,7 @@ pipeline
 \begin_inset Quotes erd
 \end_inset
 
- (see Figure
+ (Figure
 \begin_inset space ~
 \end_inset
 
@@ -388,7 +466,7 @@ consists in the following steps.
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:stop-and-go"
+reference "sec:kdd_stopandgo"
 
 \end_inset
 
@@ -400,15 +478,10 @@ status open
 \begin_layout Plain Layout
 Before feeding raw GPS points to the Stop-Go model, each coordinate is mapped
  to a link and an offset distance from the beginning of the link.
- We use an efficient path-matching and path-inference algorithm developed
- in
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hunter12wafr"
+ We use the path-matching algorithm presented in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:pif"
 
 \end_inset
 
@@ -434,7 +507,7 @@ key "hunter12wafr"
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:hmm"
+reference "sec:kdd_stopandgo"
 
 \end_inset
 
@@ -446,7 +519,8 @@ Markov model
  links.
  It characterizes the probability to stop / not stop on a link given that
  the vehicle stopped or did not stop on the previous link traversed.
- The Stop-go produces a set of labeled data to train the Markov model.
+ The Stop-Go splitting procedure (presented in the same section) produces
+ a set of labeled data to train the Markov model.
  
 \begin_inset Newline newline
 \end_inset
@@ -462,7 +536,7 @@ Markov model
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:gmrf-model"
+reference "sec:kdd_graphmodel"
 
 \end_inset
 
@@ -550,7 +624,7 @@ inference algorithm
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:inference"
+reference "sec:kdd_inference"
 
 \end_inset
 
@@ -565,13 +639,21 @@ reference "sec:inference"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset Graphics
 	filename figures-kdd/network_export_6.pdf
 	width 6cm
 
+\end_inset
+
+
+\begin_inset space \hfill{}
 \end_inset
 
 
@@ -581,15 +663,17 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Detail of the network.
+A fraction of the road network considered for this model: the downtown area
+ of San Francisco.
+ 
+\begin_inset Newline newline
+\end_inset
+
+XXX put the whole map
 \end_layout
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -606,7 +690,7 @@ Section
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:evaluation"
+reference "sec:kdd_evaluation"
 
 \end_inset
 
@@ -618,13 +702,21 @@ reference "sec:evaluation"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset Graphics
 	filename docs-kdd/pipeline.pdf
 	width 100col%
 
+\end_inset
+
+
+\begin_inset space \hfill{}
 \end_inset
 
  

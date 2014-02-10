@@ -60,6 +60,41 @@
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+chapter{A large-scale distributed streaming model}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+epigraph{A lawyer without history or literature is a mechanic, a mere working
+ mason; if he possesses some knowledge of these, he may venture to call
+ himself an architect.}{Sir Walter Scott, in Guy Mannering} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "chapter:socc"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Introduction
 \end_layout

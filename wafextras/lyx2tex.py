@@ -9,7 +9,7 @@ def postprocess_lyx(src, tgt):
   Logs.debug("post-processing %s into %s" % (src,tgt))
   f_src = open(src,'r')
   f_tgt = open(tgt,'w')
-  toks = ['\\documentclass','\\usepackage','\\begin{document}','\\end{document}','\\geometry']
+  toks = ['\\documentclass','\\usepackage','\\begin{document}','\\end{document}','\\geometry','\\PassOptionsToPackage']
   for l in f_src:
     skip = False
     for tok in toks:

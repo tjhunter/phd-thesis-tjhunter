@@ -175,5 +175,6 @@ def build(bld):
 	       """.split()
   tex_deps += ['kdd_6conclusion.tex']
   bld.add_group()
+  tex_deps += ['conclusion.tex']
   # Final assembly
   bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)

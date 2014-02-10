@@ -89,6 +89,16 @@ epigraph{From the midst of this darkness a sudden light broke in upon me--a
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "chapter:introduction"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Car traffic as a cyberphysical system
 \end_layout
@@ -617,23 +627,157 @@ This thesis is organized as follows.
 \end_layout
 
 \begin_layout Standard
-Chapter 1 reviews existing work on large-scale estimation of traffic.
+The first chapter introduces the problem of large-scale estimation of traffic
+ and gives an overview of the data currently available for this task.
+ It presents the different modelling trade-offs required for this task.
+\end_layout
+
+\begin_layout Standard
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:introduction"
+
+\end_inset
+
+ reviews existing work on large-scale estimation of traffic.
  In particular, it presents the motivation behind the choice of the different
  models based on a data-centered approach.
  XXX to do
 \end_layout
 
 \begin_layout Standard
-Chapte 2 presents an algorithm to map-match the GPS data.
+The first task that needs to happen is the map-matching of GPS data.
+ This is a challenging issue due to the long intervals between each observation.
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:pif"
+
+\end_inset
+
+ presents an algorithm to map-match the GPS data at a very wide range of
+ latencies and for a variety of computation/accuracy trade-offs.
 \end_layout
 
 \begin_layout Standard
-Chapter 3 considers the case of large amounts of bad data.
+
+\bar under
+Contribution:
+\bar default
+ The chapter formalizes the problem of reconstructing trajectories from
+ low-frequency observations, and presents an algorithm, called the Path
+ Inference Filter, to do that.
 \end_layout
 
 \begin_layout Standard
-Chapter 4 approaches the problem from the angle of a small amount of good
- data.
+
+\bar under
+Publications:
+\bar default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter12wafr,hunter12pathinference"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:socc"
+
+\end_inset
+
+ considers the case of large amounts of low-latency data, which is what
+ is generally available nowadays.
+ In this case, the estimation problem is mostly bound by computation times,
+ as we will see.
+ If some further modelling assumptions are made about the independence of
+ travel time distributions, we can build a model that can scale linearly
+ to hundreds of machines.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Contribution:
+\bar default
+ The chapter presents a model for travel times that can scale linearly to
+ massive inputs of sparse observations and very large road networks.
+ It uses the Spark programming framework 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "spark"
+
+\end_inset
+
+ to distribute computations on a large cluster of computers.
+ Our implementation can update traffic estimates from hundreds of thousands
+ of observations in a few seconds.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Publications:
+\bar default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter2011SOCC,hunterlarge"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+ makes opposite assumptions and explores the scenario in which a small amount
+ of high-frequency observations are available to the researcher.
+ In this case, it is hopeless to achieve real-time traffic estimation.
+ However, one can hope for a good baseline/historical model of travel times
+ that takes into account the correlation of traffic between different parts
+ of the road network.
+ We will first motivate this model from a data analysis perspective from
+ the angle of a data analysis perspective.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Contribution:
+\bar default
+ The chapter presents a model for travel time that uses privacy-aware GPS
+ data, and that provides distributions of travel times for any path across
+ the network.
+ We also introduce some new modelization techniques to represent transitory
+ phenomenon on a graph, and we present a fast inference algorithm based
+ on Fast Fourrier Transform to compute these travel times.
+ Our implementation can work with long paths on a large road network with
+ more than half a million road links.
+\end_layout
+
+\begin_layout Standard
+Finally, we will conclude in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:conclusion"
+
+\end_inset
+
+.
 \end_layout
 
 \end_body

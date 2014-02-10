@@ -15,6 +15,7 @@ indicated have been tested, other versions may work as well.
 - unoconv (openoffice)
 - wget/curl
 - convert (imagemagick)
+- inkscape (from the command line)
 
 You need the following python packages:
 - numpy

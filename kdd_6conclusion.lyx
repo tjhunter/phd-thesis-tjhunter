@@ -65,6 +65,16 @@ Conclusion
 \end_layout
 
 \begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:kdd_conclusion"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The state of the art for travel time estimation has focused on either precise
  and computationally intensive physical models, or large scale, data-driven
  approaches.

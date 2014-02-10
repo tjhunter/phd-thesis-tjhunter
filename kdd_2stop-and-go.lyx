@@ -83,6 +83,8 @@ The stops due to traffic signals and other factors (double parking, garbage
 \end_inset
 
  different discrete states.
+ In practice, this number is inferred from the data and is different for
+ each link.
  For a vehicle traveling on link 
 \begin_inset Formula $l$
 \end_inset
@@ -140,10 +142,18 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset Graphics
 	filename docs-kdd/stopgo_1.pdf
 	width 6cm
 
+\end_inset
+
+
+\begin_inset space \hfill{}
 \end_inset
 
 
@@ -153,15 +163,13 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-The forward bias problem with the Path Inference Filter
+The forward bias problem with the Path Inference Filter.
+ The Path Inference Filter assumes that vehicles only go forward on a link.
+ Due to noise in the
 \end_layout
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -382,10 +390,18 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset Graphics
 	filename docs-kdd/stopgo_2.pdf
 	width 5cm
 
+\end_inset
+
+
+\begin_inset space \hfill{}
 \end_inset
 
 
@@ -441,10 +457,18 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset Graphics
 	filename figures-kdd/traj.pdf
 	width 5cm
 
+\end_inset
+
+
+\begin_inset space \hfill{}
 \end_inset
 
  
@@ -481,10 +505,18 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset Graphics
 	filename figures-kdd/trajectory_estimation_example.png
 	width 5cm
 
+\end_inset
+
+
+\begin_inset space \hfill{}
 \end_inset
 
 
