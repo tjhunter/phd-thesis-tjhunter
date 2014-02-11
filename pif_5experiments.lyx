@@ -752,6 +752,13 @@ Each training session was evaluated with k-fold cross-validation, using
 
 \begin_layout Standard
 \align center
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="3">
 <features tabularvalignment="middle">
@@ -962,6 +969,23 @@ Batches used for training
 </cell>
 </row>
 </lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Parameters used for the Path Inference experiments.
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
