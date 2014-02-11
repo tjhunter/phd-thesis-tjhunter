@@ -320,9 +320,22 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
 \begin_inset Graphics
 	filename figures-kdd/scatter_box.pdf
-	width 100line%
+	width 50line%
 
 \end_inset
 
@@ -460,9 +473,22 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
 \begin_inset Graphics
 	filename figures-kdd/cdf_val.pdf
-	width 100line%
+	width 60line%
 
 \end_inset
 
@@ -593,7 +619,7 @@ centering
  
 \begin_inset Graphics
 	filename figures-kdd/ll__percentile_val.pdf
-	width 8cm
+	width 9cm
 
 \end_inset
 
@@ -1198,6 +1224,19 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
 \begin_inset Graphics
 	filename figures-kdd/perf_gmrf.pdf
 	width 50text%

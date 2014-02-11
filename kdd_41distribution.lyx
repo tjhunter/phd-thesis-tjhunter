@@ -1,0 +1,719 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\options onecolumn
+\use_default_options true
+\begin_modules
+theorems-std
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 3cm
+\topmargin 3cm
+\rightmargin 3cm
+\bottommargin 3cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Fast approximate inference with the MM-MG distribution
+\end_layout
+
+\begin_layout Subsection
+Settings
+\end_layout
+
+\begin_layout Standard
+We consider the parametrization of a unidimensional distribution with a
+ HMM coupled with a joint multivariate gaussian distribution as follows.
+ Consider a trellis of random variables stacked in 
+\begin_inset Formula $m$
+\end_inset
+
+ layers, each of the layers having a different width 
+\begin_inset Formula $n_{k}\geq1$
+\end_inset
+
+ (See example in Figure 1 below).
+ There is thus a total of 
+\begin_inset Formula $n=\sum_{k=1}^{m}n_{k}$
+\end_inset
+
+ variables.
+ Each of the variables is labeled 
+\begin_inset Formula $X_{\left(u,v\right)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+path
+\emph default
+ in the trellis is a sequence of integers that corresponds to a choice of
+ a variable in each of the layers:
+\begin_inset Formula 
+\[
+p=p_{1}\cdots p_{m}\in\prod_{k=1}^{m}\left[1,n_{k}\right]
+\]
+
+\end_inset
+
+When we consider subpath from layer 
+\begin_inset Formula $u$
+\end_inset
+
+ to layer 
+\begin_inset Formula $v$
+\end_inset
+
+ (inclusive), we will note 
+\begin_inset Formula $p_{u:v}$
+\end_inset
+
+the partial path: 
+\begin_inset Formula 
+\[
+p_{u:v}=p_{u}p_{u+1}\cdots p_{v}\in\prod_{k=u}^{v}\left[1,n_{k}\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now introduce some statistical models over this structure.
+ All the variables 
+\begin_inset Formula $X_{\left(u,v\right)}$
+\end_inset
+
+ are stacked together into a single vector 
+\begin_inset Formula $X\,:\, x\in\mathbb{R}^{n}$
+\end_inset
+
+.
+ We consider that the variables 
+\begin_inset Formula $X_{\left(u,v\right)}$
+\end_inset
+
+ are jointly Gaussian:
+\begin_inset Formula 
+\[
+X\sim\mathcal{N}\left(\mu,\Sigma\right)
+\]
+
+\end_inset
+
+ with 
+\begin_inset Formula $\mu\in\mathbb{R}^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Sigma\in\mathcal{S}_{+}^{n}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+We introduce a Markov Model over the paths:
+\begin_inset Formula 
+\[
+p\sim\text{MM}\left(\mathcal{L}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\pi\left(p_{0}\right)=\pi_{0}\left(p_{0}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\pi\left(p_{u:v}\right)=\pi_{u}\left(p_{u},p_{u+1}\right)\pi\left(p_{u+1:v}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is simply the definition of a finite discrete Markov chain:
+\begin_inset Formula 
+\[
+\forall u\in\left[1,m-1\right]\,\,\forall i\in\left[1,n_{u}\right]\,\,\sum_{j=1}^{n_{u+1}}\pi_{u}\left(i,j\right)=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-kdd/layers.pdf
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of MM-GMRF process
+\end_layout
+
+\end_inset
+
+Example of MM-GMRF process.
+ The 
+\begin_inset Formula $p_{u}$
+\end_inset
+
+ variables are the continuous variables selection process.
+ They form a discrete Markov model: the dependencies between the variables
+ are represented by the arrows).
+ The 
+\begin_inset Formula $X_{\left(u,i\right)}$
+\end_inset
+
+ variables make a joint Gaussian distribution.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We need one additional piece of notation: given a path 
+\begin_inset Formula $p$
+\end_inset
+
+ (which can be a sub-path), consider the activation vector 
+\begin_inset Formula $a\left(p\right)\in\mathbb{R}^{n}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+a\left(p_{u:v}\right)=\sum_{k=u}^{v}\mathbf{e}_{\left(k,p_{k}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The distribution 
+\begin_inset Formula $Z$
+\end_inset
+
+ over the real is defined as a mixture of Gaussians over the paths:
+\begin_inset Formula 
+\[
+p\sim\text{MM}\left(\mathcal{L}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+Z|p=a\left(p\right)^{T}X
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Call 
+\begin_inset Formula $f\left(\alpha,\beta\right)$
+\end_inset
+
+ the function that defines the p.d.f.
+ of a univariate Normal distribution with mean 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and variance 
+\begin_inset Formula $\beta$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\forall x\in\mathbb{R},\,\, f\left(\alpha,\beta\right)\left(x\right)=\frac{1}{\sqrt{2\pi\beta}}e^{-\frac{1}{2\beta}\left(x-\alpha\right)^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This notation will prove convenient when we define convolution operations
+ over the space of functions.
+ Then the p.d.f.
+ of 
+\begin_inset Formula $Z$
+\end_inset
+
+ is a mixture of univariate Gaussian distributions:
+\begin_inset Formula 
+\begin{align*}
+\pi & =\sum_{p}\pi\left(p\right)\pi\left(\cdot|p\right)\\
+ & =\sum_{p}\pi\left(p\right)f\left(a\left(p\right)^{T}\mu,a\left(p\right)^{T}\Sigma a\left(p\right)\right)
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\sigma\left(p\right)^{2}=a\left(p\right)^{T}\Sigma a\left(p\right)
+\]
+
+\end_inset
+
+There are 
+\begin_inset Formula $\prod_{1}^{m}n_{u}$
+\end_inset
+
+ possible paths, each of which makes a different element in the mixture.
+ This number is much too large for enumerating all the elements of the mixture.
+ We present here an algorithm that computes a discretized approximation
+ (a histogram) of the p.d.f.
+ of 
+\begin_inset Formula $Z$
+\end_inset
+
+ in linear time.
+\end_layout
+
+\begin_layout Subsection
+The case of the independent variables
+\end_layout
+
+\begin_layout Standard
+For this section only, consider the simpler case in which the variables
+ 
+\begin_inset Formula $X_{\left(u,i\right)}$
+\end_inset
+
+ are independent (and still follow a Gaussian distribution).
+ Then the covariance matrix 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+ is diagonal:
+\begin_inset Formula 
+\[
+\Sigma_{ab}=\Delta_{a}\, a=bXXX
+\]
+
+\end_inset
+
+thus:
+\begin_inset Formula 
+\[
+\sigma\left(p_{u:v}\right)^{2}=\sum_{w=u}^{v}\Delta_{\left(w,p_{w}\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We consider the problem of computing the distribution over a set of subpaths
+ that start and end at the same variable.
+ Given 
+\begin_inset Formula $u<v$
+\end_inset
+
+, 
+\begin_inset Formula $i\in\left[1,n_{u}\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $j\in\left[1,n_{v}\right]$
+\end_inset
+
+, our goal is to compute the partial sum of the mixture:
+\begin_inset Formula 
+\[
+\widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=\sum_{p=p_{u}\cdots p_{v}:p_{u}=i\,,\, p_{v}=j}\pi\left(p\right)f\left(a\left(p\right)^{T}\mu,\sigma\left(p\right)^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is not a properly scaled probability distribution.
+ However, when summing over all the possible outputs 
+\begin_inset Formula $j$
+\end_inset
+
+, this is a valid probability distribution:
+\begin_inset Formula 
+\[
+\int\sum_{k=1}^{n_{u}}\tilde{\pi}_{u:v}\left(i\rightarrow k\right)\left(x\right)\text{d}x=1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We have the following recursive relation:
+\end_layout
+
+\begin_layout Proposition
+Recursion for indepent variables:
+\begin_inset Formula 
+\[
+\widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+in which 
+\begin_inset Formula $\odot$
+\end_inset
+
+ is the convolution operator between two functions:
+\begin_inset Formula 
+\[
+\left(g\odot h\right)\left(x\right)=\int g\left(x-t\right)h\left(t\right)\text{d}t
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The main insight is to decompose each of the modes of the distribution using
+ a convolution operator, which is a consequence of using independent Gaussian
+ distribution.
+ Using our notation:
+\begin_inset Formula 
+\[
+f\left(\alpha+\alpha',\beta+\beta'\right)=f\left(\alpha',\beta'\right)\odot f\left(\alpha,\beta\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Consider two inpedendent Gaussian random variables 
+\begin_inset Formula $V$
+\end_inset
+
+ and 
+\begin_inset Formula $V'$
+\end_inset
+
+ with respective means 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ and 
+\begin_inset Formula $\alpha^{'}$
+\end_inset
+
+, and variances 
+\begin_inset Formula $\beta$
+\end_inset
+
+ an 
+\begin_inset Formula $\beta^{'}$
+\end_inset
+
+.
+ The resulting distribution 
+\begin_inset Formula $W$
+\end_inset
+
+ has mean 
+\begin_inset Formula $\alpha+\alpha'$
+\end_inset
+
+ and variance 
+\begin_inset Formula $\beta+\beta'$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Since the convolution operator is associative over the space of real functions,
+ we can map the associativity of the parameters to the function space and
+ factorize some common operations.
+ Here is the proof of the main proposition.
+\end_layout
+
+\begin_layout Proof
+From the lemma above, for any path:
+\begin_inset Formula 
+\[
+f\left(a\left(p_{u:v}\right)^{T}\mu,\sigma\left(p_{u:v}\right)^{2}\right)=f\left(\mu_{\left(u,p_{u}\right)},\Delta_{\left(u,p_{u}\right)}\right)\odot f\left(a\left(p_{u+1:v}\right)^{T}\mu,\sigma\left(p_{u+1:v}\right)^{2}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+Using the definition of the partial mixture sum:
+\begin_inset Formula 
+\begin{eqnarray*}
+\widetilde{\pi}_{u:v}\left(i\rightarrow j\right) & = & \sum_{p=p_{u}\cdots p_{v}:p_{u}=i\,,\, p_{v}=j}\pi\left(p\right)f\left(a\left(p\right)^{T}\mu,\sigma\left(p\right)^{2}\right)\\
+ & = & \sum_{k=1}^{n_{u+1}}\sum_{p_{u+2:v}:p_{v}=j}\pi\left(i,\, k,\, p_{u+2:v}\right)f\left(a\left(k,\, p_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, p_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
+ & = & \sum_{k=1}^{n_{u+1}}\sum_{p_{u+2:v}:p_{v}=j}\pi_{u}\left(i,k\right)\pi\left(k,\, p_{u+2:v}\right)f\left(a\left(k,\, p_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, p_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
+ & = & \sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\sum_{p_{u+2:v}:p_{v}=j}\pi\left(k,\, p_{u+2:v}\right)f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot f\left(a\left(k,\, p_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, p_{u+2:v}\right)^{2}\right)\\
+ & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\sum_{p_{u+2:v}:p_{v}=j}\pi\left(k,\, p_{u+2:v}\right)f\left(a\left(k,\, p_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, p_{u+2:v}\right)^{2}\right)\right]\\
+ & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Once we can compute efficiently these partial mixture sums, they can be
+ combined into complete distributions.
+ Given a start probability 
+\begin_inset Formula $\pi_{0}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{eqnarray*}
+\pi & = & \sum_{i=0}^{n_{1}}\sum_{j=0}^{n_{m}}\pi_{0}\left(i\right)\widetilde{\pi}_{1:m}\left(i\rightarrow j\right)\\
+ & = & \sum_{i=0}^{n_{1}}\pi_{0}\left(i\right)\left[\sum_{j=0}^{n_{m}}\widetilde{\pi}_{1:m}\left(i\rightarrow j\right)\right]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The same algorithm could also work by considering the conditional distributions
+\begin_inset Formula 
+\[
+\hat{\pi}_{u:v}\left(i\right)=\sum_{k=1}^{n_{v}}\widetilde{\pi}_{u:v}\left(i\rightarrow k\right)
+\]
+
+\end_inset
+
+(which are well-defined, well-scaled probability distributions).
+ However, as we will see later, using this explicit parameters leads to
+ very elegant caching algorithms.
+\end_layout
+
+\begin_layout Subsection
+The general case: Junction tree approximation
+\end_layout
+
+\begin_layout Standard
+In the previous section, we considered a diagonal parametrization of the
+ covariance matrix.
+ This algorithm can also be used in the more general setting of full covariance
+ matrices, by performing a change of variables.
+ Suppose that the covariance matrix is diagonalizabse and consider the diagonali
+zation of the covariance matrix:
+\begin_inset Formula 
+\[
+\Sigma=P\Lambda P^{T}=\sum_{l}\lambda_{l}\mathbf{p}\left(l\right)\mathbf{p}\left(l\right)^{T}
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $P$
+\end_inset
+
+ is a rotation matrix (
+\begin_inset Formula $P^{-1}=P^{T}$
+\end_inset
+
+) and 
+\begin_inset Formula $\Lambda=\text{diag}\left(\lambda\right)$
+\end_inset
+
+ is a diagonal matrix.
+ The vector 
+\begin_inset Formula $\mathbf{p}\left(l\right)$
+\end_inset
+
+ will denote the eigenvalue associated to 
+\begin_inset Formula $\lambda_{l}$
+\end_inset
+
+.
+ Then the variance on a path is decomposable along the elements of the path:
+\begin_inset Formula 
+\begin{eqnarray*}
+\sigma\left(p_{u:v}\right)^{2} & = & a\left(p_{u:v}\right)^{T}\Sigma a\left(p_{u:v}\right)\\
+ & = & \sum_{l}\lambda_{l}a\left(p_{u:v}\right)^{T}\mathbf{p}\left(l\right)\mathbf{p}\left(l\right)^{T}a\left(p_{u:v}\right)\\
+ & = & \sum_{l}\lambda_{l}\left\Vert a\left(p_{u:v}\right)^{T}\mathbf{p}\left(l\right)\right\Vert ^{2}\\
+ & = & \sum_{l}\lambda_{l}\sum_{w=u}^{v}\left(\mathbf{p}\left(l\right)_{\left(w,p_{w}\right)}\right)^{2}WRONGXXXX\\
+ & = & \sum_{w=u}^{v}\xi_{\left(w,p_{w}\right)}
+\end{eqnarray*}
+
+\end_inset
+
+with:
+\begin_inset Formula 
+\[
+\xi_{\left(w,p_{w}\right)}=\sum_{l}\lambda_{l}\left(\mathbf{p}\left(l\right)_{\left(w,p_{w}\right)}\right)^{2}
+\]
+
+\end_inset
+
+The vector 
+\begin_inset Formula $\xi$
+\end_inset
+
+ has a simple form:
+\begin_inset Formula 
+\[
+\xi=\left(P\circ P\right)\lambda
+\]
+
+\end_inset
+
+in which 
+\begin_inset Formula $\circ$
+\end_inset
+
+ denotes the Hadamard product of two matrices.
+\end_layout
+
+\begin_layout Standard
+XXXX give a justification with Chernoff bounds?
+\end_layout
+
+\begin_layout Standard
+This is simply a generalization of the diagonal case.
+ Thus, we can reuse the algorithm for the digonal case with a different
+ set of statistics for the diagonal.
+ All the computations can be done beforehand.
+\end_layout
+
+\begin_layout Subsection
+Practical considerations for fast performance
+\end_layout
+
+\begin_layout Standard
+Talk about caching here.
+ If the path queries follow a power law distribution (which is expected
+ due to the structure of the road network), most of the work can be cached,
+ and only subsets of routes around the endpoints need to be computed.
+ This should cut compute time by an order of magnitude again.
+\end_layout
+
+\end_body
+\end_document

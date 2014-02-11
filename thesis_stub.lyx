@@ -237,6 +237,16 @@ filename "kdd_4inference.lyx"
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand input
+filename "kdd_41distribution.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
 filename "kdd_5evaluation.lyx"
 
 \end_inset

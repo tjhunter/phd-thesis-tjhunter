@@ -220,77 +220,6 @@ Mobile Millennium
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename figures-pif/example_cloud_point_sf.png
-	lyxscale 30
-	width 100col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset Argument
-status open
-
-\begin_layout Plain Layout
-An example of dataset available to 
-\emph on
-Mobile Millennium
-\emph default
- and processed by the path inference filter
-\end_layout
-
-\end_inset
-
-An example of dataset available to 
-\emph on
-Mobile Millennium
-\emph default
- and processed by the path inference filter: taxicabs in San Francisco from
- the Cabspotting program 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cabspotting"
-
-\end_inset
-
-.
- Large circles in red show the position of the taxis at a given time and
- small dots (in black) show past positions (during the last five hours)
- of the fleet.
- The position of each vehicle is observed every minute.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:mm_cloud_point"
-
-\end_inset
-
- XXX put in introduction
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 GPS receivers have enjoyed a widespread use in transportation and they are
  rapidly becoming a commodity.
  They offer unique capabilities for tracking fleets of vehicles (for companies),
@@ -735,7 +664,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename docs-pif/pif_diagram.pdf
-	width 80col%
+	width 50col%
 
 \end_inset
 

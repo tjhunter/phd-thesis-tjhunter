@@ -367,7 +367,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename docs-pif/example_distribution.pdf
-	width 100col%
+	width 50col%
 
 \end_inset
 
@@ -715,7 +715,7 @@ status open
 \begin_inset Graphics
 	filename docs-pif/path_exploration.pdf
 	lyxscale 30
-	width 90col%
+	width 50col%
 
 \end_inset
 

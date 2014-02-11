@@ -322,7 +322,7 @@ centering
 
 \begin_inset Graphics
 	filename docs-intro/tt_function.pdf
-	width 6cm
+	width 8cm
 
 \end_inset
 
@@ -390,8 +390,83 @@ The final model will be presented in the last chapter.
  
 \end_layout
 
+\begin_layout Standard
+XXXX describe data sets
+\end_layout
+
 \begin_layout Section
 Data-driven insights
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename figures-pif/example_cloud_point_sf.png
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+An example of dataset available to 
+\emph on
+Mobile Millennium
+\emph default
+ and processed by the path inference filter
+\end_layout
+
+\end_inset
+
+An example of dataset available to 
+\emph on
+Mobile Millennium
+\emph default
+ and processed by the path inference filter: taxicabs in San Francisco from
+ the Cabspotting program 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cabspotting"
+
+\end_inset
+
+.
+ Large circles in red show the position of the taxis at a given time and
+ small dots (in black) show past positions (during the last five hours)
+ of the fleet.
+ The position of each vehicle is observed every minute.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:mm_cloud_point"
+
+\end_inset
+
+ XXX put in introduction
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -417,7 +492,7 @@ status open
 
 \begin_inset Graphics
 	filename figures-intro/sampleplot_trajs.png
-	width 5cm
+	width 8cm
 
 \end_inset
 
@@ -451,10 +526,6 @@ Temporal distribution of trajectories from a typical source of data.
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -497,7 +568,7 @@ status open
 
 \begin_inset Graphics
 	filename docs-intro/power_law.pdf
-	width 6cm
+	width 9cm
 
 \end_inset
 
@@ -619,7 +690,7 @@ status open
 \begin_inset Graphics
 	filename figures-intro/example_franklin.png
 	lyxscale 10
-	width 5cm
+	width 7cm
 
 \end_inset
 
@@ -638,7 +709,7 @@ status open
 \begin_inset Graphics
 	filename figures-intro/example_vanness.png
 	lyxscale 10
-	width 5cm
+	width 7cm
 
 \end_inset
 

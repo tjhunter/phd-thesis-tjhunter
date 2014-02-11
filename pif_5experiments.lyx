@@ -1232,7 +1232,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename figures-pif/ll_paths.pdf
-	width 3in
+	width 70col%
 
 \end_inset
 
@@ -1311,7 +1311,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename figures-pif/entropy_points.pdf
-	width 3in
+	width 70col%
 
 \end_inset
 
@@ -1388,7 +1388,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename figures-pif/entropy_paths.pdf
-	width 3in
+	width 70col%
 
 \end_inset
 
@@ -1494,7 +1494,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename figures-pif/relative_coverage_paths.pdf
-	width 3in
+	width 70col%
 
 \end_inset
 
@@ -1605,7 +1605,7 @@ status open
 
 \begin_inset Graphics
 	filename figures-pif/left_right.pdf
-	width 90col%
+	width 60col%
 
 \end_inset
 

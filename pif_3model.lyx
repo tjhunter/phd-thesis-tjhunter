@@ -460,7 +460,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename docs-pif/dbn_model.pdf
-	width 100col%
+	width 50col%
 
 \end_inset
 
@@ -550,7 +550,7 @@ status open
 \begin_inset Graphics
 	filename docs-pif/crf_model.pdf
 	lyxscale 30
-	width 100col%
+	width 50col%
 
 \end_inset
 
@@ -571,6 +571,7 @@ Illustration of the Conditional Random Field defined over a trajectory
 \end_inset
 
 Illustration of the Conditional Random Field defined over a trajectory.
+ XXXX FIX LEGEND
 \end_layout
 
 \end_inset
@@ -937,7 +938,7 @@ status open
 \align center
 \begin_inset Graphics
 	filename docs-pif/hmm_failure_example2.pdf
-	width 6cm
+	width 8cm
 
 \end_inset
 

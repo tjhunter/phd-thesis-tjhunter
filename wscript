@@ -178,6 +178,8 @@ def build(bld):
   img_deps += ['figures-kdd/graph_model.pdf', 
                'docs-kdd/network_example.pdf']
   tex_deps += ['kdd_4inference.tex']
+  tex_deps += ['kdd_41distribution.tex']
+  img_deps += ['docs-kdd/layers.pdf'] 
   tex_deps += ['kdd_5evaluation.tex']
   img_deps += """figures-kdd/cdf_val.pdf
 	       figures-kdd/ll__percentile_val.pdf

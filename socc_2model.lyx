@@ -324,7 +324,7 @@ centering
 \begin_inset Graphics
 	filename docs-socc/big_system_diagram.png
 	display false
-	width 3.35in
+	width 4in
 
 \end_inset
 
@@ -448,7 +448,7 @@ centering
 
 \begin_inset Graphics
 	filename docs-socc/observation_example.pdf
-	width 100col%
+	width 70col%
 
 \end_inset
 
@@ -629,7 +629,7 @@ name "fig:Map-matching-algorithm"
 
 \end_inset
 
-
+XXXX
 \end_layout
 
 \end_inset
@@ -1054,7 +1054,7 @@ centering
 
 \begin_inset Graphics
 	filename docs-socc/bayes_net.pdf
-	width 60col%
+	width 30col%
 
 \end_inset
 
@@ -1360,7 +1360,7 @@ centering
 
 \begin_inset Graphics
 	filename docs-socc/workflow.pdf
-	width 80col%
+	width 60col%
 
 \end_inset
 

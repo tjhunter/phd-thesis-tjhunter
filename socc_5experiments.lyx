@@ -111,19 +111,23 @@ sideways false
 status open
 
 \begin_layout Plain Layout
- 
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
 \begin_inset Graphics
 	filename figures-socc/travel_times.png
-	width 3.3in
+	width 4in
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
  
@@ -228,74 +232,6 @@ reference "fig:example-output"
 .
 \end_layout
 
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Graphics
-	filename figures-pif/example_cloud_point_sf.png
-	width 90col%
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset Argument
-status open
-
-\begin_layout Plain Layout
-An example of dataset available to 
-\emph on
-Mobile Millennium
-\end_layout
-
-\end_inset
-
-An example of dataset available to 
-\emph on
-Mobile Millennium
-\emph default
- and processed by the path inference filter: taxicabs in San Francisco from
- the Cabspotting program.
- Large circles in red show the position of the taxis at a given time and
- small dots (in black) show past positions (during the last five hours)
- of the fleet.
- The position of each vehicle is observed every minute.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:cabspotting-example"
-
-\end_inset
-
- XXXX REMOVE
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Subsection
 Good scalability results using a large cluster
 \end_layout
@@ -375,7 +311,7 @@ status open
 
 \begin_inset Graphics
 	filename figures-socc/spark_em_perf_nersc.pdf
-	width 80col%
+	width 50col%
 
 \end_inset
 
@@ -393,7 +329,7 @@ status open
 
 \begin_inset Graphics
 	filename figures-socc/spark_em_perf_ec2.pdf
-	width 80col%
+	width 50col%
 
 \end_inset
 
@@ -483,7 +419,7 @@ status open
 
 \begin_inset Graphics
 	filename figures-socc/perf_streaming.pdf
-	width 70col%
+	width 50col%
 
 \end_inset
 
