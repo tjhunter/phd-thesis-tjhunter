@@ -61,7 +61,7 @@
 \begin_body
 
 \begin_layout Section
-Stop and go
+Trajectory compression with the Stop and Go model
 \end_layout
 
 \begin_layout Standard
@@ -109,6 +109,58 @@ state
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename docs-kdd/stopgo_2.pdf
+	width 5cm
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:trajectory-compression"
+
+\end_inset
+
+Representation of the data compression algorithm used in the Stop and Go
+ filter.
+ In the top figure, the raw information about location and speed are given.
+ In the bottom figure, the Stop and Go filter has grouped together the points
+ at zero speed (stop detection) and assigned a unique location for the stopped
+ intervals.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The trajectory of the vehicle is represented by an offset function 
 \begin_inset Formula $T:[0,\tau]\rightarrow\mathbb{R}_{+}$
 \end_inset
@@ -118,7 +170,14 @@ The trajectory of the vehicle is represented by an offset function
 \begin_inset Formula $t$
 \end_inset
 
-.
+ (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Two-typical-scenarios"
+
+\end_inset
+
+ for an example).
  The noisy GPS observations are defined by the times 
 \begin_inset Formula $0=t_{0}<\dots<t_{J}\leq\tau$
 \end_inset
@@ -133,6 +192,8 @@ The trajectory of the vehicle is represented by an offset function
 
  are independent and identically distributed zero mean Gaussian random variables
  representing the GPS noise.
+ While the noise is not Gaussian in practice, this model still gives good
+ results.
 \end_layout
 
 \begin_layout Standard
@@ -163,9 +224,44 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:forward-bias-problem"
+
+\end_inset
+
 The forward bias problem with the Path Inference Filter.
  The Path Inference Filter assumes that vehicles only go forward on a link.
- Due to noise in the
+ Due to noise in the observations, the points 
+\begin_inset Formula $t=2$
+\end_inset
+
+ and 
+\begin_inset Formula $t=7$
+\end_inset
+
+ will be further along than the points 
+\begin_inset Formula $t=\left\{ 3,4\right\} $
+\end_inset
+
+ and 
+\begin_inset Formula $t=\left\{ 8,9\right\} $
+\end_inset
+
+ respectively.
+ This will cause all these points to be assigned the same location as 
+\begin_inset Formula $t=2$
+\end_inset
+
+ and 
+\begin_inset Formula $t=7$
+\end_inset
+
+.
+ Thus, the output of the path inference filter is biased towards a location
+ that is further along than the true location, and towards showing a vehicle
+ than moves while it is stopped.
+ The Stop and Go model corrects this issue.
 \end_layout
 
 \end_inset
@@ -375,53 +471,14 @@ Stops
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:trajectory-estimation-example"
+reference "fig:Example-from-real-traj"
 
 \end_inset
 
  illustrates the result of the trajectory estimation and Stop detection
  algorithm.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Graphics
-	filename docs-kdd/stopgo_2.pdf
-	width 5cm
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-The data compression algorithm
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+ This algorithm, which works on the full trajectory of the vehicle, can
+ accurately reconstruct the Stop phases of the vehicle.
 \end_layout
 
 \begin_layout Standard
@@ -457,7 +514,16 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
@@ -467,30 +533,32 @@ status open
 
 \end_inset
 
-
-\begin_inset space \hfill{}
-\end_inset
-
  
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Example of trajectory estimation
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:trajectory-estimation-example"
+name "fig:Two-typical-scenarios"
 
 \end_inset
 
- 
+Two typical scenarios in a signalled intersection.
+ The horizontal axis is time and the vertical axis is cumulative offset
+ (shifted so that the zero corresponds to the end of the link).
+ The red and green color correspond to the time during which the light is
+ red and green, respectively: cars can only go through when the light is
+ green.
+ The solid dark blue dots represent a typical observation when the light
+ is green.
+ The light blue dots represents a typical observation when the light is
+ red: the vehicle is forced to wait at zero speed for the light to become
+ green again.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -511,7 +579,7 @@ status open
 
 \begin_inset Graphics
 	filename figures-kdd/trajectory_estimation_example.png
-	width 5cm
+	width 7cm
 
 \end_inset
 
@@ -526,15 +594,22 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Example from real data of trajectory estimation
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-from-real-traj"
+
+\end_inset
+
+Example from real data of trajectory estimation.
+ In our implementation, the trajectory is further compressed into alternating
+ segments of Stop motion (in which the speed is null) and Go motion (in
+ which the speed is uniform).
+ The solid points indicate the transition points between Stop segments and
+ Go segments.
 \end_layout
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
