@@ -312,18 +312,23 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
 \begin_inset Graphics
 	filename figures-kdd/example_bimodal_link.pdf
-	width 80col%
+	width 7cm
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
  
@@ -444,6 +449,58 @@ learning algorithm
 inference algorithm
 \shape default
 .
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Graphics
+	filename docs-kdd/pipeline.pdf
+	width 60col%
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+ 
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Pipeline of the travel-time estimation model.
+ The learning runs offline and finds optimal parameters for the HMM and
+ GMRF models.
+ The inference runs online and uses the learned parameters to produce travel
+ time distributions on input paths.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pipeline"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -696,58 +753,6 @@ reference "sec:kdd_evaluation"
 
  illustrates the accuracy and scalability of our model on a 505,000 road
  link network spanning the San Francisco Bay Area.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Graphics
-	filename docs-kdd/pipeline.pdf
-	width 100col%
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
- 
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Pipeline of the travel-time estimation model.
- The learning runs offline and finds optimal parameters for the HMM and
- GMRF models.
- The inference runs online and uses the learned parameters to produce travel
- time distributions on input paths.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:pipeline"
-
-\end_inset
-
- 
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard

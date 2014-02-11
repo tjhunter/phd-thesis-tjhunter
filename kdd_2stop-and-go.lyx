@@ -627,11 +627,7 @@ Remark:
 \begin_inset Formula $\lambda$
 \end_inset
 
-] In
-\begin_inset space ~
-\end_inset
-
-
+] In Equation 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:stop-go:lasso"

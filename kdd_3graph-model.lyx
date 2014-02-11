@@ -75,11 +75,80 @@ name "sec:kdd_graphmodel"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename docs-kdd/gaussians.pdf
+	width 9cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Picture-travel-times"
+
+\end_inset
+
+Picture representations about the travel times over a road link: the travel
+ time is a mixture of (typically) three Gaussian distributions: one mode
+ for the travel times corresponding to a green light, one mode for the travel
+ times corresponding to a red light, and one mode for complex random events
+ (pedestrian, traffic occlusion, garbage truck, bus, etc.)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 We develop a travel time model which exploits the compressed data returned
- by the Stop-Go model (number of stops and travel time experienced per link).
+ by the Stop-Go model (number of stops and travel time experienced per link)
+ and that takes into account our simplifying assumptions about travel times
+ on a road network (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Picture-travel-times"
+
+\end_inset
+
+).
  The model captures the state transition probabilities: the probability
- of the number of stop on a link given the number of stops on the previous
- link of the trajectory.
+ of the number of stops on a link given the number of stops on the previous
+ link(s) of the trajectory.
  It also models the correlations of travel times for neighboring links given
  their state (number of stops).
  The travel time model is a combination of two models:
@@ -92,7 +161,7 @@ We develop a travel time model which exploits the compressed data returned
 
  A directed Markov model of discrete state random variables gives the joint
  probability distribution of the link states 
-\begin_inset Formula $\pi_{\theta}(\{S_{l}\})$
+\begin_inset Formula $\pi_{\theta}\left(\left\{ S_{l}\right\} _{l\in\mathcal{L}}\right)$
 \end_inset
 
 .
@@ -105,7 +174,7 @@ We develop a travel time model which exploits the compressed data returned
 
  A Gaussian Markov random field gives the joint distribution of the travel
  times 
-\begin_inset Formula $\pi_{\theta}(\{Y_{l,s}\},l\in\mathcal{L},s\in\{0,\dots,m-1\})$
+\begin_inset Formula $\pi_{\theta}\left(\left\{ X_{l,s}\right\} _{l\in\mathcal{L},s\in\left\{ 1,\cdots m\right\} }\right)$
 \end_inset
 
 .
@@ -119,36 +188,71 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename docs-kdd/ttgraph_example.pdf
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Graphical model of the dependency of link travel time 
-\begin_inset Formula $Z^{l}$
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ttgraph_example"
+
 \end_inset
 
- on the state variable (e.g.
+Graphical model of the travel times on a stretch of three one-way road links
+ (going from top to bottom of the figure).
+ The travel times of each link 
+\begin_inset Formula $Z_{l}$
+\end_inset
+
+ depend on two conditionally independent set of variables: the discrete
+ state variable (e.g.
  number of stops) 
 \begin_inset Formula $S_{l}$
 \end_inset
 
  and the conditional travel times 
-\begin_inset Formula $Y_{l,s}$
+\begin_inset Formula $X_{l,s}$
+\end_inset
+
+ where 
+\begin_inset Formula $s\in\left\{ \text{Go, Red, Other}\right\} $
 \end_inset
 
 .
- Here we consider the subgraph consisting of a link 
-\begin_inset Formula $l$
+ The arrows between the variables 
+\begin_inset Formula $S_{l}$
 \end_inset
 
-, upstream link 
-\begin_inset Formula $u$
+ represent the conditional dependencies between the random variables, after
+ taking into account the Markov assumptions.
+ The time variables 
+\begin_inset Formula $X_{l,s}$
 \end_inset
 
- and downstream link 
-\begin_inset Formula $d$
-\end_inset
-
- on a given path.
+ make a Markov Random Field.
+ The solid lines between the variables represent the conditional dependencies.
 \end_layout
 
 \end_inset
@@ -178,6 +282,23 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
 \begin_inset Graphics
 	filename docs-kdd/network_example.pdf
 	width 10cm
@@ -185,6 +306,11 @@ status open
 \end_inset
 
 
+\end_layout
+
+\end_inset
+
+XXXXX
 \end_layout
 
 \begin_layout Plain Layout
@@ -196,10 +322,6 @@ Example of travel time graph for the San Francisco area
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Plain Layout
 
 \end_layout
 
@@ -222,7 +344,7 @@ reference "fig:graph_model"
 
  presents the graphical model that encodes the dependencies between the
  link travel time 
-\begin_inset Formula $Z^{l}$
+\begin_inset Formula $Z_{l}$
 \end_inset
 
 , the link states 
@@ -230,7 +352,7 @@ reference "fig:graph_model"
 \end_inset
 
  and the conditional travel times 
-\begin_inset Formula $Y_{l,s}$
+\begin_inset Formula $X_{l,s}$
 \end_inset
 
 .
@@ -239,10 +361,13 @@ reference "fig:graph_model"
 \end_inset
 
 , is 
-\begin_inset Formula $Z^{l}=\sum_{s=0}^{m-1}Y_{l,s}\mathbf{1}_{S_{l}=s}$
+\begin_inset Formula 
+\[
+Z_{l}=\sum_{s=0}^{m-1}Y_{l,s}\mathbf{1}_{S_{l}=s}
+\]
+
 \end_inset
 
-.
  The left portion of the figure shows a subset of the GMRF of travel time
  variables, and the right portion shows a subset of the Markov chain of
  states.
@@ -253,7 +378,7 @@ The graphical model shows that conditioning on the states experienced along
  a path allows one to compute the path travel time by summing over the correspon
 ding variables in the GMRF.
  Further, when one conditions on the link travel times 
-\begin_inset Formula $Z^{l}$
+\begin_inset Formula $Z_{l}$
 \end_inset
 
 , then the two models become independent, which allows one to learn the
@@ -268,11 +393,11 @@ Markov model for state transitions
 \begin_layout Standard
 \begin_inset CommandInset label
 LatexCommand label
-name "sec:hmm"
+name "sub:kdd_markov_model"
 
 \end_inset
 
- 
+
 \end_layout
 
 \begin_layout Standard
