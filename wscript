@@ -184,8 +184,9 @@ def build(bld):
   bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
   #scp -i ~/.ssh/id_rsa build/thesis.pdf tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf
 
-def install(ctx):
+def push(ctx):
   # Pushing to the website
-  ctx(rule='scp -i ~/.ssh/id_rsa ${SRC} tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf &> ${TGT}',
-      source='thesis.pdf', target='upload.log')
+  ctx.exec_command("scp -i ~/.ssh/id_rsa {SRC} tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf &> {TGT}".format(SRC="build/thesis.pdf", TGT="build/upload.log"))
+  #ctx(rule='scp -i ~/.ssh/id_rsa ${SRC} tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf &> ${TGT}',
+      #source='thesis.pdf', target='upload.log')
   
