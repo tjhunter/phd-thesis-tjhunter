@@ -308,7 +308,16 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
@@ -317,10 +326,6 @@ status open
 	display false
 	width 3.35in
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
  
@@ -345,13 +350,6 @@ name "fig:system_schema"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset VSpace -1em*
-\end_inset
-
- 
 \end_layout
 
 \end_inset
@@ -435,7 +433,16 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
@@ -446,16 +453,21 @@ status open
 \end_inset
 
 
-\begin_inset space \hfill{}
-\end_inset
-
-
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of observation
+\end_layout
+
+\end_inset
+
 Example of observation.
  The green mark represents an initial GPS reading, the orange mark represents
  a subsequent reading.
@@ -594,6 +606,15 @@ name "fig:edge-d"
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Map-matching algorithm
+\end_layout
+
+\end_inset
+
 Map-matching algorithm: the raw GPS readings a first projected onto candidate
  points on the road network (Step 1).
  Then all feasible paths between each pair of candidate points are computed
@@ -1018,7 +1039,16 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
@@ -1026,10 +1056,6 @@ status open
 	filename docs-socc/bayes_net.pdf
 	width 60col%
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
 
@@ -1042,6 +1068,16 @@ status open
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Graphical-model"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Directed (Bayesian) graph of the travel time model
+\end_layout
 
 \end_inset
 
@@ -1306,10 +1342,19 @@ reference "fig:em_flow"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
@@ -1320,16 +1365,21 @@ status collapsed
 \end_inset
 
 
-\begin_inset space \hfill{}
-\end_inset
-
-
 \end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+System workflow of the EM algorithm
+\end_layout
+
+\end_inset
+
 System workflow of the EM algorithm.
  In the E-step, we generate per-link travel time samples from whole observations
 ; specifically, for each observation 

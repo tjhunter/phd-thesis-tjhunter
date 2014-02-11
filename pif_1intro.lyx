@@ -96,6 +96,29 @@ name "chapter:pif"
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{tocdepth}{3} 
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+setcounter{secnumdepth}{3}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Introduction
 \end_layout
@@ -200,7 +223,7 @@ Mobile Millennium
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -218,6 +241,19 @@ status collapsed
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+An example of dataset available to 
+\emph on
+Mobile Millennium
+\emph default
+ and processed by the path inference filter
+\end_layout
+
+\end_inset
+
 An example of dataset available to 
 \emph on
 Mobile Millennium
@@ -241,7 +277,7 @@ name "fig:mm_cloud_point"
 
 \end_inset
 
-
+ XXX put in introduction
 \end_layout
 
 \end_inset
@@ -716,6 +752,16 @@ name "fig:pif_diagram"
 
 \end_inset
 
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Dataflow of the Path Inference Filter
+\end_layout
+
+\end_inset
+
 Dataflow of the Path Inference Filter.
  The filter takes GPS measurements as inputs, and returns probability distributi
 ons over paths and points.
@@ -923,6 +969,16 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of failure in which an intuitive algorithm projects each GPS measurement
+ to the closest link
+\end_layout
+
+\end_inset
+
 Example of failure in which an intuitive algorithm projects each GPS measurement
  to the closest link.
  The raw GPS measurements are the triangles, the actual true trajectory
@@ -977,6 +1033,16 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of failure when trying to minimize the path length between a sequence
+ of points
+\end_layout
+
+\end_inset
+
 Example of failure when trying to minimize the path length between a sequence
  of points.
  The raw observations are the triangles, the actual true trajectory is the

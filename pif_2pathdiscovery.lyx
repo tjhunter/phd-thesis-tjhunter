@@ -378,6 +378,19 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of a measurement 
+\begin_inset Formula $g$
+\end_inset
+
+ on a link and two strategies to associate state projections
+\end_layout
+
+\end_inset
+
 Example of a measurement 
 \begin_inset Formula $g$
 \end_inset
@@ -713,6 +726,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of path exploration between two observations
+\end_layout
+
+\end_inset
+
 Example of path exploration between two observations.
  The true trajectory and two associated GPS observations are shown on Figure
  (a).
@@ -875,6 +897,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of failure when observing strict physical consistency
+\end_layout
+
+\end_inset
+
 Example of failure when observing strict physical consistency: due to the
  observation noise, the observation (3) appears physically behind (2) on
  the same link.

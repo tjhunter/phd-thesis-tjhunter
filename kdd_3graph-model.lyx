@@ -113,6 +113,16 @@ name "fig:Picture-travel-times"
 
 \end_inset
 
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Picture representations about the travel times over a road link
+\end_layout
+
+\end_inset
+
 Picture representations about the travel times over a road link: the travel
  time is a mixture of (typically) three Gaussian distributions: one mode
  for the travel times corresponding to a green light, one mode for the travel
@@ -217,6 +227,16 @@ centering
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:ttgraph_example"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Graphical model of the travel times on a stretch of three one-way road links
+\end_layout
 
 \end_inset
 

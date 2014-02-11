@@ -16,6 +16,7 @@
 \usepackage{color}
 \usepackage[bookmarks=false]{hyperref}
 \usepackage{wrapfig}
+\usepackage[chapter]{algorithm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
 \floatstyle{ruled}
@@ -92,7 +93,7 @@ To Ossie Bernosky\\\vspace{12pt}
 \clearpage
 \listoffigures
 \clearpage
-\listoftables
+\listofalgorithms
 
 \begin{acknowledgements}
 \input{acks}
@@ -101,6 +102,12 @@ To Ossie Bernosky\\\vspace{12pt}
 \end{frontmatter}
 
 \pagestyle{headings}
+
+% Pretty numbering for figures
+\numberwithin{section}{chapter}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
 
 \input{intro}
 
@@ -118,7 +125,7 @@ To Ossie Bernosky\\\vspace{12pt}
 \input{socc_2model}
 \input{socc_3model_gamma}
 \input{socc_4dstreams}
-\epigraph{Mais on ne se bat pas dans l espoir du succes! Non! non! c'est bien plus beau lorsque c'est inutile!}{Cyrano de Bergerac}
+% \epigraph{Mais on ne se bat pas dans l espoir du succes! Non! non! c'est bien plus beau lorsque c'est inutile!}{Cyrano de Bergerac}
 \input{socc_5experiments}
 \input{socc_6conclusion}
 

@@ -335,6 +335,15 @@ centering
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Histogram of travel times over a typical link
+\end_layout
+
+\end_inset
+
 Histogram of travel times collected on a road link in San Francisco, fit
  (solid line) using a mixture of two Gaussian distributions.
  The two modes corresponding to the green light and to the delay of the
@@ -476,6 +485,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Pipeline of the travel-time estimation model
+\end_layout
+
+\end_inset
+
 Pipeline of the travel-time estimation model.
  The learning runs offline and finds optimal parameters for the HMM and
  GMRF models.
@@ -720,6 +738,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Map of the road network
+\end_layout
+
+\end_inset
+
 A fraction of the road network considered for this model: the downtown area
  of San Francisco.
  

@@ -142,6 +142,17 @@ name "fig:trajectory-compression"
 
 \end_inset
 
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Representation of the data compression algorithm used in the Stop and Go
+ filter
+\end_layout
+
+\end_inset
+
 Representation of the data compression algorithm used in the Stop and Go
  filter.
  In the top figure, the raw information about location and speed are given.
@@ -227,6 +238,16 @@ status open
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:forward-bias-problem"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+The forward bias problem with the Path Inference Filter
+\end_layout
 
 \end_inset
 
@@ -543,6 +564,16 @@ name "fig:Two-typical-scenarios"
 
 \end_inset
 
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Two typical scenarios in a signalled intersection
+\end_layout
+
+\end_inset
+
 Two typical scenarios in a signalled intersection.
  The horizontal axis is time and the vertical axis is cumulative offset
  (shifted so that the zero corresponds to the end of the link).
@@ -597,6 +628,16 @@ status open
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:Example-from-real-traj"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example from real data of trajectory estimation
+\end_layout
 
 \end_inset
 

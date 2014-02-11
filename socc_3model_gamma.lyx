@@ -2,12 +2,10 @@
 \lyxformat 413
 \begin_document
 \begin_header
-\textclass amsbook
+\textclass article
 \use_default_options true
 \begin_modules
 theorems-ams
-eqs-within-sections
-figs-within-sections
 \end_modules
 \maintain_unincluded_children false
 \language english

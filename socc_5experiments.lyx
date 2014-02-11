@@ -130,6 +130,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Mean travel times on a few road links
+\end_layout
+
+\end_inset
+
 An example output of traffic estimates from our algorithm: mean travel times
  on different road links in the business district of San Francisco during
  a complete day.
@@ -247,6 +256,17 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+An example of dataset available to 
+\emph on
+Mobile Millennium
+\end_layout
+
+\end_inset
+
 An example of dataset available to 
 \emph on
 Mobile Millennium
@@ -263,7 +283,7 @@ name "fig:cabspotting-example"
 
 \end_inset
 
-
+ XXXX REMOVE
 \end_layout
 
 \end_inset
@@ -292,9 +312,7 @@ name "sub:experiment-scalability"
 
 \begin_layout Standard
 In this section, we evaluate how much the cloud implementation helped with
- scaling the 
-Mobile Millennium 
- EM traffic estimation algorithm.
+ scaling the Mobile Millennium  EM traffic estimation algorithm.
  Distributing the computation across machines provides a twofold advantage:
  each machine can perform computations in parallel, and the overall amount
  of memory available is much greater.
@@ -390,6 +408,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Experiments with Spark to build historical estimates of traffic
+\end_layout
+
+\end_inset
+
 Experiments with Spark to build historical estimates of traffic, on NERSC
  (top) and Amazon EC2 (bottom).
 \begin_inset CommandInset label
@@ -471,6 +498,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Experiments with Streaming Spark
+\end_layout
+
+\end_inset
+
 Experiments with Streaming Spark: rate of observation processing for different
  cluster sizes.
  
@@ -794,6 +830,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+L1 residuals for different settings and for different travel times
+\end_layout
+
+\end_inset
+
 L1 residuals for different settings and for different travel times.
  The dashed lines indicate the 95% confidence interval.
  On the 
@@ -948,6 +993,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+L2 residuals for different settings and for different travel times
+\end_layout
+
+\end_inset
+
 L2 residuals for different settings and for different travel times.
  The dashed lines indicate the 95% confidence interval.
 \begin_inset CommandInset label
@@ -1020,6 +1074,16 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Log-likelihood of unobserved trajectories, for different trajectory lengths
+ and different settings
+\end_layout
+
+\end_inset
+
 Log-likelihood of unobserved trajectories, for different trajectory lengths
  and different settings.
  The median is presented on the left, while the mean is presented on the

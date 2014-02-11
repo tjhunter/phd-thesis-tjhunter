@@ -471,6 +471,16 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+A Dynamic Bayesian Network (DBN) commonly used to model the trajectory reconstru
+ction problem
+\end_layout
+
+\end_inset
+
 A Dynamic Bayesian Network (DBN) commonly used to model the trajectory reconstru
 ction problem.
  The arrows indicate the directed dependencies of the variables.
@@ -551,7 +561,16 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
 Illustration of the Conditional Random Field defined over a trajectory
+\end_layout
+
+\end_inset
+
+Illustration of the Conditional Random Field defined over a trajectory.
 \end_layout
 
 \end_inset
@@ -929,6 +948,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of a failure case when using a Hidden Markov Model
+\end_layout
+
+\end_inset
+
 Example of a failure case when using a Hidden Markov Model: the solid black
  path will be favored over all the other paths.
  The paths 
@@ -1424,6 +1452,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of case handled by lagged smoothing
+\end_layout
+
+\end_inset
+
 Example of case handled by lagged smoothing which disambiguates the results
  provided by tracking.
  An observation is available close to an exit ramp of a highway, for which

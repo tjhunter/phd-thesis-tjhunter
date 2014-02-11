@@ -330,6 +330,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Travel time validation on selected paths
+\end_layout
+
+\end_inset
+
 50% and 90% confidence intervals computed by the different models and compared
  to the validation travel times on the selected paths.
 \end_layout
@@ -461,6 +470,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Cumulative distribution of travel times computed by the different models
+\end_layout
+
+\end_inset
+
 Cumulative distribution of travel times computed by the different models
  and compared to the validation travel times received on the selected paths.
 \end_layout
@@ -583,6 +601,15 @@ centering
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Average log-likelihood of the validation paths
+\end_layout
+
+\end_inset
+
 a) Average log-likelihood of the validation paths (by path length), for
  each model.
  b) Validation of the distribution percentiles for each model.
@@ -1181,7 +1208,11 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Log-log plot of the training time, as a function of the size of the GMRF.
+Log-log plot of the training time, as a function of the size of the
+\begin_inset space ~
+\end_inset
+
+GMRF.
 \end_layout
 
 \end_inset

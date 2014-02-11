@@ -134,6 +134,23 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Example of points collected in 
+\begin_inset Quotes eld
+\end_inset
+
+Dataset 1
+\begin_inset Quotes erd
+\end_inset
+
+, in the Russian Hill neighborhood in San Francisco
+\end_layout
+
+\end_inset
+
 Example of points collected in 
 \begin_inset Quotes eld
 \end_inset
@@ -1005,7 +1022,7 @@ Given the number of parameters to adjust, we only present the most salient
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1025,6 +1042,16 @@ status collapsed
 \begin_inset CommandInset label
 LatexCommand label
 name "Flo:point_miss"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Point misses using trajectory reconstruction
+\end_layout
 
 \end_inset
 
@@ -1083,6 +1110,16 @@ status open
 \begin_inset CommandInset label
 LatexCommand label
 name "Flo:path_miss"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Path misses using the Viterbi reconstruction
+\end_layout
 
 \end_inset
 
@@ -1212,8 +1249,18 @@ name "Flo:path_ll"
 
 \end_inset
 
-(Negative of) Log likelihood of true paths for different strategies and
- different sampling rates (positive, lower is better).
+(Negative of)
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+ Log likelihood of true paths
+\end_layout
+
+\end_inset
+
+ Log likelihood of true paths for different strategies and different sampling
+ rates (positive, lower is better).
  The error bars denote the first and last quartiles (the 25th and 75th percentil
 es).
  The solid line denotes the median, the squares denote the mean and the
@@ -1258,7 +1305,7 @@ n is mitigated by using better filtering strategies (2-lagged and smoothing).
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1278,6 +1325,16 @@ status collapsed
 \begin_inset CommandInset label
 LatexCommand label
 name "Flo:point_entropy"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Distributions of point entropies
+\end_layout
 
 \end_inset
 
@@ -1325,7 +1382,7 @@ Distributions of point entropies with respect to sampling and for different
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1345,6 +1402,16 @@ status collapsed
 \begin_inset CommandInset label
 LatexCommand label
 name "Flo:path_entropy"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Distributions of path entropies
+\end_layout
 
 \end_inset
 
@@ -1421,7 +1488,7 @@ reference "Flo:path_entropy"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -1441,6 +1508,16 @@ status collapsed
 \begin_inset CommandInset label
 LatexCommand label
 name "Flo:relative-coverage-paths"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Distribution of relative miscoverage of the paths
+\end_layout
 
 \end_inset
 
@@ -1519,7 +1596,7 @@ reference "Flo:relative-coverage-paths"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -1546,6 +1623,16 @@ status collapsed
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:left-right"
+
+\end_inset
+
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Learned weights for left or right turns preferences
+\end_layout
 
 \end_inset
 
@@ -1617,6 +1704,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Standard deviation learned by the simple models
+\end_layout
+
+\end_inset
+
 Standard deviation learned by the simple models, in the supervised (Maximum
  Likelihood) setting and the EM setting.
  The error bars indicate the complete span of values computed for each time.
@@ -1662,6 +1758,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Characteristic length learned by the simple models
+\end_layout
+
+\end_inset
+
 Characteristic length learned by the simple models, in the supervised (Maximum
  Likelihood) setting and the EM setting.
  As hoped, it roughly corresponds to the expected path length.
@@ -1813,6 +1918,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Expected likelihood of the true path
+\end_layout
+
+\end_inset
+
 Expected likelihood of the true path.
  The central point is the mean log-likelihood, the error bars indicate the
  70% confidence interval.
@@ -1891,6 +2005,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Proportion of true points incorrectly identified
+\end_layout
+
+\end_inset
+
 Proportion of true points incorrectly identified, for different models evaluated
  with 1-minute sampling (lower is better).
  The central point is the mean proportion, the error bars indicate the 70%
@@ -1937,6 +2060,15 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Proportion of true paths incorrectly identified
+\end_layout
+
+\end_inset
+
 Proportion of true paths incorrectly identified, for different models evaluated
  with 1-minute sampling (lower is better).
  The central point is the mean proportion, the error bars indicate the 70%
