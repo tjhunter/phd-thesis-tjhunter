@@ -454,7 +454,129 @@ reference "sec:training"
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/dbn_model.pdf
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+A Dynamic Bayesian Network (DBN) commonly used to model the trajectory reconstru
+ction problem.
+ The arrows indicate the directed dependencies of the variables.
+ The GPS observations 
+\begin_inset Formula $g^{t}$
+\end_inset
+
+ are generated from states 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+.
+ The unobserved paths 
+\begin_inset Formula $p^{t}$
+\end_inset
+
+ are generated from a state 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+, following a transition probability distribution 
+\begin_inset Formula $\hat{\pi}\left(p|x\right)$
+\end_inset
+
+.
+ The transition from a path 
+\begin_inset Formula $p^{t}$
+\end_inset
+
+ to a state 
+\begin_inset Formula $x^{t}$
+\end_inset
+
+ follows the transition model 
+\begin_inset Formula $\hat{\pi}\left(x|p\right)$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:dbn_model"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename docs-pif/crf_model.pdf
+	lyxscale 30
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Illustration of the Conditional Random Field defined over a trajectory
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -527,80 +649,6 @@ name "fig:crf_model"
 
 
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename docs-pif/dbn_model.pdf
-	width 100col%
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-A Dynamic Bayesian Network (DBN) commonly used to model the trajectory reconstru
-ction problem.
- The arrows indicate the directed dependencies of the variables.
- The GPS observations 
-\begin_inset Formula $g^{t}$
-\end_inset
-
- are generated from states 
-\begin_inset Formula $x^{t}$
-\end_inset
-
-.
- The unobserved paths 
-\begin_inset Formula $p^{t}$
-\end_inset
-
- are generated from a state 
-\begin_inset Formula $x^{t}$
-\end_inset
-
-, following a transition probability distribution 
-\begin_inset Formula $\hat{\pi}\left(p|x\right)$
-\end_inset
-
-.
- The transition from a path 
-\begin_inset Formula $p^{t}$
-\end_inset
-
- to a state 
-\begin_inset Formula $x^{t}$
-\end_inset
-
- follows the transition model 
-\begin_inset Formula $\hat{\pi}\left(x|p\right)$
-\end_inset
-
-.
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:dbn_model"
 
 \end_inset
 
@@ -1362,7 +1410,7 @@ Trajectory filtering and smoothing
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center

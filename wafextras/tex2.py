@@ -206,9 +206,9 @@ class tex(Task.Task):
 			self.env.env.update(os.environ)
 			self.env.env.update({'TEXINPUTS':self.TEXINPUTS})
 			self.env.SRCFILE=srcfile
-			fun_clean()
+			#fun_clean()
 			self.check_status('error when calling %s'%self.__class__.__name__,fun())
-			fun_clean()
+			#fun_clean()
 class latex(tex):
 	texfun,vars=Task.compile_fun('${LATEX} ${LATEXFLAGS} ${SRCFILE}',shell=False)
 class pdflatex(tex):

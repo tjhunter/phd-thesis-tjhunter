@@ -9,11 +9,13 @@ def options(ctx):
   ctx.load('img2eps',tooldir="wafextras")
   ctx.load('thesis',tooldir="wafextras")
   ctx.load('unoconv',tooldir="wafextras")
-  ctx.load('tex',tooldir="wafextras")
+  #ctx.load('tex',tooldir="wafextras")
+  #ctx.load('tex', tooldir='extras')
 
 def configure(conf):
   # Load modified waf module, should go to main directory eventually.
-  conf.load('tex',tooldir="wafextras")
+  #conf.load('tex',tooldir="wafextras")
+  conf.load('tex')
   conf.load('build_python',tooldir="wafextras")
   conf.load('lyx2tex',tooldir="wafextras")
   conf.load('img2eps',tooldir="wafextras")
@@ -96,6 +98,7 @@ def build(bld):
   tex_deps += ['acks.tex']
   tex_deps += ['intro.tex']
   img_deps += ["docs-intro/%s.pdf"%d for d in 'power_law tt_function'.split()]
+  img_deps += "figures-intro/example_franklin.png  figures-intro/example_vanness.png  figures-intro/sampleplot_trajs.png".split()
   # PIF chapter deps
   bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odp'))
   bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odg'))
@@ -160,6 +163,12 @@ def build(bld):
   img_deps += ['figures-kdd/example_bimodal_link.pdf',
 	       'figures-kdd/network_export_6.pdf']
   tex_deps += ['kdd_2stop-and-go.tex']
+  img_deps += """docs-kdd/stopgo_1.pdf 
+               docs-kdd/stopgo_2.pdf 
+               figures-kdd/traj.pdf 
+               figures-kdd/trajectory_estimation_example.png 
+               docs-kdd/gaussians.pdf 
+               docs-kdd/ttgraph_example.pdf""".split()
   tex_deps += ['kdd_3graph-model.tex']
   # Special rule for the travel time graph, it is too big to be handled by
   # LibreOffice
@@ -170,7 +179,7 @@ def build(bld):
                'docs-kdd/network_example.pdf']
   tex_deps += ['kdd_4inference.tex']
   tex_deps += ['kdd_5evaluation.tex']
-  img_deps += """ figures-kdd/cdf_val.pdf
+  img_deps += """figures-kdd/cdf_val.pdf
 	       figures-kdd/ll__percentile_val.pdf
 	       figures-kdd/perf_gmrf.pdf
 	       figures-kdd/sampling_distribution.pdf

@@ -64,10 +64,6 @@
 
 \begin_body
 
-\begin_layout Chapter
-Introduction
-\end_layout
-
 \begin_layout Standard
 \begin_inset ERT
 status open
@@ -76,12 +72,61 @@ status open
 
 
 \backslash
-epigraph{From the midst of this darkness a sudden light broke in upon me--a
- light so brilliant and wondrous, yet so simple, that while I became dizzy
- with the immensity of the prospect which it illustrated, I was surprised
- that among so many men of genius who had directed their inquiries towards
- the same science, that I alone should be reserved to discover so astonishing
- a secret.}{Mary Shelley, in Frankenstein}
+chapter{Introduction}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+epigraph{From the midst of this 
+\end_layout
+
+\begin_layout Plain Layout
+
+darkness a sudden light broke in upon
+\end_layout
+
+\begin_layout Plain Layout
+
+me--a light so brilliant and wondrous, 
+\end_layout
+
+\begin_layout Plain Layout
+
+yet so simple, that while I became dizzy 
+\end_layout
+
+\begin_layout Plain Layout
+
+with the immensity of the prospect which it 
+\end_layout
+
+\begin_layout Plain Layout
+
+illustrated, I was surprised that among so
+\end_layout
+
+\begin_layout Plain Layout
+
+many men of genius who had directed their
+\end_layout
+
+\begin_layout Plain Layout
+
+inquiries towards the same science, that 
+\end_layout
+
+\begin_layout Plain Layout
+
+I alone should be reserved to discover so 
+\end_layout
+
+\begin_layout Plain Layout
+
+astonishing a secret.}{Mary Shelley, 
+\backslash
+emph{in} Frankenstein}
 \end_layout
 
 \end_inset
@@ -262,7 +307,16 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
@@ -270,10 +324,6 @@ status open
 	filename docs-intro/tt_function.pdf
 	width 6cm
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
 
@@ -290,6 +340,15 @@ name "fig:tt_function"
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
+Schema of travel time function.
+\end_layout
+
+\end_inset
+
 The travel time function that we desire to compute: given a start time and
  a path across a road network, we wish to provide a statistical distribution
  of arrival times.
