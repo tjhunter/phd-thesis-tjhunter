@@ -48,6 +48,8 @@ The file is available at:
 
 http://www.eecs.berkeley.edu/~tjhunter/publications/thesis.pdf
 
+More information about thesis writing at Berkeley:
+
 http://www.grad.berkeley.edu/policies/pdf/disguide.pdf
 
 http://grad.berkeley.edu/policies/guides/dissertation

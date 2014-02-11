@@ -22,6 +22,7 @@ def configure(conf):
   conf.load('data',tooldir="wafextras")
   if not conf.env.LATEX:
     conf.fatal('The program LaTex is required')
+  # I also use inkscape for some complicated conversions.
   conf.find_program('inkscape',var='INKSCAPE')
     
 def build(bld):
@@ -35,7 +36,7 @@ def build(bld):
   bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="tase.zip")
   bld(rule="unzip ${SRC[0].abspath()} -d %s" % data_dir.abspath(), source="kdd.zip")
   bld.add_group()
-  # Generation of images by python scripts
+  # Generation of images by python scripts, using the datasets.
   # Small test
   bld.build_python("python/myscript.py",'myfile.txt')
   # Path inference images
@@ -81,9 +82,12 @@ def build(bld):
   bld.add_group()
   
   # The text parts
+  # Convert all the lyx files to tex files (and strip the irrelevant parts)
   bld.lyx2tex(bld.path.ant_glob('*.lyx'))
   bld.add_group()
+  # Bibliography files.
   bib_deps = 'references.bib path_inference.bib socc.bib biblio_arterial_spark.bib mendeley_biblio.bib'.split()
+  # Miscellaneous tex files
   tex_deps = 'ucbthesis.cls preamble.tex'.split()
   img_deps = []
   # INTRO chapter deps
