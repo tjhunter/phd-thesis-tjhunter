@@ -41,7 +41,7 @@ Berkeley requirements
 
 To push to the website:
 ```bash
-scp -i ~/.ssh/id_rsa build/thesis.pdf tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf
+./waf push
 ```
 
 The file is available at:
