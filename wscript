@@ -178,3 +178,7 @@ def build(bld):
   tex_deps += ['conclusion.tex']
   # Final assembly
   bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
+  # Pushing to the website
+  bld(rule='scp -i ~/.ssh/id_rsa ${SRC} tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf &> ${TGT}',
+      source='thesis.pdf', target='upload.log')
+  #scp -i ~/.ssh/id_rsa build/thesis.pdf tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf

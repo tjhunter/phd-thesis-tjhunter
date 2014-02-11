@@ -41,7 +41,7 @@ Berkeley requirements
 
 To push to the website:
 ```bash
-scp build/thesis.pdf tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf
+scp -i ~/.ssh/id_rsa build/thesis.pdf tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf
 ```
 
 The file is available at:
