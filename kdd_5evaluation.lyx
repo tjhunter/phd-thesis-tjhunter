@@ -106,39 +106,6 @@ The validation results are based on anonymized GPS traces provided by a
  individual trajectories.
  Each trajectory is less than 20 minutes long for privacy reasons.
  
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-todo{Tim: check numbers.
- Maybe round them? Over 2.6 million trajectories?}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% I like the very precise number
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Subsection

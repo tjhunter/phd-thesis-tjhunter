@@ -75,37 +75,6 @@ name "sec:kdd_inference"
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-audecomment{consists of or in?? Jack, native speaker, we need your help!}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% google fight has a winner
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
 Given the model parameters, the inference task consists in computing the
  probability distribution 
 \begin_inset Formula $\mathbb{P}(Z^{(p)}\le t)$

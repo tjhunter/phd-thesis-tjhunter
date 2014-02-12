@@ -638,7 +638,7 @@ name "sec:kdd-gmrf-model"
 We now present the model that describes the correlations between the travel
  time variables.
  We assume that the random variables 
-\begin_inset Formula $\left(Y_{l,s}\right)_{l\in\mathcal{L},s\in\mathcal{S}_{l}}$
+\begin_inset Formula $\left(X_{l,s}\right)_{l\in\mathcal{L},s\in\left[1,m\right]}$
 \end_inset
 
  are Gaussian
@@ -654,7 +654,7 @@ While Gaussian travel times can theoretically predict negative travel time,
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:evaluation"
+reference "sec:kdd_evaluation"
 
 \end_inset
 
@@ -664,14 +664,14 @@ reference "sec:evaluation"
 \end_inset
 
 , and they can be stacked into one multivariate Gaussian variable 
-\begin_inset Formula $Y\sim\mathcal{N}\left(\mu,\Sigma\right)$
+\begin_inset Formula $X\sim\mathcal{N}\left(\mu,\Sigma\right)$
 \end_inset
 
  of size 
-\begin_inset Formula $m\in(\mathcal{L})$
+\begin_inset Formula $r=m\left|\mathcal{L}\right|$
 \end_inset
 
-, mean 
+, with mean 
 \begin_inset Formula $\mu$
 \end_inset
 
@@ -681,19 +681,19 @@ reference "sec:evaluation"
 
 .
  Recall that 
-\begin_inset Formula $Y_{l,s}$
+\begin_inset Formula $X_{l,s}$
 \end_inset
 
  is the travel time on link 
 \begin_inset Formula $l$
 \end_inset
 
- conditioned on state 
+ conditioned on link state 
 \begin_inset Formula $s$
 \end_inset
 
 , where 
-\begin_inset Formula $s\in\{0,\dots,m-1\}$
+\begin_inset Formula $s\in\left[1,m\right]$
 \end_inset
 
 .
@@ -723,41 +723,8 @@ precision matrix
 conditional dependencies
 \emph default
  between the variables.
- 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-audecomment{Shall we formulate that not to use correlations? Since we're
- talking about the precision matrix}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% done
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-Since a link is assumed to be conditionally correlated only with its neighbors,
- the precision matrix is very sparse.
+ Since a link is assumed to be conditionally correlated only with its (geographi
+cal) neighbors, the precision matrix is very sparse.
  Furthermore, this sparsity pattern is of particular interest: its pattern
  is that of a graph which is nearly planar.
  We take advantage of this structure to devise efficient algorithms that
@@ -767,7 +734,7 @@ Since a link is assumed to be conditionally correlated only with its neighbors,
 
 \begin_layout Standard
 As mentioned earlier, we have a set of 
-\begin_inset Formula $N$
+\begin_inset Formula $A$
 \end_inset
 
  trajectories obtained from GPS data.
@@ -783,83 +750,18 @@ reference "sec:kdd_stopandgo"
 \end_inset
 
 ), the set of observed trajectories 
-\begin_inset Formula $\{W_{p}:p=1,\cdots,N\}$
+\begin_inset Formula $\left\{ W_{a}\right\} _{a=1,\cdots,A}$
 \end_inset
 
  are sequences of observed states and variables (travel time)
-\begin_inset ERT
+\begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-
-% 
-\backslash
-footnote{One could consider that the states and the variables are not directly
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% observed, but guessed after a complicated process.
- The Expectation-Maximization
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% algorithm could be run to estimate the value of the state and of the
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% variable.%
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% }
-\end_layout
-
-\begin_layout Plain Layout
-
+One could consider that the states and the variables are not directly observed,
+ but guessed after a complicated process.
+ The Expectation-Maximization algorithm could be run to estimate the value
+ of the state and of the variable.
 \end_layout
 
 \end_inset
@@ -867,8 +769,8 @@ status collapsed
 : 
 \begin_inset Formula 
 \begin{eqnarray*}
-W_{p} & = & \left(l_{1},s_{1}\right)\,\left(l_{2},s_{2}\right)\,\,\cdots\left(l_{M_{p}},s_{M_{p}}\right)\\
-y^{p} & = & \left(y_{l,s}^{p}\right)_{(l,s)\in W_{p}}
+W_{a} & = & \left(l_{1},s_{1}\right)\,\left(l_{2},s_{2}\right)\,\,\cdots\left(l_{M_{a}},s_{M_{a}}\right)\\
+x^{a} & = & \left(x_{l,s}^{p}\right)_{(l,s)\in W_{a}}
 \end{eqnarray*}
 
 \end_inset
@@ -878,32 +780,32 @@ y^{p} & = & \left(y_{l,s}^{p}\right)_{(l,s)\in W_{p}}
 
 \begin_layout Standard
 In our notations, 
-\begin_inset Formula $y^{p}$
+\begin_inset Formula $x^{a}$
 \end_inset
 
  is an observation of the random vector 
-\begin_inset Formula $Y_{p}=\left(Y_{i}\right)_{i\in W_{p}}$
+\begin_inset Formula $X_{p}=\left(X_{i}\right)_{i\in W_{a}}$
 \end_inset
 
 , which is a 
-\begin_inset Formula $M_{p}$
+\begin_inset Formula $M_{a}$
 \end_inset
 
 -dimensional marginal (or subset) of the full distribution 
-\begin_inset Formula $Y$
+\begin_inset Formula $X$
 \end_inset
 
 .
  Hence 
-\begin_inset Formula $Y_{p}$
+\begin_inset Formula $X_{p}$
 \end_inset
 
  is also a multivariate Gaussian with mean 
-\begin_inset Formula $\mu_{(W_{p})}$
+\begin_inset Formula $\mu_{(W_{a})}$
 \end_inset
 
  and covariance 
-\begin_inset Formula $\Sigma_{(W_{p})}$
+\begin_inset Formula $\Sigma_{(W_{a})}$
 \end_inset
 
  obtained by dropping the irrelevant variables (the variables that one wants
@@ -921,8 +823,8 @@ In our notations,
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{l}
-\text{log }p\left(y^{p};\mu_{(W_{p})},\Sigma_{(W_{p})}\right)=\\
-C-\frac{1}{2}\log\left|\Sigma_{(W_{p})}\right|-\frac{1}{2}\left(y^{p}-\mu_{(W_{p})}\right)^{T}\Sigma_{(W_{p})}^{-1}\left(y^{p}-\mu_{(W_{p})}\right),
+\text{log }\pi\left(x^{a};\mu_{(W_{a})},\Sigma_{(W_{a})}\right)=\\
+C-\frac{1}{2}\log\left|\Sigma_{(W_{a})}\right|-\frac{1}{2}\left(x^{a}-\mu_{(W_{a})}\right)^{T}\Sigma_{(W_{a})}^{-1}\left(x^{a}-\mu_{(W_{a})}\right),
 \end{array}
 \end{equation}
 
@@ -942,70 +844,28 @@ The problem of estimating the parameters of the model
 
  from the i.i.d.
  set of observations 
-\begin_inset Formula $\mathcal{D}=\{W_{p},y^{p}:p=1,\cdots,N\}$
+\begin_inset Formula $\mathcal{D}=\left\{ W_{a}\right\} _{a=1,\cdots,A}$
 \end_inset
 
  consists in finding the set of parameters 
 \begin_inset Formula $\theta^{\star}$
 \end_inset
 
- that maximize the sum of the likelihoods of each of the observations 
-\begin_inset ERT
-status collapsed
+ that maximize the sum of the likelihoods of each of the observations
+\begin_inset Foot
+status open
 
 \begin_layout Plain Layout
-
-% 
-\backslash
-footnotetext{The independent and identically distributed (i.i.d.) assumption
- is defined on the pair of marginal observation and masking subset}
-\end_layout
-
-\begin_layout Plain Layout
-
+The independent and identically distributed (i.i.d.) assumption is defined
+ on the pair of marginal observation and masking subset.
 \end_layout
 
 \end_inset
 
 : 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-audecomment{Not sure we are allowed to say IID here since different observations
- don't actually have the same distribution, because they do not have the
- same path...)}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% This is a very good point, but I think it may be a bit technical to introduce
- properly here
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
 \begin_inset Formula 
 \begin{equation}
-l\left(\theta|\mathcal{D}\right)=\sum_{p=1}^{N}\text{log }p\left(y^{p};\mu_{(W_{p})},\Sigma_{(W_{p})}\right)\label{eq:gmrf-II}
+l\left(\theta|\mathcal{D}\right)=\sum_{p=1}^{N}\text{log }p\left(x^{a};\mu_{(W_{a})},\Sigma_{(W_{a})}\right)\label{eq:gmrf-II}
 \end{equation}
 
 \end_inset
@@ -1027,7 +887,7 @@ reference "eq:gmrf-II"
 
  is in general not convex and may have multiple local minima since we have
  only partially observed variables 
-\begin_inset Formula $y^{p}$
+\begin_inset Formula $x^{a}$
 \end_inset
 
 .
@@ -1146,20 +1006,20 @@ Let
 \end_inset
 
  be the number of observations of the variable 
-\begin_inset Formula $Y_{i}$
+\begin_inset Formula $X_{i}$
 \end_inset
 
 : 
-\begin_inset Formula $N_{i}=\text{card}\left(\{p:i\in W_{p}\}\right)$
+\begin_inset Formula $N_{i}=\text{card}\left(p:i\in W_{a}\right)$
 \end_inset
 
 .
  Combining all the observations that come across 
-\begin_inset Formula $Y_{i}$
+\begin_inset Formula $X_{i}$
 \end_inset
 
 , we can approximate the mean of any function 
-\begin_inset Formula $f\left(Y_{i}\right)$
+\begin_inset Formula $f\left(X_{i}\right)$
 \end_inset
 
  by some empirical mean, using the 
@@ -1169,7 +1029,7 @@ Let
  samples: 
 \begin_inset Formula 
 \begin{equation}
-\mathbb{E}_{i}\left[f\left(Y_{i}\right)\right]=\frac{1}{N_{i}}\sum_{p:i\in W_{p}}f\left(y_{i}^{p}\right)
+\mathbb{E}_{i}\left[f\left(X_{i}\right)\right]=\frac{1}{N_{i}}\sum_{p:i\in W_{a}}f\left(x_{i}^{p}\right)\label{eq:emp-expectation-uni}
 \end{equation}
 
 \end_inset
@@ -1179,31 +1039,31 @@ Let
 
 \begin_layout Standard
 Similarly, defining the number of observations of both 
-\begin_inset Formula $Y_{i}$
+\begin_inset Formula $X_{i}$
 \end_inset
 
  and 
-\begin_inset Formula $Y_{j}$
+\begin_inset Formula $X_{j}$
 \end_inset
 
 : 
-\begin_inset Formula $N_{i\cap j}=\text{card}\left(\left\{ p\,:\, i\in W_{p}\text{ and }j\in W_{p}\right\} \right)$
+\begin_inset Formula $N_{i\cap j}=\text{card}\left(\left\{ p\,:\, i\in W_{a}\text{ and }j\in W_{a}\right\} \right)$
 \end_inset
 
 , we can approximate the mean of any function 
-\begin_inset Formula $f\left(Y_{i},Y_{j}\right)$
+\begin_inset Formula $f\left(X_{i},X_{j}\right)$
 \end_inset
 
  of 
-\begin_inset Formula $Y_{i},Y_{j}$
+\begin_inset Formula $X_{i},X_{j}$
 \end_inset
 
 , using the set of observations that span both variables 
-\begin_inset Formula $Y_{i}$
+\begin_inset Formula $X_{i}$
 \end_inset
 
  and 
-\begin_inset Formula $Y_{j}$
+\begin_inset Formula $X_{j}$
 \end_inset
 
 :
@@ -1212,7 +1072,7 @@ Similarly, defining the number of observations of both
 \begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbb{E}_{i\cap j}\left[f\left(Y_{i},Y_{j}\right)\right]=\frac{1}{N_{i\cap j}}\sum_{p\,:\, i,j\in W_{p}}f\left(y_{i}^{p},y_{j}^{p}\right)
+\mathbb{E}_{i\cap j}\left[f\left(X_{i},X_{j}\right)\right]=\frac{1}{N_{i\cap j}}\sum_{p\,:\, i,j\in W_{a}}f\left(x_{i}^{p},x_{j}^{p}\right)\label{eq:emp-expectation-bi}
 \end{equation}
 
 \end_inset
@@ -1222,7 +1082,7 @@ Similarly, defining the number of observations of both
 
 \begin_layout Standard
 Using this notation, the empirical mean is 
-\begin_inset Formula $\hat{\mu}_{i}=\mathbb{E}_{i}\left[Y_{i}\right]$
+\begin_inset Formula $\hat{\mu}_{i}=\mathbb{E}_{i}\left[X_{i}\right]$
 \end_inset
 
 .
@@ -1238,7 +1098,7 @@ partial empirical covariance matrix
 \begin_inset Formula 
 \[
 \hat{\Sigma}_{ij}=\begin{cases}
-\mathbb{E}_{i\cap j}\left[Y_{i}Y_{j}\right]-\mathbb{E}_{i}\left[Y_{i}\right]\mathbb{E}_{j}\left[Y_{j}\right] & \text{if }\left(i,j\right)\in\mathcal{E}\\
+\mathbb{E}_{i\cap j}\left[X_{i}X_{j}\right]-\mathbb{E}_{i}\left[X_{i}\right]\mathbb{E}_{j}\left[X_{j}\right] & \text{if }\left(i,j\right)\in\mathcal{E}\\
 0 & \text{otherwise}
 \end{cases}
 \]
@@ -1268,7 +1128,7 @@ Note that this definition is asymptotically consistent: in the limit, when
 \end_inset
 
 ), the PECM will converge towards the true covariance: indeed 
-\begin_inset Formula $\hat{\Sigma}_{ij}\rightarrow\mathbb{E}\left[Y_{i}Y_{j}\right]-\mathbb{E}\left[Y_{i}\right]\mathbb{E}\left[Y_{j}\right]$
+\begin_inset Formula $\hat{\Sigma}_{ij}\rightarrow\mathbb{E}\left[X_{i}X_{j}\right]-\mathbb{E}\left[X_{i}\right]\mathbb{E}\left[X_{j}\right]$
 \end_inset
 
  and for all 
@@ -1276,7 +1136,7 @@ Note that this definition is asymptotically consistent: in the limit, when
 \end_inset
 
 , 
-\begin_inset Formula $\left\langle S,\hat{\Sigma}\right\rangle \rightarrow\left\langle S,\mathbb{E}\left[YY^{T}\right]-\mathbb{E}\left[Y\right]\mathbb{E}\left[Y\right]^{T}\right\rangle $
+\begin_inset Formula $\left\langle S,\hat{\Sigma}\right\rangle \rightarrow\left\langle S,\mathbb{E}\left[XX^{T}\right]-\mathbb{E}\left[X\right]\mathbb{E}\left[X\right]^{T}\right\rangle $
 \end_inset
 
 .
@@ -1345,7 +1205,7 @@ There is a number of ways to correct this.
 \begin_inset Formula 
 \[
 \hat{\Sigma}_{ij}=\begin{cases}
-\alpha_{ij}\mathbb{E}_{i\cap j}\left[Y_{i}Y_{j}\right]-\mathbb{E}_{i}\left[Y_{i}\right]\mathbb{E}_{j}\left[Y_{j}\right] & \text{if }N_{ij}>0\\
+\alpha_{ij}\mathbb{E}_{i\cap j}\left[X_{i}X_{j}\right]-\mathbb{E}_{i}\left[X_{i}\right]\mathbb{E}_{j}\left[X_{j}\right] & \text{if }N_{ij}>0\\
 0 & \text{otherwise}
 \end{cases}
 \]
@@ -1355,7 +1215,7 @@ There is a number of ways to correct this.
 
 \begin_inset Formula 
 \[
-\alpha_{ij}=\sqrt{\frac{\mathbb{E}_{i}\left[Y_{i}^{2}\right]\mathbb{E}_{j}\left[Y_{j}^{2}\right]}{\mathbb{E}_{i\cap j}\left[Y_{i}^{2}\right]\mathbb{E}_{i\cap j}\left[Y_{j}^{2}\right]}}
+\alpha_{ij}=\sqrt{\frac{\mathbb{E}_{i}\left[X_{i}\right]\mathbb{E}_{j}\left[X_{j}\right]}{\mathbb{E}_{i\cap j}\left[X_{i}\right]\mathbb{E}_{i\cap j}\left[X_{j}\right]}}
 \]
 
 \end_inset
@@ -1378,7 +1238,59 @@ Another problem is due to the relative imbalance between the distributions
 \emph on
 pruning
 \emph default
- the edges with too few observations improved the results
+ the edges with too few observations improved the results.
+\end_layout
+
+\begin_layout Standard
+Note: this approach is only valid if some assumptions are made about the
+ generation mechanism.
+ It is valid if the production mechanism is independent from the values
+ being generated, and also if all the coefficients are uniformly covered
+ (XXX to verify).
+ In practice there is a sever imbalance in the number of observations per
+ link (i.e.
+ the distribution of 
+\begin_inset Formula $N_{i}$
+\end_inset
+
+ is very skewed), as can be seen from Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:power_law"
+
+\end_inset
+
+.
+ The algorithm we have described here cannot take that into account, but
+ a more direct approach can do it (CITE cdc paper).
+ Some more experiments may be necessary here.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+This page intentionally left blank.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
 \end_layout
 
 \end_body
