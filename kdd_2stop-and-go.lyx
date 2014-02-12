@@ -94,7 +94,7 @@ The stops due to traffic signals and other factors (double parking, garbage
 state
 \emph default
  
-\begin_inset Formula $s_{l}\in\{0,m-1\}$
+\begin_inset Formula $s_{l}\in\{1,m\}$
 \end_inset
 
  of the trajectory is defined as the number of stops on the link.

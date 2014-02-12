@@ -94,7 +94,7 @@ We consider the parametrization of a unidimensional distribution with a
 
  variables.
  Each of the variables is labeled 
-\begin_inset Formula $X_{\left(u,v\right)}$
+\begin_inset Formula $X_{u,v}$
 \end_inset
 
 .
@@ -140,7 +140,7 @@ p_{u:v}=p_{u}p_{u+1}\cdots p_{v}\in\prod_{k=u}^{v}\left[1,n_{k}\right]
 \begin_layout Standard
 We now introduce some statistical models over this structure.
  All the variables 
-\begin_inset Formula $X_{\left(u,v\right)}$
+\begin_inset Formula $X_{u,v}$
 \end_inset
 
  are stacked together into a single vector 
@@ -149,7 +149,7 @@ We now introduce some statistical models over this structure.
 
 .
  We consider that the variables 
-\begin_inset Formula $X_{\left(u,v\right)}$
+\begin_inset Formula $X_{u,v}$
 \end_inset
 
  are jointly Gaussian:

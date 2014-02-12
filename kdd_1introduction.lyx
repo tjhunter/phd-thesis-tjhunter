@@ -582,7 +582,7 @@ reference "chapter:pif"
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:kdd_stopandgo"
+reference "sub:kdd_markov_model"
 
 \end_inset
 
@@ -611,7 +611,7 @@ Markov model
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:kdd_graphmodel"
+reference "sec:kdd-gmrf-model"
 
 \end_inset
 
@@ -706,8 +706,7 @@ reference "sec:kdd_inference"
 ).
  While exact inference on this model is intractable due to the number of
  possible states, we exploit the underlying structure of the graphical model
- and use a specialized sampling method to obtain an efficient inference
- algorithm.
+ to approximate the requested travel time distribution.
 \end_layout
 
 \begin_layout Standard

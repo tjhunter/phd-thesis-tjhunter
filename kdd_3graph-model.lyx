@@ -161,7 +161,12 @@ reference "fig:Picture-travel-times"
  link(s) of the trajectory.
  It also models the correlations of travel times for neighboring links given
  their state (number of stops).
- The travel time model is a combination of two models:
+ The travel time model is a combination of two models parametrized by a
+ set of values denoted by 
+\begin_inset Formula $\theta$
+\end_inset
+
+:
 \begin_inset Newline newline
 \end_inset
 
@@ -171,11 +176,11 @@ reference "fig:Picture-travel-times"
 
  A directed Markov model of discrete state random variables gives the joint
  probability distribution of the link states 
-\begin_inset Formula $\pi_{\theta}\left(\left\{ S_{l}\right\} _{l\in\mathcal{L}}\right)$
-\end_inset
+\begin_inset Formula 
+\[
+\pi_{\theta}\left(\left\{ S_{l}\right\} _{l\in\mathcal{L}}\right)
+\]
 
-.
-\begin_inset Newline newline
 \end_inset
 
  
@@ -184,10 +189,14 @@ reference "fig:Picture-travel-times"
 
  A Gaussian Markov random field gives the joint distribution of the travel
  times 
-\begin_inset Formula $\pi_{\theta}\left(\left\{ X_{l,s}\right\} _{l\in\mathcal{L},s\in\left\{ 1,\cdots m\right\} }\right)$
+\begin_inset Formula 
+\[
+\pi_{\theta}\left(\left\{ X_{l,s}\right\} _{l\in\mathcal{L},s\in\left\{ 1,\cdots m\right\} }\right)
+\]
+
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Standard
@@ -280,16 +289,6 @@ Graphical model of the travel times on a stretch of three one-way road links
 
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:graph_model"
-
-\end_inset
-
- 
-\end_layout
-
 \end_inset
 
 
@@ -337,6 +336,12 @@ XXXXX
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:ttgraph_sf"
+
+\end_inset
+
 Example of travel time graph for the San Francisco area
 \end_layout
 
@@ -358,7 +363,7 @@ Figure
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:graph_model"
+reference "fig:ttgraph_example"
 
 \end_inset
 
@@ -380,10 +385,10 @@ reference "fig:graph_model"
 \begin_inset Formula $l$
 \end_inset
 
-, is 
+ is 
 \begin_inset Formula 
 \[
-Z_{l}=\sum_{s=0}^{m-1}Y_{l,s}\mathbf{1}_{S_{l}=s}
+Z_{l}=\sum_{s=0}^{m-1}X_{l,s}\mathbf{1}\left\{ S_{l}=s\right\} 
 \]
 
 \end_inset
@@ -397,8 +402,12 @@ Z_{l}=\sum_{s=0}^{m-1}Y_{l,s}\mathbf{1}_{S_{l}=s}
 The graphical model shows that conditioning on the states experienced along
  a path allows one to compute the path travel time by summing over the correspon
 ding variables in the GMRF.
- Further, when one conditions on the link travel times 
+ Further, when one simultaneously conditions on the link travel times 
 \begin_inset Formula $Z_{l}$
+\end_inset
+
+ and the link states 
+\begin_inset Formula $S_{l}$
 \end_inset
 
 , then the two models become independent, which allows one to learn the
@@ -421,7 +430,7 @@ name "sub:kdd_markov_model"
 \end_layout
 
 \begin_layout Standard
-We consider the state variables 
+We consider the link state variables 
 \begin_inset Formula $\{S_{l}\}_{l,\in\mathcal{L}}$
 \end_inset
 
@@ -431,23 +440,36 @@ We consider the state variables
 \end_inset
 
  has support 
-\begin_inset Formula $\{0,\dots,m-1\}$
+\begin_inset Formula $\left\{ 1\cdots m\right\} $
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Standard
-Given the path 
-\begin_inset Formula $p=(l_{0},\dots,l_{M})$
+Consider a valid path 
+\begin_inset Formula $p=\left(l_{1}\cdots l_{M}\right)\in\mathcal{L}^{M}$
+\end_inset
+
+ in the road network.
+ For simplicity, all the 
+\begin_inset Formula $l_{i}$
+\end_inset
+
+ are assumed to be distinct (handling this case is not an issue in practice).
+ Given the path 
+\begin_inset Formula $p$
 \end_inset
 
  of a vehicle, the variables 
-\begin_inset Formula $\{S_{l_{i}}\}_{i\in\{1,\dots,M\}}$
+\begin_inset Formula $\left\{ s_{l_{i}}\right\} _{i\in1\cdots M}$
 \end_inset
 
- have a Markov property, i.e.
- given the state of the 
+ have a Markov property: given the state 
+\begin_inset Formula $s_{l_{i-1}}$
+\end_inset
+
+ of the 
 \emph on
 upstream link
 \emph default
@@ -456,37 +478,16 @@ upstream link
 \end_inset
 
 , the conditional state 
-\begin_inset Formula $(S_{l_{i}}|S_{l_{i-1}})$
+\begin_inset Formula $S_{l_{i}}|S_{l_{i-1}}$
 \end_inset
 
  is independent of the state of other upstream links:
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-audecomment{In other words sounds weird just before an equation ;-) Maybe
- "this can be formalized as"?}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset Formula 
 \begin{equation}
-\mathbb{P}(S_{l_{i}}|\{S_{l_{i-1}},\dots,S_{l_{0}}\})=\mathbb{P}(S_{l_{i}}|S_{l_{i-1}})\label{eq:state_markov_prop}
+\mathbb{P}\left(S_{l_{i}}|S_{l_{i-1}},\dots,S_{l_{0}}\right)=\mathbb{P}\left(S_{l_{i}}|S_{l_{i-1}}\right)\label{eq:state_markov_prop}
 \end{equation}
 
 \end_inset
@@ -495,24 +496,33 @@ audecomment{In other words sounds weird just before an equation ;-) Maybe
 \end_layout
 
 \begin_layout Standard
-We parametrize the model using an initial probability vector 
+This Markov model consists in discrete variables, with values in 
+\begin_inset Formula $1\cdots m$
+\end_inset
+
+.
+ For each link 
+\begin_inset Formula $l$
+\end_inset
+
+, we parametrize the model using an initial probability vector 
 \begin_inset Formula 
 \begin{equation}
-\pi_{s}^{l}=\mathbb{P}(S_{l}=s)\label{eq:init_proba_vector}
+\pi_{l}\left(s\right)=\mathbb{P}(S_{l}=s)\label{eq:init_proba_vector}
 \end{equation}
 
 \end_inset
 
-and a transition probability matrix 
+and a transition probability matrix: 
 \begin_inset Formula 
 \begin{equation}
-T_{s_{u},s_{l}}^{u\rightarrow l}=\mathbb{P}(S_{l}=s_{l}|S_{u}=s_{u})\label{eq:transition_matrix}
+\pi_{u\rightarrow l}\left(s_{u},s_{l}\right)=\mathbb{P}(S_{l}=s_{l}|S_{u}=s_{u})\label{eq:transition_matrix}
 \end{equation}
 
 \end_inset
 
 here 
-\begin_inset Formula $T_{s_{u},s_{l}}^{u\rightarrow l}$
+\begin_inset Formula $\pi_{u\rightarrow l}\left(s_{u},s_{l}\right)$
 \end_inset
 
  is the probability that 
@@ -535,146 +545,12 @@ here
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%-------------------------------------------------------------------------------
---------------------------------------------------------------------------------
---
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-jdrcomment{I would recommend shortening this subsection substantially since
- it is pretty standard results.
- The format I would have is:
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% The LL is given by:
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% .....
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% which is maximized by setting $T=
-\backslash
-bar T,
-\backslash
-pi=
-\backslash
-bar 
-\backslash
-pi$, where $
-\backslash
-bar T$ is the emperical ........
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% No need to introduce a lot of notation for standard results, especially
- since results are not reused later.
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% }
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 We learn the initial probability vector 
-\begin_inset Formula $\pi^{l}$
+\begin_inset Formula $\pi_{l}$
 \end_inset
 
  and the transition probability matrices 
-\begin_inset Formula $T^{u\rightarrow l}$
+\begin_inset Formula $\pi_{u\rightarrow l}$
 \end_inset
 
  of the Markov Chain by maximizing the likelihood of observing 
@@ -682,594 +558,28 @@ We learn the initial probability vector
 \end_inset
 
 .
- The log-likelihood is given by 
+ The log-likelihood of all 
+\begin_inset Formula $A$
+\end_inset
+
+ observations of states is given by 
 \begin_inset Formula 
 \[
-\sum_{n=1}^{M}\left(\log(\pi_{s_{0}^{(n)}}^{l_{0}^{(n)}})+\sum_{u\rightarrow l}\log(T_{s_{u}^{(n)},s_{l}^{(n)}}^{u\rightarrow l})\right)
+ll=\sum_{a=1}^{A}\sum_{n=1}^{M^{\left(a\right)}}\left(\log\left(\pi_{l_{0}^{(n)}}\left(s_{0}^{(n)}\right)\right)+\sum_{u\rightarrow l}\log\left(\pi_{u\rightarrow l}\left(s_{u}^{(n)},s_{l}^{(n)}\right)\right)\right)
 \]
 
 \end_inset
 
 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-audecomment{Not sure I've seen $N$ defined anywhere}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% Old notation...
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% Let
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-[
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-bar{T}^{
-\backslash
-rell u l d}_{s_u, s_l} = 
-\backslash
-card 
-\backslash
-{n | 
-\backslash
-rellpn u l d, 
-\backslash
-  s_u^{(n)} = s_u, 
-\backslash
- s_l^{(n)} = s_l
-\backslash
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-]
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% be the empirical transition counts, and
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-[
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-bar{
-\backslash
-pi}^{
-\backslash
-rel l d} (s_l) = 
-\backslash
-card 
-\backslash
-{n | (l, d) = (p^{(n)}_0, p^{(n)}_1)  , 
-\backslash
- s_l^{(n)} = s_l
-\backslash
-}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-]
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% be the empirical counts of initial states.
- Then the log-likelihood becomes simply
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-begin{equation}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-sum_{
-\backslash
-rel l d}
-\backslash
-sum_{s} 
-\backslash
-bar{
-\backslash
-pi}^{
-\backslash
-rel l d}_s 
-\backslash
-log(
-\backslash
-pi^{
-\backslash
-rel l d}_s) + 
-\backslash
-sum_{
-\backslash
-rell u l d} 
-\backslash
-sum_{s, s_u} 
-\backslash
-bar{T}^{
-\backslash
-rell u l d}_{s_u, s} 
-\backslash
-log (T^{
-\backslash
-rell u l d}_{s_u, s})
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-end{equation}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% maximizing the log-likelihood is equivalent to solving simple constrained
- problems of the form
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-[
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-begin{aligned}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% &
-\backslash
-text{maximize}_{
-\backslash
-pi_s 
-\backslash
-geq 0} &&
-\backslash
-sum_s 
-\backslash
-bar{
-\backslash
-pi}_s 
-\backslash
-log(
-\backslash
-pi_s) 
-\backslash
-
-\backslash
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% &
-\backslash
-text{subject to} &&
-\backslash
-sum_s 
-\backslash
-pi_s = 1
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-end{aligned}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-]
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% and
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-[
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-begin{aligned}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% &
-\backslash
-text{maximize}_{T_{s_u, s} 
-\backslash
-geq 0} &&
-\backslash
-sum_{s_u, s} 
-\backslash
-bar{T}_{s_u, s} 
-\backslash
-log(T_{s_u, s}) 
-\backslash
-
-\backslash
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% &
-\backslash
-text{subject to} &&
-\backslash
-forall s_u, 
-\backslash
- 
-\backslash
-sum_{s} T_{s_u, s} = 1
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-end{aligned}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-]
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The parameters that maximize the log-likelihood are: 
+The parameters that maximize the log-likelihood are:
 \begin_inset Formula 
-\begin{align*}
-\pi_{s}^{l}\propto\bar{\pi}_{s}^{l}\quad\textrm{and}\quad T_{s_{u},s_{l}}^{u\rightarrow l}\propto\bar{T}_{s_{u},s_{l}}^{u\rightarrow l}
-\end{align*}
+\begin{eqnarray*}
+\pi_{u\rightarrow l}\left(s_{u},s_{l}\right) & \propto & \bar{T}_{s_{u},s_{l}}^{u\rightarrow l}\\
+\pi_{l}\left(s\right) & \propto & \bar{\pi}_{s}^{l}
+\end{eqnarray*}
 
 \end_inset
 
@@ -1287,276 +597,27 @@ where
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
 
-\begin_layout Plain Layout
-
-%Solution of the first problem: taking the partial Lagrangian of the first
- problem (associating Lagrange multiplier $
-\backslash
-lambda$ to the constraint $
-\backslash
-sum_s 
-\backslash
-pi_s = 1$), the Lagrangian is given by
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
+\series bold
+Modelling note:
+\series default
+ While this Markov model is directed, it is not a Bayesian Graphical Model
+ because it may contain cycles between the variable.
+ However, it is 
+\emph on
+marginally
+\emph default
+ a graphical model with Markov properties: for any valid path 
+\begin_inset Formula $p$
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-[L(
-\backslash
-{
-\backslash
-pi_s
-\backslash
-}, 
-\backslash
-lambda) = 
-\backslash
-sum_s 
-\backslash
-bar{
-\backslash
-pi}_s 
-\backslash
-log(
-\backslash
-pi_s) + 
-\backslash
-lambda (1 - 
-\backslash
-sum_s 
-\backslash
-pi_s)
-\backslash
-]
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
+ in the network with no self-loop, the chain of variables 
+\begin_inset Formula $S_{l_{1}}\cdots S_{l_{M}}$
 \end_inset
 
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%stationarity of the Lagrangian gives a necessary condition $
-\backslash
-frac{
-\backslash
-bar{
-\backslash
-pi}_s}{
-\backslash
-pi_s} - 
-\backslash
-lambda = 0$, therefore $
-\backslash
-pi_s = 
-\backslash
-lambda 
-\backslash
-bar{
-\backslash
-pi}_s$ for all $s$.
- The solution to the second problem is obtained similarly by associating
- a Lagrance multiplier $
-\backslash
-lambda_{s_u}$ to each equality constraint.
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-begin{figure}[ht]
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-centering
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-includegraphics[width=12cm]{figures/mm_instance.png}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-caption{The Markov Model graph for a small subgraph of the San Francisco
- peninsula network.}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-label{fig:mm_instance}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-end{figure}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-begin{remark}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%The first order Markov property is expressive enough to model important
- traffic phenomena, such as synchronization of traffic lights: on some sequences
- of road segments $l_1 
-\backslash
-rightarrow l_2 
-\backslash
-rightarrow 
-\backslash
-dots, l_n$, the traffic lights can be synchronized (usually by creating
- a wave of green lights).
- This can be captured to some extent by the transition matrix.
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-end{remark}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
+ encodes a valid discrete Markov model distribution over these variables.
+ The directed graph structure is an efficient way to compress all the informatio
+n about the marginal distributions of the valid subsets of variables.
 \end_layout
 
 \begin_layout Subsection
@@ -1566,7 +627,7 @@ GMRF model for travel time distributions
 \begin_layout Standard
 \begin_inset CommandInset label
 LatexCommand label
-name "sec:gmrf-model"
+name "sec:kdd-gmrf-model"
 
 \end_inset
 
