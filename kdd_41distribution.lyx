@@ -68,6 +68,24 @@ theorems-std
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%stopskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Comment
+status open
+
 \begin_layout Section
 Fast approximate inference with the MM-MG distribution
 \end_layout
@@ -76,7 +94,7 @@ Fast approximate inference with the MM-MG distribution
 Settings
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 We consider the parametrization of a unidimensional distribution with a
  HMM coupled with a joint multivariate gaussian distribution as follows.
  Consider a trellis of random variables stacked in 
@@ -100,7 +118,7 @@ We consider the parametrization of a unidimensional distribution with a
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 A 
 \emph on
 path
@@ -137,7 +155,7 @@ p_{u:v}=p_{u}p_{u+1}\cdots p_{v}\in\prod_{k=u}^{v}\left[1,n_{k}\right]
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 We now introduce some statistical models over this structure.
  All the variables 
 \begin_inset Formula $X_{u,v}$
@@ -171,7 +189,7 @@ X\sim\mathcal{N}\left(\mu,\Sigma\right)
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 We introduce a Markov Model over the paths:
 \begin_inset Formula 
 \[
@@ -199,7 +217,7 @@ p\sim\text{MM}\left(\mathcal{L}\right)
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This is simply the definition of a finite discrete Markov chain:
 \begin_inset Formula 
 \[
@@ -211,7 +229,7 @@ This is simply the definition of a finite discrete Markov chain:
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
@@ -268,16 +286,12 @@ Example of MM-GMRF process.
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 We need one additional piece of notation: given a path 
 \begin_inset Formula $p$
 \end_inset
@@ -297,7 +311,7 @@ a\left(p_{u:v}\right)=\sum_{k=u}^{v}\mathbf{e}_{\left(k,p_{k}\right)}
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The distribution 
 \begin_inset Formula $Z$
 \end_inset
@@ -321,7 +335,7 @@ Z|p=a\left(p\right)^{T}X
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Call 
 \begin_inset Formula $f\left(\alpha,\beta\right)$
 \end_inset
@@ -346,7 +360,7 @@ Call
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This notation will prove convenient when we define convolution operations
  over the space of functions.
  Then the p.d.f.
@@ -390,7 +404,7 @@ There are
 The case of the independent variables
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 For this section only, consider the simpler case in which the variables
  
 \begin_inset Formula $X_{\left(u,i\right)}$
@@ -420,7 +434,7 @@ thus:
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 We consider the problem of computing the distribution over a set of subpaths
  that start and end at the same variable.
  Given 
@@ -446,7 +460,7 @@ We consider the problem of computing the distribution over a set of subpaths
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This is not a properly scaled probability distribution.
  However, when summing over all the possible outputs 
 \begin_inset Formula $j$
@@ -463,7 +477,7 @@ This is not a properly scaled probability distribution.
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 We have the following recursive relation:
 \end_layout
 
@@ -479,7 +493,7 @@ Recursion for indepent variables:
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 in which 
 \begin_inset Formula $\odot$
 \end_inset
@@ -495,7 +509,7 @@ in which
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The main insight is to decompose each of the modes of the distribution using
  a convolution operator, which is a consequence of using independent Gaussian
  distribution.
@@ -551,7 +565,7 @@ Consider two inpedendent Gaussian random variables
 .
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Since the convolution operator is associative over the space of real functions,
  we can map the associativity of the parameters to the function space and
  factorize some common operations.
@@ -587,7 +601,7 @@ Using the definition of the partial mixture sum:
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Once we can compute efficiently these partial mixture sums, they can be
  combined into complete distributions.
  Given a start probability 
@@ -606,7 +620,7 @@ Once we can compute efficiently these partial mixture sums, they can be
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The same algorithm could also work by considering the conditional distributions
 \begin_inset Formula 
 \[
@@ -624,7 +638,7 @@ The same algorithm could also work by considering the conditional distributions
 The general case: Junction tree approximation
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In the previous section, we considered a diagonal parametrization of the
  covariance matrix.
  This algorithm can also be used in the more general setting of full covariance
@@ -699,11 +713,11 @@ in which
  denotes the Hadamard product of two matrices.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 XXXX give a justification with Chernoff bounds?
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This is simply a generalization of the diagonal case.
  Thus, we can reuse the algorithm for the digonal case with a different
  set of statistics for the diagonal.
@@ -714,12 +728,17 @@ This is simply a generalization of the diagonal case.
 Practical considerations for fast performance
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Talk about caching here.
  If the path queries follow a power law distribution (which is expected
  due to the structure of the road network), most of the work can be cached,
  and only subsets of routes around the endpoints need to be computed.
  This should cut compute time by an order of magnitude again.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body

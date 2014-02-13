@@ -902,17 +902,17 @@ We consider the problem of computing the distribution over a set of subpaths
 \end_inset
 
 , 
-\begin_inset Formula $i\in\left[1,n_{u}\right]$
+\begin_inset Formula $i\in\left[1,m\right]$
 \end_inset
 
  and 
-\begin_inset Formula $j\in\left[1,n_{v}\right]$
+\begin_inset Formula $j\in\left[1,m\right]$
 \end_inset
 
 , our goal is to compute the partial sum of the mixture:
 \begin_inset Formula 
 \[
-\widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=\sum_{p=p_{u}\cdots p_{v}:p_{u}=i\,,\, p_{v}=j}\pi\left(p\right)f\left(a\left(p\right)^{T}\mu,\sigma\left(p\right)^{2}\right)
+\widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=\sum_{q=q_{u}\cdots q_{v}:q_{u}=i\,,\, q_{v}=j}\pi\left(q\right)f\left(a\left(q\right)^{T}\mu,\sigma\left(q\right)^{2}\right)
 \]
 
 \end_inset
@@ -976,7 +976,7 @@ The main insight is to decompose each of the modes of the distribution using
  Using our notation:
 \begin_inset Formula 
 \[
-f\left(\alpha+\alpha',\beta+\beta'\right)=f\left(\alpha',\beta'\right)\odot f\left(\alpha,\beta\right)
+\forall\beta,\beta^{'}>0,\,\, f\left(\alpha+\alpha',\beta+\beta'\right)=f\left(\alpha',\beta'\right)\odot f\left(\alpha,\beta\right)
 \]
 
 \end_inset
@@ -1036,7 +1036,7 @@ Since the convolution operator is associative over the space of real functions,
 From the lemma above, for any path:
 \begin_inset Formula 
 \[
-f\left(a\left(p_{u:v}\right)^{T}\mu,\sigma\left(p_{u:v}\right)^{2}\right)=f\left(\mu_{\left(u,p_{u}\right)},\Delta_{\left(u,p_{u}\right)}\right)\odot f\left(a\left(p_{u+1:v}\right)^{T}\mu,\sigma\left(p_{u+1:v}\right)^{2}\right)
+f\left(a\left(q_{u:v}\right)^{T}\mu,\sigma\left(q_{u:v}\right)^{2}\right)=f\left(\mu_{\left(u,q_{u}\right)},\Delta_{\left(u,q_{u}\right)}\right)\odot f\left(a\left(q_{u+1:v}\right)^{T}\mu,\sigma\left(q_{u+1:v}\right)^{2}\right)
 \]
 
 \end_inset
@@ -1048,11 +1048,11 @@ f\left(a\left(p_{u:v}\right)^{T}\mu,\sigma\left(p_{u:v}\right)^{2}\right)=f\left
 Using the definition of the partial mixture sum:
 \begin_inset Formula 
 \begin{eqnarray*}
-\widetilde{\pi}_{u:v}\left(i\rightarrow j\right) & = & \sum_{p=p_{u}\cdots p_{v}:p_{u}=i\,,\, p_{v}=j}\pi\left(p\right)f\left(a\left(p\right)^{T}\mu,\sigma\left(p\right)^{2}\right)\\
- & = & \sum_{k=1}^{n_{u+1}}\sum_{p_{u+2:v}:p_{v}=j}\pi\left(i,\, k,\, p_{u+2:v}\right)f\left(a\left(k,\, p_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, p_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
- & = & \sum_{k=1}^{n_{u+1}}\sum_{p_{u+2:v}:p_{v}=j}\pi_{u}\left(i,k\right)\pi\left(k,\, p_{u+2:v}\right)f\left(a\left(k,\, p_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, p_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
- & = & \sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\sum_{p_{u+2:v}:p_{v}=j}\pi\left(k,\, p_{u+2:v}\right)f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot f\left(a\left(k,\, p_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, p_{u+2:v}\right)^{2}\right)\\
- & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\sum_{p_{u+2:v}:p_{v}=j}\pi\left(k,\, p_{u+2:v}\right)f\left(a\left(k,\, p_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, p_{u+2:v}\right)^{2}\right)\right]\\
+\widetilde{\pi}_{u:v}\left(i\rightarrow j\right) & = & \sum_{q=q_{u}\cdots q_{v}:q_{u}=i\,,\, q_{v}=j}\pi\left(q\right)f\left(a\left(q\right)^{T}\mu,\sigma\left(q\right)^{2}\right)\\
+ & = & \sum_{k=1}^{n_{u+1}}\sum_{q_{u+2:v}:q_{v}=j}\pi\left(i,\, k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
+ & = & \sum_{k=1}^{n_{u+1}}\sum_{q_{u+2:v}:q_{v}=j}\pi_{u}\left(i,k\right)\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
+ & = & \sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\\
+ & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\right]\\
  & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
 \end{eqnarray*}
 
@@ -1081,7 +1081,11 @@ Once we can compute efficiently these partial mixture sums, they can be
 \end_layout
 
 \begin_layout Standard
-The same algorithm could also work by considering the conditional distributions
+
+\series bold
+Note
+\series default
+ The same algorithm could also work by considering the conditional distributions
 \begin_inset Formula 
 \[
 \hat{\pi}_{u:v}\left(i\right)=\sum_{k=1}^{n_{v}}\widetilde{\pi}_{u:v}\left(i\rightarrow k\right)
@@ -1120,13 +1124,13 @@ status collapsed
 Compute the variances of each sequence of variables: 
 \begin_inset Formula 
 \[
-{e}\left({s}\right)^{T}\Sigma\, e\left({s}\right)
+e\left(s\right)^{T}\Sigma\, e\left(s\right)
 \]
 
 \end_inset
 
 with 
-\begin_inset Formula ${s}$
+\begin_inset Formula $s$
 \end_inset
 
  being a valid sequence of variables in the graph of variables.
@@ -1236,7 +1240,7 @@ From the following lemma, we can approximate this norm:
 \end_inset
 
 with 
-\begin_inset Formula $Q=L^{-1}R$
+\begin_inset Formula $P=RL^{-1}$
 \end_inset
 
  and 
@@ -1272,24 +1276,7 @@ This method assumes we can efficiently compute the Cholesky factorization,
  in near-linear time (
 \begin_inset CommandInset citation
 LatexCommand cite
-key "chen2008algorithm"
-
-\end_inset
-
- 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% ,~
-\backslash
-cite{davis2009dynamic}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
+key "chen2008algorithm,davis2009dynamic"
 
 \end_inset
 

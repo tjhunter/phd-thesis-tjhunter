@@ -235,7 +235,7 @@ reference "sec:hmm"
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:gmrf-model"
+reference "sec:kdd-gmrf-model"
 
 \end_inset
 
@@ -763,117 +763,14 @@ reference "fig:eval:llinterval"
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-begin{figure}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-centering
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-includegraphics[width=
-\backslash
-linewidth]{figs-plots/percentile_val.pdf}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-caption{Validation of the confidence intervals for each model}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-label{fig:eval:interval}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-%
-\backslash
-end{figure}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
+\begin_inset Note Comment
+status open
 
 \begin_layout Subsection
 Sampling
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:sampling-evaluation"
@@ -883,7 +780,7 @@ name "sub:sampling-evaluation"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 In this section, we discuss numerical results regarding the quality of approxima
 te inference using the Gibbs sampling method, on a fixed path on the network.
  
@@ -1097,7 +994,7 @@ eqref{eq:inference_mean}, which has linear complexity (in the length of
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Float figure
 placement h
 wide false
@@ -1151,7 +1048,7 @@ name "fig:kl_div"
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Figure
 \begin_inset space ~
 \end_inset
@@ -1181,6 +1078,11 @@ reference "fig:kl_div"
  The divergence measures the similarity between two distributions.
  As can be seen, even a small number of samples (relative to the total size
  of the mixture) leads to a very close approximation.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1264,7 +1166,7 @@ In this section, we discuss the scalability aspects of the learning algorithm
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:gmrf-model"
+reference "sec:kdd-gmrf-model"
 
 \end_inset
 
