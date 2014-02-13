@@ -1,4 +1,7 @@
 """ Converts some lyx files to the latex format.
+
+Note: everything in the file is thrown away until a section or the workd "stopskip" is found.
+This way, all the preamble added by lyx is removed.
 """
 from waflib import Logs
 from waflib import TaskGen,Task
@@ -10,11 +13,17 @@ def postprocess_lyx(src, tgt):
   f_src = open(src,'r')
   f_tgt = open(tgt,'w')
   toks = ['\\documentclass','\\usepackage','\\begin{document}','\\end{document}','\\geometry','\\PassOptionsToPackage']
+  keep = False
   for l in f_src:
-    skip = False
+    this_keep = ("stopskip" in l) or ("\\section" in l)
+    if this_keep:
+      print "start to keep"
+    keep = keep or this_keep
+    local_skip = False
     for tok in toks:
-      skip = skip or l.startswith(tok)
-    if not skip:
+      local_skip = local_skip or l.startswith(tok)
+    local_keep = False if local_skip else keep
+    if local_keep:
       f_tgt.write(l)
   f_src.close()
   f_tgt.close()
