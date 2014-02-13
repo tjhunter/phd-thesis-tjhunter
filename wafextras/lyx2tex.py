@@ -15,7 +15,7 @@ def postprocess_lyx(src, tgt):
   toks = ['\\documentclass','\\usepackage','\\begin{document}','\\end{document}','\\geometry','\\PassOptionsToPackage']
   keep = False
   for l in f_src:
-    this_keep = ("stopskip" in l) or ("\\section" in l)
+    this_keep = ("stopskip" in l) or ("\\section" in l) or ("\\chapter" in l)
     if this_keep:
       print "start to keep"
     keep = keep or this_keep

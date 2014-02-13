@@ -115,7 +115,15 @@ name "chapter:conclusion"
 \end_layout
 
 \begin_layout Standard
-And now we conclude.
+And now we conclude this dissertation.
+\end_layout
+
+\begin_layout Subsection
+Advantages and deficiencies of data-driven models
+\end_layout
+
+\begin_layout Subsection
+Summary of contributions
 \end_layout
 
 \end_body
