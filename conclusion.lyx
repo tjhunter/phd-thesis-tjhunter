@@ -118,8 +118,21 @@ name "chapter:conclusion"
 And now we conclude this dissertation.
 \end_layout
 
+\begin_layout Standard
+This thesis presents a comprehensive study to the question of studying traffic.
+ It studies the challenges of building a pipeline and an estimation algorithm
+ that works at large scale from real-world datasets.
+ In particular, it studies the limitations of available techniques when
+ confronted to the diversity of data collected in the real world.
+\end_layout
+
 \begin_layout Subsection
 Advantages and deficiencies of data-driven models
+\end_layout
+
+\begin_layout Standard
+Data-driven models are often more efficient to tune and to have inference
+ models than physics-based models.
 \end_layout
 
 \begin_layout Subsection
