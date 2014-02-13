@@ -75,28 +75,224 @@ name "sec:kdd_inference"
 \end_layout
 
 \begin_layout Standard
-Given the model parameters, the inference task consists in computing the
- probability distribution 
-\begin_inset Formula $\mathbb{P}(Z^{(p)}\le t)$
+After the model parameters 
+\begin_inset Formula $\theta$
 \end_inset
 
- of the total travel time along a fixed path 
-\begin_inset Formula $(p)=(p_{0},\dots,p_{I})$
+ have been determined, we turn our attention to the computation of travel
+ times across a path.
+ The inference task takes as input a valid path 
+\begin_inset Formula $p=\left(p_{1}\cdots p_{B}\right)\in\mathcal{L}^{B}$
 \end_inset
 
-.
- The path travel time (i.e.
+ and returns the cumulative distribution of the path travel time 
+\begin_inset Formula $Z^{\left(p\right)}$
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{eqnarray*}
+f\left(t\right):\,\mathbb{R}^{+} & \rightarrow & \left[0,1\right]\\
+t\,\,\,\, & \rightarrow & \mathbb{P}\left(Z^{(p)}\le t\right)
+\end{eqnarray*}
+
+\end_inset
+
+The path travel time (i.e.
 \begin_inset space \space{}
 \end_inset
 
-total travel time along the path) is given by 
+total travel time along the path) is easily defined in a conditional way.
+ Assuming that the states 
+\begin_inset Formula $S_{l}$
+\end_inset
+
+ of the links have been fixed to the values 
+\begin_inset Formula $s_{l}$
+\end_inset
+
+, the travel time is then an instantiation of the sum of the time variables
+ that correspond to this state: 
 \begin_inset Formula 
 \[
-Z^{p}=\sum_{s\in\mathcal{S}}\mathbf{1}_{S_{(p)}=s}Z_{|s}^{\left(p\right)}
+Z^{\left(p\right)}|\left(s_{l}\right)_{l}=\sum_{i=1}^{B}X_{l_{i},s_{l_{i}}}
 \]
 
 \end_inset
 
+Then, the total travel time is one instantiation across a possible state
+ of the links:
+\begin_inset Formula 
+\[
+Z^{\left(p\right)}=\sum_{s\in\left[1,m\right]^{\mathcal{L}}}\mathbf{1}\left\{ S=s\right\} Z^{\left(p\right)}|s
+\]
+
+\end_inset
+
+Since the variable 
+\begin_inset Formula $Z^{\left(p\right)}|s$
+\end_inset
+
+ is a sum of (dependant) Gaussian variables, the variable 
+\begin_inset Formula $Z^{\left(p\right)}$
+\end_inset
+
+ is simply a mixture of one-dimensional Gaussian distribution.
+ However, this mixture has as many elements as the number of state configuration
+s along the path 
+\begin_inset Formula $p$
+\end_inset
+
+, which is 
+\begin_inset Formula $m^{B}$
+\end_inset
+
+.
+ This number prevents the computation for any reasonably large path (
+\begin_inset Formula $m=3,\, B=100$
+\end_inset
+
+).
+ We are going to present some algorithms that can approximate this mixture:
+ one algorithm based on sampling, one algorithm based of convolution for
+ independent Gaussians, and one algorithm based on a junction tree approximation
+ for non-independent variables.
+\end_layout
+
+\begin_layout Standard
+Before we introduce these algorithms, we are going to formalize the problem
+ and introduce additional notations.
+ Note that we can marginalize out all the variables that do not pertain
+ to path 
+\begin_inset Formula $p$
+\end_inset
+
+, so we can reduce the problem to a linear chain of variables (see Figures
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-MM-GMRF"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:ttgraph_example"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Subsection
+Formalization
+\end_layout
+
+\begin_layout Standard
+We consider the parametrization of a unidimensional distribution with a
+ discrete Markov model coupled with a joint multivariate gaussian distribution
+ as follows (see an example in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-MM-GMRF"
+
+\end_inset
+
+).
+ Consider a trellis of random variables stacked in 
+\begin_inset Formula $B$
+\end_inset
+
+ layers, each of the layers having width 
+\begin_inset Formula $m\geq1$
+\end_inset
+
+
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The case of different width is straightforward to derive from the following
+ discussion
+\end_layout
+
+\end_inset
+
+.
+ There is thus a total of 
+\begin_inset Formula $Bm$
+\end_inset
+
+ variables.
+ For the sake of convenience, we are going to simply label each variable
+ by a pair of indexes 
+\begin_inset Formula $u,v$
+\end_inset
+
+ so that each variable is denoted 
+\begin_inset Formula $X_{u,v}$
+\end_inset
+
+, with 
+\begin_inset Formula $u\in\left[1,B\right]$
+\end_inset
+
+ and 
+\begin_inset Formula $v\in\left[1,m\right]$
+\end_inset
+
+.
+ The mapping to a link and a state 
+\begin_inset Formula $l,s$
+\end_inset
+
+ is straightforward.
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+state path
+\emph default
+ in the trellis is a sequence of integers that corresponds to a choice of
+ a variable in each of the layers:
+\begin_inset Formula 
+\[
+q=q_{1}\cdots q_{B}\in\left[1,m\right]^{B}
+\]
+
+\end_inset
+
+When we consider state subpath from layer 
+\begin_inset Formula $u$
+\end_inset
+
+ to layer 
+\begin_inset Formula $v$
+\end_inset
+
+ (inclusive), we will note 
+\begin_inset Formula $q_{u:v}$
+\end_inset
+
+the partial state path: 
+\begin_inset Formula 
+\[
+q_{u:v}=q_{u}q_{u+1}\cdots q_{v}\in\left[1,m\right]^{v-u}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Old explanations XXX
+\end_layout
+
+\begin_layout Standard
 where 
 \begin_inset Formula $\mathcal{S}=\{1,\dots,m\}^{I}$
 \end_inset
@@ -315,7 +511,7 @@ status collapsed
 
 \end_layout
 
-\begin_layout Paragraph*
+\begin_layout Subsection
 Gibbs sampling
 \end_layout
 
@@ -476,7 +672,7 @@ reference "sec:evaluation"
  includes a numerical analysis and evaluation of the sampling method.
 \end_layout
 
-\begin_layout Paragraph*
+\begin_layout Subsection
 Low rank covariance approximation
 \end_layout
 

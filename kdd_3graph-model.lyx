@@ -444,11 +444,51 @@ We consider the link state variables
 \end_inset
 
 .
+ In our experiment, vehicles travel along paths in the road network and
+ cannot arbitrarily jump from one road to another unconnectecd road.
+ We formalize this notion of valid path
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Valid path.
+ 
+\series default
+Given a directed graph 
+\emph on
+
+\begin_inset Formula $\mathcal{G}$
+\end_inset
+
+,
+\emph default
+ valid path is an ordered sequence 
+\begin_inset Formula $p=\left(l_{1}\cdots l_{B}\right)\in\mathcal{L}^{B}$
+\end_inset
+
+ of distinct elements so that for all consecutive pairs 
+\begin_inset Formula $\left(l,l^{'}\right)$
+\end_inset
+
+ from 
+\begin_inset Formula $p$
+\end_inset
+
+, we have an edge 
+\begin_inset Formula $l\rightarrow l^{'}$
+\end_inset
+
+ in the graph 
+\begin_inset Formula $\mathcal{G}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
 Consider a valid path 
-\begin_inset Formula $p=\left(l_{1}\cdots l_{M}\right)\in\mathcal{L}^{M}$
+\begin_inset Formula $p=\left(l_{1}\cdots l_{B}\right)\in\mathcal{L}^{B}$
 \end_inset
 
  in the road network.
@@ -601,8 +641,11 @@ where
 \series bold
 Modelling note:
 \series default
- While this Markov model is directed, it is not a Bayesian Graphical Model
- because it may contain cycles between the variable.
+ While this Markov model is directed, it is 
+\emph on
+not
+\emph default
+ a Bayesian Graphical Model because it may contain cycles between the variables.
  However, it is 
 \emph on
 marginally
@@ -643,7 +686,7 @@ We now present the model that describes the correlations between the travel
 
  are Gaussian
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 While Gaussian travel times can theoretically predict negative travel time,
@@ -709,13 +752,13 @@ reference "sec:kdd_evaluation"
 \end_layout
 
 \begin_layout Standard
-From the factorization property given by the Hammersley-Clifford Theorem,
- it is well known that the 
+From the factorization property given by the Hammersley-Clifford Theorem
+ (CITE), it is well known that the 
 \emph on
 precision matrix
 \emph default
  
-\begin_inset Formula $S=\Sigma^{-1}$
+\begin_inset Formula $Q=\Sigma^{-1}$
 \end_inset
 
  encodes the 
@@ -770,7 +813,7 @@ One could consider that the states and the variables are not directly observed,
 \begin_inset Formula 
 \begin{eqnarray*}
 W_{a} & = & \left(l_{1},s_{1}\right)\,\left(l_{2},s_{2}\right)\,\,\cdots\left(l_{M_{a}},s_{M_{a}}\right)\\
-x^{a} & = & \left(x_{l,s}^{p}\right)_{(l,s)\in W_{a}}
+x^{a} & = & \left(x_{l,s}^{a}\right)_{(l,s)\in W_{a}}
 \end{eqnarray*}
 
 \end_inset
@@ -784,7 +827,7 @@ In our notations,
 \end_inset
 
  is an observation of the random vector 
-\begin_inset Formula $X_{p}=\left(X_{i}\right)_{i\in W_{a}}$
+\begin_inset Formula $X_{a}=\left(X_{i}\right)_{i\in W_{a}}$
 \end_inset
 
 , which is a 
@@ -797,7 +840,7 @@ In our notations,
 
 .
  Hence 
-\begin_inset Formula $X_{p}$
+\begin_inset Formula $X_{a}$
 \end_inset
 
  is also a multivariate Gaussian with mean 
@@ -848,7 +891,7 @@ The problem of estimating the parameters of the model
 \end_inset
 
  consists in finding the set of parameters 
-\begin_inset Formula $\theta^{\star}$
+\begin_inset Formula $\theta^{\star}=\left\{ \mu^{\star},\Sigma^{\star}\right\} $
 \end_inset
 
  that maximize the sum of the likelihoods of each of the observations
@@ -865,7 +908,7 @@ The independent and identically distributed (i.i.d.) assumption is defined
 : 
 \begin_inset Formula 
 \begin{equation}
-l\left(\theta|\mathcal{D}\right)=\sum_{p=1}^{N}\text{log }p\left(x^{a};\mu_{(W_{a})},\Sigma_{(W_{a})}\right)\label{eq:gmrf-II}
+l\left(\theta|\mathcal{D}\right)=\sum_{a=1}^{A}\text{log }\pi\left(x^{a};\mu_{(W_{a})},\Sigma_{(W_{a})}\right)\label{eq:gmrf-II}
 \end{equation}
 
 \end_inset
@@ -938,18 +981,18 @@ Instead, we solve a related problem by computing sufficient statistics from
  is then equivalent to: 
 \begin_inset Formula 
 \begin{equation}
-\underset{S}{\mathbf{minimize}}\,\,-\log\left|S\right|+\text{Tr}\left(S\tilde{\Sigma}\right)\label{eq:gmrf-maxll-emp}
+\underset{S}{\mathbf{minimize}}\,\,-\log\left|Q\right|+\text{Tr}\left(Q\tilde{\Sigma}\right)\label{eq:gmrf-maxll-emp}
 \end{equation}
 
 \end_inset
 
 under the structured sparsity constraints 
-\begin_inset Formula $S_{uv}=0\,\,\forall\,\left(u,v\right)\notin\mathcal{E}$
+\begin_inset Formula $Q_{uv}=0\,\,\forall\,\left(u,v\right)\notin\mathcal{E}$
 \end_inset
 
 .
  The objective is not defined when 
-\begin_inset Formula $S$
+\begin_inset Formula $Q$
 \end_inset
 
  is not positive definite, so the constraint that 
@@ -961,7 +1004,7 @@ under the structured sparsity constraints
  subset of terms of the covariance matrix: 
 \begin_inset Formula 
 \[
-\text{Tr}\left(S\tilde{\Sigma}\right)=\sum_{\left(u,v\right)\in\mathcal{E}}S_{uv}\tilde{\Sigma}_{uv}
+\text{Tr}\left(Q\tilde{\Sigma}\right)=\sum_{\left(u,v\right)\in\mathcal{E}}Q_{uv}\tilde{\Sigma}_{uv}
 \]
 
 \end_inset
@@ -1113,7 +1156,7 @@ Using this PECM as a proxy for the real covariance matrix, one can then
  estimate the most likely GMRF by solving the following problem: 
 \begin_inset Formula 
 \begin{equation}
-\underset{S}{\mathbf{minimize}}\,\,-\log\left|S\right|+\left\langle S,\hat{\Sigma}\right\rangle \label{eq:gmrf-maxll-gecm}
+\underset{S}{\mathbf{minimize}}\,\,-\log\left|Q\right|+\left\langle Q,\hat{\Sigma}\right\rangle \label{eq:gmrf-maxll-gecm}
 \end{equation}
 
 \end_inset
@@ -1132,11 +1175,11 @@ Note that this definition is asymptotically consistent: in the limit, when
 \end_inset
 
  and for all 
-\begin_inset Formula $S$
+\begin_inset Formula $Q$
 \end_inset
 
 , 
-\begin_inset Formula $\left\langle S,\hat{\Sigma}\right\rangle \rightarrow\left\langle S,\mathbb{E}\left[XX^{T}\right]-\mathbb{E}\left[X\right]\mathbb{E}\left[X\right]^{T}\right\rangle $
+\begin_inset Formula $\left\langle Q,\hat{\Sigma}\right\rangle \rightarrow\left\langle Q,\mathbb{E}\left[XX^{T}\right]-\mathbb{E}\left[X\right]\mathbb{E}\left[X\right]^{T}\right\rangle $
 \end_inset
 
 .
@@ -1147,8 +1190,8 @@ Unfortunately, the problem is not convex because
 \begin_inset Formula $\hat{\Sigma}$
 \end_inset
 
- is not necessarily positive semi-definite (even if the limit is), since
- the variables are only partially observed.
+ is not necessarily positive semi-definite (although it is if the number
+ of samples is large enough), since the variables are only partially observed.
  For instance, if we have a partially observed bivariate Gaussian variable
  
 \begin_inset Formula $X$
@@ -1205,7 +1248,7 @@ There is a number of ways to correct this.
 \begin_inset Formula 
 \[
 \hat{\Sigma}_{ij}=\begin{cases}
-\alpha_{ij}\mathbb{E}_{i\cap j}\left[X_{i}X_{j}\right]-\mathbb{E}_{i}\left[X_{i}\right]\mathbb{E}_{j}\left[X_{j}\right] & \text{if }N_{ij}>0\\
+\sqrt{\alpha_{ij}}\mathbb{E}_{i\cap j}\left[X_{i}X_{j}\right]-\frac{1}{\sqrt{\alpha_{ij}}}\mathbb{E}_{i}\left[X_{i}\right]\mathbb{E}_{j}\left[X_{j}\right] & \text{if }N_{ij}>0\\
 0 & \text{otherwise}
 \end{cases}
 \]

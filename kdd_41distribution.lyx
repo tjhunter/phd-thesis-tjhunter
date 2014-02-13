@@ -232,6 +232,13 @@ status open
 \begin_inset Caption
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-of-MM-GMRF"
+
+\end_inset
+
+
 \begin_inset Argument
 status open
 
