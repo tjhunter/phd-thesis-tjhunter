@@ -124,69 +124,22 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Amongst the modern man-made plagues, traffic congestion is a universally
- recognized challenge 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "downs2004still"
-
-\end_inset
-
-.
- Building reliable and cost-effective traffic monitoring systems is a prerequisi
-te to addressing this phenomenon.
- Historically, the estimation of traffic congestion has been limited to
- highways, and has relied mostly on a static, dedicated sensing infrastructure
- such as loop detectors or cameras 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Work08"
-
-\end_inset
-
-.
- The estimation problem is more challenging in the case of the secondary
- road network, also called the 
-\emph on
-arterial network
-\emph default
-, due to the cost of deploying a wide network of sensors in large metropolitan
- areas.
- The most promising source of data is the GPS receiver in personal smartphones
- and commercial fleet vehicles 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "6214607"
-
-\end_inset
-
-.
- According to some studies 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "schrank2009"
-
-\end_inset
-
-, devices with a data connection and a GPS will represent 80% of the cellphone
- market by 2015.
- GPS observations in cities are noisy 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cui2003autonomous"
-
-\end_inset
-
-, and are usually provided at low sampling rates (on the order of one minute)
+GPS receivers have enjoyed a widespread use in transportation and they are
+ rapidly becoming a commodity.
+ They offer unique capabilities for tracking fleets of vehicles (for companies),
+ and routing and navigation (for individuals).
+ These receivers are usually attached to a car or a truck, also called a
  
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cabspotting"
+\emph on
+probe vehicle
+\emph default
+, and they relay information to a base station using the data channels of
+ cellphone networks (3G, 4G).
+ 
+\end_layout
 
-\end_inset
-
-.
- One of the common problems which occurs when dealing with GPS traces is
+\begin_layout Standard
+One of the common problems which occurs when dealing with GPS traces is
  the correct mapping of these observations to the road network, and the
  reconstruction of the trajectory of the vehicle.
  We present a new class of algorithms, called the 
@@ -209,29 +162,10 @@ key "mmfinalreport"
 
 .
  
-\emph on
-Mobile Millennium
-\emph default
- infers real-time traffic conditions using GPS measurements from drivers
- running cell phone applications, taxicabs, and other mobile and static
- data sources.
- This system was initially deployed in the San Francisco Bay area and later
- expanded to other locations such as Sacramento, Stockholm, and Porto.
 \end_layout
 
 \begin_layout Standard
-GPS receivers have enjoyed a widespread use in transportation and they are
- rapidly becoming a commodity.
- They offer unique capabilities for tracking fleets of vehicles (for companies),
- and routing and navigation (for individuals).
- These receivers are usually attached to a car or a truck, also called a
- 
-\emph on
-probe vehicle
-\emph default
-, and they relay information to a base station using the data channels of
- cellphone networks (3G, 4G).
- A typical datum provided by a probe vehicle includes an identifier of the
+A typical datum provided by a probe vehicle includes an identifier of the
  vehicle, a (noisy) position and a timestamp
 \begin_inset Foot
 status open
@@ -245,26 +179,7 @@ The experiments in this article use GPS observations only.
 \end_inset
 
 .
- Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:mm_cloud_point"
-
-\end_inset
-
- graphically presents a subset of probe data collected by 
-\emph on
-Mobile Millennium
-\emph default
-.
- In addition to these geolocalization attributes, data points contain other
- attributes such as heading, spot speed, etc.
- We will show how this additional information can be integrated in the rest
- of the framework presented in this article.
-\end_layout
-
-\begin_layout Standard
-The two most important characteristics of GPS data for traffic estimation
+ The two most important characteristics of GPS data for traffic estimation
  purposes are the GPS localization accuracy and the sampling strategy followed
  by the probe vehicle.
  In order to reduce power consumption or transmission costs, probe vehicles

@@ -109,7 +109,18 @@ Wait.
 \end_layout
 
 \begin_layout Standard
-How did I get here?
+How did it get here?
+\end_layout
+
+\begin_layout Standard
+My first thanks go to my family, in particular my parents Soleine and William
+ Hunter, for their support throughout all these years, and for teaching
+ me that technological progress should first and foremost be to the benefit
+ of men and women.
+\end_layout
+
+\begin_layout Standard
+My advisers have been a constant support in all these struggles.
 \end_layout
 
 \begin_layout Standard
@@ -117,6 +128,10 @@ Doing a phd requires a certain dose of insanity and can seem perilously
  close to skidiving and jungle exploration.
  If I had to put the blame on someone, Pieter Abbeel and his co-conspirator
  Adam Coates would stand high on the list.
+\end_layout
+
+\begin_layout Standard
+Andrew, Adam, Eric
 \end_layout
 
 \begin_layout Standard
@@ -143,6 +158,15 @@ The Chap from the warm island: you brought the coolness in the tense meetings
 \end_layout
 
 \begin_layout Standard
+Many thanks to AMB for listening to me throughout these momentuous years.
+ G., you have changed my life.
+\end_layout
+
+\begin_layout Standard
+Thank you for the department of
+\end_layout
+
+\begin_layout Standard
 The authors wish to thank the staff at the California Center for Innovative
  Transportation, in particular Ryan Herring and Saneesh Apte, for their
  dedicated support.
@@ -150,6 +174,10 @@ The authors wish to thank the staff at the California Center for Innovative
  this article.
  The authors are indebted to Warren Hoburg, and Kailin Kroetz for their
  thorough and insightful comments on the draft.
+\end_layout
+
+\begin_layout Standard
+Unwavering support of friends (Eloi, Fabien)
 \end_layout
 
 \begin_layout Standard
@@ -173,9 +201,11 @@ Many thanks to Sébastien Blandin, Jack Reilly and Samitha Samarayanake for
  helpful discussions.
  The authors wish to thank Ghada Elabed for her insightful comments on the
  draft.
- 
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -192,7 +222,7 @@ setarab
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -209,7 +239,7 @@ novocalize
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -226,7 +256,7 @@ arabtrue
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
@@ -244,7 +274,7 @@ RL{`al-dT Al`Abd}, whose unwavering support was instrumental in the completion
 
 
 \begin_inset ERT
-status collapsed
+status open
 
 \begin_layout Plain Layout
 
