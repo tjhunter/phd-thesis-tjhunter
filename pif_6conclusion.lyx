@@ -64,7 +64,7 @@
 \begin_body
 
 \begin_layout Section
-Conclusions and future work
+Conclusion, discussion
 \end_layout
 
 \begin_layout Standard
@@ -169,20 +169,6 @@ s for automatic feature selection should bring additional improvements in
  Finally, the EM procedure presented for automatically tuning the algorithm
  requires large amounts of data to be effective, and could be tested on
  larger datasets that what we have presented here.
-\end_layout
-
-\begin_layout Subsection*
-Acknowledgments
-\end_layout
-
-\begin_layout Standard
-The authors wish to thank the staff at the California Center for Innovative
- Transportation, in particular Ryan Herring and Saneesh Apte, for their
- dedicated support.
- Discussions with Samitha Samarayanake have been instrumental in the writing
- this article.
- The authors are indebted to Warren Hoburg, and Kailin Kroetz for their
- thorough and insightful comments on the draft.
 \end_layout
 
 \end_body

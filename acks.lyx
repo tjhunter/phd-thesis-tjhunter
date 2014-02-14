@@ -143,9 +143,121 @@ The Chap from the warm island: you brought the coolness in the tense meetings
 \end_layout
 
 \begin_layout Standard
-Listening to all this music: salsa, lindy hop: we are still together, looking
- forward to discovery some subtle variations that my ear could not hear
- before.
+The authors wish to thank the staff at the California Center for Innovative
+ Transportation, in particular Ryan Herring and Saneesh Apte, for their
+ dedicated support.
+ Discussions with Samitha Samarayanake have been instrumental in the writing
+ this article.
+ The authors are indebted to Warren Hoburg, and Kailin Kroetz for their
+ thorough and insightful comments on the draft.
+\end_layout
+
+\begin_layout Standard
+This research is supported in part by gifts from Google, SAP, Amazon Web
+ Services, Cloudera, Ericsson, Huawei, IBM, Intel, Mark Logic, Microsoft,
+ NEC Labs, Network Appliance, Oracle, Splunk and VMWare, by DARPA (contract
+ #FA8650-11-C-7136), and by the National Sciences and Engineering Research
+ Council of Canada.
+ The generous support of the US Department of Transportation and the California
+ Department of Transportation is gratefully acknowledged.
+ We also thank Nokia and NAVTEQ for the ongoing partnership and support
+ through the 
+\emph on
+Mobile Millennium
+\emph default
+ project.
+\end_layout
+
+\begin_layout Standard
+Many thanks to Sébastien Blandin, Jack Reilly and Samitha Samarayanake for
+ helpful discussions.
+ The authors wish to thank Ghada Elabed for her insightful comments on the
+ draft.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% Many thanks to 
+\backslash
+setarab
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+novocalize
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+arabtrue
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+RL{`al-dT Al`Abd}, whose unwavering support was instrumental in the completion
+ of this
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+% article.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body

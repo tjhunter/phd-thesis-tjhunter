@@ -246,17 +246,142 @@ This thesis shows how a data-driven approach that relies on insights derived
 Chapter XXX presents a principled approach for map-mathing GPS data onto
  the road network.
  This approach works on a wide range of conditions, and is shown to encompass
- a large range of existing techniques.
+ a large range of existing techniques.We have presented a novel class of
+ algorithms to track moving vehicles on a road network: the 
+\emph on
+path inference filter
+\emph default
+.
+ This algorithm first projects the raw points onto candidate projections
+ on the road network and then builds candidate trajectories to link these
+ candidate points.
+ An observation model and a driver model are then combined in a Conditional
+ Random Field to find the most probable trajectories.
+\end_layout
+
+\begin_layout Standard
+The algorithm exhibits robustness to noise as well as to the peculiarities
+ of driving in urban road networks.
+ It is competitive over a wide range of sampling rates (1 seconds to 2 minutes)
+ and greatly outperforms intuitive deterministic algorithms.
+ Furthermore, given a set of ground truth data, the filter can be automatically
+ tuned using a fast supervised learning procedure.
+ Alternatively, using enough regular GPS data with no ground truth, it can
+ be trained using unsupervised learning.
+ Experimental results show that the unsupervised learning procedure compares
+ favorably against learning from ground truth data.
+ One may conclude that given enough observations, there no need to collect
+ expensive high-frequency data to train a model.
+\end_layout
+
+\begin_layout Standard
+This algorithm supports a range of trade-offs between accuracy, timeliness
+ and computing needs.
+ In its most accurate settings, it extends the current state of the art
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zheng2011weight,yuan2010interactive"
+
+\end_inset
+
+.
+ This result is supported by the theoretical foundations of Conditional
+ Random Fields.
+ Because no standardized benchmark exists, the authors have released an
+ open-source implementation of the filter to foster comparison with other
+ methodologies using other datasets 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "pythonimpl"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In conjunction with careful engineering, this program can achieve high map-match
+ing throughput.
+ The authors have written an industrial-strength version in the Scala programmin
+g language, deployed in the 
+\emph on
+Mobile Millennium 
+\emph default
+system.
+ This version maps GPS points at a rate of about 400 points per second on
+ a single core for the San Francisco Bay area (several hundreds of thousands
+ of road links), and has been scaled to multicore architecture to achieve
+ an average throughput of several thousand points per second 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter2011SOCC"
+
+\end_inset
+
+.
+ This implementation has been successfully deployed in Stockholm and Sacramento
+ as well.
+\end_layout
+
+\begin_layout Standard
+A number of extensions could be considered to the core framework.
+ In particular, more detailed models of the driver behavior as well as algorithm
+s for automatic feature selection should bring additional improvements in
+ performance.
+ Another line of research is the mapping of very sparse data (sampling intervals
+ longer than two minutes).
+ Although the filter already attempts to consider as few trajectories as
+ possible, more aggressive pruning may be necessary in order to achieve
+ good performance.
+ Finally, the EM procedure presented for automatically tuning the algorithm
+ requires large amounts of data to be effective, and could be tested on
+ larger datasets that what we have presented here.
 \end_layout
 
 \begin_layout Standard
 Chapter XXX presents how to use very large quantities of extremely noisy
  observations at scale.
+ As datasets grow in size, some new strategies are required to perform meaningfu
+l computations in a short amount of time.
+ We explored the implementation of a large-scale state estimation in near-real-t
+ime using D-Streams, a recently proposed streaming technique.
+ Our traffic algorithm is an Expectation-Maximization algorithm that computes
+ travel time distributions of traffic by incremental online updates.
+ This approach was validated with a large dataset of GPS traces.
+ This algorithm seems to compare favorably with the state of the art and
+ shows some attractive features from an implementation perspective.
+ When distributed on a cluster, this algorithm scales to very large road
+ networks (half a million road links, tens of thousands of observations
+ per second) and can update traffic state in a few seconds.
 \end_layout
 
 \begin_layout Standard
 Chapter XXX focuses on a travel time estimator that works with future GPS
  data and that takes into account the correlations of travel times.
+ The state of the art for travel time estimation has focused on either precise
+ and computationally intensive physical models, or large scale, data-driven
+ approaches.
+ We have presented a novel algorithm for travel time estimation that aims
+ at combining the best of both worlds, by combining physical insights with
+ some scalable algorithms.
+ We model the variability of travel times due to stops at intersections
+ using a Stop-Go model (to detect stops) and a HMM to learn the spatial
+ dependencies between stop locations.
+ We also take into account the spatio-temporal correlations of travel times
+ due to driving behavior or congestion, using a Gaussian Markov Random Fields.
+ In particular, we present a highly scalable algorithm to train and perform
+ inference on Gaussian Markov Random Fields, when applied on geographs.
+\end_layout
+
+\begin_layout Standard
+We analyze the accuracy of the model using probe vehicle data collected
+ over the Bay Area of San Francisco, CA.
+ The results underline the importance to take into account the multi-modality
+ of travel times in arterial networks due to the presence of traffic signals.
+ The quality of the results we obtain are competitive with the state of
+ the state of the art in traffic, and also highlight the good scalability
+ of our algorithm.
 \end_layout
 
 \end_body
