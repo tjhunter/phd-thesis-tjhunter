@@ -975,9 +975,9 @@ The main insight is to decompose each of the modes of the distribution using
  distribution.
  Using our notation:
 \begin_inset Formula 
-\[
-\forall\beta,\beta^{'}>0,\,\, f\left(\alpha+\alpha',\beta+\beta'\right)=f\left(\alpha',\beta'\right)\odot f\left(\alpha,\beta\right)
-\]
+\begin{equation}
+\forall\beta,\beta^{'}>0,\,\, f\left(\alpha+\alpha',\beta+\beta'\right)=f\left(\alpha',\beta'\right)\odot f\left(\alpha,\beta\right)\label{eq:gaussian-convolution}
+\end{equation}
 
 \end_inset
 
@@ -1096,6 +1096,144 @@ Note
 (which are well-defined, well-scaled probability distributions).
  However, as we will see later, using this explicit parameters leads to
  very elegant caching algorithms.
+\end_layout
+
+\begin_layout Subsection
+A linear approximation for full covariance
+\end_layout
+
+\begin_layout Standard
+The decomposability property of Gaussian distribution (Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:gaussian-convolution"
+
+\end_inset
+
+), which is a fundamental property for the fast algorithm presented above,
+ does not hold anymore for the case of full covariance matrices.
+ However, one can approximate this property as follows.
+ The full covariance matrix corresponds to marginalizing out the other variables
+ of the GMRF.
+ In effect, this leads to a complete graph for the variables.
+ Instead of full marginalization, one can consider 
+\begin_inset Quotes eld
+\end_inset
+
+taking out
+\begin_inset Quotes erd
+\end_inset
+
+ the subgraph that corresponds to the path, effectively approximating the
+ propagation of conditional information across neighboring nodes as being
+ negligible.
+ Then, this graph has additional conditional independence properties for
+ each layers:
+\begin_inset Formula 
+\[
+\forall w\in\left[2,B-1\right],\,\forall u<w,\forall u^{'}>w,\forall v,v^{'}\in\left[1,m\right]:\,\, Y_{u,v}\parallel Y_{u^{'},v^{'}}|\left(Y_{w,j}\right)_{j\in\left[1,m\right]}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This conditional independence property is represented in Figure XXX.
+ This leads to an algorithm to compute approximately the marginal distribution
+ 
+\begin_inset Formula $\pi_{h}$
+\end_inset
+
+.
+ Given 
+\begin_inset Formula $u<w<v$
+\end_inset
+
+, and fixing the values 
+\begin_inset Formula $\left(Y_{w,j}\right)_{j\in\left[1,m\right]}$
+\end_inset
+
+ by 
+\begin_inset Formula $\left(y_{w,j}\right)_{j}$
+\end_inset
+
+: XXX must add the start and end values 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=\int_{y_{w,1}}\cdots\int_{y_{w,m}}\widetilde{\pi}_{u:v|w}\left(i\rightarrow j\left|\left(y_{w,j}\right)\right.\right)\text{d}y_{w,1}\cdots\text{d}y_{w,m}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\widetilde{\pi}_{u:v|w}\left(i\rightarrow j\left|\left(y_{w,j}\right)\right.\right)=\sum_{k=1}^{m}\sum_{l=1}^{m}\hat{\eta}_{w}\left(k,l\left|y_{w,1}\cdots y_{w,m}\right.\right)\widetilde{\pi}_{u:w-1}\left(i\rightarrow k\right)\odot\widetilde{\pi}_{w+1:v}\left(l\rightarrow j\right)
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $\hat{w}_{u,v}\left(z_{1}\cdots z_{m}\right)$
+\end_inset
+
+ a constant that depend on the parameters of the level 
+\begin_inset Formula $u$
+\end_inset
+
+ of the trellis:
+\begin_inset Formula 
+\[
+\hat{\eta}_{w}\left(i,j\left|z_{1}\cdots z_{m}\right.\right)=\sum_{k^{'}=1}^{m}\pi_{w}\left(i,k^{'}\right)\pi_{w+1}\left(k^{'},j\right)f\left(\mu_{w+1,k^{'}},\Delta_{w+1,k^{'}}\right)\left(z_{k^{'}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From this algorithm, it should be clear how to compute the distribution
+ following a divide-and-conquer strategy: given some indexes 
+\begin_inset Formula $u,v$
+\end_inset
+
+ compute recursively all the 
+\begin_inset Formula $\widetilde{\pi}_{u:w-1}\left(i\rightarrow k\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\widetilde{\pi}_{w+1:v}\left(l\rightarrow j\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $w=\left\lceil \frac{u+v}{2}\right\rceil $
+\end_inset
+
+.
+ Then make a grid of 
+\begin_inset Formula $\left(y_{w,j}\right)_{j}$
+\end_inset
+
+ and compute an approximate value for the integral.
+\end_layout
+
+\begin_layout Standard
+Obviously, this scheme is only practical for small values of 
+\begin_inset Formula $m$
+\end_inset
+
+ and 
+\begin_inset Formula $T$
+\end_inset
+
+, but it is interesting to explore in practice, especially as most of these
+ computations can be cached and efficiently computed on GPUs.
 \end_layout
 
 \begin_layout Subsection
