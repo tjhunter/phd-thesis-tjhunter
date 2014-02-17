@@ -144,86 +144,66 @@ name "chapter:introduction"
 
 \end_layout
 
+\begin_layout Standard
+Our society depends and will depend more and more on very large infrastructure
+ systems that provide increasingly vital services such as water, electricity,
+ information, energy, etc.
+ Proeminent examples are telecommunication systems, power grids, water distribut
+ion systems.
+ These systems are continuously monitored by a very vast array of sensors,
+ which gather large streams of digital information.
+ In order to process this stream of information, the trend has been towards
+ a surge of computing power for several reasons:
+\end_layout
+
+\begin_layout Itemize
+difficulties of the inference task:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+these systems are often heterogeneous integration of existing subsystems,
+ which have their own historical peculiarities.
+ Combining these multiple sources is often a challenge in itself
+\end_layout
+
+\begin_layout Itemize
+the sensing network is increasingly complex: it usually offers indirect
+ measurements of the state (the sensors are either not located in the area
+ of interest or measure other variables correlated with the variable of
+ interest).
+\end_layout
+
+\begin_layout Itemize
+due to coupling effects, estimating the state of a large system is usually
+ much more difficult than estimating the states of the subsystems
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+complexity of the querying tasks: as the monitoring networks grow in scope
+ and versatility, they are usually tasked with more complex questions such
+ as predicting the future states, or estimating confidence intervals around
+ some critical values.
+ These tasks often require much more computing power than providing simple
+ aggregated measurement, and yet become an increasingly important part of
+ the monitoring (think of detecting toxing levels of chemicals in a water
+ system, using noisy measurements while still operating the parts of the
+ system still deemed safe).
+\end_layout
+
+\begin_layout Standard
+These tasks grow in complexity and will require more and more the use of
+ advanced statistical and computing techniques in order to be completed
+ in a timely manner.
+ Some disciplines have already integrated this new paradigm, such as weather
+ forecast or monitoring of the electrical grid.
+ We discuss in this thesis the well-known challenge of vehicular traffic
+ estimation, from the perspective of a large cyberphysical system.
+\end_layout
+
 \begin_layout Section
 Car traffic as a cyberphysical system
-\end_layout
-
-\begin_layout Standard
-Historically, the estimation of traffic congestion has been limited to highways,
- and has relied mostly on a static, dedicated sensing infrastructure such
- as loop detectors or cameras 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Work08"
-
-\end_inset
-
-.
- The estimation problem is more challenging in the case of the secondary
- road network, also called the 
-\emph on
-arterial network
-\emph default
-, due to the cost of deploying a wide network of sensors in large metropolitan
- areas.
- The most promising source of data is the GPS receiver in personal smartphones
- and commercial fleet vehicles 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "6214607"
-
-\end_inset
-
-.
- According to some studies 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "schrank2009"
-
-\end_inset
-
-, devices with a data connection and a GPS will represent 80% of the cellphone
- market by 2015.
- GPS observations in cities are noisy 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cui2003autonomous"
-
-\end_inset
-
-, and are usually provided at low sampling rates (on the order of one minute)
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cabspotting"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Sensor fusion.
- 
-\series default
-The integration of sensors and data, the increase in data volume, the decrease
- in costs is transforming most physical systems.
- The digital world is pervasively invading all aspects of manufacturing
- and sensing.
- Nowadays, every significant system collects enormous amounts of informations
- about its inner state.
- This information however is usually collected on a ad-hoc basis and does
- not fullfill the requirements that one would like in terms of coverage,
- signal-to-noise ratio.
- In other terms, its relevance to the monitoring task is indirect, unlike
- a gauge that measures the level of gas in a tank.
- For these cyberphysical systems, the reconstruction of the inner state
- has to be done by merging massive streams of data.
- We present here an application of these in the realm of civil engineering:
- the case of estimating traffic in a city.
 \end_layout
 
 \begin_layout Standard
@@ -319,7 +299,11 @@ key "gao2011cognitive"
 .
  One of the main challenges of TIS is to provide reliable and accurate informati
 on to drivers, especially in terms of travel times.
- This question is well understood in the case of highways.
+ 
+\end_layout
+
+\begin_layout Standard
+This question is well understood in the case of highways.
  Modeling highway traffic conditions has been well-studied by the transportation
  community with work dating back to the pioneering work of Lighthill, Whitham
  and Richards
@@ -357,94 +341,69 @@ Arterial roads
  and between cities.
  In this setting, it is too costly to measure flows of vehicles using static
  sensors, and the most promising source of data is sensors embedded in vehicles.
-\end_layout
+ Historically, the estimation of traffic congestion has been limited to
+ highways, and has relied mostly on a static, dedicated sensing infrastructure
+ such as loop detectors or cameras 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Work08"
 
-\begin_layout Standard
+\end_inset
 
+.
+ The estimation problem is more challenging in the case of the secondary
+ road network, also called the 
 \emph on
-Static sensors.
+arterial network
+\emph default
+, due to the cost of deploying a wide network of sensors in large metropolitan
+ areas.
+ The most promising source of data is the GPS receiver in personal smartphones
+ and commercial fleet vehicles 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "6214607"
+
+\end_inset
+
+.
+ According to some studies 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schrank2009"
+
+\end_inset
+
+, devices with a data connection and a GPS will represent 80% of the cellphone
+ market by 2015.
+ GPS observations in cities are noisy 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cui2003autonomous"
+
+\end_inset
+
+, and are usually provided at low sampling rates (on the order of one minute)
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cabspotting"
+
+\end_inset
+
+.
  
 \end_layout
 
 \begin_layout Standard
-
-\emph on
-Probe data
-\emph default
- is information collected from moving vehicles, and typically includes the
- location and speed of the vehicle.
- This type of data have been revolutionized by the introduction of the Global
- Positioning System (GPS) in the 1980s.
- The GPS can measure the location of a beacon across the the globe with
- relatively high accuracy.
- However, the last decade has brought the GPS to the masses by making it
- a standard feature in smartphones.
- GPS data collected for traffic estimation purposes comes from two different
- sources:
-\end_layout
-
-\begin_layout Itemize
-Fleet data.
- A number of businesses (taxi companies, FedEx, UPS, trucks) operate large
- fleets of vehicles and optimize their services by tracking the locations
- of the vehicles.
- This source of GPS information is usually of high volume (tens of thousands
- of vehicles across the continent), low frequency (every minute or so),
- and with limited privacy concerns.
- Also, their coverage of the road network can be limited to certain areas.
-\end_layout
-
-\begin_layout Itemize
-Smartphone data.
- Some global companies collect vehicular GPS data by using software installed
- in the device, like mapping software (Garmin.
- Google, INRIX, Noka, Waze, etc.) This data is believed to be of high frequency
- and to take some privacy concerns into account as part of the collection
- process.
-\end_layout
-
-\begin_layout Standard
-Probe data presents some compelling advantages over static sensors: it is
- easier to upgrade (for example by pushing software upgrades to devices),
- it is cheaper to operate (the energy and transmission costs are shouldered
- by the end users) and its coverage is usually very extensive (see Figure
- XXX).
- It also presents some drawbacks: achieving reasonable privacy levels is
- an open question, the coverage is dependent on the user base and may be
- poor in some areas, and the market fragmentation means that agreements
- must be negotiated with each company.
-\end_layout
-
-\begin_layout Standard
-
-\emph on
-Mobile Millennium
-\emph default
- infers real-time traffic conditions using GPS measurements from drivers
- running cell phone applications, taxicabs, and other mobile and static
- data sources.
- This system was initially deployed in the San Francisco Bay area and later
- expanded to other locations such as Sacramento, Stockholm, and Porto.
- Arterial roads, which , provide additional challenges for traffic estimation.
- 
-\emph on
-Mobile Millennium
-\emph default
- is intended to work at the scale of large metropolitan areas: the road
- network considered in this work is a real road network (a large portion
- of the greater Bay Area, comprising 506,685 road links) and the data for
- this work is collected from thousands of vehicles that generate millions
- of observations per day.
- As a consequence of these specifications and requirements, we employ highly
- scalable traffic algorithms.
- Furthermore, 
-\emph on
-Mobile Millennium 
-\emph default
-is a research platform and can be used with various models of travel times.
- The fundamental unit of estimation is the probability distribution of travel
- times over a single link of the road network.
- 
+Recent studies focusing on estimating real-time arterial traffic conditions
+ have investigated traffic flow reconstruction for single intersections
+ using dedicated traffic sensors.
+ Dedicated traffic sensors are expensive to install, maintain and operate,
+ which limits the number of sensors that governmental agencies can deploy
+ on the road network.
+ The lack of sensor coverage across the arterial network thus motivates
+ the use of GPS probe vehicle data for estimating traffic conditions.
 \end_layout
 
 \begin_layout Standard
@@ -477,91 +436,33 @@ reference "fig:tt_function"
 \end_inset
 
 ).
+ Commercial providers have so far focused on the easier task of attributing
+ a single number for the travel time for travel, which is usually described
+ as an average travel time.
+ This number is usually not enough information for the end user.
+ For example, consider the trip of someone to the airport.
+ The user would like to know when to leave in order to be at the airport
+ with some reasonable confidence, and the mean does not convey this information,
+ or even worse, may be misleading the user into taking a route that has
+ a smaller mean but a larger variance (the trips are usually shorter but
+ they are longer, the delays are significant).
+ Seasoned taxi drivers and drivers usually take their past experience into
+ account, but cannot quantify their reasoning.
+ Computing the full statistical distribution of travel times lets the user
+ decide how much risk he or she is willing to take
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Of course, leaving an infinity of time before the event is the only strategy
+ to arrive with probability one.
+ We assume the driver's boyfriend would object to such a long trip to the
+ airport.
 \end_layout
 
-\begin_layout Standard
+\end_inset
 
-\series bold
-Pipeline.
-
-\series default
- In this data-intensive task, the final output looks like a complete pipeline
- separated in multiple stages, each of the stages being responsible for
- a separate task.
- Our traffic pipeline is decomposed in the steps shown in figure XXXX.
- We will focus on the step in BLUE in the pipeline.
-\end_layout
-
-\begin_layout Standard
-Recent studies focusing on estimating real-time arterial traffic conditions
- have investigated traffic flow reconstruction for single intersections
- using dedicated traffic sensors.
- Dedicated traffic sensors are expensive to install, maintain and operate,
- which limits the number of sensors that governmental agencies can deploy
- on the road network.
- The lack of sensor coverage across the arterial network thus motivates
- the use of GPS probe vehicle data for estimating traffic conditions.
-\end_layout
-
-\begin_layout Standard
-In this scenario, we can consider that revealing the true state of the traffic
- to the participants will not change the dynamics of the overall phenomenon:
- the informed drivers will optimize their routes or schedule without changing
- (much) the global equilibrium of the other road users
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Data driven inference.
-
-\series default
- Consider that we want to build some model of the traffic phenomenon.
- The ultimate goal is to use the measurements currently at hand to build
- a function that given new (unseen) data, provides some estimate of the
- state of the system, and some validation of this state.
- This function often have a fixed structure and some parameters that depend
- on this particular structure that can be tuned given some data.
- This includes some physical model where the physical constants have to
- be calibrated, some statistical model in which the statistical parameters
- have to be adjusted to best match the observations, etc.
- Another approach is to assume that all observations are points in some
- arbitratry space, and that their distribution can be described in terms
- of these data points only.
- This is the non-parametric approach, which we will not consider here.
- There are two ways to approach the problem of building a model, which relate
- into how much the existing data at hand play a role in elaborating a structure:
- a statistical approach and a first principle approach.
- These two ways are complementary.
- In the statistical approach, the data is used to prescribe a structure,
- which is then tuned using this data.
- In the first principle approach, the scientist has some additional knowledge
- about the general laws that govern the phenomenon, such as the law of physics,
- some particular assumptions about speed, people's behaviour, etc.
- Based on these laws, some general patterns can describe the phenomenon.
- For example, if cars on a highway were represented as a continuous fluid,
- then the treatment of highways through fluid dynamics will predict shockwaves,
- traffic jams around intersections, etc.
- without having seen data.
- One could argue that with enough information and computing power, one could
- in principle select a set of optimal statistical model that could predict
- (but not explain) the most minute details of the phenomenon.
- In the other hand, with the perfect knowledge of the conditions and a rigorous
- derivation that takes into account all the experimental flaws, the first
- principle approach could full predict the data collected.
- In practice, due to our ignorance of some important parts of the experiments,
- we need to make some simplifying assumptions in a model and compensate
- by inferring some constants from the data.
- Also, given a data-driven approach, our prior knowledge of the phenomenon
- will influence our choice of variable (representation problem), and give
- us some insight about the structure of dependencies between these variables.
-\end_layout
-
-\begin_layout Standard
-We describe here a big problem that is driven by data.
- The classical approach is to look first for first principles and then deduce
- some facts based these principles, and then pick a problem that one can
- solve based on these facts.
+.
 \end_layout
 
 \begin_layout Standard
@@ -629,22 +530,140 @@ The travel time function that we desire to compute: given a start time and
 \end_layout
 
 \begin_layout Standard
-Our approach will focus on extracting structure from data.
- In the case of traffic, there is a wealth of research focused on explaining
- observations based on first principles (more on that later).
- Our data exploration will be motivated by the general physical principals
- behind the phenomenon.
- However, it will not try to 
+
+\series bold
+Source of data.
+ 
+\series default
+The integration of sensors and data, the increase in data volume, the decrease
+ in costs is transforming most physical systems.
+ The digital world is pervasively invading all aspects of manufacturing
+ and sensing.
+ Nowadays, every significant system collects enormous amounts of informations
+ about its inner state.
+ This information however is usually collected on a ad-hoc basis and does
+ not fullfill the requirements that one would like in terms of coverage,
+ signal-to-noise ratio.
+ In other terms, its relevance to the monitoring task is indirect, unlike
+ a gauge that measures the level of gas in a tank.
+ For these cyberphysical systems, the reconstruction of the inner state
+ has to be done by merging massive streams of data.
+ We present here an application of these in the realm of civil engineering:
+ the case of estimating traffic in a city.
+\end_layout
+
+\begin_layout Standard
+
 \emph on
-explain
-\emph default
- as much as 
+Static sensors.
+ 
+\end_layout
+
+\begin_layout Standard
+
 \emph on
-predict
+Probe data
 \emph default
- the future or the unobserved data.
- In particural, some very strong simplifying assumptions will be made, and
- justified only by the power of the prediction they let us make.
+ is information collected from moving vehicles, and typically includes the
+ location and speed of the vehicle.
+ This type of data have been revolutionized by the introduction of the Global
+ Positioning System (GPS) in the 1980s.
+ The GPS can measure the location of a beacon across the the globe with
+ relatively high accuracy.
+ However, the last decade has brought the GPS to the masses by making it
+ a standard feature in smartphones.
+ GPS data collected for traffic estimation purposes comes from two different
+ sources:
+\end_layout
+
+\begin_layout Itemize
+Fleet data.
+ A number of businesses (taxi companies, FedEx, UPS, trucks) operate large
+ fleets of vehicles and optimize their services by tracking the locations
+ of the vehicles.
+ This source of GPS information is usually of high volume (tens of thousands
+ of vehicles across the continent), low frequency (every minute or so),
+ and with limited privacy concerns.
+ Also, their coverage of the road network can be limited to certain areas.
+\end_layout
+
+\begin_layout Itemize
+Smartphone data.
+ Some global companies collect vehicular GPS data by using software installed
+ in the device, like mapping software (Garmin.
+ Google, INRIX, Noka, Waze, etc.) This data is believed to be of high frequency
+ and to take some privacy concerns into account as part of the collection
+ process.
+\end_layout
+
+\begin_layout Standard
+Probe data presents some compelling advantages over static sensors: it is
+ easier to upgrade (for example by pushing software upgrades to devices),
+ it is cheaper to operate (the energy and transmission costs are shouldered
+ by the end users) and its coverage is usually very extensive (see Figure
+ XXX).
+ It also presents some drawbacks: achieving reasonable privacy levels is
+ an open question, the coverage is dependent on the user base and may be
+ poor in some areas, and the market fragmentation means that agreements
+ must be negotiated with each company.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Pipeline.
+
+\series default
+ 
+\emph on
+Mobile Millennium
+\emph default
+ infers real-time traffic conditions using GPS measurements from drivers
+ running cell phone applications, taxicabs, and other mobile and static
+ data sources.
+ This system was initially deployed in the San Francisco Bay area and later
+ expanded to other locations such as Sacramento, Stockholm, and Porto.
+ Arterial roads, which , provide additional challenges for traffic estimation.
+ 
+\emph on
+Mobile Millennium
+\emph default
+ is intended to work at the scale of large metropolitan areas: the road
+ network considered in this work is a real road network (a large portion
+ of the greater Bay Area, comprising 506,685 road links) and the data for
+ this work is collected from thousands of vehicles that generate millions
+ of observations per day.
+ As a consequence of these specifications and requirements, we employ highly
+ scalable traffic algorithms.
+ Furthermore, 
+\emph on
+Mobile Millennium 
+\emph default
+is a research platform and can be used with various models of travel times.
+ The fundamental unit of estimation is the probability distribution of travel
+ times over a single link of the road network.
+ We have built upon 
+\emph on
+Mobile Millennium
+\emph default
+ to provide a statistical estimation engine.
+ In this data-intensive task, the final output looks like a complete pipeline
+ separated in multiple stages, each of the stages being responsible for
+ a separate task.
+ Our traffic pipeline is decomposed in the steps shown in figure XXXX.
+ We will focus on the step in BLUE in the pipeline.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Equilibrium.
+
+\series default
+ In this scenario, we can consider that revealing the true state of the
+ traffic to the participants will not change the dynamics of the overall
+ phenomenon: the informed drivers will optimize their routes or schedule
+ without changing (much) the global equilibrium of the other road users
 \end_layout
 
 \begin_layout Standard
@@ -700,37 +719,6 @@ In both cases, we want to work at the scale of the city, and we will highlight
 \end_layout
 
 \begin_layout Standard
-The final model will be presented in the last chapter.
- 
-\end_layout
-
-\begin_layout Standard
-XXXX describe data sets
-\end_layout
-
-\begin_layout Standard
-A probabilistic model of travel times on the arterial network is presented
- along with an online 
-\emph on
-Expectation Maximization
-\emph default
- (EM) algorithm for learning the parameters of this model (Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:model"
-
-\end_inset
-
-).
- The algorithm is expensive due to the large dimension of the network and
- the complexity inherent to the evolution of traffic.
- Furthermore, our EM algorithm has no closed-form expression and requires
- sampling and non-linear optimization techniques.
- This is why the use of a distributed system is appropriate.
- 
-\end_layout
-
-\begin_layout Standard
 Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -757,14 +745,14 @@ Data-driven insights
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
 	filename figures-pif/example_cloud_point_sf.png
 	lyxscale 30
-	width 100col%
+	width 70col%
 
 \end_inset
 
@@ -915,7 +903,7 @@ Nowadays, the GPS data is collected by a number of organizations and commercial
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -1037,7 +1025,7 @@ We will see how it works together.
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -1122,6 +1110,79 @@ name "fig:twostreets_comparison"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Data driven inference.
+
+\series default
+ Consider that we want to build some model of the traffic phenomenon.
+ The ultimate goal is to use the measurements currently at hand to build
+ a function that given new (unseen) data, provides some estimate of the
+ state of the system, and some validation of this state.
+ This function often have a fixed structure and some parameters that depend
+ on this particular structure that can be tuned given some data.
+ This includes some physical model where the physical constants have to
+ be calibrated, some statistical model in which the statistical parameters
+ have to be adjusted to best match the observations, etc.
+ Another approach is to assume that all observations are points in some
+ arbitratry space, and that their distribution can be described in terms
+ of these data points only.
+ This is the non-parametric approach, which we will not consider here.
+ There are two ways to approach the problem of building a model, which relate
+ into how much the existing data at hand play a role in elaborating a structure:
+ a statistical approach and a first principle approach.
+ These two ways are complementary.
+ In the statistical approach, the data is used to prescribe a structure,
+ which is then tuned using this data.
+ In the first principle approach, the scientist has some additional knowledge
+ about the general laws that govern the phenomenon, such as the law of physics,
+ some particular assumptions about speed, people's behaviour, etc.
+ Based on these laws, some general patterns can describe the phenomenon.
+ For example, if cars on a highway were represented as a continuous fluid,
+ then the treatment of highways through fluid dynamics will predict shockwaves,
+ traffic jams around intersections, etc.
+ without having seen data.
+ One could argue that with enough information and computing power, one could
+ in principle select a set of optimal statistical model that could predict
+ (but not explain) the most minute details of the phenomenon.
+ In the other hand, with the perfect knowledge of the conditions and a rigorous
+ derivation that takes into account all the experimental flaws, the first
+ principle approach could full predict the data collected.
+ In practice, due to our ignorance of some important parts of the experiments,
+ we need to make some simplifying assumptions in a model and compensate
+ by inferring some constants from the data.
+ Also, given a data-driven approach, our prior knowledge of the phenomenon
+ will influence our choice of variable (representation problem), and give
+ us some insight about the structure of dependencies between these variables.
+\end_layout
+
+\begin_layout Standard
+We describe here a big problem that is driven by data.
+ The classical approach is to look first for first principles and then deduce
+ some facts based these principles, and then pick a problem that one can
+ solve based on these facts.
+\end_layout
+
+\begin_layout Standard
+Our approach will focus on extracting structure from data.
+ In the case of traffic, there is a wealth of research focused on explaining
+ observations based on first principles (more on that later).
+ Our data exploration will be motivated by the general physical principals
+ behind the phenomenon.
+ However, it will not try to 
+\emph on
+explain
+\emph default
+ as much as 
+\emph on
+predict
+\emph default
+ the future or the unobserved data.
+ In particural, some very strong simplifying assumptions will be made, and
+ justified only by the power of the prediction they let us make.
 \end_layout
 
 \begin_layout Section
@@ -1249,6 +1310,24 @@ distribution of travel times that provided they expose a few functionalities
  This should be of interest to the traffic researchers and practitioners
  since our framework solves all the issues of using raw GPS samples to build
  traffic estimates at a very large scale with low latency.
+ A probabilistic model of travel times on the arterial network is presented
+ along with an online 
+\emph on
+Expectation Maximization
+\emph default
+ (EM) algorithm for learning the parameters of this model (Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:model"
+
+\end_inset
+
+).
+ The algorithm is expensive due to the large dimension of the network and
+ the complexity inherent to the evolution of traffic.
+ Furthermore, our EM algorithm has no closed-form expression and requires
+ sampling and non-linear optimization techniques.
+ This is why the use of a distributed system is appropriate.
  
 \end_layout
 
