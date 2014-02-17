@@ -145,32 +145,24 @@ name "chapter:introduction"
 \end_layout
 
 \begin_layout Standard
-Our society depends and will depend more and more on very large infrastructure
- systems that provide increasingly vital services such as water, electricity,
- information, energy, etc.
+Our society is increasingly dependent on very large infrastructure systems
+ that provide vital services such as water, electricity, information, energy.
  Proeminent examples are telecommunication systems, power grids, water distribut
-ion systems.
+ion systems or roads.
  These systems are continuously monitored by a very vast array of sensors,
  which gather large streams of digital information.
- In order to process this stream of information, the trend has been towards
- a surge of computing power for several reasons:
-\end_layout
-
-\begin_layout Itemize
-difficulties of the inference task:
-\end_layout
-
-\begin_deeper
-\begin_layout Itemize
-these systems are often heterogeneous integration of existing subsystems,
- which have their own historical peculiarities.
- Combining these multiple sources is often a challenge in itself
+ This network of sensors gives information about the aggregate state of
+ the system, or about local variables such as chemical control, power output,
+ temperatures, etc.
+ These variables are then used to take corrective action.
+ In order to process this stream of information, it will be more and more
+ common in the future to use massive amounts of computing power:
 \end_layout
 
 \begin_layout Itemize
 the sensing network is increasingly complex: it usually offers indirect
  measurements of the state (the sensors are either not located in the area
- of interest or measure other variables correlated with the variable of
+ of interest or measure other variables correlated with the variables of
  interest).
 \end_layout
 
@@ -179,25 +171,21 @@ due to coupling effects, estimating the state of a large system is usually
  much more difficult than estimating the states of the subsystems
 \end_layout
 
-\end_deeper
-\begin_layout Itemize
-complexity of the querying tasks: as the monitoring networks grow in scope
- and versatility, they are usually tasked with more complex questions such
- as predicting the future states, or estimating confidence intervals around
- some critical values.
- These tasks often require much more computing power than providing simple
- aggregated measurement, and yet become an increasingly important part of
- the monitoring (think of detecting toxing levels of chemicals in a water
- system, using noisy measurements while still operating the parts of the
- system still deemed safe).
-\end_layout
-
 \begin_layout Standard
-These tasks grow in complexity and will require more and more the use of
+Furthermore, as monitoring networks grow in complexity and versatility,
+ they are usually tasked with answering more complex questions such as predictin
+g the evolution of the system, or performing diagnostics on some vital sections
+ (and provide some statistical guarantees about the quality of these diagnostics
+).
+ These tasks often require much more computing power than providing aggregated
+ measurement, and yet become an increasingly important part of the monitoring
+ (think of assessing the spread of toxic chemicals in a water system or
+ radioactive surges in a nuclear core).
+ These tasks grow in complexity and will require more and more the use of
  advanced statistical and computing techniques in order to be completed
  in a timely manner.
- Some disciplines have already integrated this new paradigm, such as weather
- forecast or monitoring of the electrical grid.
+ Some disciplines such as weather forecasting have already harnessed the
+ potential offered by cheap computing platforms.
  We discuss in this thesis the well-known challenge of vehicular traffic
  estimation, from the perspective of a large cyberphysical system.
 \end_layout
@@ -738,7 +726,7 @@ Mobile Millennium
 \end_layout
 
 \begin_layout Section
-Data-driven insights
+Complexity of modelling traffic from GPS observations
 \end_layout
 
 \begin_layout Standard
@@ -826,7 +814,7 @@ ns to the travel times between different links, since the unit of inference
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -903,7 +891,7 @@ Nowadays, the GPS data is collected by a number of organizations and commercial
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -954,153 +942,8 @@ ons, and have a very high observation density.
  best we can hope for.
  For the middle range, we have enough observations for a richer statistical
  model, but not enough for a finer physical model.
- Scale is ommitted for confidentiality reasons.
+ The exact scale is ommitted for confidentiality reasons.
 \end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-We studied some high-frequency data collected during an experiment in San
- Francisco (see Section XXX for more details).
- This experiment provided detailled trajectory information along stretches
- of the main arterial network in San Francisco.
- After mapping the GPS points to the road, and reconstructing the trajectories,
- we had a very precise account of the patterns of traffic on the ground.
- In particular, we reached the following conclusions for the travel times
- on each link:
-\end_layout
-
-\begin_layout Itemize
-discrete number of modes.
- The travel times follow a multi-modal distribution across each block.
- There are generally two main modes that correspond to the light signal
- at the end of the intersection (see Figure XXX).
- This distribution can be predicted by simple physical models that take
- into account the dynamics of cars (CITE aude).
-\end_layout
-
-\begin_layout Itemize
-lights correlation.
- The traffic lights are synchronized, the synchronization scheme being managed
- at the level of the district.
- However, this synchronization pattern is usually fairly complex: it combines
- traffic sensing equipment with written rules and random pedestrian events,
- and each district has a different set of rules.
- From the perspective of a travelling vehicle, we consider the synchronization
- of the lights a 
-\emph on
-discrete stochastic process
-\emph default
-, the parameters of which can be inferred from observing enough vehicles.
- We will see in section XXX how we can accurately model this process as
- Markov graph.
-\end_layout
-
-\begin_layout Itemize
-travel time correlation inside each mode.
- It is well known that vehicles at lights tend to travel together at the
- same speed.
- Furnthermore, it is natural to consider that if a vehicle travels at constant
- speed across several green lights: there is no reason to believe that the
- driver would randomly adjust her speed as she crosses a light.
- This is why, if we were to fix a pattern of red and green lights across
- the whole network, we could assume that all the travel times are still
- correllated.
- This is referred to as inner mode correlation.
-\end_layout
-
-\begin_layout Standard
-We will see how it works together.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Graphics
-	filename figures-intro/example_franklin.png
-	lyxscale 10
-	width 7cm
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset space \hfill{}
-\end_inset
-
-
-\begin_inset Graphics
-	filename figures-intro/example_vanness.png
-	lyxscale 10
-	width 7cm
-
-\end_inset
-
-
-\begin_inset space \hfill{}
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset Argument
-status open
-
-\begin_layout Plain Layout
-Space time plots for selected streets in San Francisco
-\end_layout
-
-\end_inset
-
-Sets of trajectories collected around two main arterial in San Francisco:
- northbound Franklin street on the left and northbound Van Ness avenue on
- the right.
- The distance is normalized for each othe road link by the link length.
-\begin_inset Newline newline
-\end_inset
-
-Franklin street exhibits much more variability in the travel times due to
- weaker correlations between the traffic lights.
- Conversely, vehicles on Van Ness avenue are severely constrained and cannot
- drive too fast or too slow due to the scheduling of the traffic lights.
- We wish to capture this variability in travel times in our model.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:twostreets_comparison"
 
 \end_inset
 
