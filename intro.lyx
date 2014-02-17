@@ -276,8 +276,8 @@ key "chorus2006use"
 
 .
  So far however, it seems only a small fraction of the drivers uses TIS
- mostly because the value of information is percieved to be too low compared
- to the experience fo the driver in this setting 
+ mostly because the value of additional information is percieved as low
+ compared to the experience fo the driver 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gao2011cognitive"
@@ -285,13 +285,13 @@ key "gao2011cognitive"
 \end_inset
 
 .
- One of the main challenges of TIS is to provide reliable and accurate informati
-on to drivers, especially in terms of travel times.
- 
+ One of the main challenges of TIS is to provide reliable, accurate and
+ timely travel information to drivers, especially travel time information.
 \end_layout
 
 \begin_layout Standard
-This question is well understood in the case of highways.
+Estimating traffic and providing accurate travel information is well understood
+ in the case of highways.
  Modeling highway traffic conditions has been well-studied by the transportation
  community with work dating back to the pioneering work of Lighthill, Whitham
  and Richards
@@ -302,6 +302,16 @@ This question is well understood in the case of highways.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "lighthill_kinematic_1955"
+
+\end_inset
+
+.
+ Historically, the estimation of traffic congestion has been limited to
+ highways, and has relied mostly on a static, dedicated sensing infrastructure
+ such as loop detectors or cameras 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Work08"
 
 \end_inset
 
@@ -320,71 +330,21 @@ key "work2010traffic"
 
 .
  Traffic estimation is still an open question in the case of roads within
- a city, called arterial roads.
- 
+ a city, called 
 \emph on
-Arterial roads
+arterial roads
 \emph default
- are the major urban city streets that connect population centers within
+.
+ Arterial roads
+\emph on
+ 
+\emph default
+are the major urban city streets that connect population centers within
  and between cities.
- In this setting, it is too costly to measure flows of vehicles using static
- sensors, and the most promising source of data is sensors embedded in vehicles.
- Historically, the estimation of traffic congestion has been limited to
- highways, and has relied mostly on a static, dedicated sensing infrastructure
- such as loop detectors or cameras 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Work08"
-
-\end_inset
-
-.
- The estimation problem is more challenging in the case of the secondary
- road network, also called the 
-\emph on
-arterial network
-\emph default
-, due to the cost of deploying a wide network of sensors in large metropolitan
+ The estimation problem is more challenging in the case of arterial roads
+ due to the cost of deploying a wide network of sensors in large metropolitan
  areas.
- The most promising source of data is the GPS receiver in personal smartphones
- and commercial fleet vehicles 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "6214607"
-
-\end_inset
-
-.
- According to some studies 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "schrank2009"
-
-\end_inset
-
-, devices with a data connection and a GPS will represent 80% of the cellphone
- market by 2015.
- GPS observations in cities are noisy 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cui2003autonomous"
-
-\end_inset
-
-, and are usually provided at low sampling rates (on the order of one minute)
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "cabspotting"
-
-\end_inset
-
-.
- 
-\end_layout
-
-\begin_layout Standard
-Recent studies focusing on estimating real-time arterial traffic conditions
+ Recent studies focusing on estimating real-time arterial traffic conditions
  have investigated traffic flow reconstruction for single intersections
  using dedicated traffic sensors.
  Dedicated traffic sensors are expensive to install, maintain and operate,
@@ -392,6 +352,10 @@ Recent studies focusing on estimating real-time arterial traffic conditions
  on the road network.
  The lack of sensor coverage across the arterial network thus motivates
  the use of GPS probe vehicle data for estimating traffic conditions.
+\end_layout
+
+\begin_layout Standard
+XXX missing a transition
 \end_layout
 
 \begin_layout Standard
@@ -414,8 +378,8 @@ in real-time
 very large network
 \emph default
 .
- Given any route in the road network, we want to build a function that returns
- a statistical distribution of travel times over this route (see Figure
+ We wish to provide a function that, given any route in the road network,
+ returns statistical information of travel times over this route (see Figure
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -424,20 +388,42 @@ reference "fig:tt_function"
 \end_inset
 
 ).
- Commercial providers have so far focused on the easier task of attributing
- a single number for the travel time for travel, which is usually described
- as an average travel time.
+ Commercial providers (CITE google, navteq, telenav, inrix) have so far
+ focused on the easier task of assigning a single number for the travel
+ time on a road, which is usually understood as an average travel time
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+All these products carefully omit any labelling that could be interpreted
+ as a statistical guarantee on the information provided to drivers
+\end_layout
+
+\end_inset
+
+.
  This number is usually not enough information for the end user.
- For example, consider the trip of someone to the airport.
- The user would like to know when to leave in order to be at the airport
- with some reasonable confidence, and the mean does not convey this information,
- or even worse, may be misleading the user into taking a route that has
- a smaller mean but a larger variance (the trips are usually shorter but
- they are longer, the delays are significant).
- Seasoned taxi drivers and drivers usually take their past experience into
- account, but cannot quantify their reasoning.
- Computing the full statistical distribution of travel times lets the user
- decide how much risk he or she is willing to take
+ For example, consider a trip to the airport.
+ A passenger would like to know when to leave her
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+We follow the economics convention to address the casual driver with a female
+ gender.
+\end_layout
+
+\end_inset
+
+ current location in order to be at the airport with some reasonable confidence,
+ and the mean does not convey this information, or even worse, may be misleading
+ the user into taking a route that has a smaller mean but a larger variance
+ (the trips are usually shorter but they are longer, the delays are significant).
+ Seasoned taxi drivers usually take their past experience into account to
+ develop their routing strategies, but this intuitive behavior is hard to
+ quantify and extrapolate to another driver.
+ Furthermore, computing the full statistical distribution of travel times
+ lets the user decide how much risk he or she is willing to take
 \begin_inset Foot
 status collapsed
 
@@ -457,7 +443,7 @@ Of course, leaving an infinity of time before the event is the only strategy
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -504,7 +490,7 @@ Schema of travel time function.
 
 The travel time function that we desire to compute: given a start time and
  a path across a road network, we wish to provide a statistical distribution
- of arrival times.
+ of arrival times (represented here as a cumulative distribution).
 \end_layout
 
 \end_inset
@@ -523,27 +509,18 @@ The travel time function that we desire to compute: given a start time and
 Source of data.
  
 \series default
-The integration of sensors and data, the increase in data volume, the decrease
- in costs is transforming most physical systems.
- The digital world is pervasively invading all aspects of manufacturing
- and sensing.
- Nowadays, every significant system collects enormous amounts of informations
- about its inner state.
- This information however is usually collected on a ad-hoc basis and does
- not fullfill the requirements that one would like in terms of coverage,
- signal-to-noise ratio.
- In other terms, its relevance to the monitoring task is indirect, unlike
- a gauge that measures the level of gas in a tank.
- For these cyberphysical systems, the reconstruction of the inner state
- has to be done by merging massive streams of data.
- We present here an application of these in the realm of civil engineering:
- the case of estimating traffic in a city.
+XXX Historically, traffic congestion has been estimated using fixed sensors
+ embedded in the road pavement.
 \end_layout
 
 \begin_layout Standard
 
 \emph on
 Static sensors.
+
+\emph default
+ In this setting, it is too costly to measure flows of vehicles using static
+ sensors, and the most promising source of data is sensors embedded in vehicles.
  
 \end_layout
 
@@ -556,6 +533,40 @@ Probe data
  location and speed of the vehicle.
  This type of data have been revolutionized by the introduction of the Global
  Positioning System (GPS) in the 1980s.
+ The most promising source of data is the GPS receiver in personal smartphones
+ and commercial fleet vehicles 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "6214607"
+
+\end_inset
+
+.
+ According to some studies 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "schrank2009"
+
+\end_inset
+
+, devices with a data connection and a GPS will represent 80% of the cellphone
+ market by 2015.
+ GPS observations in cities are noisy 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cui2003autonomous"
+
+\end_inset
+
+, and are usually provided at low sampling rates (on the order of one minute)
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cabspotting"
+
+\end_inset
+
+.
  The GPS can measure the location of a beacon across the the globe with
  relatively high accuracy.
  However, the last decade has brought the GPS to the masses by making it
@@ -580,8 +591,30 @@ Smartphone data.
  Some global companies collect vehicular GPS data by using software installed
  in the device, like mapping software (Garmin.
  Google, INRIX, Noka, Waze, etc.) This data is believed to be of high frequency
- and to take some privacy concerns into account as part of the collection
- process.
+ and to be more or less scrubbed from personal information during the collection
+ process
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+For example, as of February 2014, the privacy policy of Google maps states:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+We you use [Google Maps], we may collect and process information about your
+ actual location, like GPS signal sent by a mobile device.
+ We may also use various technologies to determine location, such as [WiFi
+ and cell tower information]
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -589,11 +622,19 @@ Probe data presents some compelling advantages over static sensors: it is
  easier to upgrade (for example by pushing software upgrades to devices),
  it is cheaper to operate (the energy and transmission costs are shouldered
  by the end users) and its coverage is usually very extensive (see Figure
- XXX).
- It also presents some drawbacks: achieving reasonable privacy levels is
- an open question, the coverage is dependent on the user base and may be
- poor in some areas, and the market fragmentation means that agreements
- must be negotiated with each company.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:mm_cloud_point"
+
+\end_inset
+
+).
+ It also presents some drawbacks: achieving reasonable levels of privacy
+ is an open question, the coverage is dependent on the user base and may
+ be poor in some areas, and the market fragmentation means that agreements
+ must be negotiated with each company that collects GPS data (often from
+ different users).
 \end_layout
 
 \begin_layout Standard
@@ -602,6 +643,12 @@ Probe data presents some compelling advantages over static sensors: it is
 Pipeline.
 
 \series default
+ All the algorithms and techniques we are about to discuss have been implemented
+ and deployed within the 
+\emph on
+Mobile Millennium
+\emph default
+ traffic platform.
  
 \emph on
 Mobile Millennium
@@ -611,7 +658,6 @@ Mobile Millennium
  data sources.
  This system was initially deployed in the San Francisco Bay area and later
  expanded to other locations such as Sacramento, Stockholm, and Porto.
- Arterial roads, which , provide additional challenges for traffic estimation.
  
 \emph on
 Mobile Millennium
@@ -621,15 +667,11 @@ Mobile Millennium
  of the greater Bay Area, comprising 506,685 road links) and the data for
  this work is collected from thousands of vehicles that generate millions
  of observations per day.
- As a consequence of these specifications and requirements, we employ highly
- scalable traffic algorithms.
  Furthermore, 
 \emph on
 Mobile Millennium 
 \emph default
 is a research platform and can be used with various models of travel times.
- The fundamental unit of estimation is the probability distribution of travel
- times over a single link of the road network.
  We have built upon 
 \emph on
 Mobile Millennium
@@ -645,6 +687,19 @@ Mobile Millennium
 \begin_layout Standard
 
 \series bold
+Scaling/Spark.
+
+\series default
+ As a consequence of these specifications and requirements, we employ highly
+ scalable traffic algorithms.
+ Interesting problem of having a computing cloud interacti with the rest
+ of the system.
+ Also, need for some real-time algorithms.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
 Equilibrium.
 
 \series default
@@ -652,77 +707,6 @@ Equilibrium.
  traffic to the participants will not change the dynamics of the overall
  phenomenon: the informed drivers will optimize their routes or schedule
  without changing (much) the global equilibrium of the other road users
-\end_layout
-
-\begin_layout Standard
-However, we present first some exploration of the dataset that will motivate
- the subsequent models.
- The facts obtained from this analysis show that a simple approach can lead
- already to some substantial results.
- This is the first chapter.
-\end_layout
-
-\begin_layout Standard
-There are different trade-offs possible to build an estimation system.
- We explore different trade offs, and we propose to solve the problem of
- traffic.
- 
-\end_layout
-
-\begin_layout Standard
-Such systems are only interesting in the sense that they can lead to computable
- models that perform inference at fast enough a rate.
- We present some new paradigms to perform these computations in the third
- chapter.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-Diversity in GPS data.
-
-\series default
- 
-\end_layout
-
-\begin_layout Standard
-The rest of this discussion will be decomposed as the following.
- In a first chapter, we will study how to recover travel time informations
- from GPS data.
- In today's world, there are different characteristics in the data.
- This is why we are going to explore two possible scenarios:
-\end_layout
-
-\begin_layout Itemize
-A first scenario in which we have a lot of sparse GPS data
-\end_layout
-
-\begin_layout Itemize
-A second scenario in which we have more high-frequency data
-\end_layout
-
-\begin_layout Standard
-In both cases, we want to work at the scale of the city, and we will highlight
- the contributions towards scaling the problem to very large metropolis.
-\end_layout
-
-\begin_layout Standard
-Figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:mm_cloud_point"
-
-\end_inset
-
- graphically presents a subset of probe data collected by 
-\emph on
-Mobile Millennium
-\emph default
-.
- In addition to these geolocalization attributes, data points contain other
- attributes such as heading, spot speed, etc.
- We will show how this additional information can be integrated in the rest
- of the framework presented in this article.
 \end_layout
 
 \begin_layout Section
@@ -798,6 +782,25 @@ name "fig:mm_cloud_point"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:mm_cloud_point"
+
+\end_inset
+
+ graphically presents a subset of probe data collected by 
+\emph on
+Mobile Millennium
+\emph default
+.
+ In addition to these geolocalization attributes, data points contain other
+ attributes such as heading, spot speed, etc.
+ We will show how this additional information can be integrated in the rest
+ of the framework presented in this article.
 \end_layout
 
 \begin_layout Standard
@@ -894,7 +897,16 @@ sideways false
 status open
 
 \begin_layout Plain Layout
-\begin_inset space \hfill{}
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
 \end_inset
 
 
@@ -902,10 +914,6 @@ status open
 	filename docs-intro/power_law.pdf
 	width 9cm
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
 
@@ -953,6 +961,27 @@ ons, and have a very high observation density.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+The rest of this discussion will be decomposed as the following.
+ In a first chapter, we will study how to recover travel time informations
+ from GPS data.
+ In today's world, there are different characteristics in the data.
+ This is why we are going to explore two possible scenarios:
+\end_layout
+
+\begin_layout Itemize
+A first scenario in which we have a lot of sparse GPS data
+\end_layout
+
+\begin_layout Itemize
+A second scenario in which we have more high-frequency data
+\end_layout
+
+\begin_layout Standard
+In both cases, we want to work at the scale of the city, and we will highlight
+ the contributions towards scaling the problem to very large metropolis.
 \end_layout
 
 \begin_layout Standard
