@@ -676,12 +676,34 @@ is a research platform and can be used with various models of travel times.
 \emph on
 Mobile Millennium
 \emph default
- to provide a statistical estimation engine.
+ to provide a statistical estimation engine for travel time, and expanding
+ it was a significant contribution of our work.
  In this data-intensive task, the final output looks like a complete pipeline
  separated in multiple stages, each of the stages being responsible for
  a separate task.
- Our traffic pipeline is decomposed in the steps shown in figure XXXX.
- We will focus on the step in BLUE in the pipeline.
+ Our traffic pipeline is decomposed in the steps shown in Figure XXXX:
+\end_layout
+
+\begin_layout Itemize
+An ingestion module that takes all the feeds and stores them into a DB
+\end_layout
+
+\begin_layout Itemize
+A path inference module that reconstructs trajectories from GPS points
+\end_layout
+
+\begin_layout Itemize
+Various travel time modules that compute travel time estimates on the road
+ network
+\end_layout
+
+\begin_layout Itemize
+A validation module that implements different metrics of travel times
+\end_layout
+
+\begin_layout Standard
+Most of this code is available under an open source licence, and the output
+ has been deployed as a web service (XXX LINK).
 \end_layout
 
 \begin_layout Standard
@@ -690,11 +712,20 @@ Mobile Millennium
 Scaling/Spark.
 
 \series default
- As a consequence of these specifications and requirements, we employ highly
- scalable traffic algorithms.
- Interesting problem of having a computing cloud interacti with the rest
- of the system.
- Also, need for some real-time algorithms.
+ While a lot of research has focused on a few road intersection, we have
+ decided to work from the outset at the scale of large city.
+ This adds multiple scalability challenges (1) the data to process is substantia
+lly larger, and (2) estimation algorithms need to scale gracefully to millions
+ of variables, which is a hard challenge in Machine Learning in general.
+ As a consequence, we investigate the use of innovating cloud computing
+ frameworks that let scientific users deploy code across hundreds of computers
+ in a transparent way.
+ We have implemented some of our algorithms on top of the Spark computing
+ framework (XXX cite).
+ After some modifications to Spark, we were able to achieve massive throughput
+ with low-latency (near real-time), an elusive yet necessary goal for complex
+ cyberphysical systems.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -706,7 +737,8 @@ Equilibrium.
  In this scenario, we can consider that revealing the true state of the
  traffic to the participants will not change the dynamics of the overall
  phenomenon: the informed drivers will optimize their routes or schedule
- without changing (much) the global equilibrium of the other road users
+ without changing (much) the global equilibrium of the other road users.
+ This is a standard
 \end_layout
 
 \begin_layout Section
@@ -763,7 +795,7 @@ key "cabspotting"
 .
  Large circles in red show the position of the taxis at a given time and
  small dots (in black) show past positions (during the last five hours)
- of the fleet.
+ of the taxi fleet.
  The position of each vehicle is observed every minute.
 \begin_inset CommandInset label
 LatexCommand label
@@ -771,7 +803,7 @@ name "fig:mm_cloud_point"
 
 \end_inset
 
- XXX put in introduction
+
 \end_layout
 
 \end_inset
@@ -785,22 +817,28 @@ name "fig:mm_cloud_point"
 \end_layout
 
 \begin_layout Standard
-Figure 
+What sort of GPS information can be processed by the 
+\emph on
+Mobile Millennium
+\emph default
+ system? A datum of GPS information contains a time stamp, a unique identifier
+ for the driver or the trip, a location encoded by latitude and longitude,
+ and often some other elements such as heading, speed, status (empty, en
+ route, etc.).
+ These additional informations were usually found to be too noisy to be
+ used in a systematic fashion, and were discarded.
+ Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:mm_cloud_point"
 
 \end_inset
 
- graphically presents a subset of probe data collected by 
+ graphically presents a subset of this probe data collected by 
 \emph on
 Mobile Millennium
 \emph default
 .
- In addition to these geolocalization attributes, data points contain other
- attributes such as heading, spot speed, etc.
- We will show how this additional information can be integrated in the rest
- of the framework presented in this article.
 \end_layout
 
 \begin_layout Standard
@@ -817,7 +855,7 @@ ns to the travel times between different links, since the unit of inference
 \begin_inset Float figure
 wide false
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -870,8 +908,11 @@ Temporal distribution of trajectories from a typical source of data.
 \end_layout
 
 \begin_layout Standard
-Nowadays, the GPS data is collected by a number of organizations and commercial
- providers XXX.
+
+\series bold
+Temporal disparity.
+
+\series default
  The most striking feature of this data is that it is very heterogeneous,
  both in a spatial sense and in a temporal sense (see Figure XXX and Figure
  XXX).
@@ -884,10 +925,15 @@ Nowadays, the GPS data is collected by a number of organizations and commercial
  a vehicle at intervals up to three minutes.
  These very low frequency collection schemes make the bulk of the data collected
  these days, and using them for accurate traffic estimation remains a challenge.
+ Furthermore, in the case of individual drivers, in order to limit privacy
+ intrusion and to save battery life, it is common to only record the location
+ of the vehicle during short intervals (a few minutes to an hour).
+ There is no control over when the GPS unit will record the trip.
  As a conclusion, we have access to large amount of a low-frequency data,
  or to a small amount of high-frequency data.
  This is why we will present two models for traffic that correspond to these
- two scenarios.
+ two typical scenarios.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -942,15 +988,18 @@ Power law distribution of GPS data.
 The number of observations (GPS points projected to the road network) by
  link, in decreasing order (normalized by the length of the link), for a
  full day, from a commercial data provider.
- The first 100 elements correspond to highways, and contain 30% of all observati
-ons, and have a very high observation density.
+ The exact scale is shifted for confidentiality reasons.
+ The first 100 elements correspond to highways.
+ They contain 30% of all observations and have a very high observation density.
  In these situations, a fine-grained physical model is effective.
- For 90% of the links (index greater than XXX), we barely observe one vehicle
- per day (spread-out suburbs), so a simple historical models will be the
- best we can hope for.
+ For 90% of the links (index greater than 
+\begin_inset Formula $10^{3}$
+\end_inset
+
+), we barely observe a few vehicles per day on each road (spread-out suburbs),
+ so a simple historical models will be the best we can hope for.
  For the middle range, we have enough observations for a richer statistical
  model, but not enough for a finer physical model.
- The exact scale is ommitted for confidentiality reasons.
 \end_layout
 
 \end_inset
@@ -982,6 +1031,42 @@ A second scenario in which we have more high-frequency data
 \begin_layout Standard
 In both cases, we want to work at the scale of the city, and we will highlight
  the contributions towards scaling the problem to very large metropolis.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Spatial disparity.
+
+\series default
+ It is clear to any driver that all the roads do not bear the same traffic.
+ As one can see on Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:power_law"
+
+\end_inset
+
+, this diffence is very large (by more than four orders of magnitude).
+ Highways bear the brunt of heavy traffic and are used almost continuously
+ throughout the day.
+ Most of the roads however are part of the tertiary network in the suburban
+ areas and are used a few times each day or less.
+ These roads seldom present any congestion, but may have some busy intersections
+ (such as around schools) that are hard to predict 
+\emph on
+a priori\SpecialChar \@.
+ 
+\emph default
+Between these two extreme lies a rich variety of road configurations with
+ one, two or three lanes, stop signs, signalled lights, bus and bicycle
+ lanes, etc.
+ Any model that aims at a reasonable level of accurarcy must (1) be robust
+ to a scarcity of data and/or noisy data, and (2) not depend too much on
+ prior knowledge of the road network as it is always shifting and inaccurate.
+ Bayesion statistical models provide a compelling solution to address these
+ two issues.
 \end_layout
 
 \begin_layout Standard
@@ -990,22 +1075,22 @@ In both cases, we want to work at the scale of the city, and we will highlight
 Data driven inference.
 
 \series default
- Consider that we want to build some model of the traffic phenomenon.
- The ultimate goal is to use the measurements currently at hand to build
- a function that given new (unseen) data, provides some estimate of the
- state of the system, and some validation of this state.
- This function often have a fixed structure and some parameters that depend
- on this particular structure that can be tuned given some data.
- This includes some physical model where the physical constants have to
- be calibrated, some statistical model in which the statistical parameters
- have to be adjusted to best match the observations, etc.
+ The ultimate goal is to use available measurements to build a function
+ that given new (unseen) data, provides some estimate of the state of the
+ system, and some validation of this state.
+ This function will be a estimator.
+ It often a fixed structure and some parameters that depend on this particular
+ structure that can be tuned given available data.
+ For example, this function could be a physical model where the physical
+ constants have to be calibrated, or a statistical model in which the statistica
+l parameters have to be adjusted to best match the observations, etc.
  Another approach is to assume that all observations are points in some
  arbitratry space, and that their distribution can be described in terms
  of these data points only.
  This is the non-parametric approach, which we will not consider here.
  There are two ways to approach the problem of building a model, which relate
  into how much the existing data at hand play a role in elaborating a structure:
- a statistical approach and a first principle approach.
+ a statistical approach and an approach based on first principles.
  These two ways are complementary.
  In the statistical approach, the data is used to prescribe a structure,
  which is then tuned using this data.
@@ -1021,21 +1106,14 @@ Data driven inference.
  in principle select a set of optimal statistical model that could predict
  (but not explain) the most minute details of the phenomenon.
  In the other hand, with the perfect knowledge of the conditions and a rigorous
- derivation that takes into account all the experimental flaws, the first
+ derivation that takes into account all the experimental biases, the first
  principle approach could full predict the data collected.
- In practice, due to our ignorance of some important parts of the experiments,
+ In practice, due to our ignorance of some important parts of the experiment,
  we need to make some simplifying assumptions in a model and compensate
- by inferring some constants from the data.
+ by inferring some constants from collected observations.
  Also, given a data-driven approach, our prior knowledge of the phenomenon
- will influence our choice of variable (representation problem), and give
+ will influence our choice of variables (representation problem), and give
  us some insight about the structure of dependencies between these variables.
-\end_layout
-
-\begin_layout Standard
-We describe here a big problem that is driven by data.
- The classical approach is to look first for first principles and then deduce
- some facts based these principles, and then pick a problem that one can
- solve based on these facts.
 \end_layout
 
 \begin_layout Standard
@@ -1055,6 +1133,12 @@ predict
  the future or the unobserved data.
  In particural, some very strong simplifying assumptions will be made, and
  justified only by the power of the prediction they let us make.
+ These assumptions are justified only in the light that they let us make
+ reasonable 
+\emph on
+predictions
+\emph default
+ using limited computing resources.
 \end_layout
 
 \begin_layout Section
@@ -1063,30 +1147,15 @@ Organization of the thesis and contributions
 
 \begin_layout Standard
 This thesis is organized as follows.
+ This first chapter introduced the problem estimation of traffic at scale
+ and gave an overview of the data currently available for this task.
+ The following chapters present a framework for extracting travel information
+ from GPS data.
 \end_layout
 
 \begin_layout Standard
-The first chapter introduces the problem of large-scale estimation of traffic
- and gives an overview of the data currently available for this task.
- It presents the different modelling trade-offs required for this task.
-\end_layout
-
-\begin_layout Standard
-Chapter 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "chapter:introduction"
-
-\end_inset
-
- reviews existing work on large-scale estimation of traffic.
- In particular, it presents the motivation behind the choice of the different
- models based on a data-centered approach.
- XXX to do
-\end_layout
-
-\begin_layout Standard
-The first task that needs to happen is the map-matching of GPS data.
+As we saw, the GPS data is very noisy and needs to be filtered and map-matched
+ onto the map before any use.
  This is a challenging issue due to the long intervals between each observation.
  Chapter 
 \begin_inset CommandInset ref
@@ -1105,8 +1174,8 @@ reference "chapter:pif"
 Contribution:
 \bar default
  The chapter formalizes the problem of reconstructing trajectories from
- low-frequency observations, and presents an algorithm, called the Path
- Inference Filter, to do that.
+ high- to low-frequency observations, and presents an algorithm, called
+ the Path Inference Filter, to do that.
 \end_layout
 
 \begin_layout Standard
@@ -1134,11 +1203,10 @@ reference "chapter:socc"
 
  considers the case of large amounts of low-latency data, which is what
  is generally available nowadays.
- In this case, the estimation problem is mostly bound by computation times,
- as we will see.
+ In this case, the estimation problem is mostly bound by computation times.
  If some further modelling assumptions are made about the independence of
- travel time distributions, we can build a model that can scale linearly
- to hundreds of machines.
+ travel time distributions, we can build a model that can scale to hundreds
+ of machines.
 \end_layout
 
 \begin_layout Standard
