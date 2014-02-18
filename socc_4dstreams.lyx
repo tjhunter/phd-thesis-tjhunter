@@ -361,27 +361,13 @@ s of distribution, replication and data access pattern behind an intuitive
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
+\begin_inset Float table
+placement b
+wide false
+sideways false
 status open
 
 \begin_layout Plain Layout
-
-
-\backslash
-centering  
-\end_layout
-
-\end_inset
-
-Despite what your eye is reconstructing, the following image is perfectly
- static.
-\begin_inset Newline newline
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status open
 
@@ -398,7 +384,25 @@ centering
 \begin_inset Graphics
 	filename figures-socc/1431958694_1373050204.jpg
 	display false
-	width 13cm
+	width 10cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Despite what your eye is reconstructing, the following image is perfectly
+ static.
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \end_inset
 
