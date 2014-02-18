@@ -133,7 +133,7 @@ def build(bld):
 		 figures-socc/road_net_for_pif_colors.pdf""".split()
   tex_deps += ['socc_3model_gamma.tex']
   tex_deps += ['socc_4dstreams.tex']
-  img_deps += []
+  img_deps += ['figures-socc/1431958694_1373050204.jpg']
   tex_deps += ['socc_5experiments.tex']
   img_deps += """figures-socc/travel_times.png
 	figures-pif/example_cloud_point_sf.png

@@ -360,6 +360,51 @@ s of distribution, replication and data access pattern behind an intuitive
  
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering  
+\end_layout
+
+\end_inset
+
+Despite what your eye is reconstructing, the following image is perfectly
+ static.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename figures-socc/1431958694_1373050204.jpg
+	display false
+	width 13cm
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Lessons learned
 \end_layout
