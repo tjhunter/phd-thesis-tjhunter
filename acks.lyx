@@ -83,8 +83,8 @@ The clock was ticking with a deadly punctuality at each second, answered
  only by the howling shriek of the coffee machine brewing more of its potent
  liquid.
  The fingers were dancing on the keyboards like grains of rice of a drum.
- Pairs of eyes were staring at abstract charts and symbols written in cabalistic
- languages.
+ Pairs of eyes were staring at abstract charts and symbols written in a
+ cabalistic language.
  Sometimes, a sentence would drop, more precise than a scalpel in the surgical
  room: 
 \begin_inset Quotes eld
@@ -110,10 +110,9 @@ Wait.
  The laptops were scrambling to decypher the cryptic instructions that their
  masters could barely apprehend.
  One hour still before the conference deadline.
- One hour before a small clock announces that it is midnight in the Samoa
- Islands.
+ One hour before a clock announces that it is midnight in the Samoa Islands.
  One hour before a digital cerberus decides that the academic styx is closed
- for business until the next year.
+ for business until next year.
  The sweat starts to glue the fingers to the keyboard.
  Suddenly, the light shuts off, and the pale glow of the emergency light
  weakly warms the room.
@@ -128,7 +127,7 @@ Wait.
 \end_layout
 
 \begin_layout Standard
-How did it get here?
+How did it arrive to this point?
 \begin_inset Newline newline
 \end_inset
 
@@ -136,21 +135,36 @@ How did it get here?
 \end_layout
 
 \begin_layout Standard
+Doing a Ph.D.
+ is like skydiving for the first time: your friends who have done it before
+ you assure it is a thrilling and safe experience, and the safety record
+ of the club is spotless, so you sign up, convinced by the arguments.
+ Once aboard the plane, you start to think it was not such a brilliant idea
+ after all.
+ This thought climaxes when you get pushed out.
+ The mid-air flight passes like a short stint inside a hypersonic tumble
+ dryer.
+ Once you have landed, you start to reconstitute the process that lead to
+ this decision.
+ Who was behind all that?
+\end_layout
+
+\begin_layout Standard
 My first thanks go to my family, in particular my parents Soleine and William
- Hunter, for their support throughout all these years, and for teaching
+ Hunter, for their understanding throughout all these years, and for teaching
  me that technological progress should first and foremost be to the benefit
  of men and women.
 \end_layout
 
 \begin_layout Standard
-My advisers have been a constant support in all these struggles.
- I would like first and foremost to thank my adviser, Alexandre Bayen, for
- his constant encouragements.
- Since our first meeting between an elevator door and a phone call during
+My two co-advisers have been a constant support in this endeavor.
+ I would like first to thank my co-adviser, Alexandre Bayen, for his constant
+ encouragements.
+ Ever since we first met between an elevator door and a phone call during
  visit day, his enthusiasm for research, his vision of a enlightened society
- has been a gospel.
+ has been gospel to me.
  Alex was kind enough to let me explore traffic datasets under the prism
- of statistical methods that bore few resemblance with PDEs.
+ of statistical methods that bore few resemblance with his domain of expertise.
  Under his guidance, we launched a collaboration with the AMPLab that profoundly
  shaped my research interests and still bears fruits to this day.
  In a more relaxed setting, Alex is a masterful entertainer and a most delightfu
@@ -162,37 +176,51 @@ l accomplice around a table at Jupiter's.
 \end_layout
 
 \begin_layout Standard
-I still remember the first email of Pieter, back in Stanford more than seven
- years ago, asking if I would like to collaborate on doing some aerobatics
- with a toy helicopter.
+I still remember the first email of my co-adviser Pieter Abbeel, back in
+ Stanford more than seven years ago, asking if I would like to collaborate
+ on doing some aerobatics with a toy helicopter.
  Little did I know that this meeting would have so momentuous consequences.
  Pieter ignited a passion for research that has been carrying since then.
- Pieter's contagious enthusiasm for exploring novel ground and for making
- cool demonstrations that express the full power of the research behind
- it was carried away after Pieter graduated as an Assistant Professor at
- Berkeley, and convinced me it would be a great place for doing a Ph.D.
+ Pieter conveys contagious enthusiasm for exploring novel ground and for
+ making cool demonstrations that express the full power of the research
+ behind it.
+ After Pieter graduated as an Assistant Professor at Berkeley, he convinced
+ me it would be a great place for doing a Ph.D.
  Back then, I was unsure if an academic career was more suited, but Pieter's
  energy and trust were major factors in coming here.
  When the time came to devise new models and methods, Pieter's sharp eye
- and keen attention to details prevented us from a great deals of time consuming
- pitfalls.
- Repeated conversations were instrumental in the PIF and the MM-GMRF models.
+ and keen attention to details prevented us from time-consuming pitfalls
+ in numerous occasions.
+ Our repeated conversations were instrumental in what became Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:pif"
+
+\end_inset
+
+ and Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+.
  We still need to have this beer, Pieter.
 \end_layout
 
 \begin_layout Standard
 Michael Franklin has been a great source of encouragement in harnessing
- the power of computers.
+ the power of the cloud.
  Back then, it was clear that we needed computers.
  A lot of computers.
- Thanks to the impulse Mike and the Spark gang, the frightening prospect
- of rewriting everything for distributed computing became a joyful endeavor
- in functional programming.
- I was at first a bit dubious that the system community would find a (car)
+ Thanks to the impulse of Mike, the frightening prospect of rewriting everything
+ for distributed computing became a joyful endeavor in Scala and Spark.
+ I was at first a bit dubious that the systems community would find a (car)
  traffic system of interest, but our discussions lead to more and more material
- to what eventually became the SOCC article.
+ that eventually became the SOCC article.
  Thanks to Mike, the Mobile Millennium project was a first class citizen
- within the amplab and lead to a number of great collaborations.
+ within the AMPLab and lead to a number of great collaborations.
 \end_layout
 
 \begin_layout Standard
@@ -200,15 +228,16 @@ When Alex told me I should talk with a new faculty in Civil Engineering,
  Alexei Pozdnukov struck me by his understanding of very large systems and
  his command of the challenges involved in using physical data at a very
  large scale.
+ XXX
 \end_layout
 
 \begin_layout Standard
 Many thanks to my first research adviser, Andrew Ng.
  Andrew has always pushed me to achieve the best, and would believe in accomplis
-hment that even I would not think possible.
+hments that even I would not think possible.
  Thank you Andrew for letting me share my passion for Artificial intelligence
  as a CS221 Teaching Assistant, which was my first teaching experience.
- Andrew was keen on giving challening and rewarding assignments, and making
+ Andrew was keen on giving challenging and rewarding assignments, and making
  me discover the joys of research.
 \end_layout
 
@@ -220,7 +249,7 @@ Eric Feron was my first contact with research and I still fondly remember
 \end_layout
 
 \begin_layout Standard
-During all this effort, the technical support of various groups, in particular
+During all this effort, the technical support of various groups, and especially
  the California Center for Intelligent Transportation and PATH, have been
  essential in dealing with all the subtelties of traffic data.
  In particular, not much would have been accomplished without the dedicated
@@ -233,7 +262,7 @@ Mobile Millennium
 \emph default
 infrastructure was a fondational step for all the research presented in
  the subsequent pages, and his authorship is reflected in the copyright
- notices of the code released.
+ notices of the code released along this thesis.
  Saneesh also had a determining influence XXX.
  Thanks to Joe Butler, who pushed me to implement the map-matching code
  in a proper manner.
@@ -256,15 +285,16 @@ reference "chapter:kdd"
 
 , and her passion combined with a no-nonsense approach have always been
  a driving force in the lab and for me in particular.
- Without our vigorous and fruitful exchanges, this thesis would have been
- permeated about preposterous nonsense about traffic.
+ Without our vigorous and fruitful exchanges, this thesis would permeate
+ with preposterous nonsense about traffic.
  Aude approaches everything in life with an amazing energy, and I am glad
  I could meet her both on and around the campus.
 \end_layout
 
 \begin_layout Standard
 Life would have been quite different without the friendship of so many great
- people, from which Jack Reilly and Samitha Samaranayake stand in particular.
+ people, from which Jack Reilly and Samitha Samaranayake stand in particular
+ and would each deserve a full page.
  Early work-related discussions would drift into late night musings and
  further later into ski trips to nearby Lake Tahoe.
  XXX
@@ -299,9 +329,10 @@ Countless thanks to A.-M.
 \end_layout
 
 \begin_layout Standard
-Finally, thank you to all the friends, who shared their lives across continents,
- and whose unwavering support brought joy across all these years.
- Unwavering support of friends (Eloi, Fabien, Patti).
+Last but not least, my thoughts go to all my friends, who shared their lives
+ across continents, and whose unwavering support brought joy across all
+ these years, in particular Eloi Pereira, Francois-Fabien Fehrani and Patti
+ Lee.
 \end_layout
 
 \end_body
