@@ -75,9 +75,20 @@ chapter{A large-scale distributed streaming model}
 
 
 \backslash
-epigraph{A lawyer without history or literature is a mechanic, a mere working
- mason; if he possesses some knowledge of these, he may venture to call
- himself an architect.}{Sir Walter Scott, in Guy Mannering} 
+epigraph{A lawyer without history or literature is a mechanic,
+\end_layout
+
+\begin_layout Plain Layout
+
+a mere working mason; if he possesses some knowledge
+\end_layout
+
+\begin_layout Plain Layout
+
+of these, he may venture to call himself an architect.}{Sir Walter Scott,
+ 
+\backslash
+emph{in} Guy Mannering} 
 \end_layout
 
 \end_inset
@@ -107,26 +118,6 @@ name "sec:intro"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-A working draft of this article was presented in 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hunterlarge"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-.
 \end_layout
 
 \begin_layout Standard

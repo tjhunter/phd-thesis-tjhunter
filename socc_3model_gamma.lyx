@@ -408,6 +408,9 @@ reference "alg:Sampler-for-Gamma"
 
 \begin_layout Subsection
 The Gamma-Dirichlet distribution
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:The-Gamma-Dirichlet-distribution"

@@ -532,14 +532,17 @@ name "fig:edge-a"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:edge-b"
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
 (2)
@@ -549,10 +552,6 @@ name "fig:edge-b"
 	width 1.2in
 	rotateAngle -90
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
 
@@ -579,14 +578,17 @@ name "fig:edge-c"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space \hfill{}
+\end_inset
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "fig:edge-d"
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
 (4)
@@ -596,10 +598,6 @@ name "fig:edge-d"
 	width 1.2in
 	rotateAngle -90
 
-\end_inset
-
-
-\begin_inset space \hfill{}
 \end_inset
 
  
@@ -629,7 +627,7 @@ name "fig:Map-matching-algorithm"
 
 \end_inset
 
-XXXX
+
 \end_layout
 
 \end_inset
