@@ -244,157 +244,64 @@ infrastructure was a fondational step for all the research presented in
 \end_layout
 
 \begin_layout Standard
-Aude
+I found a great collaborator in Aude Hofleitner, who inspired me to combine
+ machine learning with traffic research.
+ Aude's sophisticated models were stepping stones for the research in Chapter
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+, and her passion combined with a no-nonsense approach have always been
+ a driving force in the lab and for me in particular.
+ Without our vigorous and fruitful exchanges, this thesis would have been
+ permeated about preposterous nonsense about traffic.
+ Aude approaches everything in life with an amazing energy, and I am glad
+ I could meet her both on and around the campus.
 \end_layout
 
 \begin_layout Standard
-Thank you Adam for sharing our office for more than two years when I had
- a fleet of delicate RC aircrafts across the floor at that time.
- 
+Life would have been quite different without the friendship of so many great
+ people, from which Jack Reilly and Samitha Samaranayake stand in particular.
+ Early work-related discussions would drift into late night musings and
+ further later into ski trips to nearby Lake Tahoe.
+ XXX
+\end_layout
+
+\begin_layout Standard
+The crowd of the first floor (Gates), fourth floor (Soda) and seventh floor
+ (Sutardja Day Hall), you made my day so many times.
+ I wish to thank in particular (in alphabetical order): Stephanie Lefevre,
+ Ameet Talwalkar, Sergey Karayev, Woody Hoburg, Jerome Thai, Leah Anderson,
+ Alan Malek, Adam Coates, Teodor Moldovan, Judy Hoffman, Ahmed El-Alaoui,
+ Thomas Pumir, Walid Krichene, Virginia Smith, Matei Zaharia, XXX.
 \end_layout
 
 \begin_layout Standard
 The floppy discs (with a k): you were great.
+ It was a pleasure to fly the frisbee with you every Tuesday.
 \end_layout
 
 \begin_layout Standard
 The whole gang, thank you for the lubrication.
- You know who you are, and you know drinking is unhealthy, but by Jove,
+ You know who you are, and you know drinking is unhealthy, but by Bacchus,
  why stop such a merry predicament?
 \end_layout
 
 \begin_layout Standard
-The Boy from Sacramento: hu-hop, yo, that was some crazy shit.
-\end_layout
-
-\begin_layout Standard
-The Chap from the warm island: you brought the coolness in the tense meetings
- and the warmths of the bbq grills, say hi to the Viking princess.
-\end_layout
-
-\begin_layout Standard
-Many thanks to AMB for weathering my soliloquies throughout these years.
+Countless thanks to A.-M.
+ B.
+ for weathering my soliloquies throughout these years.
  G., you have changed my life.
  I hope our paths will cross again.
 \end_layout
 
 \begin_layout Standard
-The authors wish to thank the staff at the California Center for Innovative
- Transportation, in particular Ryan Herring and Saneesh Apte, for their
- dedicated support.
- Discussions with Samitha Samarayanake have been instrumental in the writing
- this article.
- The authors are indebted to Warren Hoburg, and Kailin Kroetz for their
- thorough and insightful comments on the draft.
-\end_layout
-
-\begin_layout Standard
 Finally, thank you to all the friends, who shared their lives across continents,
  and whose unwavering support brought joy across all these years.
- Unwavering support of friends (Eloi, Fabien, Patti)
-\end_layout
-
-\begin_layout Standard
-This research is supported in part by gifts from Google, SAP, Amazon Web
- Services, Cloudera, Ericsson, Huawei, IBM, Intel, Mark Logic, Microsoft,
- NEC Labs, Network Appliance, Oracle, Splunk and VMWare, by DARPA (contract
- #FA8650-11-C-7136), and by the National Sciences and Engineering Research
- Council of Canada.
- The generous support of the US Department of Transportation and the California
- Department of Transportation is gratefully acknowledged.
- We also thank Nokia and NAVTEQ for the ongoing partnership and support
- through the 
-\emph on
-Mobile Millennium
-\emph default
- project.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% Many thanks to 
-\backslash
-setarab
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-novocalize
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-arabtrue
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-RL{`al-dT Al`Abd}, whose unwavering support was instrumental in the completion
- of this
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% article.
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
+ Unwavering support of friends (Eloi, Fabien, Patti).
 \end_layout
 
 \end_body
