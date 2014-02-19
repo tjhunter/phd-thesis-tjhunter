@@ -230,68 +230,6 @@ This is simply the definition of a finite discrete Markov chain:
 \end_layout
 
 \begin_layout Plain Layout
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename docs-kdd/layers.pdf
-	width 6cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:Example-of-MM-GMRF"
-
-\end_inset
-
-
-\begin_inset Argument
-status open
-
-\begin_layout Plain Layout
-Example of MM-GMRF process
-\end_layout
-
-\end_inset
-
-Example of MM-GMRF process.
- The 
-\begin_inset Formula $p_{u}$
-\end_inset
-
- variables are the continuous variables selection process.
- They form a discrete Markov model: the dependencies between the variables
- are represented by the arrows).
- The 
-\begin_inset Formula $X_{\left(u,i\right)}$
-\end_inset
-
- variables make a joint Gaussian distribution.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
 We need one additional piece of notation: given a path 
 \begin_inset Formula $p$
 \end_inset

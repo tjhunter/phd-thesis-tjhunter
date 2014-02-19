@@ -216,7 +216,7 @@ key "cabspotting"
 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:cabspotting-example"
+reference "fig:mm_cloud_point"
 
 \end_inset
 
