@@ -556,229 +556,6 @@ There are
 \end_layout
 
 \begin_layout Subsection
-Old explanations XXX
-\end_layout
-
-\begin_layout Standard
-where 
-\begin_inset Formula $\mathcal{S}=\{1,\dots,m\}^{I}$
-\end_inset
-
- is the set of possible path states, and 
-\begin_inset Formula $Z_{|s}^{\left(p\right)}$
-\end_inset
-
- is the path travel time given the path state 
-\begin_inset Formula $s$
-\end_inset
-
-, and is given by 
-\begin_inset Formula $Z_{|s}^{\left(p\right)}=\sum_{l\in p}Y_{l,s_{l}}=e(p,s)^{T}Y$
-\end_inset
-
-.
- Here, 
-\begin_inset Formula $e(p,s)$
-\end_inset
-
- is a binary vector that selects the appropriate entries in the vector of
- travel times 
-\begin_inset Formula $Y$
-\end_inset
-
- (corresponding to path 
-\begin_inset Formula $p$
-\end_inset
-
- with states 
-\begin_inset Formula $s$
-\end_inset
-
-): 
-\begin_inset Formula 
-\[
-e(p,s)_{(l,s'_{l})}=1\Longleftrightarrow l\in p\text{ and }s'_{l}=s_{l}
-\]
-
-\end_inset
-
-This vector 
-\begin_inset Formula $e(p,s)$
-\end_inset
-
- is very sparse and has precisely 
-\begin_inset Formula $I$
-\end_inset
-
- non-zero entries.
- Using the law of total probability we have: 
-\begin_inset Formula 
-\begin{equation}
-\mathbb{P}\left(Z^{\left(p\right)}\right)=\sum_{s\in s}\mathbb{P}(S=s)\mathbb{P}\left(Z_{|s}^{\left(p\right)}\right)\label{eqn:total-prob}
-\end{equation}
-
-\end_inset
-
-The variable 
-\begin_inset Formula $Z_{|s}^{\left(p\right)}=e(p,s)^{T}Y$
-\end_inset
-
- is a linear combination of the multivariate variable 
-\begin_inset Formula $Y$
-\end_inset
-
-, and so is also normally distributed: 
-\begin_inset Formula 
-\begin{equation}
-Z_{|s}^{\left(p\right)}\sim\mathcal{N}\left(e(p,s)^{T}\mu,e(p,s)^{T}\Sigma e(p,s)\right)\label{eqn:cond-prob}
-\end{equation}
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-audecomment{Don't like "is a subset of the joint multivariate distribution
- $Y$".
- Plus $
-\backslash
-condPathTT{p}{s}$ is a variable, not a distribution, same for $Y$.
- Can we say something like "The variable $
-\backslash
-condPathTT{p}{s} = e(p, s)^TY$ is a linear combination of the multivariate
- variable $Y$, and so 
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% is also normally distributed:}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The marginal distribution of travel times along a path is a mixture of univariat
-e Gaussian distributions.
- There is however two problems for this algorithm to be practical.
- 
-\emph on
-(i)
-\emph default
- The mixture from Equation
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand eqref
-reference "eqn:total-prob"
-
-\end_inset
-
- contains a term for each possible combination of states, and has size 
-\begin_inset Formula $m^{I}$
-\end_inset
-
-.
- Enumerating all the terms is impossible for moderately large lengths of
- paths.
- 
-\emph on
-(ii)
-\emph default
- In order to compute the variance of each distribution of the mixture, one
- needs to estimate the covariance matrix 
-\begin_inset Formula $\Sigma$
-\end_inset
-
-.
- However storing (or computing) the complete covariance matrix is prohibitively
- expensive with millions of variables.
-\end_layout
-
-\begin_layout Standard
-We find tractable solutions for 
-\emph on
-(i)
-\emph default
- by using a sampling method on the Markov model to choose a tractable number
- of states, and 
-\emph on
-(ii)
-\emph default
- by using a random projection method to construct a low-rank approximation
- of the covariance matrix 
-\begin_inset Formula $\Sigma$
-\end_inset
-
-.
- Note that the mean of the complete distribution can be computed exactly
- in 
-\begin_inset Formula $O(Im^{2})$
-\end_inset
-
- time, using a dynamic programming algorithm.
- Thus, our model is also applicable to situations that do not require the
- full distribution.
- We do not present this algorithm further due to space limitations.
- 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% 
-\backslash
-audecomment{Shall we add a reference here?}
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% no space :-(
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
 Gibbs sampling
 \end_layout
 
@@ -843,7 +620,6 @@ It is clear that this distribution tends towards
 \end_inset
 
  grows.
- XXX more justifications?
 \end_layout
 
 \begin_layout Standard
@@ -929,7 +705,7 @@ This is not a properly scaled probability distribution.
 , this is a valid probability distribution:
 \begin_inset Formula 
 \[
-\int\sum_{k=1}^{n_{u}}\tilde{\pi}_{u:v}\left(i\rightarrow k\right)\left(x\right)\text{d}x=1
+\int\sum_{k=1}^{m}\tilde{\pi}_{u:v}\left(i\rightarrow k\right)\left(x\right)\text{d}x=1
 \]
 
 \end_inset
@@ -945,7 +721,7 @@ We have the following recursive relation:
 Recursion for indepent variables:
 \begin_inset Formula 
 \[
-\widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
+\widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{m}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
 \]
 
 \end_inset
@@ -1049,11 +825,11 @@ Using the definition of the partial mixture sum:
 \begin_inset Formula 
 \begin{eqnarray*}
 \widetilde{\pi}_{u:v}\left(i\rightarrow j\right) & = & \sum_{q=q_{u}\cdots q_{v}:q_{u}=i\,,\, q_{v}=j}\pi\left(q\right)f\left(a\left(q\right)^{T}\mu,\sigma\left(q\right)^{2}\right)\\
- & = & \sum_{k=1}^{n_{u+1}}\sum_{q_{u+2:v}:q_{v}=j}\pi\left(i,\, k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
- & = & \sum_{k=1}^{n_{u+1}}\sum_{q_{u+2:v}:q_{v}=j}\pi_{u}\left(i,k\right)\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
- & = & \sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\\
- & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\right]\\
- & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{n_{u+1}}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
+ & = & \sum_{k=1}^{m}\sum_{q_{u+2:v}:q_{v}=j}\pi\left(i,\, k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
+ & = & \sum_{k=1}^{m}\sum_{q_{u+2:v}:q_{v}=j}\pi_{u}\left(i,k\right)\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
+ & = & \sum_{k=1}^{m}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\\
+ & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{m}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\right]\\
+ & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{m}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
 \end{eqnarray*}
 
 \end_inset
@@ -1071,7 +847,7 @@ Once we can compute efficiently these partial mixture sums, they can be
 :
 \begin_inset Formula 
 \begin{eqnarray*}
-\pi & = & \sum_{i=0}^{n_{1}}\sum_{j=0}^{n_{m}}\pi_{0}\left(i\right)\widetilde{\pi}_{1:m}\left(i\rightarrow j\right)\\
+\pi & = & \sum_{i=0}^{m}\sum_{j=0}^{m}\pi_{0}\left(i\right)\widetilde{\pi}_{1:m}\left(i\rightarrow j\right)\\
  & = & \sum_{i=0}^{n_{1}}\pi_{0}\left(i\right)\left[\sum_{j=0}^{n_{m}}\widetilde{\pi}_{1:m}\left(i\rightarrow j\right)\right]
 \end{eqnarray*}
 
