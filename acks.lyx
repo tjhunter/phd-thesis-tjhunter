@@ -121,10 +121,18 @@ Wait.
  No more internet.
  And seventeen minutes before the deadline with a half-fleshed article that
  looks like Frankenstein's monster.
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 How did it get here?
+\begin_inset Newline newline
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -136,29 +144,40 @@ My first thanks go to my family, in particular my parents Soleine and William
 
 \begin_layout Standard
 My advisers have been a constant support in all these struggles.
-\end_layout
-
-\begin_layout Standard
-I would like to thank my adviser, Alexandre Bayen, for his constant encouragemen
-ts.
+ I would like first and foremost to thank my adviser, Alexandre Bayen, for
+ his constant encouragements.
  Since our first meeting between an elevator door and a phone call during
  visit day, his enthusiasm for research, his vision of a enlightened society
- has been a gospel in his group.
- In more relaxed settings, Alex is a masterful entertainer and a most delightful
- accomplice around a table at Jupiter's.
+ has been a gospel.
+ Alex was kind enough to let me explore traffic datasets under the prism
+ of statistical methods that bore few resemblance with PDEs.
+ Under his guidance, we launched a collaboration with the AMPLab that profoundly
+ shaped my research interests and still bears fruits to this day.
+ In a more relaxed setting, Alex is a masterful entertainer and a most delightfu
+l accomplice around a table at Jupiter's.
  Alex's support was invaluable in more somber times as well.
  Although I have not made use of his offer to call at any time of the day
  or night, I am still keeping this option in mind.
- Thanks for the comic books, Alex.
+ Thank you for the comic books, Alex.
 \end_layout
 
 \begin_layout Standard
-I still remember the first email of Pieter, back in Stanford more than six
+I still remember the first email of Pieter, back in Stanford more than seven
  years ago, asking if I would like to collaborate on doing some aerobatics
- with a helicopter.
- Little did I know that this meeting would have so momentuous consequences
- afterwards.
+ with a toy helicopter.
+ Little did I know that this meeting would have so momentuous consequences.
  Pieter ignited a passion for research that has been carrying since then.
+ Pieter's contagious enthusiasm for exploring novel ground and for making
+ cool demonstrations that express the full power of the research behind
+ it was carried away after Pieter graduated as an Assistant Professor at
+ Berkeley, and convinced me it would be a great place for doing a Ph.D.
+ Back then, I was unsure if an academic career was more suited, but Pieter's
+ energy and trust were major factors in coming here.
+ When the time came to devise new models and methods, Pieter's sharp eye
+ and keen attention to details prevented us from a great deals of time consuming
+ pitfalls.
+ Repeated conversations were instrumental in the PIF and the MM-GMRF models.
+ We still need to have this beer, Pieter.
 \end_layout
 
 \begin_layout Standard
@@ -177,7 +196,10 @@ Michael Franklin has been a great source of encouragement in harnessing
 \end_layout
 
 \begin_layout Standard
-Alexei.
+When Alex told me I should talk with a new faculty in Civil Engineering,
+ Alexei Pozdnukov struck me by his understanding of very large systems and
+ his command of the challenges involved in using physical data at a very
+ large scale.
 \end_layout
 
 \begin_layout Standard
@@ -185,7 +207,9 @@ Many thanks to my first research adviser, Andrew Ng.
  Andrew has always pushed me to achieve the best, and would believe in accomplis
 hment that even I would not think possible.
  Thank you Andrew for letting me share my passion for Artificial intelligence
- as a CS221 Teaching Assistant.
+ as a CS221 Teaching Assistant, which was my first teaching experience.
+ Andrew was keen on giving challening and rewarding assignments, and making
+ me discover the joys of research.
 \end_layout
 
 \begin_layout Standard
@@ -202,7 +226,21 @@ During all this effort, the technical support of various groups, in particular
  In particular, not much would have been accomplished without the dedicated
  support of Ryan Herring and Saneesh Apte.
  Ryan was patient enough to explain the foolhardy first year that I was
- why things should be done his way.
+ why things should be done a certain way.
+ His work on the 
+\emph on
+Mobile Millennium 
+\emph default
+infrastructure was a fondational step for all the research presented in
+ the subsequent pages, and his authorship is reflected in the copyright
+ notices of the code released.
+ Saneesh also had a determining influence XXX.
+ Thanks to Joe Butler, who pushed me to implement the map-matching code
+ in a proper manner.
+ What I believed back then to be a pointless exercise of coding style became
+ one of my proudest engineering accomplishments, and in retrospect it enabled
+ much more research than would have been possible otherwise.
+ 
 \end_layout
 
 \begin_layout Standard

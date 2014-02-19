@@ -77,6 +77,16 @@ filename "intro.lyx"
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand input
+filename "acks.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
 filename "pif_1intro.lyx"
 
 \end_inset
