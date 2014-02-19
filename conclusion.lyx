@@ -115,42 +115,63 @@ name "chapter:conclusion"
 \end_layout
 
 \begin_layout Standard
-And now we conclude this dissertation.
-\end_layout
-
-\begin_layout Standard
-This thesis presents a comprehensive study to the question of studying traffic.
- It studies the challenges of building a pipeline and an estimation algorithm
- that works at large scale from real-world datasets.
+We now conclude this dissertation.
+ This thesis presents a comprehensive study to the question of estimating
+ travel times across a large road network.
+ It studies the challenges of building a pipeline and estimation algorithms
+ that operate at large scale from real-world datasets.
  In particular, it studies the limitations of available techniques when
  confronted to the diversity of data collected in the real world.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Standard
+The industry has already deployed traffic information systems that serve
+ millions of persons with great success.
+ These systems collect very large amounts of data from users and in return
+ give some information about travel times.
+ However, this process does not give any confidence interval or statistical
+ guarantees to the user.
+ We propose in this dissertation several models that address this deficiency.
+\end_layout
+
+\begin_layout Section
 Advantages and deficiencies of data-driven models
 \end_layout
 
 \begin_layout Standard
-Data-driven models are often more efficient to tune and to have inference
- models than physics-based models.
+When describing a phenomenon, a model should have two goals: 
+\emph on
+explain 
+\emph default
+and 
+\emph on
+predict.
+ 
+\emph default
+A good model should reconcile some laws considered to hold within the context
+ of the experiment with some observations.
+ This is the explanation part.
+ It should further be able to predict some aspects not observed yet.
+ In all cases, there are some intrinsic variables within the model that
+ need to be calibrated against the data and with respect to the physics
+ behind the model.
+ In physical models, these variables correspond to physical quantities that
+ inform the scientist about the phenomenon.
+ In statistical models, these variables are usually non-dimensional parameters
+ that describe abstract correlations between random values.
+ 
 \end_layout
 
 \begin_layout Standard
-Rather than discussing about data-driven model against physics-based models,
- we emphasize that a model should have two goals: 
-\emph on
-enlighten
-\emph default
- the researcher about the phenomenons at hand, and 
-\emph on
-predict
-\emph default
- some aspects currently being observed, or future aspets not observed yet.
- In any case, the first point is highly subjective and responds to the sensibili
-ty of the scientist towards certain fashions.
- The second goal of prediction can be quantatively evaluated, although some
- will debate about the proper way to evaluate the predictive power of a
- model.
+In the case of traffic, we make the case that loosing the comprehension
+ that goes along with physical models gives access to a much richer class
+ of models that describe the observation better.
+\end_layout
+
+\begin_layout Standard
+The second goal of prediction can be quantatively evaluated, although there
+ will be always some argument about the proper metrics and protocols to
+ evaluate the predictive power of a model.
  Purely statistical models, which use previous data to predict the distribution
  of future data, do not offer much insight about the system we are looking
  at.
@@ -162,8 +183,11 @@ ood optimization techniques when presented with data, and the quality of
  harder to calibrate to the data at hand.
  In particular, they rely on some assumptions that may not be verified in
  practice.
- Naively calibrating them with observed data may lead to some unrealistic
- choice of parameters.
+ Furthermore, it may not be possible to diagnose if all the assumptions
+ required by these models are actually met within the experiment (such as
+ deciding that some quantities are negligible against others).
+ Naively calibrating them with observed data may lead to a good fit but
+ some unrealistic choice of parameters.
  It is common to add some Bayesian priors or smoothing/regularization terms,
  but these terms are seldom grounded with some theoretical justification.
  Furthermore, data-driven models are often driven by smooth parameters and
@@ -176,7 +200,7 @@ l considerations.
  if they want to retain some predictive power and not overfit the existing
  data.
  On the other hand, the number of parameters of statistical models can be
- adjusted in an automated fashion.
+ adjusted in an automated fashion based on the amount of data at hand.
 \end_layout
 
 \begin_layout Standard
@@ -188,25 +212,6 @@ In both cases, some diagnostic tools exist such as the bootstratp.
 \end_layout
 
 \begin_layout Standard
-Data bias: we consider crowd-sourced datasets, in which we do not choose
- the subset of observations.
- The mechanism of observation is not uniform, and we are confronted with
- very different levels of confidence for different parts of the system.
- In practice, it is hard to consider global conservation laws to infer additiona
-l information from regions with a high density of observation.
- This is why we need a model that degrades gracefully as the number of observati
-ons tends towards zero.
- Ideally, a physical model could be run on some parts on the system, while
- more statistical model can be deployed over the rest.
- One should note in our case that if there are few observations on a part
- of the network, it translates into little traffic (assuming the distribution
- is not too biased).
- This is why it is more important to have high-quality models where a lot
- of observations are collected, but less important for most regions (hence
- we can use a simpler model for these regions).
-\end_layout
-
-\begin_layout Standard
 Statistical models are not restricted to a specific structure, and thus
  can be structured in a way that is more amenable to computations, but cannot
  be justified on theoretical grounds.
@@ -215,8 +220,15 @@ Statistical models are not restricted to a specific structure, and thus
  each link to be independent.
  A lot of transportation litterature has focused on adding some correlations,
  but the conservation laws behind it are complicated to model accurately.
- The simple model introduced in Chapter XXX can predict such correlations,
- but it does not give any insights about these correlations.
+ The simple model introduced in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+ can predict such correlations, but it does not give any insights about
+ these correlations.
 \end_layout
 
 \begin_layout Standard
@@ -227,29 +239,36 @@ Use the physical insight to drive the overall structure of relationship
  Complex models will not help in this respect.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 Summary of contributions
 \end_layout
 
 \begin_layout Standard
 This thesis shows how a data-driven approach that relies on insights derived
  from the data, combined with a quantitative approach towards measurement
- goals, can lead to an estimation platform that is robust and reliable,
+ goals, can lead to an estimation platform that is both robust and reliable,
  and can work at very large scales.
  Physical models are used to inform the choice of statistical models, and
  new techniques are presented to use these statistical models at scale.
- We present a platform that works for different tradeoffs of quality of
+ We present a framework that works for different tradeoffs of quality of
  data, timeliness and computing resources.
 \end_layout
 
 \begin_layout Standard
-Chapter XXX presents a principled approach for map-mathing GPS data onto
- the road network.
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:pif"
+
+\end_inset
+
+ presents a principled approach for map-mathing GPS data onto the road network.
  This approach works on a wide range of conditions, and is shown to encompass
- a large range of existing techniques.We have presented a novel class of
- algorithms to track moving vehicles on a road network: the 
+ a large range of existing techniques.
+ We have presented a novel class of algorithms to track moving vehicles
+ on a road network: the 
 \emph on
-path inference filter
+Path Inference Filter
 \emph default
 .
  This algorithm first projects the raw points onto candidate projections
@@ -270,95 +289,42 @@ The algorithm exhibits robustness to noise as well as to the peculiarities
  be trained using unsupervised learning.
  Experimental results show that the unsupervised learning procedure compares
  favorably against learning from ground truth data.
- One may conclude that given enough observations, there no need to collect
- expensive high-frequency data to train a model.
 \end_layout
 
 \begin_layout Standard
-This algorithm supports a range of trade-offs between accuracy, timeliness
- and computing needs.
- In its most accurate settings, it extends the current state of the art
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "zheng2011weight,yuan2010interactive"
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:socc"
 
 \end_inset
 
-.
- This result is supported by the theoretical foundations of Conditional
- Random Fields.
- Because no standardized benchmark exists, the authors have released an
- open-source implementation of the filter to foster comparison with other
- methodologies using other datasets 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "pythonimpl"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-In conjunction with careful engineering, this program can achieve high map-match
-ing throughput.
- The authors have written an industrial-strength version in the Scala programmin
-g language, deployed in the 
-\emph on
-Mobile Millennium 
-\emph default
-system.
- This version maps GPS points at a rate of about 400 points per second on
- a single core for the San Francisco Bay area (several hundreds of thousands
- of road links), and has been scaled to multicore architecture to achieve
- an average throughput of several thousand points per second 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hunter2011SOCC"
-
-\end_inset
-
-.
- This implementation has been successfully deployed in Stockholm and Sacramento
- as well.
-\end_layout
-
-\begin_layout Standard
-A number of extensions could be considered to the core framework.
- In particular, more detailed models of the driver behavior as well as algorithm
-s for automatic feature selection should bring additional improvements in
- performance.
- Another line of research is the mapping of very sparse data (sampling intervals
- longer than two minutes).
- Although the filter already attempts to consider as few trajectories as
- possible, more aggressive pruning may be necessary in order to achieve
- good performance.
- Finally, the EM procedure presented for automatically tuning the algorithm
- requires large amounts of data to be effective, and could be tested on
- larger datasets that what we have presented here.
-\end_layout
-
-\begin_layout Standard
-Chapter XXX presents how to use very large quantities of extremely noisy
- observations at scale.
+ presents how to use very large quantities of extremely noisy observations
+ at scale to estimate travel times on a large network.
  As datasets grow in size, some new strategies are required to perform meaningfu
 l computations in a short amount of time.
  We explored the implementation of a large-scale state estimation in near-real-t
-ime using D-Streams, a recently proposed streaming technique.
+ime using Discretized Streams, a recently proposed streaming technique.
  Our traffic algorithm is an Expectation-Maximization algorithm that computes
  travel time distributions of traffic by incremental online updates.
  This approach was validated with a large dataset of GPS traces.
  This algorithm seems to compare favorably with the state of the art and
- shows some attractive features from an implementation perspective.
+ shows some attractive scalability features from an implementation perspective.
  When distributed on a cluster, this algorithm scales to very large road
  networks (half a million road links, tens of thousands of observations
  per second) and can update traffic state in a few seconds.
 \end_layout
 
 \begin_layout Standard
-Chapter XXX focuses on a travel time estimator that works with future GPS
- data and that takes into account the correlations of travel times.
+Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+ focuses on a travel time estimator that works with future GPS data and
+ that takes into account the correlations of travel times.
  The state of the art for travel time estimation has focused on either precise
  and computationally intensive physical models, or large scale, data-driven
  approaches.
@@ -366,8 +332,8 @@ Chapter XXX focuses on a travel time estimator that works with future GPS
  at combining the best of both worlds, by combining physical insights with
  some scalable algorithms.
  We model the variability of travel times due to stops at intersections
- using a Stop-Go model (to detect stops) and a HMM to learn the spatial
- dependencies between stop locations.
+ using a Stop-Go model (to detect stops) and a Hidden Markov Model to learn
+ the spatial dependencies between stop locations.
  We also take into account the spatio-temporal correlations of travel times
  due to driving behavior or congestion, using a Gaussian Markov Random Fields.
  In particular, we present a highly scalable algorithm to train and perform
