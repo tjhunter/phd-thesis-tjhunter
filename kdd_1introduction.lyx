@@ -275,7 +275,14 @@ Physical insights derived from high-frequency trajectories
 
 \begin_layout Standard
 We studied some high-frequency data collected during an experiment in San
- Francisco (see Section XXX for more details).
+ Francisco (see Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:results"
+
+\end_inset
+
+ for more details).
  This experiment provided detailled trajectory information along stretches
  of the main arterial network in San Francisco.
  After mapping the GPS points to the road, and reconstructing the trajectories,
@@ -288,9 +295,23 @@ We studied some high-frequency data collected during an experiment in San
 discrete number of modes.
  The travel times follow a multi-modal distribution across each block.
  There are generally two main modes that correspond to the light signal
- at the end of the intersection (see Figure XXX).
+ at the end of the intersection (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:example_bimodal_link"
+
+\end_inset
+
+).
  This distribution can be predicted by simple physical models that take
- into account the dynamics of cars (CITE aude).
+ into account the dynamics of cars 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hofleitner2012arterial,hofleitner_isttt_2010"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Itemize
@@ -306,8 +327,14 @@ lights correlation.
 discrete stochastic process
 \emph default
 , the parameters of which can be inferred from observing enough vehicles.
- We will see in section XXX how we can accurately model this process as
- Markov graph.
+ We will see in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:kdd_stopandgo"
+
+\end_inset
+
+ how we can accurately model this process as Markov graph.
 \end_layout
 
 \begin_layout Itemize
