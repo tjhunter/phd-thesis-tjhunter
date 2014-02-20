@@ -290,8 +290,8 @@ key "gao2011cognitive"
 \end_layout
 
 \begin_layout Standard
-Estimating traffic and providing accurate travel information is well understood
- in the case of highways.
+The question of estimating traffic and providing accurate travel information
+ is well understood in the case of highways.
  Modeling highway traffic conditions has been well-studied by the transportation
  community with work dating back to the pioneering work of Lighthill, Whitham
  and Richards
@@ -352,10 +352,6 @@ are the major urban city streets that connect population centers within
  on the road network.
  The lack of sensor coverage across the arterial network thus motivates
  the use of GPS probe vehicle data for estimating traffic conditions.
-\end_layout
-
-\begin_layout Standard
-XXX missing a transition
 \end_layout
 
 \begin_layout Standard
@@ -509,23 +505,6 @@ The travel time function that we desire to compute: given a start time and
 Source of data.
  
 \series default
-XXX Historically, traffic congestion has been estimated using fixed sensors
- embedded in the road pavement.
-\end_layout
-
-\begin_layout Standard
-
-\emph on
-Static sensors.
-
-\emph default
- In this setting, it is too costly to measure flows of vehicles using static
- sensors, and the most promising source of data is sensors embedded in vehicles.
- 
-\end_layout
-
-\begin_layout Standard
-
 \emph on
 Probe data
 \emph default
@@ -703,7 +682,27 @@ A validation module that implements different metrics of travel times
 
 \begin_layout Standard
 Most of this code is available under an open source licence, and the output
- has been deployed as a web service (XXX LINK).
+ has been deployed as a web service
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://traffic.berkeley.edu/navigatesf
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -721,7 +720,14 @@ lly larger, and (2) estimation algorithms need to scale gracefully to millions
  frameworks that let scientific users deploy code across hundreds of computers
  in a transparent way.
  We have implemented some of our algorithms on top of the Spark computing
- framework (XXX cite).
+ framework
+\begin_inset CommandInset citation
+LatexCommand cite
+key "spark"
+
+\end_inset
+
+.
  After some modifications to Spark, we were able to achieve massive throughput
  with low-latency (near real-time), an elusive yet necessary goal for complex
  cyberphysical systems.
@@ -855,7 +861,7 @@ ns to the travel times between different links, since the unit of inference
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -888,6 +894,13 @@ Temporal distribution of trajectories from a typical source of data
 
 \end_inset
 
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Temporal-distribution-trajectories"
+
+\end_inset
+
 Temporal distribution of trajectories from a typical source of data.
  All trajectories are observed in small chunks.
  The vertical axis corresponds to the overall duration of the chunk, and
@@ -914,8 +927,21 @@ Temporal disparity.
 
 \series default
  The most striking feature of this data is that it is very heterogeneous,
- both in a spatial sense and in a temporal sense (see Figure XXX and Figure
- XXX).
+ both in a spatial sense and in a temporal sense (see Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Temporal-distribution-trajectories"
+
+\end_inset
+
+ and Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:power_law"
+
+\end_inset
+
+).
  Some small portions of the road network (the highways and the main arterials)
  concentrate most of the data.
  It is not always clear if this also means that these portions also concentrate
