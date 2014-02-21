@@ -84,7 +84,7 @@ Having seen how the model parameters
 
  have been determined, we turn our attention to the computation of travel
  times across a path.
- In the rest of the discullion, we consider that each link has the same
+ In the rest of the discussion, we consider that each link has the same
  number 
 \begin_inset Formula $m$
 \end_inset
@@ -143,7 +143,7 @@ Since the conditional variable
 \begin_inset Formula $Z^{\left(p\right)}|s$
 \end_inset
 
- is a sum of (dependant) Gaussian variables, the variable 
+ is a sum of (dependent) Gaussian variables, the variable 
 \begin_inset Formula $Z^{\left(p\right)}$
 \end_inset
 
@@ -744,7 +744,7 @@ We have the following recursive relation:
 \end_layout
 
 \begin_layout Proposition
-Recursion for indepent variables:
+Recursion for independent variables:
 \begin_inset Formula 
 \[
 \widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{m}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
@@ -787,7 +787,7 @@ The main insight is to decompose each of the modes of the distribution using
 \end_layout
 
 \begin_layout Proof
-Consider two inpedendent Gaussian random variables 
+Consider two independent Gaussian random variables 
 \begin_inset Formula $V$
 \end_inset
 
@@ -898,21 +898,33 @@ Note
 (which are well-defined, well-scaled probability distributions).
  However, as we will see later, using this explicit parameters leads to
  very elegant caching algorithms.
-\end_layout
+\begin_inset Note Comment
+status open
 
 \begin_layout Subsection
 A linear approximation for full covariance
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+This is interesting but I do not have the time to write it down, let alone
+ implement it.
+ For someone else.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Float figure
 wide false
 sideways false
 status open
-
-\begin_layout Plain Layout
-
-\end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption
@@ -926,16 +938,12 @@ Local influence approximation of the covariance.
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 The decomposability property of Gaussian distribution (Equation 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -972,7 +980,7 @@ taking out
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 This conditional independence property is represented in Figure XXX.
  This leads to an algorithm to compute approximately the marginal distribution
  
@@ -995,7 +1003,7 @@ This conditional independence property is represented in Figure XXX.
 : XXX must add the start and end values 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 \begin_inset Formula 
 \[
 \widetilde{\pi}_{u:v}\left(i\rightarrow j\right)=\int_{y_{w,1}}\cdots\int_{y_{w,m}}\widetilde{\pi}_{u:v|w}\left(i\rightarrow j\left|\left(y_{w,j}\right)\right.\right)\text{d}y_{w,1}\cdots\text{d}y_{w,m}
@@ -1030,7 +1038,7 @@ with
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 From this algorithm, it should be clear how to compute the distribution
  following a divide-and-conquer strategy: given some indexes 
 \begin_inset Formula $u,v$
@@ -1056,7 +1064,7 @@ From this algorithm, it should be clear how to compute the distribution
  and compute an approximate value for the integral.
 \end_layout
 
-\begin_layout Standard
+\begin_layout Plain Layout
 Obviously, this scheme is only practical for small values of 
 \begin_inset Formula $m$
 \end_inset
@@ -1067,6 +1075,11 @@ Obviously, this scheme is only practical for small values of
 
 , but it is interesting to explore in practice, especially as most of these
  computations can be cached and efficiently computed on GPUs.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
