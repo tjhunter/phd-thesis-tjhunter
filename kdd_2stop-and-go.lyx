@@ -569,12 +569,12 @@ name "fig:Two-typical-scenarios"
 status open
 
 \begin_layout Plain Layout
-Two typical scenarios in a signalled intersection
+Two typical scenarios in a signaled intersection
 \end_layout
 
 \end_inset
 
-Two typical scenarios in a signalled intersection.
+Two typical scenarios in a signaled intersection.
  The horizontal axis is time and the vertical axis is cumulative offset
  (shifted so that the zero corresponds to the end of the link).
  The red and green color correspond to the time during which the light is
