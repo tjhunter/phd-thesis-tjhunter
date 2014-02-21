@@ -90,7 +90,7 @@ def build(bld):
   # Bibliography files.
   bib_deps = 'references.bib path_inference.bib socc.bib biblio_arterial_spark.bib mendeley_biblio.bib'.split()
   # Miscellaneous tex files
-  tex_deps = 'ucbthesis.cls preamble.tex'.split()
+  tex_deps = 'ucbthesis.cls preamble.tex abstract.tex'.split()
   img_deps = []
   # INTRO chapter deps
   bld.oo2pdf(bld.path.ant_glob('docs-intro/*.odp'))

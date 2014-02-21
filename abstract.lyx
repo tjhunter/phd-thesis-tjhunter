@@ -1,0 +1,307 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%stopskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\series bold
+Abstract
+\end_layout
+
+\begin_layout Standard
+\align center
+Large-scale, low-latency state estimation of cyberphysical systems, with
+ an application to traffic estimation
+\end_layout
+
+\begin_layout Standard
+\align center
+by
+\end_layout
+
+\begin_layout Standard
+\align center
+Timothy Hunter
+\end_layout
+
+\begin_layout Standard
+\align center
+Doctor of Philosophy in Computer Sciences
+\end_layout
+
+\begin_layout Standard
+\align center
+University of California at Berkeley
+\end_layout
+
+\begin_layout Standard
+\align center
+Pieter Abbeel, Chair
+\end_layout
+
+\begin_layout Standard
+Large physical systems are increasingly prevalent, and they form a vital
+ form of the infrastructure.
+ Designing some control and estimation strategies has become both a practical
+ necessity and a complicated problem at the front line of research.
+ Indeed, the sensing infrastructure that is usually ad-hoc, and the estimate
+ of interest is often a complex function of the data.
+ At the same time, computing power has become increasingly available, to
+ the point of becoming a commodity.
+ We show with the example of two estimation tasks how the proper design
+ of algorithms can lead to huge gains in scalability compared to existing
+ solutions.
+\end_layout
+
+\begin_layout Standard
+Amongst the modern man-made plagues, traffic congestion is a universally
+ recognized challenge.
+ Traffic congestion affects nearly everyone in the world due to the environmenta
+l damage and transportation delays it causes.
+ Providing drivers with accurate traffic information reduces the stress
+ associated with congestion and allows drivers to make informed decisions,
+ which generally increases the efficiency of the entire road network.
+ Researchers on Traffic Information Systems broadly agree that accurate
+ information is critical to increase their usage.
+ A common problem in trip planning is to make a given deadline, for example
+ arriving at the airport within 45 minutes.
+ Most routing services available today minimize the expected travel time,
+ but do not provide the most 
+\emph on
+reliable
+\emph default
+ route, which accounts for the variability in travel times.
+ Given a time budget, a routing service should provide the route with highest
+ probability of on-time arrival.
+ Such an algorithm requires the estimation of the 
+\emph on
+statistical distributions
+\emph default
+ of travel times, or at least of their means and variances.
+ Today, only few traffic information platforms are available for the arterial
+ network (the state of the art for highway networks is more advanced) and
+ they do not provide the 
+\emph on
+statistical distributions
+\emph default
+ of travel times.
+ Our research aims at addressing this gap: we want to build scalable algorithms
+ for learning path travel time distributions on the entire road network
+ using probe vehicle data.
+ 
+\end_layout
+
+\begin_layout Standard
+We consider two complementary algorithms that differ in the characteristics
+ of the GPS data input, and in the complexity of the model.
+ These two applications take as inputs sequences of GPS points collected
+ in real time from vehicles traveling on a road network, and they produce
+ statistical distributions of travel times.
+ They differ by considering two trade-offs:
+\end_layout
+
+\begin_layout Itemize
+our first application, a streaming Expectation-Maximization, aims at using
+ a very large volume of extremely noisy data to compute estimates of traffic
+ in real-time,
+\end_layout
+
+\begin_layout Itemize
+our second application considers some higher-quality data, sampled at high
+ frequency and collected over a long period of time, and extracts some more
+ precise statistical patterns that take into account the correlations in
+ the travel times between different parts of the road network.
+\end_layout
+
+\begin_layout Standard
+Both applications consider the same road network: the San Francisco Bay
+ area road network.
+ This road network has more than a hundred thousand road links.
+ In both cases, the GPS observations to consider number in the millions
+ or the tens of millions.
+ Solving such an estimation problem at this scale require a careful understandin
+g of the computation bottlenecks, and selecting algorithms that can distribute
+ their computations over hundreds of computers.
+ 
+\end_layout
+
+\begin_layout Standard
+These two algorithms have been fully implemented in a complete pipeline
+ that takes streams of GPS data as input, and produces distributions of
+ travel times accessible through a web interface as an output.
+ This system has four components:
+\end_layout
+
+\begin_layout Itemize
+A filter that takes GPS points as input and performs map-matching of these
+ points onto the road network.
+ The GPS points collected come from a very wide array of vehicle and GPS
+ receivers.
+ In particular the sampling interval between each point ranges from one
+ second to two minutes between each measurements.
+ Reconstructing the trajectory followed by the vehicle presents some interesting
+ challenges since there may be several road blocks between two consecutive
+ observations.
+ We present a novel filter, called the Path Inference Filter, that relies
+ at its heart on a Conditional Random Field.
+\end_layout
+
+\begin_layout Itemize
+The distributed streaming estimation algorithm.
+ This algorithm has been presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hunter:2011:SMM:2038916.2038944"
+
+\end_inset
+
+, 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter13tase"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zaharia13sosp"
+
+\end_inset
+
+.
+ The first article 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Hunter:2011:SMM:2038916.2038944"
+
+\end_inset
+
+ presents the technical challenges that were solved in order to scale the
+ statistical model on a large cluster.
+ The second contribution 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter13tase"
+
+\end_inset
+
+ presents in more details the statistical justifications of the algorithm,
+ and delves into more details on the statistical performance of the framework.
+ The third article 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zaharia13sosp"
+
+\end_inset
+
+ presents an interesting extension of the original framework to a full streaming
+ setting.
+ These contributions will be presented in the second part of the talk.
+\end_layout
+
+\begin_layout Itemize
+The offline estimation algorithm.
+ This algorithm is still an active area of research and has lead to several
+ publication attempts 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter13kdd"
+
+\end_inset
+
+.
+ This model makes use of the high-frequency subset of the data.
+ It was designed following a careful analysis of the GPS dataset, letting
+ us do some assumptions about what we observe.
+ This model presents some interesting open problems to build the state of
+ very large normal distributions, and to perform efficient inference over
+ paths.
+\end_layout
+
+\begin_layout Itemize
+An interface that presents the inferred distributions and lets the user
+ perform routing queries.
+\end_layout
+
+\begin_layout Standard
+This is to our knowledge the first framework that considers in an integrated
+ fashion the problem of statistical estimation of traffic at a very large
+ scale from the streams of GPS data.
+ 
+\end_layout
+
+\end_body
+\end_document
