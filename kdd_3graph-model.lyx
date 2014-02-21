@@ -1285,6 +1285,10 @@ pruning
 \end_layout
 
 \begin_layout Standard
+\begin_inset Note Comment
+status open
+
+\begin_layout Plain Layout
 Note: this approach is only valid if some assumptions are made about the
  generation mechanism.
  It is valid if the production mechanism is independent from the values
@@ -1307,6 +1311,11 @@ reference "fig:power_law"
  The algorithm we have described here cannot take that into account, but
  a more direct approach can do it (CITE cdc paper).
  Some more experiments may be necessary here.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
