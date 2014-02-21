@@ -158,20 +158,20 @@ A good model should reconcile some laws considered to hold within the context
  In physical models, these variables correspond to physical quantities that
  inform the scientist about the phenomenon.
  In statistical models, these variables are usually non-dimensional parameters
- that describe abstract correlations between random values.
+ that describe abstract correlations between random variables.
  
 \end_layout
 
 \begin_layout Standard
 In the case of traffic, we make the case that loosing the comprehension
  that goes along with physical models gives access to a much richer class
- of models that describe the observation better.
+ of models that describe the observations better.
 \end_layout
 
 \begin_layout Standard
-The second goal of prediction can be quantatively evaluated, although there
- will be always some argument about the proper metrics and protocols to
- evaluate the predictive power of a model.
+The second goal of prediction can be quantitatively evaluated, although
+ there will be always some argument about the proper metrics and protocols
+ to evaluate the predictive power of a model.
  Purely statistical models, which use previous data to predict the distribution
  of future data, do not offer much insight about the system we are looking
  at.
@@ -196,7 +196,7 @@ ood optimization techniques when presented with data, and the quality of
 l considerations.
  This number is usually very hard to change because it depends on the relation
  between different physical quantities, unlike sparsity or BIC criterions.
- This means that physical models have a lower bound in terms of observation
+ It ensues that physical models have a lower bound in terms of observation
  if they want to retain some predictive power and not overfit the existing
  data.
  On the other hand, the number of parameters of statistical models can be
@@ -204,7 +204,7 @@ l considerations.
 \end_layout
 
 \begin_layout Standard
-In both cases, some diagnostic tools exist such as the bootstratp.
+In both cases, some diagnostic tools exist such as the bootstrap.
  It would be advantageous for the transportation community to investigate
  the confidence intervals of some bounds on the calibration of physical
  parameters, to ensure that the bias of the experimenter is not coming into
@@ -218,7 +218,7 @@ Statistical models are not restricted to a specific structure, and thus
  For example, it is clear that the traffic on one road link will have an
  impact on surrounding road links, but it is a common assumption to consider
  each link to be independent.
- A lot of transportation litterature has focused on adding some correlations,
+ A lot of transportation literature has focused on adding some correlations,
  but the conservation laws behind it are complicated to model accurately.
  The simple model introduced in Chapter 
 \begin_inset CommandInset ref
@@ -228,15 +228,7 @@ reference "chapter:kdd"
 \end_inset
 
  can predict such correlations, but it does not give any insights about
- these correlations.
-\end_layout
-
-\begin_layout Standard
-Use the physical insight to drive the overall structure of relationship
- between the variables at hand, and then let statistical machinery find
- the best estimator.
- Goal-driven approach.
- Complex models will not help in this respect.
+ the cause of these correlations.
 \end_layout
 
 \begin_layout Section
@@ -247,7 +239,7 @@ Summary of contributions
 This thesis shows how a data-driven approach that relies on insights derived
  from the data, combined with a quantitative approach towards measurement
  goals, can lead to an estimation platform that is both robust and reliable,
- and can work at very large scales.
+ and that can work at very large scales with massive amounts of data.
  Physical models are used to inform the choice of statistical models, and
  new techniques are presented to use these statistical models at scale.
  We present a framework that works for different tradeoffs of quality of
@@ -262,7 +254,8 @@ reference "chapter:pif"
 
 \end_inset
 
- presents a principled approach for map-mathing GPS data onto the road network.
+ presents a principled approach for map-matching GPS data onto the road
+ network.
  This approach works on a wide range of conditions, and is shown to encompass
  a large range of existing techniques.
  We have presented a novel class of algorithms to track moving vehicles
@@ -337,7 +330,7 @@ reference "chapter:kdd"
  We also take into account the spatio-temporal correlations of travel times
  due to driving behavior or congestion, using a Gaussian Markov Random Fields.
  In particular, we present a highly scalable algorithm to train and perform
- inference on Gaussian Markov Random Fields, when applied on geographs.
+ inference on Gaussian Markov Random Fields, when applied on planar graphs.
 \end_layout
 
 \begin_layout Standard
