@@ -78,12 +78,19 @@ name "sec:kdd_inference"
 \end_layout
 
 \begin_layout Standard
-After the model parameters 
+Having seen how the model parameters 
 \begin_inset Formula $\theta$
 \end_inset
 
  have been determined, we turn our attention to the computation of travel
  times across a path.
+ In the rest of the discullion, we consider that each link has the same
+ number 
+\begin_inset Formula $m$
+\end_inset
+
+ of discrete states.
+ Generalizing to a different number of states is straightforward.
  The inference task takes as input a valid path 
 \begin_inset Formula $p=\left(p_{1}\cdots p_{B}\right)\in\mathcal{L}^{B}$
 \end_inset
@@ -92,7 +99,7 @@ After the model parameters
 \begin_inset Formula $Z^{\left(p\right)}$
 \end_inset
 
- 
+: 
 \begin_inset Formula 
 \begin{eqnarray*}
 h\left(t\right):\,\mathbb{R}^{+} & \rightarrow & \left[0,1\right]\\
@@ -123,8 +130,8 @@ Z^{\left(p\right)}|\left(s_{l}\right)_{l}=\sum_{i=1}^{B}X_{l_{i},s_{l_{i}}}
 
 \end_inset
 
-Then, the total travel time is one instantiation across a possible state
- of the links:
+Then, the total travel time is one instantiation across all possible state
+ tuples of the links:
 \begin_inset Formula 
 \[
 Z^{\left(p\right)}=\sum_{s\in\left[1,m\right]^{\mathcal{L}}}\mathbf{1}\left\{ S=s\right\} Z^{\left(p\right)}|s
@@ -132,7 +139,7 @@ Z^{\left(p\right)}=\sum_{s\in\left[1,m\right]^{\mathcal{L}}}\mathbf{1}\left\{ S=
 
 \end_inset
 
-Since the variable 
+Since the conditional variable 
 \begin_inset Formula $Z^{\left(p\right)}|s$
 \end_inset
 
@@ -156,10 +163,10 @@ s along the path
 \end_inset
 
 ).
- We are going to present some algorithms that can approximate this mixture:
- one algorithm based on sampling, one algorithm based of convolution for
- independent Gaussians, and one algorithm based on a junction tree approximation
- for non-independent variables.
+ We are going to present some algorithms that can approximate the density
+ function this mixture: one algorithm based on sampling, one algorithm based
+ of convolution for independent Gaussians, and one algorithm based on a
+ junction tree approximation for non-independent variables.
 \end_layout
 
 \begin_layout Standard
@@ -228,7 +235,15 @@ The case of different width is straightforward to derive from the following
 \begin_inset Formula $Bm$
 \end_inset
 
- variables.
+ normal variables and 
+\begin_inset Formula $B$
+\end_inset
+
+ discrete variables, each with 
+\begin_inset Formula $m$
+\end_inset
+
+ possible states.
  For the sake of convenience, we are going to simply label each variable
  by a pair of indexes 
 \begin_inset Formula $u,v$
@@ -273,7 +288,11 @@ q=q_{1}\cdots q_{B}\in\left[1,m\right]^{B}
 
 \end_inset
 
-When we consider state subpath from layer 
+When we consider a 
+\emph on
+state subpath
+\emph default
+ from layer 
 \begin_inset Formula $u$
 \end_inset
 
@@ -341,14 +360,15 @@ q & \sim & \text{MM}\left(p\right)\label{eq:mm-process}
 
 which is simply defined as a Markov chain transition, starting from state
  
-\begin_inset Formula $q_{0}$
+\begin_inset Formula $q_{0}\in\left[1,m\right]$
 \end_inset
 
 :
 \begin_inset Formula 
 \begin{eqnarray}
 \pi\left(q_{0}\right) & = & \pi_{0}\left(q_{0}\right)\nonumber \\
-\pi\left(q_{u:v}\right) & = & \pi_{u}\left(q_{u},q_{u+1}\right)\pi\left(q_{u+1:v}\right)\label{eq:mm-process-trans}
+\pi\left(q_{u:v}\right) & = & \pi_{u}\left(q_{u},q_{u+1}\right)\pi\left(q_{u+1:v}\right)\label{eq:mm-process-trans}\\
+ & = & \prod_{w=u}^{v-1}\pi_{w}\left(q_{w},q_{w+1}\right)
 \end{eqnarray}
 
 \end_inset
@@ -429,7 +449,8 @@ Example of MM-GMRF process.
 \begin_inset Formula $Y_{u,v}$
 \end_inset
 
- variables make a joint Gaussian distribution.
+ variables make a joint Gaussian distribution (their dependencies are represente
+d by the box around all the variables).
 \end_layout
 
 \end_inset
@@ -458,7 +479,7 @@ activation vector
 :
 \begin_inset Formula 
 \[
-a\left(q_{u:v}\right)=\sum_{k=u}^{v}\mathbf{e}_{\left(k,q_{k}\right)}
+a\left(q_{u:v}\right)=\sum_{k=u}^{v}\mathbf{e}_{k,q_{k}}
 \]
 
 \end_inset
@@ -467,7 +488,8 @@ a\left(q_{u:v}\right)=\sum_{k=u}^{v}\mathbf{e}_{\left(k,q_{k}\right)}
 \end_layout
 
 \begin_layout Standard
-The distribution 
+Using this notation, the description of the MM-GMRF process is much simplified.
+ The distribution 
 \begin_inset Formula $Z$
 \end_inset
 
@@ -527,12 +549,16 @@ This notation will prove convenient when we define convolution operations
 \begin_inset Formula 
 \begin{align*}
 \pi_{h} & =\sum_{q}\pi\left(q\right)\pi\left(\cdot|q\right)\\
- & =\sum_{q}\pi\left(q\right)f\left(a\left(q\right)^{T}\hat{\mu},a\left(q\right)^{T}\hat{\Sigma}a\left(q\right)\right)
+ & =\sum_{q}\pi\left(q\right)f\left(a\left(q\right)^{T}\hat{\mu},\sigma\left(q\right)^{2}\right)
 \end{align*}
 
 \end_inset
 
+where the variance 
+\begin_inset Formula $\sigma\left(q\right)^{2}$
+\end_inset
 
+ is introduced as a shortcut for the projection of the full covariance:
 \begin_inset Formula 
 \begin{equation}
 \sigma\left(q\right)^{2}=a\left(p\right)^{T}\hat{\Sigma}a\left(q\right)\label{eq:def-sigma}
@@ -662,7 +688,7 @@ The key observation that derives from this choice of covariance is that
  the covariance of individual variables is decomposable along a path:
 \begin_inset Formula 
 \[
-\sigma\left(p_{u:v}\right)^{2}=\sum_{w=u}^{v}\Delta_{\left(w,p_{w}\right)}
+\sigma\left(p_{u:v}\right)^{2}=\sum_{w=u}^{v}\Delta_{w,p_{w}}
 \]
 
 \end_inset
@@ -748,7 +774,7 @@ in which
 \begin_layout Standard
 The main insight is to decompose each of the modes of the distribution using
  a convolution operator, which is a consequence of using independent Gaussian
- distribution.
+ distributions.
  Using our notation:
 \begin_inset Formula 
 \begin{equation}
@@ -876,6 +902,37 @@ Note
 
 \begin_layout Subsection
 A linear approximation for full covariance
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Local influence approximation of the covariance.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
