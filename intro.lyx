@@ -744,7 +744,38 @@ Equilibrium.
  traffic to the participants will not change the dynamics of the overall
  phenomenon: the informed drivers will optimize their routes or schedule
  without changing (much) the global equilibrium of the other road users.
- This is a standard
+ 
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Existing systems.
+
+\series default
+ Up to now, few researchers have attempted to tackle the full problem and
+ to consider at the same time the problem of probe data (real data), scalability
+ and accuracy.
+ This approach has been mostly developped in the industry, which has developped
+ solutions that scale to the whole world and can ingest thousands of observation
+s per second.
+ However, there has been no published attempt to quantify the quality of
+ the solutions offered by the industry.
+ The terms of use generally limit scientific investigation of the output
+ provided to the public.
+ The engineering challenges involved in building a reliable system for mass
+ collection of GPS data as well as the difficulty in enlisting enough users
+ to reach a critical mass pose formidable challenges to researchers.
+ Furthermore, companies that collect such data are loathe to share it with
+ researchers for obvious legal and privacy reasons.
+ The only successful examples of full platforms devellopped in academia
+ that we are aware of are Cartel and 
+\emph on
+Mobile Millennium
+\emph default
+.
+ We hope that this dissertation will provide some insight as to the problems
+ that are relevant to researchers in the field.
 \end_layout
 
 \begin_layout Section
