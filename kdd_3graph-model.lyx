@@ -329,7 +329,14 @@ status open
 
 \end_inset
 
-XXXXX
+
+\begin_inset Graphics
+	filename docs-kdd/network_example.pdf
+	width 10cm
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -342,7 +349,24 @@ name "fig:ttgraph_sf"
 
 \end_inset
 
+
+\begin_inset Argument
+status open
+
+\begin_layout Plain Layout
 Example of travel time graph for the San Francisco area
+\end_layout
+
+\end_inset
+
+Example of travel time graph for the San Francisco area.
+ The red box on the left has been expanded in the undirected Gaussian Markov
+ Random Field (top right) and (directed) Discrete Markov Model (bottom right).
+ In this example the number of discrete states has been fixed to 
+\begin_inset Formula $m=3$
+\end_inset
+
+ for all nodes.
 \end_layout
 
 \end_inset
