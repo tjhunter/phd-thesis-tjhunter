@@ -274,7 +274,26 @@ Physical insights derived from high-frequency trajectories
 \end_layout
 
 \begin_layout Standard
-We studied some high-frequency data collected during an experiment in San
+Arterial traffic is characterized by important travel time variability amongst
+ users of the network.
+ This variability is mainly due to the presence of traffic lights and other
+ impediments such as pedestrian crossings and garbage trucks or buses which
+ cause a fraction of the vehicles to stop while others do not.
+ Arterial traffic research
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hofleitner_isttt_2010"
+
+\end_inset
+
+ suggests that the detection of stops explains most of the variability in
+ the travel time distribution and underline the multi-modality of the distributi
+ons.
+ We studied some high-frequency data collected during an experiment in San
  Francisco (see Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -282,8 +301,8 @@ reference "sec:results"
 
 \end_inset
 
- for more details).
- This experiment provided detailled trajectory information along stretches
+ for more details about this experiment).
+ This experiment provided detailed trajectory information along stretches
  of the main arterial network in San Francisco.
  After mapping the GPS points to the road, and reconstructing the trajectories,
  we had a very precise account of the patterns of traffic on the ground.
@@ -292,7 +311,11 @@ reference "sec:results"
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 discrete number of modes.
+
+\series default
  The travel times follow a multi-modal distribution across each block.
  There are generally two main modes that correspond to the light signal
  at the end of the intersection (see Figure 
@@ -315,13 +338,64 @@ key "hofleitner2012arterial,hofleitner_isttt_2010"
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 lights correlation.
- The traffic lights are synchronized, the synchronization scheme being managed
- at the level of the district.
- However, this synchronization pattern is usually fairly complex: it combines
- traffic sensing equipment with written rules and random pedestrian events,
+
+\series default
+ Traffic lights on major streets may be synchronized to create 
+\begin_inset Quotes eld
+\end_inset
+
+green waves
+\begin_inset Quotes erd
+\end_inset
+
+ (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:twostreets_comparison"
+
+\end_inset
+
+): a vehicle which does not stop on a link is likely to not stop on the
+ subsequent link.
+ A different vehicle arriving 10 seconds later may hit the red light on
+ the first link and have a high probability to stop on the subsequent link.
+ This phenomenon is analyzed in
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Ramezani2012markov"
+
+\end_inset
+
+ using a Markov model with two modes (
+\begin_inset Quotes eld
+\end_inset
+
+slow
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+fast
+\begin_inset Quotes erd
+\end_inset
+
+).
+ The synchronization scheme for traffic lights is managed at the level of
+ the traffic district.
+ However, this synchronization pattern is usually complex: it combines traffic
+ sensing equipment with handwritten rules and random pedestrian events,
  and each district has a different set of rules.
- From the perspective of a travelling vehicle, we consider the synchronization
+ From the perspective of a traveling vehicle, we consider the synchronization
  of the lights a 
 \emph on
 discrete stochastic process
@@ -334,19 +408,28 @@ reference "sec:kdd_stopandgo"
 
 \end_inset
 
- how we can accurately model this process as Markov graph.
+ how we can reliably model this process as Markov graph.
 \end_layout
 
 \begin_layout Itemize
+
+\series bold
 travel time correlation inside each mode.
+
+\series default
  It is well known that vehicles at lights tend to travel together at the
  same speed.
- Furnthermore, it is natural to consider that if a vehicle travels at constant
- speed across several green lights: there is no reason to believe that the
- driver would randomly adjust her speed as she crosses a light.
+ Besides the the number of stops, travel times may be correlated for the
+ following reasons: (i) the behavior of individual drivers may be different:
+ some car may travel notably faster than some others, (ii) congestion propagates
+ on the network, making neighboring links likely to have similar congestion
+ levels.
+ If a driver experiences a longer than usual travel time on a link because
+ of heavy traffic, she can will likely experience heavy traffic on the subsequen
+t links.
  This is why, if we were to fix a pattern of red and green lights across
  the whole network, we could assume that all the travel times are still
- correllated.
+ correlated.
  This is referred to as inner mode correlation.
 \end_layout
 
@@ -414,7 +497,7 @@ Space time plots for selected streets in San Francisco
 Sets of trajectories collected around two main arterial in San Francisco:
  northbound Franklin street on the left and northbound Van Ness avenue on
  the right.
- The distance is normalized for each othe road link by the link length.
+ The distance is normalized for each of the road link by the link length.
 \begin_inset Newline newline
 \end_inset
 
@@ -443,42 +526,6 @@ name "fig:twostreets_comparison"
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-We have already explored in Chapter XXX the main physical insights that
- we wish to model.
- We recall the main insights.
- First, arterial traffic is characterized by important travel time variability
- amongst users of the network (Figure
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:example_bimodal_link"
-
-\end_inset
-
-).
- This variability is mainly due to the presence of traffic lights and other
- impediments such as pedestrian crossings and garbage trucks or buses which
- cause a fraction of the vehicles to stop while others do not.
- Arterial traffic research
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "hofleitner_isttt_2010"
-
-\end_inset
-
- suggests that the detection of stops explains most of the variability in
- the travel time distribution and underline the multi-modality of the distributi
-ons.
 \end_layout
 
 \begin_layout Standard
@@ -546,64 +593,8 @@ name "fig:example_bimodal_link"
 
 \end_layout
 
-\begin_layout Standard
-Second, the number of stops on a trajectory exhibits strong spatial and
- temporal correlations (See Figure XXX).
- Traffic lights on major streets may be synchronized to create 
-\begin_inset Quotes eld
-\end_inset
-
-green waves
-\begin_inset Quotes erd
-\end_inset
-
- (Figure XXX): a vehicle which does not stop on a link is likely to not
- stop on the subsequent link.
- A different vehicle arriving 10 seconds later may hit the red light on
- the first link and have a high probability to stop on the subsequent link.
- This phenomenon is analyzed in
-\begin_inset space ~
-\end_inset
-
-
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Ramezani2012markov"
-
-\end_inset
-
- using a Markov model with two modes (
-\begin_inset Quotes eld
-\end_inset
-
-slow
-\begin_inset Quotes erd
-\end_inset
-
- and 
-\begin_inset Quotes eld
-\end_inset
-
-fast
-\begin_inset Quotes erd
-\end_inset
-
-).
-\end_layout
-
-\begin_layout Standard
-Third, besides the the number of stops, travel times may be correlated for
- the following reasons: (i) the behavior of individual drivers may be different:
- some car may travel notably faster than some others, (ii) congestion propagates
- on the network, making neighboring links likely to have similar congestion
- levels.
- If a driver experiences a longer than usual travel time on a link because
- of heavy traffic, he / she can will likely experience heavy traffic on
- the subsequent links.
-\end_layout
-
 \begin_layout Subsection
-The modelling pipeline
+The modeling pipeline
 \end_layout
 
 \begin_layout Standard
