@@ -372,8 +372,20 @@ Maximizing the log-likelihood of the observations is equivalent to solving
 
 \end_inset
 
-This is a typical least-square optimization problem, which we conveniently
- write in matrix form as: 
+in which the 
+\begin_inset Formula $x_{j}$
+\end_inset
+
+ and 
+\begin_inset Formula $t_{j}$
+\end_inset
+
+ variables are known and fixed.
+ This is a typical least-square optimization problem in 
+\begin_inset Formula $\left(v_{j}\right)_{j}$
+\end_inset
+
+, which we conveniently write in matrix form as: 
 \begin_inset Formula 
 \begin{equation}
 \underset{v}{\mathbf{minimize}}\frac{1}{2}||Av\,-\, b||_{2}^{2},\label{eq:stop-go:ls}
