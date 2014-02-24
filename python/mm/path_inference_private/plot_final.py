@@ -700,6 +700,10 @@ ax.set_xlim([2, max(all_res) + 10])
 ax.set_ylabel("Weight", fontsize=font_size)
 ax.set_xticks(all_res)
 ax.set_ylim([-1, 1])
+# Matplotlib 1.2.0 has a bug in the font system, so that the minus sign is incorrectly rendered.
+# Manually creating the ticks as a workaround.
+yts = ax.get_yticks()
+ax.set_yticklabels([str(yt) for yt in yts])
 leg = ax.legend()
 # Size adjutments
 for tick in ax.xaxis.get_major_ticks():

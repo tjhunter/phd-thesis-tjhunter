@@ -125,6 +125,10 @@ if __name__ == '__main__':
   ax.set_ylabel("Meadian log-likelihood")
   ax.set_xticks(range(len(interval_times)))
   ax.set_xticklabels(labels)
+  # Matplotlib 1.2.0 has a bug in the font system, so that the minus sign is incorrectly rendered.
+  # Manually creating the ticks as a workaround.
+  yts = ax.get_yticks()
+  ax.set_yticklabels([str(yt) for yt in yts])
   leg = ax.legend(loc="lower left",prop={'size':11})
 #  fig.show()
   build.save_figure(fig, "figures-socc/ll_%s"%experiment)
