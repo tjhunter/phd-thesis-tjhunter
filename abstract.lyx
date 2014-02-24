@@ -125,7 +125,7 @@ Large physical systems are increasingly prevalent, and designing estimation
 
 \begin_layout Standard
 A common problem in trip planning is to make a given deadline, for example
- arriving at the airport within 45 minutes.
+ arriving at the airport within an hour.
  Existing routing services optimize for the expected time of arrival, but
  do not provide the most 
 \emph on
