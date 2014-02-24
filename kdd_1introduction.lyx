@@ -892,8 +892,8 @@ status open
 
 
 \begin_inset Graphics
-	filename figures-kdd/network_export_6.pdf
-	width 6cm
+	filename docs-kdd/map.pdf
+	width 10cm
 
 \end_inset
 
@@ -917,13 +917,11 @@ Map of the road network
 
 \end_inset
 
-A fraction of the road network considered for this model: the downtown area
- of San Francisco.
- 
-\begin_inset Newline newline
-\end_inset
-
-XXX put the whole map
+On the left, the road network used in the experiment.
+ On the right, a blown-up subsection (corresponding to the red polygon in
+ the full network).
+ The blown-up subsection illustrates the level of detail from the map.
+ The full road network comprises 505,000 road links.
 \end_layout
 
 \end_inset

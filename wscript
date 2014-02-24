@@ -160,6 +160,7 @@ def build(bld):
   bld.oo2pdf(bld.path.ant_glob('docs-kdd/*.odp'))
   tex_deps += ['kdd_1introduction.tex']
   img_deps += ['docs-kdd/pipeline.pdf']
+  img_deps += ['docs-kdd/map.pdf']
   img_deps += ['figures-kdd/example_bimodal_link.pdf',
 	       'figures-kdd/network_export_6.pdf']
   tex_deps += ['kdd_2stop-and-go.tex']
