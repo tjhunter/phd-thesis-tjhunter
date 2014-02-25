@@ -660,7 +660,21 @@ Mobile Millennium
  In this data-intensive task, the final output looks like a complete pipeline
  separated in multiple stages, each of the stages being responsible for
  a separate task.
- Our traffic pipeline is decomposed in the steps shown in Figure XXXX:
+ Our traffic pipeline is decomposed in the following steps 
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Maybe add the picture here XXX
+\end_layout
+
+\begin_layout Plain Layout
+shown in Figure XXXX
+\end_layout
+
+\end_inset
+
+:
 \end_layout
 
 \begin_layout Itemize

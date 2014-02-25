@@ -270,8 +270,17 @@ The case of different width is straightforward to derive from the following
 \begin_inset Formula $Y_{u,v}$
 \end_inset
 
- is straightforward (see Figure XXX for the relation between the different
- variables).
+ is straightforward
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+(see Figure XXX for the relation between the different variables)
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
