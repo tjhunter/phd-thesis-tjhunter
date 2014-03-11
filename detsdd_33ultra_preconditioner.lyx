@@ -1,0 +1,769 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Subsection
+Incremental sparsifiers
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Incremental-sparsifiers"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can do better and achieve near-linear time by using ultra-sparsifiers.
+ The main insight of our result is that the class preconditioners presented
+ by Spielman and Teng are based on incomplete Cholesky factorization, and
+ hence have a determinant that is relatively easy to compute, and furthermore
+ that they are excellent spectral preconditioners, so the procedure 
+\family typewriter
+PreconditionedLogDetMonteCarlo
+\family default
+ is efficient to apply.
+ We reintroduce some concepts presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010"
+
+\end_inset
+
+ to present a self-contained result.
+ The following paragraphs are well-known facts about Spielman-Teng preconditione
+rs and have been presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010,Spielman2009a"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The central idea to the Spielman-Teng preconditioner is to sample 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+ edges from the graph 
+\begin_inset Formula $A$
+\end_inset
+
+, to form a subgraph 
+\begin_inset Formula $B$
+\end_inset
+
+ that is close to a tree (hence it is easy to compute some partial Cholesky
+ factorization), yet it is close to the original 
+\begin_inset Formula $A$
+\end_inset
+
+ is the spectral sense (
+\begin_inset Formula $A\preceq B\preceq\kappa A$
+\end_inset
+
+), thanks to the additional edges.
+ The partial Cholesky factorization is computed using the 
+\family typewriter
+GreedyElimination
+\family default
+ algorithm presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010"
+
+\end_inset
+
+.
+ In order for this section to be self-contained, we include here the main
+ results of Section 4 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009a"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Consider the Laplacian matrix 
+\begin_inset Formula $L_{B}$
+\end_inset
+
+ of the subgraph 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ There exists an algorithm that computes the partial Cholesky factorization:
+ 
+\begin_inset Formula 
+\[
+L_{B}=PLCL^{T}P^{T}
+\]
+
+\end_inset
+
+where: 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $P$
+\end_inset
+
+ is a permutation matrix 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $L$
+\end_inset
+
+ is a non-singular, low triangular matrix of the form 
+\begin_inset Formula 
+\[
+L=\left(\begin{array}{cc}
+L_{1,1} & 0\\
+L_{2,1} & I_{n_{1}}
+\end{array}\right)
+\]
+
+\end_inset
+
+with the diagonal of 
+\begin_inset Formula $L_{1,1}$
+\end_inset
+
+ being all ones.
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $C$
+\end_inset
+
+ has the form 
+\begin_inset Formula 
+\[
+C=\left(\begin{array}{cc}
+D_{n-n_{1}} & 0\\
+0 & L_{A_{1}}
+\end{array}\right)
+\]
+
+\end_inset
+
+and every row and column of 
+\begin_inset Formula $L_{A_{1}}$
+\end_inset
+
+ has at least 3 non-zero coefficients.
+ Furthermore, 
+\begin_inset Formula $L_{A_{1}}$
+\end_inset
+
+ is itself Laplacian and: 
+\begin_inset Formula 
+\[
+\text{ld}\left(L_{G}\right)=\sum_{1}^{n-n_{1}}\log D_{ii}+\mbox{\text{ld}}\left(L_{A_{1}}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The exact algorithm that achieves this factorization is called 
+\family typewriter
+GreedyElimination
+\family default
+ and is presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010"
+
+\end_inset
+
+.
+ Using this factorization, the PLD of the original Laplacian 
+\begin_inset Formula $L_{A}$
+\end_inset
+
+ is: 
+\begin_inset Formula 
+\begin{eqnarray}
+\text{ld}\left(L_{A}\right) & = & \text{ld}\left(L_{B}\right)+\text{ld}\left(B^{+}A\right)\nonumber \\
+ & = & \sum_{1}^{n-n_{1}}\log D_{ii}+\mbox{\text{ld}}\left(A_{1}\right)+\text{ld}\left(B^{+}A\right)\label{eq:chain-recursion}
+\end{eqnarray}
+
+\end_inset
+
+Thus, we are left with solving a smaller problem 
+\begin_inset Formula $A_{1}$
+\end_inset
+
+, and we approximate the value of 
+\begin_inset Formula $\text{ld}\left(B^{+}A\right)$
+\end_inset
+
+ using the algorithm 
+\family typewriter
+SampleLogDet
+\family default
+.
+ ST preconditioners are appealing for this task: they guarantee that 
+\begin_inset Formula $A_{1}$
+\end_inset
+
+ is substantially smaller than 
+\begin_inset Formula $A$
+\end_inset
+
+, so the recursion completes in 
+\begin_inset Formula $O\left(\log\log n\right)$
+\end_inset
+
+ steps.
+ Furthermore, computing the vector product 
+\begin_inset Formula $B^{+}Ax$
+\end_inset
+
+ is itself efficient (in can be done approximated in near-linear time),
+ so we can apply Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:preconditioning-approx"
+
+\end_inset
+
+.
+ We formalize the notion of chain of preconditioners by reintroducing some
+ material from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ Definition 7.1 from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010"
+
+\end_inset
+
+.
+ 
+\begin_inset Formula $\kappa\left(n\right)$
+\end_inset
+
+-good chain.
+ 
+\begin_inset Formula $\mathcal{C}=\left\{ A_{1}=A,B_{1},A_{2},\dots A_{d}\right\} $
+\end_inset
+
+ a chain of graphs with 
+\begin_inset Formula $n_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $m_{i}$
+\end_inset
+
+ the number of vertices and edges of 
+\begin_inset Formula $A_{i}$
+\end_inset
+
+.
+ 
+\begin_inset Formula $\mathcal{C}$
+\end_inset
+
+ is 
+\begin_inset Formula $\kappa\left(n\right)$
+\end_inset
+
+-good for 
+\begin_inset Formula $A$
+\end_inset
+
+ if:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $A_{i}\preceq B_{i}\preceq\kappa\left(n_{i}\right)A_{i}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $A_{i+1}$
+\end_inset
+
+= 
+\family typewriter
+GreedyElimination
+\family default
+
+\begin_inset Formula $\left(B_{i}\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $m_{i}/m_{i+1}\geq c_{r}\sqrt{\kappa\left(n_{i}\right)}$
+\end_inset
+
+ for some constant 
+\begin_inset Formula $c_{r}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+Good chains exist, as found by Koutis, Miller and Peng:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:good-chain"
+
+\end_inset
+
+ (Lemma 7.3 from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010"
+
+\end_inset
+
+) Given a graph 
+\begin_inset Formula $A$
+\end_inset
+
+, 
+\family typewriter
+BuildChain
+\family default
+
+\begin_inset Formula $\left(A,p\right)$
+\end_inset
+
+ from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010"
+
+\end_inset
+
+ produces a 
+\begin_inset Formula $\tilde{O}\left(\log^{4}n\right)$
+\end_inset
+
+-good chain for 
+\begin_inset Formula $A$
+\end_inset
+
+ with probability 
+\begin_inset Formula $1-p$
+\end_inset
+
+.
+ The algorithm runs in time 
+\begin_inset Formula 
+\[
+\tilde{O}\left(\left(m\log n+n\log^{2}n\right)\log\left(1/p\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These chains furthermore can be used a good preconditioners for conjugate
+ gradient and lead to near-linear algorithms for approximate inversion (Lemma
+ 7.2 from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2010"
+
+\end_inset
+
+).
+ This remarkable result has been significantly strenghtened in the previous
+ years, so that SDD systems can be considered to be solved in (expected)
+ linear time.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:linear-precond-existence"
+
+\end_inset
+
+(Theorem 4.6 from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Koutis2011"
+
+\end_inset
+
+).
+ Given 
+\begin_inset Formula $A\in SDD_{n}$
+\end_inset
+
+ with 
+\begin_inset Formula $m$
+\end_inset
+
+ non-zero entries, 
+\begin_inset Formula $b\in\mathbb{R}^{n}$
+\end_inset
+
+ and 
+\begin_inset Formula $\nu>0$
+\end_inset
+
+, a vector 
+\begin_inset Formula $x$
+\end_inset
+
+ such that 
+\begin_inset Formula $\left\Vert x-A^{+}b\right\Vert _{A}<\nu\left\Vert A^{+}b\right\Vert _{A}$
+\end_inset
+
+ can be computed in expected time 
+\begin_inset Formula $\tilde{O}\left(m\log n\log\left(1/\nu\right)\right)$
+\end_inset
+
+.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It should now become clear how we can combine a 
+\begin_inset Formula $\kappa\left(n\right)$
+\end_inset
+
+-good chain with the Algorithm 
+\family typewriter
+PreconditionedLogDetMonteCarlo
+\family default
+.
+ We start by building a chain.
+ The partial Cholesky factorizations at each step of the chain provide an
+ upper bound to 
+\begin_inset Formula $\mbox{ld}\left(A\right)$
+\end_inset
+
+.
+ We then refine this upper bound by running 
+\family typewriter
+PreconditionedLogDetMonteCarlo
+\family default
+ at each state of the chain to approximate 
+\begin_inset Formula $\mbox{ld}\left(B_{i}^{+}A_{i}\right)$
+\end_inset
+
+ with high probability.
+ The complete algorithm is presented in Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:The-main-algorithm"
+
+\end_inset
+
+.
+ We now have all the tools required to prove Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:ultra_main"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:ultra_main"
+
+\end_inset
+
+.
+
+\series default
+ Using Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:good-chain"
+
+\end_inset
+
+, consider 
+\begin_inset Formula $\mathcal{C}=\left\{ A_{1}=A,B_{1},A_{2},\dots A_{d}\right\} $
+\end_inset
+
+ a 
+\begin_inset Formula $\tilde{O}\left(\log^{4}n\right)$
+\end_inset
+
+-good chain for 
+\begin_inset Formula $L_{A}$
+\end_inset
+
+, with 
+\begin_inset Formula $d=\mathcal{O}\left(\log\log n\right)=\tilde{O}\left(1\right)$
+\end_inset
+
+.
+ We use Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:chain-recursion"
+
+\end_inset
+
+ to compute the Cholesky terms for each stage of the chain, and we are left
+ with estimating 
+\begin_inset Formula $\tilde{\mathcal{O}}\left(1\right)$
+\end_inset
+
+ reminders 
+\begin_inset Formula $\text{ld}\left(B_{i}^{+}A_{i}\right)$
+\end_inset
+
+.
+ By construction, 
+\begin_inset Formula $A_{i}\preceq B_{i}\preceq\kappa\left(n_{i}\right)A_{i}$
+\end_inset
+
+ and by Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:linear-precond-existence"
+
+\end_inset
+
+, there exists an operator 
+\begin_inset Formula $C$
+\end_inset
+
+ so that 
+\begin_inset Formula $\left\Vert C\left(b\right)-A^{+}b\right\Vert _{A}<\nu\left\Vert A^{+}b\right\Vert _{A}$
+\end_inset
+
+ for all 
+\begin_inset Formula $b$
+\end_inset
+
+ with a choice of relative precision 
+\begin_inset Formula $\nu=\frac{\epsilon}{16\kappa^{3}\kappa\left(B\right)}$
+\end_inset
+
+.
+ By Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:preconditioning-approx"
+
+\end_inset
+
+, each reminder 
+\begin_inset Formula $\text{ld}\left(B_{i}^{+}A_{i}\right)$
+\end_inset
+
+ can be approximated to precision 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ with probability at least 
+\begin_inset Formula $1-\eta$
+\end_inset
+
+ using Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BROKEN: Ref: alg:The-main-alg..."
+
+\end_inset
+
+.
+ Furthermore, this algorithm works in expected time 
+\begin_inset Formula $\tilde{O}\left(m\log n\log\left(1/\nu\right)\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{n\kappa}{\nu}\right)\log^{2}\left(\kappa\right)\log\left(\eta^{-1}\right)\right)=\tilde{O}\left(m\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log^{2}n\log^{2}\left(\frac{\kappa\left(B\right)}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
+\end_inset
+
+.
+ By a union bound, the result also holds on the sum of all the approximations
+ of the reminders.
+ We can simplify this bound a little by assuming that 
+\begin_inset Formula $\epsilon\geq n^{-1}$
+\end_inset
+
+, which then becomes 
+\begin_inset Formula $\tilde{O}\left(m\epsilon^{-1}\log^{2}n\log^{2}\left(\frac{\kappa\left(B\right)}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document

@@ -1,0 +1,463 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Subsection
+A first preconditioner
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:A-first-preconditioner"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+While the results in this section are not the main claims of this paper,
+ we hope they will provide some intuition, and an easier path towards an
+ implementation.
+\end_layout
+
+\begin_layout Standard
+We present a first preconditioner that is not optimal, but that will motivate
+ our results for stronger preconditioners: a tree that spans the graph 
+\begin_inset Formula $G$
+\end_inset
+
+.
+ Every graph has a low-stretch spanning tree, as discovered by Alon et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Alon1995"
+
+\end_inset
+
+.
+ The bound of Alon et al.
+ was then improved by Abraham et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Abraham2008"
+
+\end_inset
+
+.
+ We restate their main result.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+(Theorem 1 from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Abraham2008"
+
+\end_inset
+
+).
+ Consider 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+ a weighted graph.
+ There exists a tree 
+\begin_inset Formula $L_{T}$
+\end_inset
+
+ that is a subgraph of 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+ so that: 
+\begin_inset Formula 
+\[
+L_{G}\preceq L_{T}\preceq\kappa L_{G}
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $\kappa=Cm\log n\log\log n\left(\log\log\log n\right)^{3}$
+\end_inset
+
+ for some constant 
+\begin_inset Formula $C>0$
+\end_inset
+
+.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ This follows directly from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Abraham2008"
+
+\end_inset
+
+.
+ 
+\begin_inset Formula $L_{T}$
+\end_inset
+
+ is a subgraph of 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+ (with the same weights on the edges), so 
+\begin_inset Formula $L_{T}\preceq L_{G}$
+\end_inset
+
+ (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009a"
+
+\end_inset
+
+ for example for a proof of this fact).
+ Furthermore, we have 
+\begin_inset Formula $L_{T}\preceq\text{st}_{G}\left(T\right)L_{G}$
+\end_inset
+
+.
+ This latter inequality is result of Boman and Hendrickson 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Boman2004"
+
+\end_inset
+
+ cited by Spielman et al.
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2010"
+
+\end_inset
+
+ that we generalize in Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:stretch-inequality"
+
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Trees enjoy a lot of convenient properties for Gaussian elimination.
+ The Cholesky factorization of a tree can be computed in linear time, and
+ furthermore this factorization has a linear number of non-zero elements
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009a"
+
+\end_inset
+
+.
+ This factorization can be expressed as: 
+\begin_inset Formula 
+\[
+L_{T}=PLDL^{T}P^{T}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $P$
+\end_inset
+
+ is a permutation matrix, 
+\begin_inset Formula $L$
+\end_inset
+
+ is a lower-triangular matrix with the diagonal being all ones, and 
+\begin_inset Formula $D$
+\end_inset
+
+ a diagonal matrix in which all the elements but the last one are positive,
+ the last element being 
+\begin_inset Formula $0$
+\end_inset
+
+.
+ These well-known facts about trees are presented in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009a"
+
+\end_inset
+
+.
+ Once the Cholesky factorization of the tree is performed, the log-determinant
+ of the original graph is an immediate by-product: 
+\begin_inset Formula 
+\[
+\log\left|L_{T}\right|=\sum_{i=1}^{n-1}\log D_{ii}
+\]
+
+\end_inset
+
+Furthermore, computing 
+\begin_inset Formula $L_{T}^{+}x$
+\end_inset
+
+ also takes 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+ computations by forward-backward substitution.
+ Applying Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:preconditioning"
+
+\end_inset
+
+ gives immediately: 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:PLD-tree"
+
+\end_inset
+
+Let 
+\begin_inset Formula $G$
+\end_inset
+
+ be a graph with 
+\begin_inset Formula $n$
+\end_inset
+
+ vertices and 
+\begin_inset Formula $m$
+\end_inset
+
+ edges.
+ Its PLD can be computed up to a precision of 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ and with high probability in time 
+\begin_inset Formula $\tilde{O}\left(mn\left(\epsilon^{-1}+\frac{1}{n\epsilon^{2}}\right)\left(\log m\right)^{3}\left(\log n\right)^{2}\log\epsilon^{-1}\right)$
+\end_inset
+
+.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ We assume 
+\begin_inset Formula $G$
+\end_inset
+
+ is connected, hence 
+\begin_inset Formula $m\geq n$
+\end_inset
+
+ and 
+\begin_inset Formula $\log\kappa=\tilde{\mathcal{O}}\left(m\log n\right)$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This bound may be of independent interest since it requires relatively little
+ machinery to compute, and it is an improvement already for graphs with
+ small vertex degree (
+\begin_inset Formula $m=\mathcal{O}\left(n^{1+o\left(1\right)}\right)$
+\end_inset
+
+) over the Cholesky factorization of 
+\begin_inset Formula $G$
+\end_inset
+
+.
+ Also, note that the PLD of the tree constructed above provides an upper
+ bound to the log-determinant of 
+\begin_inset Formula $G$
+\end_inset
+
+ since 
+\begin_inset Formula $L_{G}\preceq L_{T}$
+\end_inset
+
+.
+ We will see in Subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Stretch-bounds"
+
+\end_inset
+
+ that we can compute a non-trivial lower bound as well.
+\end_layout
+
+\end_body
+\end_document

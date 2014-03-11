@@ -190,11 +190,15 @@ def build(bld):
 	       figures-kdd/scatter_box.pdf
 	       """.split()
   tex_deps += ['kdd_6conclusion.tex']
+  # LOG DETERMINANT PAPER
+  bld.add_group()
+  tex_deps += [s.replace(".lyx",".tex") for s in "detsdd_1introduction.lyx          detsdd_31tree_preconditioner.lyx   detsdd_34stretch_bounds.lyx    detsdd_7conclusion.lyx  detsdd_9appendixb.lyx \
+detsdd_2preconditionedlogdet.lyx  detsdd_33ultra_preconditioner.lyx  detsdd_3laplacian_problem.lyx  detsdd_8appendixa.lyx".split()]
+  # CONCLUSION
   bld.add_group()
   tex_deps += ['conclusion.tex']
   # Final assembly
   bld.masterdoc(master="thesis.tex",output="thesis.pdf",deps=img_deps+tex_deps+bib_deps)
-  #scp -i ~/.ssh/id_rsa build/thesis.pdf tjhunter@login.eecs.berkeley.edu:/home/eecs/tjhunter/public_html/publications/thesis.pdf
 
 def push(ctx):
   # Pushing to the website

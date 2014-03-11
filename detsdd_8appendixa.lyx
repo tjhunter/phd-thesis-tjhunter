@@ -1,0 +1,1502 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section*
+Appendix A: Proofs of Section 2
+\end_layout
+
+\begin_layout Subsection
+Proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:det-sampling-theorem"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:det-sampling-proof"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ The proof of this theorem follows the proof of the Main Theorem in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Barry1999"
+
+\end_inset
+
+ with some slight modifications.
+ Using triangular inequality: 
+\begin_inset Formula 
+\[
+\left|y-\hat{y}_{p,l}\right|\leq\left|\mathbb{E}\left[\hat{y}_{p,l}\right]-\hat{y}_{p,l}\right|+\left|y-\mathbb{E}\left[\hat{y}_{p,l}\right]\right|
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since 
+\begin_inset Formula $S$
+\end_inset
+
+ is upper-bounded by 
+\begin_inset Formula $\left(1-\delta\right)I$
+\end_inset
+
+, we have for all 
+\begin_inset Formula $k\in\mathbb{N}$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\left|\mbox{Tr}\left(S^{k}\right)\right|\leq n\left(1-\delta\right)^{k}
+\]
+
+\end_inset
+
+Using again triangle inequality, we can bound the error with respect to
+ the expected value: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\left|y-\mathbb{E}\left[\hat{y}_{p,l}\right]\right| & = & n^{-1}\left|\sum_{i=l+1}^{\infty}\frac{\left(-1\right)^{i}}{i}\mbox{Tr}\left(S^{k}\right)\right|\\
+ & \leq & n^{-1}\sum_{i=l+1}^{\infty}\frac{1}{i}\left|\mbox{Tr}\left(S^{k}\right)\right|\\
+ & \leq & \frac{1}{n\left(l+1\right)}\sum_{i=l+1}^{\infty}\left|\mbox{Tr}\left(S^{k}\right)\right|\\
+ & \leq & \frac{1}{l+1}\sum_{i=l+1}^{\infty}\left(1-\delta\right)^{k}\\
+ & \leq & \frac{1}{l+1}\frac{\left(1-\delta\right)^{l+1}}{\delta}\\
+ & \leq & \frac{\left(1-\delta\right)^{l+1}}{\delta}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+And since 
+\begin_inset Formula $\delta\le-\log\left(1-\delta\right)$
+\end_inset
+
+, for a choice of 
+\begin_inset Formula $l\geq\delta^{-1}\log\left(\frac{2}{\epsilon\delta}\right)$
+\end_inset
+
+, the latter part is less than 
+\begin_inset Formula $\epsilon/2$
+\end_inset
+
+.
+ We now bound the first part using Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:bernstein-trace"
+
+\end_inset
+
+.
+ Call 
+\begin_inset Formula $H$
+\end_inset
+
+ the truncated series: 
+\begin_inset Formula 
+\[
+H=-\sum_{i=1}^{m}\frac{1}{i}S^{i}
+\]
+
+\end_inset
+
+This truncated series is upper-bounded by 
+\begin_inset Formula $0$
+\end_inset
+
+ (
+\begin_inset Formula $H$
+\end_inset
+
+ is negative, semi-definite).
+ The lowest eigenvalue of the truncated series can be lower-bounded in terms
+ of 
+\begin_inset Formula $\delta$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+H=-\sum_{i=1}^{m}\frac{1}{i}S^{i}\succeq-\sum_{i=1}^{m}\frac{1}{i}\left(1-\delta\right)^{i}I\succeq-\sum_{i=1}^{+\infty}\frac{1}{i}\left(1-\delta\right)^{i}I=\left(\log\delta\right)I
+\]
+
+\end_inset
+
+We can now invoke Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:bernstein-trace"
+
+\end_inset
+
+ to conclude: 
+\begin_inset Formula 
+\[
+\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\left(\mathbf{u}_{i}^{T}\mathbf{u}_{i}\right)^{-1}\mathbf{u}_{i}^{T}H\mathbf{u}_{i}-n^{-1}\mbox{Tr}\left(H\right)\right|\geq\frac{\epsilon}{2}\right]\leq\exp\left(-\frac{p\epsilon^{2}}{8n^{-1}\left(\log\left(1/\delta\right)\right)^{2}+4\log\left(1/\delta\right)\epsilon}\right)
+\]
+
+\end_inset
+
+Thus, any choice of 
+\begin_inset Formula 
+\[
+p\geq8\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)\geq4\log\left(\eta^{-1}\right)\epsilon^{-2}\left(2n^{-1}\log^{2}\left(\delta^{-1}\right)+\epsilon\log\left(\delta^{-1}\right)\right)
+\]
+
+\end_inset
+
+satisfies the inequality:
+\begin_inset Formula $\exp\left(-\frac{p\epsilon^{2}}{8n^{-1}\left(\log\delta\right)^{2}+4\log\left(1/\delta\right)\epsilon}\right)\leq\eta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Proof of Corollary 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cor:preconditioning"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ We introduce some notations that will prove useful for the rest of the
+ article: 
+\begin_inset Formula 
+\[
+H=I-B^{-1}A
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+S=I-B^{-1/2}AB^{-1/2}
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $B^{-1/2}$
+\end_inset
+
+ the inverse of the square root of the positive-definite matrix 
+\begin_inset Formula $B$
+\end_inset
+
+
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Given a real PSD matrix 
+\begin_inset Formula $X$
+\end_inset
+
+, which can be diagonalized: 
+\begin_inset Formula $X=Q\Delta Q^{T}$
+\end_inset
+
+ with 
+\begin_inset Formula $\Delta$
+\end_inset
+
+ diagonal, and 
+\begin_inset Formula $\Delta_{ii}\geq0$
+\end_inset
+
+.
+ Call 
+\begin_inset Formula $Y=Q\sqrt{\Delta}Q^{T}$
+\end_inset
+
+ the square root of 
+\begin_inset Formula $X$
+\end_inset
+
+, then 
+\begin_inset Formula $Y^{2}=X$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+.
+ The inequality 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:A-B-bounds"
+
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $\kappa^{-1}B\preceq A\preceq B$
+\end_inset
+
+, or also: 
+\begin_inset Formula 
+\[
+\left(1-\kappa^{-1}\right)I\succeq I-B^{-1/2}AB^{-1/2}\succeq0
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\left(1-\kappa^{-1}\right)I\succeq S\succeq0\label{eq:s-encadrement}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The matrix 
+\begin_inset Formula $S$
+\end_inset
+
+ is a contraction, and its spectral radius is determined by 
+\begin_inset Formula $\kappa$
+\end_inset
+
+.
+ Furthermore, computing the determinant of 
+\begin_inset Formula $B^{-1}A$
+\end_inset
+
+ is equivalent to computing the determinant of 
+\begin_inset Formula $I-S$
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\log\left|I-S\right| & = & \log\left|B^{-1/2}AB^{-1/2}\right|\\
+ & = & \log\left|A\right|-\log\left|B\right|\\
+ & = & \log\left|B^{-1}A\right|\\
+ & = & \log\left|I-H\right|
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and invoking Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:det-sampling-theorem"
+
+\end_inset
+
+ gives us bounds on the number of calls to matrix-vector multiplies with
+ respect to 
+\begin_inset Formula $S$
+\end_inset
+
+.
+ It would seem at this point that computing the inverse square root of 
+\begin_inset Formula $B$
+\end_inset
+
+ is required, undermining our effort.
+ However, we can reorganize the terms in the series expansion to yield only
+ full inverses of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ Indeed, given 
+\begin_inset Formula $l\in\mathbb{N}^{*}$
+\end_inset
+
+, consider the truncated series: 
+\begin_inset Formula 
+\begin{eqnarray*}
+y_{l} & = & -\mbox{Tr}\left(\sum_{i=1}^{l}\frac{1}{i}S^{i}\right)\\
+ & = & -\sum_{i=1}^{l}\frac{1}{i}\mbox{Tr}\left(S^{i}\right)\\
+ & = & -\sum_{i=1}^{l}\frac{1}{i}\mbox{Tr}\left(\sum_{j}\left(\begin{array}{c}
+j\\
+i-j
+\end{array}\right)\left(B^{-1/2}AB^{-1/2}\right)^{j}\right)\\
+ & = & -\sum_{i=1}^{l}\frac{1}{i}\sum_{j}\left(\begin{array}{c}
+j\\
+i-j
+\end{array}\right)\mbox{Tr}\left(\left(B^{-1/2}AB^{-1/2}\right)^{j}\right)\\
+ & = & -\sum_{i=1}^{l}\frac{1}{i}\sum_{j}\left(\begin{array}{c}
+j\\
+i-j
+\end{array}\right)\mbox{Tr}\left(\left(B^{-1}A\right)^{j}\right)\\
+ & = & -\sum_{i=1}^{l}\frac{1}{i}\mbox{Tr}\left(\sum_{j}\left(\begin{array}{c}
+j\\
+i-j
+\end{array}\right)\left(B^{-1}A\right)^{j}\right)\\
+ & = & -\sum_{i=1}^{l}\frac{1}{i}\mbox{Tr}\left(H^{i}\right)
+\end{eqnarray*}
+
+\end_inset
+
+Hence, the practical computation of the latter sum can be done on 
+\begin_inset Formula $A^{-1}B$
+\end_inset
+
+.
+ To conclude, if we compute 
+\begin_inset Formula $p=8\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(n\right)\log^{2}\left(\kappa\right)$
+\end_inset
+
+ truncated chains of length 
+\begin_inset Formula $l=2\kappa\log\left(\frac{n}{\kappa\epsilon}\right)$
+\end_inset
+
+, we get our result.
+ This requires 
+\begin_inset Formula $lp$
+\end_inset
+
+ multiplies by 
+\begin_inset Formula $A$
+\end_inset
+
+ and inversions by 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Subsection
+Proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:preconditioning-approx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We prove here the main result of Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Preconditioned-log-determinants"
+
+\end_inset
+
+.
+ In the following, 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ are positive-definite matrices in 
+\begin_inset Formula $\mathcal{S}_{n}$
+\end_inset
+
+, and 
+\begin_inset Formula $B$
+\end_inset
+
+ is a 
+\begin_inset Formula $\kappa-$
+\end_inset
+
+approximation of 
+\begin_inset Formula $A$
+\end_inset
+
+ (
+\begin_inset Formula $A\preceq B\preceq\kappa A$
+\end_inset
+
+).
+ The following notations will prove useful:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+S=I-B^{-1/2}AB^{-1/2}\label{eq:S-def}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+R=I-B^{-1}A\label{eq:R-def}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\varphi=\kappa^{-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Recall the definition of the matrix norm.
+ Given 
+\begin_inset Formula $M\in\mathcal{S}_{n}^{+}$
+\end_inset
+
+, 
+\begin_inset Formula $\left\Vert M\right\Vert _{B}=\max_{x\neq0}\sqrt{\frac{x^{T}Mx}{x^{T}Bx}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:S-R-contractions"
+
+\end_inset
+
+ 
+\begin_inset Formula $S$
+\end_inset
+
+ and 
+\begin_inset Formula $R$
+\end_inset
+
+ are contractions for the Euclidian and 
+\begin_inset Formula $B-$
+\end_inset
+
+norms: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\left\Vert S\right\Vert  & \leq & 1-\varphi\\
+\left\Vert R\right\Vert  & \leq & 1-\varphi\\
+\left\Vert R\right\Vert _{B} & \leq & \left(1-\varphi\right)^{2}
+\end{eqnarray*}
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ Recall the definition of the matrix norm:
+\begin_inset Formula $\left\Vert S\right\Vert =\max_{x^{T}x\leq1}\sqrt{x^{T}Sx}$
+\end_inset
+
+.
+ Since we know from Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:s-encadrement"
+
+\end_inset
+
+ that 
+\begin_inset Formula $S\preceq\left(1-\varphi\right)I$
+\end_inset
+
+, we get the first inequality.
+\end_layout
+
+\begin_layout Standard
+The second inequality is a consequence of Proposition 3.3 from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009a"
+
+\end_inset
+
+: 
+\begin_inset Formula $A$
+\end_inset
+
+ and 
+\begin_inset Formula $B$
+\end_inset
+
+ have the same nullspace and we have the linear matrix inequality 
+\begin_inset Formula $A\preceq B\preceq\kappa A$
+\end_inset
+
+, which implies that the eigenvalues of 
+\begin_inset Formula $B^{-1}A$
+\end_inset
+
+ lie between 
+\begin_inset Formula $\kappa^{-1}=\varphi$
+\end_inset
+
+ and 
+\begin_inset Formula $1$
+\end_inset
+
+.
+ This implies that the eigenvalues of 
+\begin_inset Formula $I-B^{-1}A$
+\end_inset
+
+ are between 
+\begin_inset Formula $0$
+\end_inset
+
+ and 
+\begin_inset Formula $1-\varphi$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Recall the definition of the matrix norm induced by the 
+\begin_inset Formula $B$
+\end_inset
+
+-norm over 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\left\Vert R\right\Vert _{B} & = & \max_{x\neq0}\frac{\left\Vert Rx\right\Vert _{B}}{\left\Vert x\right\Vert _{B}}\\
+ & = & \max_{\left\Vert x\right\Vert _{B}^{2}\leq1}\sqrt{x^{T}R^{T}BRx}\\
+ & = & \max_{x^{T}Bx\leq1}\sqrt{x^{T}R^{T}BRx}\\
+ & = & \max_{y^{T}y\leq1}\sqrt{y^{T}B^{-1/2}R^{T}BRB^{-1/2}y}
+\end{eqnarray*}
+
+\end_inset
+
+and the latter expression simplifies: 
+\begin_inset Formula 
+\begin{eqnarray*}
+B^{-1/2}R^{T}BRB^{-1/2} & = & B^{-1/2}\left(I-AB^{-1}\right)B\left(I-B^{-1}A\right)B^{-1/2}\\
+ & = & \left(I-B^{-1/2}AB^{-1/2}\right)\left(I-B^{-1/2}AB^{-1/2}\right)\\
+ & = & S^{2}
+\end{eqnarray*}
+
+\end_inset
+
+so we get: 
+\begin_inset Formula 
+\[
+\left\Vert R\right\Vert _{B}=\left\Vert S^{2}\right\Vert \leq\left\Vert S\right\Vert ^{2}\leq\left(1-\varphi\right)^{2}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+The approximation of the log-determinant is performed by computing sequences
+ of power series 
+\begin_inset Formula $\left(R^{k}x\right)_{k}$
+\end_inset
+
+.
+ These chains are computed approximately by repeated applications of the
+ 
+\begin_inset Formula $R$
+\end_inset
+
+ operator on the previous element of the chain, starting from a unit Gaussian
+ distribution 
+\begin_inset Formula $x_{0}\sim\mathcal{N}\left(0,\mathbf{I}\right)$
+\end_inset
+
+.
+ We formalize the notion of an approximate chain.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+ 
+\emph on
+Approximate power sequence.
+ 
+\emph default
+Given a linear operator 
+\begin_inset Formula $H$
+\end_inset
+
+, a start point 
+\begin_inset Formula $x^{\left(0\right)}\in\mathbb{R}^{n}$
+\end_inset
+
+, and a positive-definite matrix 
+\begin_inset Formula $D$
+\end_inset
+
+, we define an 
+\begin_inset Formula $\epsilon-$
+\end_inset
+
+approximate power sequence as a sequence that does not deviate too much
+ from the power sequence: 
+\begin_inset Formula 
+\[
+\left\Vert x^{\left(k+1\right)}-Hx^{\left(k\right)}\right\Vert _{D}\leq\epsilon\left\Vert Hx^{\left(k\right)}\right\Vert _{D}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now prove the following result that is quite intuitive: if the operator
+ 
+\begin_inset Formula $H$
+\end_inset
+
+ is a contraction and if the relative error 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ is not too great, the sum of all the errors on the chain is bounded.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:nu-sequence-bound"
+
+\end_inset
+
+Consider 
+\begin_inset Formula $\left(x^{\left(k\right)}\right)_{k}$
+\end_inset
+
+ a 
+\begin_inset Formula $\nu-$
+\end_inset
+
+approximate power sequence for the operator 
+\begin_inset Formula $H$
+\end_inset
+
+ and the norm 
+\begin_inset Formula $D$
+\end_inset
+
+.
+ Assuming that 
+\begin_inset Formula $\left\Vert H\right\Vert _{D}\leq1-\rho$
+\end_inset
+
+ and that 
+\begin_inset Formula $2\nu\leq\rho\leq1/2$
+\end_inset
+
+, the total error is bounded by 
+\begin_inset Formula $\mathcal{O}\left(\rho^{-3}\nu\right)$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\sum_{k=0}^{\infty}\left\Vert x^{\left(k\right)}-H^{k}x^{\left(0\right)}\right\Vert _{D}\leq4\nu\rho^{-3}\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ Call 
+\begin_inset Formula $\omega_{k}=\left\Vert x^{\left(k\right)}-H^{k}x^{\left(0\right)}\right\Vert _{D}$
+\end_inset
+
+ and 
+\begin_inset Formula $\theta_{k}=\left\Vert Hx^{\left(k\right)}\right\Vert _{D}$
+\end_inset
+
+.
+ We are going to bound the rate of convergence of these two series.
+ We have first using triangular inequality on the 
+\begin_inset Formula $D$
+\end_inset
+
+ norm and then the definition of the induced matrix norm.
+ 
+\begin_inset Formula 
+\begin{eqnarray*}
+\theta_{k} & \leq & \left\Vert Hx^{\left(k\right)}-H^{k}x^{\left(0\right)}\right\Vert _{D}+\left\Vert H^{k}x^{\left(0\right)}\right\Vert _{D}\\
+ & = & \omega_{k}+\left\Vert H^{k}x^{\left(0\right)}\right\Vert _{D}\\
+ & \leq & \omega_{k}+\left\Vert H\right\Vert _{D}^{k}\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\end{eqnarray*}
+
+\end_inset
+
+We now bound the error on the 
+\begin_inset Formula $\omega_{k}$
+\end_inset
+
+ sequence: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\omega_{k+1} & = & \left\Vert x^{\left(k+1\right)}-Hx^{\left(k\right)}+Hx^{\left(k\right)}-H^{k+1}x^{\left(0\right)}\right\Vert _{D}\\
+ & \leq & \left\Vert Hx^{\left(k\right)}-H^{k+1}x^{\left(0\right)}\right\Vert _{D}+\left\Vert x^{\left(k+1\right)}-Hx^{\left(k\right)}\right\Vert _{D}\\
+ & \leq & \left\Vert H\right\Vert _{D}\left\Vert x^{\left(k\right)}-H^{k}x^{\left(0\right)}\right\Vert _{D}+\nu\left\Vert Hx^{\left(k\right)}\right\Vert _{D}\\
+ & = & \left\Vert H\right\Vert _{D}\omega_{k}+\nu\theta_{k}\\
+ & \leq & \left\Vert H\right\Vert _{D}\omega_{k}+\nu\left(\omega_{k}+\left\Vert H\right\Vert _{D}^{k}\left\Vert x^{\left(0\right)}\right\Vert _{D}\right)\\
+ & \leq & \left[\left(1-\rho\right)^{2}+\nu\right]\omega_{k}+\nu\left(1-\rho\right)^{2k}\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that the inequality 
+\begin_inset Formula $\left(1-\rho\right)^{2}+\nu\leq1-\rho$
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $\nu\leq\rho-\rho^{2}$
+\end_inset
+
+.
+ We can assume without loss of generality that 
+\begin_inset Formula $0<\rho\leq1/2$
+\end_inset
+
+.
+ Under this condition, 
+\begin_inset Formula $\rho/2\leq\rho-\rho^{2}$
+\end_inset
+
+.
+ So the condition 
+\begin_inset Formula $2\nu\leq\rho$
+\end_inset
+
+ implies 
+\begin_inset Formula $\left(1-\rho\right)^{2}+\nu\leq1-\rho$
+\end_inset
+
+ which leads to: 
+\begin_inset Formula 
+\[
+\omega_{k+1}\leq\left(1-\rho\right)\omega_{k}+\nu\left(1-\rho\right)^{2k}\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By induction, one obtains: 
+\begin_inset Formula 
+\[
+\omega_{k}\leq\omega_{1}\left(1-\rho\right)^{k}+\frac{\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}}{\rho}\left(1-\rho\right)^{2k-1}
+\]
+
+\end_inset
+
+and since 
+\begin_inset Formula $\omega_{1}=\left\Vert x^{\left(1\right)}-Hx^{\left(0\right)}\right\Vert _{D}\leq\nu\left\Vert Hx^{\left(0\right)}\right\Vert _{D}\leq\nu\left\Vert H\right\Vert _{D}\left\Vert x^{\left(0\right)}\right\Vert _{D}\leq\nu\left(1-\rho\right)^{2}\left\Vert x^{\left(0\right)}\right\Vert _{D}$
+\end_inset
+
+, we have a final bound that depends on 
+\begin_inset Formula $\nu$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\omega_{k}\leq\nu\left(1-\rho\right)^{2}\left\Vert x^{\left(0\right)}\right\Vert _{D}\left(1-\rho\right)^{k}+\frac{\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}}{\rho}\left(1-\rho\right)^{2k-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is the sum of two geometric series, which give the bound: 
+\begin_inset Formula 
+\[
+\sum_{k}\omega_{k}\leq\nu\rho^{-1}\left[1+\frac{1}{\rho^{2}\left(1-\rho\right)^{2}}\right]\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since 
+\begin_inset Formula $\rho\leq1/2$
+\end_inset
+
+, it implies 
+\begin_inset Formula $\left(1-\rho\right)^{-2}\leq4$
+\end_inset
+
+ and 
+\begin_inset Formula $1\leq\rho^{-2}$
+\end_inset
+
+, so we can further simplify: 
+\begin_inset Formula 
+\[
+\sum_{k}\omega_{k}\leq4\nu\rho^{-3}\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We can use the bound on the norm of 
+\begin_inset Formula $A$
+\end_inset
+
+ to compute bound the error with a preconditioner:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:partial-sequence-approximate"
+
+\end_inset
+
+Consider 
+\begin_inset Formula $A,B$
+\end_inset
+
+ with the same hypothesis as above, 
+\begin_inset Formula $x_{0}\in\mathbb{R}^{n}$
+\end_inset
+
+, 
+\begin_inset Formula $\nu\in\left(0,\varphi/2\right)$
+\end_inset
+
+, 
+\begin_inset Formula $\varphi\leq1/2$
+\end_inset
+
+, and 
+\begin_inset Formula $\left(x_{u}\right)_{u}$
+\end_inset
+
+ an 
+\begin_inset Formula $\nu-$
+\end_inset
+
+approximate power sequence for the operator 
+\begin_inset Formula $R$
+\end_inset
+
+ with start vector 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+.
+ Then:
+\begin_inset Formula 
+\[
+\left|\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}R^{i}x_{0}-\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}x_{i}\right|\leq4\nu\kappa^{3}\kappa\left(B\right)\left\Vert x_{0}\right\Vert ^{2}
+\]
+
+\end_inset
+
+ where 
+\begin_inset Formula $\kappa\left(B\right)$
+\end_inset
+
+ is the condition number of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Call 
+\begin_inset Formula $\hat{z}$
+\end_inset
+
+ the truncated sequence: 
+\begin_inset Formula 
+\[
+\hat{z}=\sum_{i=1}^{l}\frac{1}{i}\left(x_{0}\right)^{T}x_{i}
+\]
+
+\end_inset
+
+This sequence is an approximation of the exact sequence 
+\begin_inset Formula $z$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+z=\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}R^{i}x_{0}
+\]
+
+\end_inset
+
+We now bound the error between the two sequences: 
+\begin_inset Formula 
+\[
+\left|\hat{z}-z\right|\leq\sum_{i=1}^{l}\frac{1}{i}\left|x_{0}^{T}\left(R^{i}x_{0}-x_{i}\right)\right|\leq\sum_{i=1}^{l}\left|x_{0}^{T}\left(R^{i}x_{0}-x_{i}\right)\right|\leq\sum_{i=1}^{l}\left|\left(B^{-1}x_{0}\right)^{T}B\left(R^{i}x_{0}-x_{i}\right)\right|
+\]
+
+\end_inset
+
+Using the Cauchy-Schwartz inequality, we obtain: 
+\begin_inset Formula 
+\[
+\left|\left(B^{-1}x_{0}\right)^{T}B\left(R^{i}x_{0}-x_{i}\right)\right|=\left|\left\langle B^{-1}x_{0},R^{i}x_{0}-x_{i}\right\rangle _{B}\right|\leq\left\Vert B^{-1}x_{0}\right\Vert _{B}\left\Vert R^{i}x_{0}-x_{i}\right\Vert _{B}
+\]
+
+\end_inset
+
+so that we can bound the deviation using the bound from Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:nu-sequence-bound"
+
+\end_inset
+
+.
+ 
+\begin_inset Formula 
+\[
+\left|\hat{z}-z\right|\leq\left\Vert B^{-1}x_{0}\right\Vert _{B}\sum_{i=1}^{l}\left\Vert R^{i}x_{0}-x_{i}\right\Vert _{B}\leq4\nu\kappa^{3}\left\Vert B^{-1}x_{0}\right\Vert _{B}\left\Vert x_{0}\right\Vert _{B}\leq4\nu\kappa^{3}\kappa\left(B\right)\left\Vert x_{0}\right\Vert ^{2}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\kappa\left(B\right)$
+\end_inset
+
+ is the condition number of 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We now have all the elements required for the proof of Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:preconditioning-approx"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consider 
+\begin_inset Formula $\mathbf{u}_{j}\sim\mathcal{N}\left(0,I_{n}\right)$
+\end_inset
+
+ for 
+\begin_inset Formula $j=1\cdots p$
+\end_inset
+
+, and 
+\begin_inset Formula $x_{i,j}=\begin{cases}
+\mathbf{u}_{j}/\left\Vert \mathbf{u}_{j}\right\Vert  & \,\, i=0\\
+x_{i-1,j}-C\left(Ax_{i-1,j}\right) & \,\, i>0
+\end{cases}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Call 
+\begin_inset Formula 
+\[
+z_{p,l}=\frac{1}{p}\sum_{j=1}^{p}\sum_{i=1}^{l}\frac{1}{i}\left(x_{0,j}\right)^{T}x_{i,j}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\hat{y}_{p,l}=\frac{1}{p}\sum_{j=1}^{p}\sum_{k=1}^{l}\frac{1}{k}\left(x_{0,j}\right)^{T}S^{k}x_{0,j}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+By construction, 
+\begin_inset Formula $\left(x_{i,j}\right)_{i}$
+\end_inset
+
+ is an 
+\begin_inset Formula $\nu-$
+\end_inset
+
+approximate chain for the operator 
+\begin_inset Formula $R$
+\end_inset
+
+.
+ Applying Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:partial-sequence-approximate"
+
+\end_inset
+
+, we get:
+\begin_inset Formula 
+\begin{eqnarray*}
+\left|z_{p,l}-\hat{y}_{p,l}\right| & \leq & 4\nu\kappa^{3}\kappa\left(B\right)\left[\frac{1}{p}\sum_{j=1}^{p}\left\Vert x_{0,j}\right\Vert ^{2}\right]=4\nu\kappa^{3}\kappa\left(B\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+since 
+\begin_inset Formula $\left\Vert x_{0,j}\right\Vert ^{2}=1$
+\end_inset
+
+, which gives us a deterministic bound.
+ Consider 
+\begin_inset Formula $\nu\leq\min\left(\frac{\epsilon}{8\kappa^{3}\kappa\left(B\right)},\frac{1}{2\kappa}\right)$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\left|z_{p,l}-\hat{y}_{p,l}\right|\leq\epsilon/2$
+\end_inset
+
+.
+ Furthermore:
+\begin_inset Formula 
+\[
+\left|z_{p,l}-y\right|\leq\left|z_{p,l}-\hat{y}_{p,l}\right|+\left|y-\hat{y}_{p,l}\right|
+\]
+
+\end_inset
+
+and 
+\begin_inset Formula $\mathbb{P}\left[\left|y-\hat{y}_{p,l}\right|\geq\epsilon/2\right]\leq\eta$
+\end_inset
+
+ for a choice of 
+\begin_inset Formula $p\geq16\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $l\geq4\kappa\log\left(\frac{n}{\delta\epsilon}\right)$
+\end_inset
+
+.
+ Hence, we get our bound result of 
+\begin_inset Formula $O\left(pl\right)=O\left(\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)\log\left(\frac{n}{\delta\epsilon}\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

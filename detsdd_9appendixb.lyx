@@ -1,0 +1,521 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section*
+Appendix B: Proofs of section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Making-the-problem"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We put here the proofs that pertain to Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Making-the-problem"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Properties of the generalized Laplacian
+\end_layout
+
+\begin_layout Standard
+Proof of Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:floating-properties"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+The first statement is obvious from the construction of the grounded Laplacian.
+\end_layout
+
+\begin_layout Standard
+Statment (2) is a direct consequence of the fact that 
+\begin_inset Formula $F_{Z}=PZP^{T}$
+\end_inset
+
+ with 
+\begin_inset Formula $P=\left(I_{n}\,0\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Then the third statement is a simple consequence of statement 2, as 
+\begin_inset Formula $\text{ld}\left(Z\right)=\sum_{i}\log\lambda_{i}$
+\end_inset
+
+ with 
+\begin_inset Formula $\left(\lambda_{i}\right)_{i}$
+\end_inset
+
+ the 
+\begin_inset Formula $n-1$
+\end_inset
+
+ positive eigenvalues of 
+\begin_inset Formula $Z$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Statement (4) is straightforward after observing that the floating procedure
+ is a linear transform from 
+\begin_inset Formula $\mathcal{S}_{n}$
+\end_inset
+
+ to 
+\begin_inset Formula $\mathcal{S}_{n-1}$
+\end_inset
+
+, so it preserves the matrix inequalities.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Proof of Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "pro:pld-properties"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+
+\shape up
+ Consider 
+\begin_inset Formula $A,B\in SDD_{n}$
+\end_inset
+
+ positive definite.
+ Let 
+\begin_inset Formula $P=\left(I_{n}\,\mathbf{0}\right)$
+\end_inset
+
+ be a projection matrix over the first 
+\begin_inset Formula $n$
+\end_inset
+
+ columns of 
+\begin_inset Formula $L_{A}$
+\end_inset
+
+.
+ 
+\shape default
+If 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is an eigenvalue of 
+\begin_inset Formula $A$
+\end_inset
+
+ with associated eigenvector 
+\begin_inset Formula $x$
+\end_inset
+
+, it is also an eigenvalue of 
+\begin_inset Formula $PL_{A}P^{T}$
+\end_inset
+
+ with the same eigenvector.
+ Thus 
+\begin_inset Formula $\text{ld}\left(L_{A}\right)=\log\left|A\right|$
+\end_inset
+
+.
+ Using the floating procedure, the second statement is straightforward.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Technical lemmas for Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:ultra_main"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This lemma generalizes Lemma 8.1 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009a"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:simple-inequality"
+
+\end_inset
+
+Consider 
+\begin_inset Formula $A\in\mathcal{S}_{n}$
+\end_inset
+
+ positive semi-definite, and 
+\begin_inset Formula $x\in\mathbb{R}^{n}$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $xx^{T}\preceq\left(x^{T}A^{+}x\right)A$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Without loss of generality, consider 
+\begin_inset Formula $x^{T}x=1$
+\end_inset
+
+.
+ Consider the eigenvalue decomposition of 
+\begin_inset Formula $A$
+\end_inset
+
+: 
+\begin_inset Formula $A=\sum_{i}\lambda_{i}u_{i}u_{i}^{T}$
+\end_inset
+
+.
+ Since 
+\begin_inset Formula $\left(u_{i}\right)_{i}$
+\end_inset
+
+ is an orthonormal basis of 
+\begin_inset Formula $\mathbb{R}^{n}$
+\end_inset
+
+, we only need to establish that 
+\begin_inset Formula $\left(u_{i}^{T}x\right)^{2}\leq\left(x^{T}A^{+}x\right)u_{i}^{T}Au_{i}$
+\end_inset
+
+ for all 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ The latter term can be simplified:
+\begin_inset Formula 
+\begin{eqnarray*}
+\left(x^{T}A^{+}x\right)u_{i}^{T}Au_{i} & = & \left(x^{T}\left[\sum_{j}\lambda_{j}^{-1}u_{j}u_{j}^{T}\right]x\right)\lambda_{i}\\
+ & = & \lambda_{i}\sum_{j}\lambda_{j}^{-1}\left(u_{j}^{T}x\right)^{2}\\
+ & \geq & \left(u_{i}^{T}x\right)^{2}
+\end{eqnarray*}
+
+\end_inset
+
+which is the inequality we wanted.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:Jensen-inequality-matrix-logarithm-1"
+
+\end_inset
+
+Jensen inequality for the matrix logarithm.
+ Let 
+\begin_inset Formula $A\in\mathcal{S}_{n}$
+\end_inset
+
+ be a positive semi-definite matrix with 
+\begin_inset Formula $p$
+\end_inset
+
+ positive eigenvalues.
+ Then
+\begin_inset Formula 
+\[
+\text{ld}\left(A\right)\leq p\log\left(\frac{\text{Tr}\left(A\right)}{p}\right)
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+This is a direct application of Jensen's inequality.
+ Call 
+\begin_inset Formula $\left(\lambda_{i}\right)_{i}$
+\end_inset
+
+ the positive eigenvalues of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $\text{ld}\left(A\right)=\sum_{i}\log\lambda_{i}$
+\end_inset
+
+.
+ By concavity of the logarithm:
+\begin_inset Formula 
+\[
+\sum_{i}\log\lambda_{i}\leq p\log\left(\frac{\sum\lambda_{i}}{p}\right)=p\log\left(\frac{\text{Tr}\left(A\right)}{p}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

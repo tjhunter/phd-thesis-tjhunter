@@ -1,0 +1,1079 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Subsection
+Stretch bounds on preconditioners
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Stretch-bounds"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+How good is the estimate provided by the preconditioner? Intuitively, this
+ depends on how well the preconditioner 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ approximates the graph 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+.
+ This notion of quality of approximation can be formalized by the notion
+ of 
+\emph on
+stretch
+\emph default
+.
+ This section presents a deterministic bound on the PLD of 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+ based on the PLD of 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ and the stretch of 
+\begin_inset Formula $G$
+\end_inset
+
+ relative to 
+\begin_inset Formula $H$
+\end_inset
+
+.
+ This may be useful in practice as it gives a (tight) interval for the PLD
+ before performing any Monte-Carlo estimation of the residual.
+\end_layout
+
+\begin_layout Standard
+The stretch of a graph is usually defined with respect to a (spanning) tree.
+ In our analysis, it is convenient and straightforward to generalize this
+ definition to arbitrary graphs.
+ To our knowledge, this straightforward extension is not considered in the
+ litterature, so we feel compelled to properly introduce it.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{definition}
+\end_layout
+
+\end_inset
+
+
+\emph on
+Generalized stretch
+\emph default
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "Generalized-stretch"
+
+\end_inset
+
+ Consider 
+\begin_inset Formula $\mathcal{V}$
+\end_inset
+
+ a set of vertices, 
+\begin_inset Formula $G=\left(\mathcal{V},\,\mathcal{E}_{G}\right),\, H=\left(\mathcal{V},\,\mathcal{E}_{H}\right)$
+\end_inset
+
+ connected graphs over the same set of vertices, and 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+, 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ their respective Laplacians.
+ The stretch of 
+\begin_inset Formula $G$
+\end_inset
+
+ with respect to 
+\begin_inset Formula $H$
+\end_inset
+
+ is the sum of the effective resistances of each edge of graph 
+\begin_inset Formula $G$
+\end_inset
+
+ with repect to graph 
+\begin_inset Formula $H$
+\end_inset
+
+, 
+\begin_inset Formula 
+\[
+\text{st}_{H}\left(G\right)=\sum_{\left(u,v\right)\in\mathcal{E}_{G}}L_{G}\left(u,v\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $\mathcal{X}_{u}\in\mathbb{R}^{n}$
+\end_inset
+
+ the unit vector that is 
+\begin_inset Formula $1$
+\end_inset
+
+ at position 
+\begin_inset Formula $u$
+\end_inset
+
+, and zero otherwise.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{definition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If the graph 
+\begin_inset Formula $H$
+\end_inset
+
+ is a tree, this is a standard definition of stretch, because the effective
+ resistance 
+\begin_inset Formula $\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)$
+\end_inset
+
+ between vertices 
+\begin_inset Formula $u$
+\end_inset
+
+ and 
+\begin_inset Formula $v$
+\end_inset
+
+ is the sum of all resistances over the unique path between 
+\begin_inset Formula $u$
+\end_inset
+
+ and 
+\begin_inset Formula $v$
+\end_inset
+
+ (see Lemma 2.4 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009b"
+
+\end_inset
+
+).
+ Furthermore, the arguments to prove Theorem 2.1 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009b"
+
+\end_inset
+
+ carry over to our definition of stretch.
+ For the sake of completeness, we include this result:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:stretch-trace"
+
+\end_inset
+
+(Straightforward generalization of Theorem 2.1 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009b"
+
+\end_inset
+
+) Let 
+\begin_inset Formula $G=\left(\mathcal{V},\,\mathcal{E}_{G}\right),\, H=\left(\mathcal{V},\,\mathcal{E}_{H}\right)$
+\end_inset
+
+ be connected graphs over the same set of vertices, and 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+, 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ their respective Laplacians.
+ Then:
+\begin_inset Formula 
+\[
+\text{st}_{H}\left(G\right)=\text{Tr}\left(L_{H}^{+}L_{G}\right)
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $L_{H}^{+}$
+\end_inset
+
+the pseudo-inverse of 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We denote 
+\begin_inset Formula $E\left(u,v\right)$
+\end_inset
+
+ the Laplacian unit matrix that is 
+\begin_inset Formula $1$
+\end_inset
+
+ in position 
+\begin_inset Formula $u,v$
+\end_inset
+
+: 
+\begin_inset Formula $E\left(u,v\right)=\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}$
+\end_inset
+
+.
+ This is the same arguments as the original proof:
+\begin_inset Formula 
+\begin{eqnarray*}
+\text{Tr}\left(L_{H}^{+}L_{G}\right) & = & \sum_{\left(u,v\right)\in\mathcal{E}_{G}}L_{G}\left(u,v\right)\text{Tr}\left(E\left(u,v\right)L_{H}^{+}\right)\\
+ & = & \sum_{\left(u,v\right)\in\mathcal{E}_{G}}L_{G}\left(u,v\right)\text{Tr}\left(\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\right)\\
+ & = & \sum_{\left(u,v\right)\in\mathcal{E}_{G}}L_{G}\left(u,v\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\\
+ & = & \text{st}_{H}\left(G\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A consequence is 
+\begin_inset Formula $\text{st}_{H}\left(G\right)\geq\text{Card}\left(\mathcal{E}_{G}\right)\geq n-1$
+\end_inset
+
+ for connected 
+\begin_inset Formula $G$
+\end_inset
+
+ and 
+\begin_inset Formula $H$
+\end_inset
+
+ with 
+\begin_inset Formula $L_{G}\succeq L_{H}$
+\end_inset
+
+.
+ A number of properties of the stretch extend to general graphs using the
+ generalized stretch.
+ In particular, the stretch inequality (Lemma 8.2 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009a"
+
+\end_inset
+
+) can be generalized to arbitrary graphs (instead of spanning trees).
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:stretch-inequality"
+
+\end_inset
+
+Let 
+\begin_inset Formula $G=\left(\mathcal{V},\,\mathcal{E}_{G}\right),\, H=\left(\mathcal{V},\,\mathcal{E}_{H}\right)$
+\end_inset
+
+ be connected graphs over the same set of vertices, and 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+, 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ their respective Laplacians.
+ Then:
+\begin_inset Formula 
+\[
+L_{G}\preceq\text{st}_{H}\left(G\right)L_{H}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+The proof is very similar to that of Lemma 8.2 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009b"
+
+\end_inset
+
+, except that the invocation of Lemma 8.1 is replaced by invoking Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:simple-inequality"
+
+\end_inset
+
+ in Appendix B.
+ The Laplacian 
+\begin_inset Formula $G$
+\end_inset
+
+ can be written as a linear combination of edge Laplacian matrices:
+\begin_inset Formula 
+\[
+L_{G}=\sum_{e\in\mathcal{E}_{G}}\omega_{e}L\left(e\right)=\sum_{\left(u,v\right)\in\mathcal{E}_{G}}\omega_{\left(u,v\right)}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}
+\]
+
+\end_inset
+
+and using Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:simple-inequality"
+
+\end_inset
+
+ gives:
+\begin_inset Formula 
+\[
+\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}\preceq\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)L_{H}
+\]
+
+\end_inset
+
+By summing all the edge inequalities, we get:
+\begin_inset Formula 
+\begin{eqnarray*}
+L_{G} & \preceq & \sum_{\left(u,v\right)\in\mathcal{E}_{G}}\omega_{\left(u,v\right)}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)L_{H}\\
+ & \preceq & \text{st}_{H}\left(G\right)L_{H}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This bound is remarkable as it relates any pair of (connected) graphs, as
+ opposed to spanning trees or subgraphs.
+ An approximation of the generalized stretch can be quickly computed using
+ a construct detailled in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009"
+
+\end_inset
+
+, as we will see below.
+ We now introduce the main result of this section: a bound on the PLD of
+ 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+ using the PLD of 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ and the stretch.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:stretch-pld-bounds"
+
+\end_inset
+
+Let 
+\begin_inset Formula $G=\left(\mathcal{V},\,\mathcal{E}_{G}\right),\, H=\left(\mathcal{V},\,\mathcal{E}_{H}\right)$
+\end_inset
+
+ be connected graphs over the same set of vertices, and 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+, 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ their respective Laplacians.
+ Assuming 
+\begin_inset Formula $L_{H}\preceq L_{G}$
+\end_inset
+
+, then: 
+\begin_inset Formula 
+\begin{equation}
+\text{ld}\left(L_{H}\right)+\left(n-1\right)\log\left(\frac{\text{st}_{H}\left(G\right)}{n-1}\right)\geq\text{ld}\left(L_{G}\right)\geq\text{ld}\left(L_{H}\right)+\log\left(\text{st}_{H}\left(G\right)-n+2\right)\label{eq:encadrement-1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This bound is tight.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+ This is an application of Jensen's inequality on 
+\begin_inset Formula $\text{ld}\left(L_{H}^{+}L_{G}\right)$
+\end_inset
+
+.
+ We have 
+\begin_inset Formula $\text{ld}L_{G}=\text{ld}L_{H}+\text{ld}\left(L_{H}^{+}G\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\text{ld}\left(L_{H}^{+}G\right)=\text{ld}\left(\sqrt{L_{H}}^{+}L_{G}\sqrt{L_{H}}^{+}\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $\sqrt{T}$
+\end_inset
+
+ the matrix square root of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ From Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:Jensen-inequality-matrix-logarithm-1"
+
+\end_inset
+
+, we have the following inequality: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\text{ld}\left(\sqrt{L_{H}}^{+}L_{G}\sqrt{L_{H}}^{+}\right) & \leq & \left(n-1\right)\log\left(\frac{\text{Tr}\left(\sqrt{L_{H}}^{+}L_{G}\sqrt{L_{H}}^{+}\right)}{n-1}\right)\\
+ & = & \left(n-1\right)\log\left(\frac{\text{Tr}\left(L_{H}^{+}L_{G}\right)}{n-1}\right)\\
+ & = & \left(n-1\right)\log\left(\frac{\text{st}_{H}\left(G\right)}{n-1}\right)
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The latter equality is an application of Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:stretch-trace"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The lower bound is slightly more involved.
+ Call 
+\begin_inset Formula $\lambda_{i}$
+\end_inset
+
+ the positive eigenvalues of 
+\begin_inset Formula $\sqrt{L_{H}}^{+}L_{G}\sqrt{L_{H}}^{+}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma=\text{st}_{H}\left(G\right)$
+\end_inset
+
+.
+ We have 
+\begin_inset Formula $1\leq\lambda_{i}$
+\end_inset
+
+ from the asumption 
+\begin_inset Formula $L_{H}\preceq L_{G}$
+\end_inset
+
+.
+ By definition: 
+\begin_inset Formula $\text{ld}\left(L_{H}^{+}L_{G}\right)=\sum_{i}\log\lambda_{i}$
+\end_inset
+
+.
+ Furthermore, we know from Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:stretch-trace"
+
+\end_inset
+
+ that 
+\begin_inset Formula $\sum_{i}\lambda_{i}=\sigma$
+\end_inset
+
+.
+ The upper and lower bounds on 
+\begin_inset Formula $\lambda_{i}$
+\end_inset
+
+ give:
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+\text{ld}\left(L_{H}^{+}L_{G}\right)\geq & \min\,\sum_{i}\log\lambda_{i}\\
+ & 1\leq\lambda_{i}\\
+ & \sum_{i}\lambda_{i}=\sigma
+\end{array}
+\]
+
+\end_inset
+
+Since there are precisely 
+\begin_inset Formula $n-1$
+\end_inset
+
+ positive eigenvalues 
+\begin_inset Formula $\lambda_{i}$
+\end_inset
+
+, one can show that the minimization problem above has a unique minimum
+ which is 
+\begin_inset Formula $\log\left(\sigma-n+2\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+To see that, consider the equivalent problem of minimizing 
+\begin_inset Formula $\sum_{i}\log\left(1+u_{i}\right)$
+\end_inset
+
+ under the constraints 
+\begin_inset Formula $\sum_{i}u_{i}=\sigma-\left(n-1\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $u_{i}\geq0$
+\end_inset
+
+.
+ Note that:
+\begin_inset Formula 
+\[
+\sum_{i}\log\left(1+u_{i}\right)=\log\left(\prod_{i}\left[1+u_{i}\right]\right)=\log\left(1+\sum_{i}u_{i}+\text{Poly}\left(u\right)\right)
+\]
+
+\end_inset
+
+with 
+\begin_inset Formula $\text{Poly}\left(u\right)\geq0$
+\end_inset
+
+ for all 
+\begin_inset Formula $u_{i}\geq0$
+\end_inset
+
+, so we get: 
+\begin_inset Formula $\sum_{i}\log\left(1+u_{i}\right)\geq\log\left(1+\sum_{i}u_{i}\right)$
+\end_inset
+
+ and this inequality is tight for 
+\begin_inset Formula $u_{1}=\sigma-\left(n-1\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $u_{i\geq2}=0$
+\end_inset
+
+.
+ Thus the vector 
+\begin_inset Formula $\lambda^{*}=\left(\sigma-n+2,\,1\cdots1\right)^{T}$
+\end_inset
+
+ is (a) a solution to the minimization problem above, and (b) the objective
+ value of any feasible vector 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is higher or equal.
+ Thus, this is the solution (unique up to a permutation).
+ Hence we have 
+\begin_inset Formula $\text{ld}\left(L_{H}^{+}L_{G}\right)\geq\sum_{i}\log\lambda_{i}^{*}=\log\left(\sigma-n+2\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Finally, note that if 
+\begin_inset Formula $G$
+\end_inset
+
+ is a tree and 
+\begin_inset Formula $H=G$
+\end_inset
+
+ (
+\begin_inset Formula $G$
+\end_inset
+
+ is its own spanning tree), then 
+\begin_inset Formula $\text{st}_{H}\left(G\right)=n-1$
+\end_inset
+
+, which gives an equality.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:stretch-inequality"
+
+\end_inset
+
+ gives us 
+\begin_inset Formula $L_{H}\preceq L_{G}\preceq\text{st}_{H}\left(G\right)L_{H}$
+\end_inset
+
+ which implies 
+\begin_inset Formula $\text{ld}\left(L_{H}\right)\leq\text{ld}\left(L_{G}\right)\leq\text{ld}\left(L_{H}\right)+n\log\text{st}_{H}\left(G\right)$
+\end_inset
+
+.
+ The inequalities in Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:stretch-pld-bounds"
+
+\end_inset
+
+ are stronger.
+ Interestingly, it does not make assumption on the topology of the graphs
+ (such as 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ being a subset of 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+).
+ Research on conditioners has focused so far on low-stretch approximations
+ that are subgraphs of the original graph.
+ It remains to be seen if some better preconditioners can be found with
+ stretches in 
+\begin_inset Formula $\mathcal{O}\left(n\right)$
+\end_inset
+
+ by considering more general graphs.
+ In this case, the machinery developped in Section 3 would not be necessary.
+\end_layout
+
+\begin_layout Standard
+From a practical perspective, the stretch can be calculated also with respect
+ to the number of non-zero entries.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:stretch-approx"
+
+\end_inset
+
+Let 
+\begin_inset Formula $G=\left(\mathcal{V},\,\mathcal{E}_{G}\right),\, H=\left(\mathcal{V},\,\mathcal{E}_{H}\right)$
+\end_inset
+
+ be connected graphs over the same set of vertices, and 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+, 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ their respective Laplacians.
+ Call 
+\begin_inset Formula $r=\max_{e}L_{H}\left(e\right)/\min_{e}L_{H}\left(e\right)$
+\end_inset
+
+.
+ Given 
+\begin_inset Formula $\epsilon>0$
+\end_inset
+
+, there exists an algorithm that returns a scalar 
+\begin_inset Formula $y$
+\end_inset
+
+ so that:
+\begin_inset Formula 
+\[
+\left(1-\epsilon\right)\text{st}_{H}\left(G\right)\leq y\leq\left(1+\epsilon\right)\text{st}_{H}\left(G\right)
+\]
+
+\end_inset
+
+with high probability and in expected time 
+\begin_inset Formula $\tilde{\mathcal{O}}\left(m\epsilon^{-2}\log\left(rn\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+This is a straightforward consequence of Theorem 
+\begin_inset Formula $2$
+\end_inset
+
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009"
+
+\end_inset
+
+.
+ Once the effective resistance of an edge can be approximated in time 
+\begin_inset Formula $O\left(\log n/\epsilon^{2}\right)$
+\end_inset
+
+, we can sum it and weight it by the conductance in 
+\begin_inset Formula $G$
+\end_inset
+
+ for each edge.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
