@@ -82,7 +82,7 @@ status open
 The clock was ticking with a deadly punctuality at each second, answered
  only by the howling shriek of the coffee machine brewing more of its potent
  liquid.
- The fingers were dancing on the keyboards like grains of rice of a drum.
+ The fingers were dancing on the keyboards like grains of rice on a drum.
  Pairs of eyes were staring at abstract charts and symbols written in a
  cabalistic language.
  Sometimes, a sentence would drop, more precise than a scalpel in the surgical
@@ -127,7 +127,7 @@ Wait.
 \end_layout
 
 \begin_layout Standard
-How did it arrive to this point?
+How did things get to this point?
 \begin_inset Newline newline
 \end_inset
 
@@ -141,7 +141,7 @@ Doing a Ph.D.
  of the club is spotless, so you sign up, convinced by the arguments.
  Once aboard the plane, you start to think it was not such a brilliant idea
  after all.
- This thought climaxes when you get pushed out.
+ This thought climaxes when you get pushed out of the aircraft.
  The mid-air flight passes like a short stint inside a hypersonic tumble
  dryer.
  Once you have landed, you start to reconstitute the process that lead to
@@ -161,8 +161,8 @@ My two co-advisers have been a constant support in this endeavor.
  I would like first to thank my co-adviser, Alexandre Bayen, for his constant
  encouragements.
  Ever since we first met between an elevator door and a phone call during
- visit day, his enthusiasm for research, his vision of a enlightened society
- has been gospel to me.
+ visit day, his enthusiasm for research and his vision of a enlightened
+ society has been gospel to me.
  Alex was kind enough to let me explore traffic datasets under the prism
  of statistical methods that bore few resemblance with his domain of expertise.
  Under his guidance, we launched a collaboration with the AMPLab that profoundly
@@ -180,14 +180,14 @@ I still remember the first email of my co-adviser Pieter Abbeel, back in
  Stanford more than seven years ago, asking if I would like to collaborate
  on doing some aerobatics with a toy helicopter.
  Little did I know that this meeting would have so momentous consequences.
- Pieter ignited a passion for research that has been carrying since then.
+ Pieter ignited a passion for research that continues.
  Pieter conveys contagious enthusiasm for exploring novel ground and for
  making cool demonstrations that express the full power of the research
  behind it.
- After Pieter graduated as an Assistant Professor at Berkeley, he convinced
+ After Pieter graduated to an Assistant Professorship at Berkeley, he convinced
  me it would be a great place for doing a Ph.D.
- Back then, I was unsure if an academic career was more suited, but Pieter's
- energy and trust were major factors in coming here.
+ Back then, I was unsure if I was more suited for an academic career, but
+ Pieter's energy and trust were major factors in coming here.
  When the time came to devise new models and methods, Pieter's sharp eye
  and keen attention to details prevented us from time-consuming pitfalls
  in numerous occasions.
@@ -255,8 +255,8 @@ During all this effort, the technical support of various groups, and especially
  essential in dealing with all the subtleties of traffic data.
  In particular, not much would have been accomplished without the dedicated
  support of Ryan Herring and Saneesh Apte.
- Ryan was patient enough to explain the foolhardy first year that I was
- why things should be done a certain way.
+ Ryan was patient enough to explain the foolhardy first year the basics
+ of collaborative software engineering.
  His work on the 
 \emph on
 Mobile Millennium 
@@ -288,7 +288,7 @@ reference "chapter:kdd"
 
 , and her passion combined with a no-nonsense approach have always been
  a driving force in the lab and for me in particular.
- Without our vigorous and fruitful exchanges, this thesis would permeate
+ Without our invigorating and fruitful exchanges, this thesis would permeate
  with preposterous nonsense about traffic.
  Aude approaches everything in life with an amazing energy, and I am glad
  I could meet her both on and around the campus.
@@ -305,11 +305,12 @@ Life would have been quite different without the friendship of so many great
 
 \begin_layout Standard
 The crowd of the first floor (Gates), fourth floor (Soda) and seventh floor
- (Sutardja Day Hall), you made my day so many times.
- I wish to thank in particular (in alphabetical order): Stephanie Lefevre,
- Ameet Talwalkar, Sergey Karayev, Woody Hoburg, Jerome Thai, Leah Anderson,
- Alan Malek, Adam Coates, Teodor Moldovan, Judy Hoffman, Ahmed El-Alaoui,
- Thomas Pumir, Walid Krichene, Virginia Smith, Matei Zaharia, David Shinazi.
+ (Sutardja Dai Hall), you made my day so many times.
+ I wish to thank in particular (in alphabetical order): Leah Anderson, Adam
+ Coates, Ahmed El-Alaoui, Shiry Ginosar, Woody Hoburg, Judy Hoffman, Sergey
+ Karayev, Walid Krichène, Stéphanie Lefèvre, Antonio Lupher, Alan Malek,
+ Teodor Moldovan, Thomas Pumir, David Shinazi, Virginia Smith, Ameet Talwalkar,
+ Jérôme Thai, Matei Zaharia.
 \end_layout
 
 \begin_layout Standard
