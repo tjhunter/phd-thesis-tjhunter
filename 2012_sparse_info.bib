@@ -1,0 +1,493 @@
+## Convex results
+
+@article{banerjee2008model,
+  title={Model selection through sparse maximum likelihood estimation for multivariate gaussian or binary data},
+  author={Banerjee, O. and El Ghaoui, L. and d'Aspremont, A.},
+  journal={The Journal of Machine Learning Research},
+  volume={9},
+  pages={485--516},
+  year={2008},
+  publisher={JMLR. org}
+}
+
+Look for sparse inverse covariance selection
+
+@article{hsieh2011sparse,
+  title={Sparse inverse covariance matrix estimation using quadratic approximation},
+  author={Hsieh, C.J. and Sustik, M.A. and Ravikumar, P. and Dhillon, I.S.},
+  journal={Advances in Neural Information Processing Systems (NIPS)},
+  volume={24},
+  year={2011}
+}
+ 
+
+@article{malioutov2006walk,
+  title={Walk-sums and belief propagation in Gaussian graphical models},
+  author={Malioutov, D.M. and Johnson, J.K. and Willsky, A.S.},
+  journal={The Journal of Machine Learning Research},
+  volume={7},
+  pages={2031--2064},
+  year={2006},
+  publisher={JMLR. org}
+}
+The walk-summability article (JMLR version)
+
+@article{barry1999monte,
+  title={Monte Carlo estimates of the log determinant of large sparse matrices},
+  author={Barry, R.P. and Kelley Pace, R.},
+  journal={Linear Algebra and its Applications},
+  volume={289},
+  number={1},
+  pages={41--54},
+  year={1999},
+  publisher={Elsevier}
+}
+
+
+We are basically computing an approximate analytic solution.
+http://en.wikipedia.org/wiki/Analytic_function
+Maybe find a proof of convergence to non-analytic solutions.
+
+
+@phdthesis{talwalkar2010matrix,
+  title={Matrix Approximation for Large-scale Learning},
+  author={Talwalkar, A.},
+  year={2010},
+  school={New York University}
+}
+Ameet's thesis.
+
+@phdthesis{halko2012randomized,
+  title={Randomized methods for computing low-rank approximations of matrices},
+  author={Halko, N.P.},
+  year={2012},
+  school={University of Colorado}
+}
+Nathan Halko thesis
+FINISH TO READ THIS ONE
+
+@article{Spielman,
+author = {Spielman, Daniel},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Spielman\_Unknown\_Spectral Graph Theory.pdf:pdf},
+title = {{Spectral Graph Theory}}
+}
+@article{Spielman2008,
+abstract = {Abstract We study the design of local algorithms for massive graphs. A local algorithm is one that ﬁnds a solution containing or near a given vertex without looking at the whole graph. We present a local clustering algorithm. Our algorithm ﬁnds a good cluster—a subset of vertices whose internal connections are signiﬁcantly richer than its external connections— near a given vertex. The running time of our algorithm, when it ﬁnds a non-empty local cluster, is nearly linear in the size of the cluster it outputs. Our clustering algorithm could be a useful primitive for handling massive graphs, such as social networks and web-graphs. As an application of this clustering algorithm, we present a partitioning algorithm that ﬁnds an approximate sparsest cut with nearly optimal balance. Our algorithm takes time nearly linear in the number edges of the graph. Using the partitioning algorithm of this paper, we have designed a nearly-linear time algorithm for constructing spectral sparsiﬁers of graphs, which we in turn use in a nearly- linear time algorithm for solving linear systems in symmetric, diagonally-dominant matrices. The linear system solver also leads to a nearly linear-time algorithm for approximating the second-smallest eigenvalue and corresponding eigenvector of the Laplacian matrix of a graph. These other results are presented in two companion papers.},
+archivePrefix = {arXiv},
+arxivId = {arXiv:0809.3232v1},
+author = {Spielman, Daniel A and Teng, Shang-Hua},
+eprint = {arXiv:0809.3232v1},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Spielman, Teng\_2008\_A Local Clustering Algorithm for Massive Graphs and its Application to Nearly-Linear Time Graph Partitioning.pdf:pdf},
+title = {{A Local Clustering Algorithm for Massive Graphs and its Application to Nearly-Linear Time Graph Partitioning}},
+year = {2008}
+}
+@article{Spielman2009,
+abstract = {We present a nearly linear time algorithm that produces high-quality spectral sparsifiers of weighted graphs. Given as input a weighted graph \$G=(V,E,w)\$ and a parameter \$\backslash epsilon>0\$, we produce a weighted subgraph \$H=(V,\backslash tilde\{E\},\backslash tilde\{w\})\$ of G such that \$|\backslash tilde\{E\}|=O(n\backslash log n/\backslash epsilon\^{}2)\$ and all \$x\backslash in\backslash mathbb\{R\}\^{}V\$ satisfy \$(1-\backslash epsilon)\backslash sum\_\{uv\backslash in E\}\backslash,(x(u)-x(v))\^{}2w\_\{uv\}\backslash leq\backslash sum\_\{uv\backslash in\backslash tilde\{E\}\}\backslash,(x(u)-x(v))\^{}2\backslash tilde\{w\}\_\{uv\}\backslash leq(1+\backslash epsilon)\backslash sum\_\{uv\backslash in E\}\backslash,(x(u)-x(v))\^{}2w\_\{uv\}\$. This improves upon the spectral sparsifiers constructed by Spielman and Teng, which had \$O(n\backslash log\^{}\{c\}n)\$ edges for some large constant c, and upon the cut sparsifiers of Bencz\'{u}r and Karger, which only satisfied these inequalities for \$x\backslash in\backslash\{0,1\backslash\}\^{}V\$. A key ingredient in our algorithm is a subroutine of independent interest: a nearly linear time algorithm that builds a data structure from which we can query the approximate effective resistance between any two vertices in a graph in \$O(\backslash log n)\$ time.},
+archivePrefix = {arXiv},
+arxivId = {arXiv:0803.0929v4},
+author = {Spielman, Daniel A and Srivastava, Nikhil},
+doi = {10.1137/080734029},
+eprint = {arXiv:0803.0929v4},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Spielman, Srivastava\_2011\_Graph Sparsification by Effective Resistances.pdf:pdf},
+journal = {SIAM Journal on Computing},
+keywords = {electrical flows,sparsification,spectral graph theory},
+number = {6},
+pages = {1913--1926},
+title = {{Graph Sparsification by Effective Resistances}},
+url = {http://epubs.siam.org/doi/abs/10.1137/080734029},
+volume = {40},
+year = {2011}
+}
+@article{Spielman2009a,
+abstract = {We present a randomized algorithm that, on input a symmetric, weakly diagonally dominant \$n\$-by-\$n\$ matrix \$A\$ with \$m\$ non-zero entries and an \$n\$-vector \$\backslash bb\$, produces an \$\backslash xxtil \$ such that \$\backslash norm\{\backslash xx - \backslash xxtil\}\_\{A\} \backslash leq \backslash epsilon \backslash norm\{\backslash xx\}\_\{A\}\$, where \$A\backslash xx=\backslash bb\$, in expected time \$m \backslash log\^{}\{O (1)\}n \backslash log (1/\backslash epsilon)\$. The algorithm applies subgraph preconditioners in a recursive fashion. These preconditioners improve upon the subgraph preconditioners first introduced by Vaidya (1990). For any symmetric, weakly diagonally-dominant matrix \$A\$ with non-positive off-diagonal entries and \$k \backslash geq 1\$, we construct in time \$m \backslash log\^{}\{O (1)\} n\$ a preconditioner of \$A\$ with at most \$2 (n - 1+ k)\$ non-zero off-diagonal entries such that the preconditioned system has condition number at most \$(n/k) \backslash log\^{}\{O (1)\} n\$. If the non-zero structure of the matrix is planar, then the condition number is at most \$(n/k) \backslash log\^{}\{2\} n \backslash log \backslash log n\$, and the corresponding linear system solver runs in expected time \$O (n \backslash log\^{}\{2\} n \backslash log \backslash log n \backslash log (1/\backslash epsilon))\$. Similar bounds are obtained on the running time of algorithms computing approximate Fiedler vectors.},
+archivePrefix = {arXiv},
+arxivId = {arXiv:cs/0607105v4},
+author = {Spielman, Daniel A and Teng, Shang-Hua},
+eprint = {0607105v4},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Spielman, Teng\_2009\_Nearly-Linear Time Algorithms for Preconditioning and Solving Symmetric , Diagonally Dominant Linear Systems.pdf:pdf},
+pages = {1--48},
+primaryClass = {arXiv:cs},
+title = {{Nearly-Linear Time Algorithms for Preconditioning and Solving Symmetric , Diagonally Dominant Linear Systems}},
+year = {2009}
+}
+@article{Spielman2009b,
+abstract = {Boman and Hendrickson [BH01] observed that one can solve linear systems in Laplacian matrices in time O m3/2+o(1) ln(1/ǫ) by preconditioning with the Laplacian of a low-stretch spanning tree. By examining the distribution of eigenvalues of the preconditioned linear system, we prove that the preconditioned conjugate gradient will actually solve the linear system in time O m4/3 ln(1/ǫ) .},
+archivePrefix = {arXiv},
+arxivId = {arXiv:0903.2816v1},
+author = {Spielman, Daniel A and Woo, Jaeoh},
+eprint = {arXiv:0903.2816v1},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Spielman, Woo\_2009\_A Note on Preconditioning by Low-Stretch Spanning Trees.pdf:pdf},
+pages = {1--4},
+title = {{A Note on Preconditioning by Low-Stretch Spanning Trees}},
+year = {2009}
+}
+@techreport{Spielman2010,
+abstract = {The Laplacian matrices of graphs are fundamental. In addition to facilitating the application of linear algebra to graph theory, they arise in many practical problems. In this talk we survey recent progress on the design of provably fast algorithms for solving linear equations in the Laplacian matrices of graphs. These algorithms motivate and rely upon fascinating primitives in graph theory, including low-stretch spanning trees, graph sparsifiers, ultra-sparsifiers, and local graph clustering. These are all connected by a definition of what it means for one graph to approximate another. While this definition is dictated by Numerical Linear Algebra, it proves useful and natural from a graph theoretic perspective.},
+address = {Hyderabad, India},
+author = {Spielman, Daniel A},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Spielman\_2010\_Algorithms , Graph Theory , and Linear Equations in Laplacian Matrices.pdf:pdf},
+institution = {Proceedings of the International Congress of Mathematicians},
+pages = {23},
+title = {{Algorithms , Graph Theory , and Linear Equations in Laplacian Matrices}},
+year = {2010}
+}
+@article{Spielman2010a,
+archivePrefix = {arXiv},
+arxivId = {arXiv:0808.4134v3},
+author = {Spielman, Daniel A},
+eprint = {arXiv:0808.4134v3},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Spielman\_2008\_Spectral sparsification of graphs.pdf:pdf},
+journal = {Arxiv preprint arXiv:0808.4134},
+title = {{Spectral sparsification of graphs}},
+url = {http://arxiv.org/abs/0808.4134},
+year = {2008}
+}
+
+@article{Koutis2010,
+archivePrefix = {arXiv},
+arxivId = {arXiv:1003.2958v3},
+author = {Koutis, Ioannis and Miller, Gary L and Peng, Richard},
+eprint = {arXiv:1003.2958v3},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Koutis, Miller, Peng\_2010\_Approaching optimality for solving SDD linear systems.pdf:pdf},
+pages = {1--16},
+title = {{Approaching optimality for solving SDD linear systems}},
+year = {2010}
+}
+@book{meurant1999computer,
+author = {Meurant, G\'{e}rard A},
+publisher = {North-Holland: Amsterdam},
+title = {{Computer Solution of Large Linear Systems}},
+year = {1999}
+}
+@article{liu1990eliminationtrees,
+author = {Liu, J},
+doi = {10.1137/0611010},
+journal = {SIAM Journal on Matrix Analysis and Applications},
+number = {1},
+pages = {134--172},
+title = {{The Role of Elimination Trees in Sparse Factorization}},
+url = {http://epubs.siam.org/doi/abs/10.1137/0611010},
+volume = {11},
+year = {1990}
+}
+@article{Malioutov2008a,
+author = {Malioutov, Dmitry M and Science, Computer and Willsky, Alan S and Supervisor, Thesis and Orlando, Terry P},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Malioutov et al.\_2008\_Approximate Inference in Gaussian Graphical Models.pdf:pdf},
+title = {{Approximate Inference in Gaussian Graphical Models}},
+year = {2008}
+}
+@article{martin1992approximations,
+author = {Martin, R J},
+journal = {Communications in Statistics-Theory and Methods},
+number = {1},
+pages = {189--205},
+publisher = {Taylor \& Francis},
+title = {{Approximations to the determinant term in Gaussian maximum likelihood estimation of some spatial models}},
+volume = {22},
+year = {1992}
+}
+@article{Ipsen2006,
+archivePrefix = {arXiv},
+arxivId = {arXiv:1105.0437v1},
+author = {Ipsen, Ilse C F and Lee, Dean J},
+eprint = {arXiv:1105.0437v1},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Ipsen, Lee\_2006\_Determinant approximations(2).pdf:pdf},
+journal = {Numerical Linear Algebra with Applications (under \ldots},
+keywords = {15a15,15a18,15a42,15a90,65f40,ams subject classifications,determinant,expansion,lattice simulation,sparse approximate inverse,spectral radius,trace,zone determinant},
+number = {X},
+title = {{Determinant approximations}},
+url = {http://www.ncsu.edu/crsc/reports/ftp/pdf/crsc-tr03-30.pdf},
+year = {2006}
+}
+@article{Ipsen2006a,
+abstract = {A sequence of approximations for the determinant of a complex matrix is derived, along with relative error bounds. The first approximation in this sequence represents an extension of Fischer’s and Hadamard’s inequalities to indefinite non-Hermitian matrices. The approximations are based on expansions of det(X) = exp(trace(log(X))).},
+author = {Ipsen, Ilse C. F. and Lee, Dean J.},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Ipsen, Lee\_2006\_Determinant approximations.pdf:pdf},
+journal = {Numerical Linear Algebra with Applications (under \ldots},
+keywords = {determinant,determinantal inequalities,spectral radius,trace,tridiagonal matrix},
+number = {X},
+title = {{Determinant approximations}},
+url = {http://www.ncsu.edu/crsc/reports/ftp/pdf/crsc-tr03-30.pdf},
+year = {2006}
+}
+
+@article{Zhang2007,
+abstract = {Maximum likelihood estimation of hyperparameters in Gaussian processes (GPs) as well as other spatial regression models usually requires the evaluation of the logarithm of the matrix determinant, in short, log det. When using matrix decomposition techniques, the exact implementation of log det 3is of O(N ) operations, where N is the matrix dimension. In this paper, a power-series expansion- based framework is presented for approximating the log det of general positive-definite matrices. Three novel compensation schemes are proposed to further improve the approximation accuracy and 2computational efficiency. The proposed log det approximation requires only 50N operations. The theoretical analysis is substantiated by a large number of numerical experiments, including tests on randomly generated positive-definite matrices, randomly generated covariance matrices, and sequences of covariance matrices generated online in two GP regression examples. The average approximation error is ∼9\%.},
+author = {Zhang, Y. and Leithead, W. E.},
+doi = {10.1080/10629360600569279},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Zhang, Leithead\_2007\_Approximate implementation of the logarithm of the matrix determinant in Gaussian process regression.pdf:pdf},
+issn = {0094-9655},
+journal = {Journal of Statistical Computation and Simulation},
+keywords = {Compensation,Gaussian process,Logarithm of matrix determinant,Power-series expansion},
+month = apr,
+number = {4},
+pages = {329--348},
+title = {{Approximate implementation of the logarithm of the matrix determinant in Gaussian process regression}},
+url = {http://www.tandfonline.com/doi/abs/10.1080/10629360600569279},
+volume = {77},
+year = {2007}
+}
+@article{Zhang2008,
+abstract = {Maximum likelihood estimation (MLE) of hyperparameters in Gaussian process regression as well as other computational models usuallyandfrequently requires the evaluation of the logarithm of the determinant of a positive-definite matrix (denoted by C hereafter). In general, the exact computation of log det C is of O(N3) operations where N is the matrix dimension. The approximation of log det C could be developed with O(N2) operations based on power-series expansion and randomized trace estimator. In this paper, the accuracy and effectiveness of using uniformly distributed seeds for log det C approximation are investigated. The research shows that uniform-seed based approximation is an equally good alternative to Gaussian-seed based approximation, having slightly better approximation accuracy and smaller variance. Gaussian process regression examples also substantiate the effectiveness of such a uniform-seed based log-det approximation scheme.},
+author = {Zhang, Yunong and Leithead, W.E. and Leith, D.J. and Walshe, L.},
+doi = {10.1016/j.cam.2007.08.012},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Zhang et al.\_2008\_Log-det approximation based on uniformly distributed seeds and its application to Gaussian process regression.pdf:pdf},
+issn = {03770427},
+journal = {Journal of Computational and Applied Mathematics},
+keywords = {gaussian random seeds,log-det approximation,n 2,o,operations,randomized trace estimator,uniformly distributed seeds},
+month = oct,
+number = {1-2},
+pages = {198--214},
+title = {{Log-det approximation based on uniformly distributed seeds and its application to Gaussian process regression}},
+url = {http://linkinghub.elsevier.com/retrieve/pii/S0377042707004360},
+volume = {220},
+year = {2008}
+}
+@article{McCourt2008,
+abstract = {The efficacy of approximation by radial basis functions is often determined by a scale parameter $\sigma$. Unfortunately, some choices of $\sigma$ which will produce a good interpolant yield an ill-conditioned matrix. One method of choosing an appropriate scale parameter is to assume the data is a realization of a Gaussian process and then find the maximum likelihood estimator. This will require the evaluation of the determinant of the covariance matrix; doing so will likely be an ill-conditioned problem because of the spectrum of the covariance matrix. Here we will discuss a Monte Carlo technique developed in [7] and analyze its usefulness on matrices arising in radial basis approximation. Later we will consider an adaptation of this method which will be applicable to more general matrices.},
+author = {McCourt, M},
+file = {:home/tjhunter/Documents/Mendeley Desktop/McCourt\_2008\_A Stochastic Simulation for Approximating the log-Determinant of a Symmetric Positive Definite Matrix.pdf:pdf},
+journal = {compare},
+pages = {1--10},
+title = {{A Stochastic Simulation for Approximating the log-Determinant of a Symmetric Positive Definite Matrix}},
+url = {http://www.thefutureofmath.com/mathed/logdet.pdf},
+volume = {2},
+year = {2008}
+}
+@article{Wainwright2006,
+author = {Wainwright, M.J. and Jordan, M.I.},
+doi = {10.1109/TSP.2006.874409},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Wainwright, Jordan\_2006\_Log-determinant relaxation for approximate inference in discrete Markov random fields.pdf:pdf},
+issn = {1053-587X},
+journal = {IEEE Transactions on Signal Processing},
+month = jun,
+number = {6},
+pages = {2099--2109},
+title = {{Log-determinant relaxation for approximate inference in discrete Markov random fields}},
+url = {http://ieeexplore.ieee.org/lpdocs/epic03/wrapper.htm?arnumber=1634807},
+volume = {54},
+year = {2006}
+}
+@article{Reusken2002,
+abstract = {This paper is concerned with the problem of approximating det(A)\^{}1/n for a large sparse symmetric positive definite matrix A of order n. It is shown that an effcient solution of this problem is obtained by using a sparse approximate inverse of A. The method is explained and theoretical properties are discussed. A posteriori error estimation techniques are presented. Furthermore, results of numerical experiments are given which illustrate the performance of this new method.},
+author = {Reusken, Arnold},
+doi = {10.1137/S089547980036869X},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Reusken\_2002\_Approximation of the Determinant of Large Sparse Symmetric Positive Definite Matrices.pdf:pdf},
+issn = {08954798},
+journal = {SIAM Journal on Matrix Analysis and Applications},
+keywords = {determinant,preconditioning,sparse approximate inverse},
+number = {3},
+pages = {799},
+title = {{Approximation of the Determinant of Large Sparse Symmetric Positive Definite Matrices}},
+url = {http://link.aip.org/link/SJMAEL/v23/i3/p799/s1\&Agg=doi},
+volume = {23},
+year = {2002}
+}
+@unpublished{Reusken2000,
+abstract = {This paper is concerned with the problem of approximating det(A)\^{}1/n for a large sparse symmetric positive definite matrix A of order n. It is shown that an efficient solution of this problem is obtained by using a sparse approximate inverse of A. The method is explained and theoretical properties are discussed. The method is ideal for implementation on a parallel computer. Numerical experiments are described that illustrate the performance of this new method and provide a comparison with Monte Carlo–type methods from the literature.},
+author = {Reusken, Arnold},
+booktitle = {Arxiv preprint hep-lat/0008007},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Reusken\_2000\_Approximation of the determinant of large sparse symmetric positive definite matrices.pdf:pdf},
+keywords = {1,65f10,65f50,6f10,a denotes a real,ams subject classifications,determinant,introduction,pii,preconditioning,s089547980036869x,sparse approximate inverse,symmetric positive,throughout this paper},
+mendeley-tags = {determinant,preconditioning,sparse approximate inverse},
+number = {3},
+pages = {799--818},
+title = {{Approximation of the determinant of large sparse symmetric positive definite matrices}},
+url = {http://arxiv.org/abs/hep-lat/0008007},
+volume = {23},
+year = {2000}
+}
+@article{Barry1999,
+author = {Barry, Ronald Paul and Pace, R. Kelley},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Barry, Pace\_1999\_Monte Carlo estimates of the log determinant of large sparse matrices.pdf:pdf},
+journal = {Linear Algebra and its Applications},
+title = {{Monte Carlo estimates of the log determinant of large sparse matrices}},
+url = {http://www.sciencedirect.com/science/article/pii/S002437959710009X},
+year = {1999}
+}
+@article{Bai1996,
+author = {Bai, Zhaojun and Fahey, Mark and Golub, Gene H.},
+doi = {10.1.1.56.8150},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Bai, Fahey, Golub\_1996\_Some large-scale matrix computation problems.pdf:pdf},
+journal = {Journal of Computational and Applied \ldots},
+number = {1},
+pages = {71--89},
+title = {{Some large-scale matrix computation problems}},
+url = {http://www.sciencedirect.com/science/article/pii/0377042796000180},
+volume = {74},
+year = {1996}
+}
+@phdthesis{Gremban1996,
+annote = {Look at chapter 4 for converting a SDD to a laplacian},
+author = {Gremban, Keith D.},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Gremban\_1996\_Combinatorial Preconditioners for Sparse, Symmetric, Diagonally Dominant Linear Systems.gz:gz},
+pages = {142},
+school = {Carnegie Mellon University},
+title = {{Combinatorial Preconditioners for Sparse, Symmetric, Diagonally Dominant Linear Systems}},
+url = {www.cs.cmu.edu/~glmiller/Publications/GrembanPHD.ps.gz},
+year = {1996}
+}
+@article{Alon1995,
+abstract = {This paper investigates a zero-sum game played on a weighted connected graph G between two players, the tree player and the edge player. At each play, the tree player chooses a spanning tree T and the edge player chooses an edge e. The payoff to the edge player is \$\backslash textit\{cost\} (T, e)\$, defined as follows: If e lies in the tree T then \$\backslash textit\{cost\}(T, e) = 0\$; if e does not lie in the tree then \$\backslash textit\{cost\}(T, e) = cycle(T, e)/w(e)\$, where \$w(e)\$ is the weight of edge e and \$\backslash textit\{cycle\}(T, e)\$ is the weight of the unique cycle formed when edge e is added to the tree T. The main result is that the value of the game on any n-vertex graph is bounded above by \$\backslash exp(O(\backslash sqrt\{\backslash log n \backslash log \backslash log n\}))\$. It is conjectured that the value of the game is \$O(\backslash log n)\$. The game arises in connection with the k-server problem on a road network; i.e., a metric space that can be represented as a multigraph G in which each edge e represents a road of length \$w(e)\$. It is shown that, if the value of the game on G is \$\backslash textit\{Val\}(G, w)\$, then there is a randomized strategy that achieves a competitive ratio of \$k(1 + \backslash textit\{Val\}(G, w))\$ against any oblivious adversary. Thus, on any n-vertex road network, there is a randomized algorithm for the k-server problem that is \$k \backslash cdot \backslash exp(O(\backslash sqrt\{\backslash log n \backslash log \backslash log n\}))\$ competitive against oblivious adversaries. At the heart of the analysis of the game is an algorithm that provides an approximate solution for the simple network design problem. Specifically, for any n-vertex weighted, connected multigraph, the algorithm constructs a spanning tree T such that the average, over all edges e, of \$\backslash textit\{cost\}(T, e)\$ is less than or equal to \$\backslash exp(O(\backslash sqrt\{\backslash log n \backslash log \backslash log n\}))\$. This result has potential application to the design of communication networks. It also improves substantially known estimates concerning the existence of a sparse basis for the cycle space of a graph. Read More: http://epubs.siam.org/doi/abs/10.1137/S0097539792224474},
+author = {Alon, Noga and Karp, RM and Peleg, D and West, Douglas},
+doi = {10.1137/S0097539792224474},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Alon et al.\_1995\_A graph-theoretic game and its application to the k-server problem.pdf:pdf},
+journal = {SIAM Journal on Computing},
+number = {1},
+pages = {78--100},
+title = {{A graph-theoretic game and its application to the k-server problem}},
+url = {http://epubs.siam.org/doi/abs/10.1137/S0097539792224474 http://epubs.siam.org/doi/pdf/10.1137/S0097539792224474},
+volume = {24},
+year = {1995}
+}
+@article{Abraham2008,
+archivePrefix = {arXiv},
+arxivId = {arXiv:0808.2017v1},
+author = {Abraham, Ittai and Bartal, Yair and Neiman, Ofer},
+eprint = {arXiv:0808.2017v1},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Abraham, Bartal, Neiman\_2008\_Nearly tight low stretch spanning trees.pdf:pdf},
+journal = {Foundations of Computer \ldots},
+pages = {781--790},
+title = {{Nearly tight low stretch spanning trees}},
+url = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=4691010},
+year = {2008}
+}
+@article{Boman2004,
+author = {Boman, Erik G. and Chen, Doron and Hendrickson, Bruce and Toledo, Sivan},
+doi = {10.1002/nla.343},
+file = {:home/tjhunter/Documents/Mendeley Desktop/Boman et al.\_2004\_Maximum-weight-basis preconditioners.pdf:pdf},
+issn = {1070-5325},
+journal = {Numerical Linear Algebra with Applications},
+keywords = {matroids,maximum-,preconditioning,sparse linear solvers,support preconditioners,support theory,weight bases},
+month = oct,
+number = {89},
+pages = {695--721},
+title = {{Maximum-weight-basis preconditioners}},
+url = {http://doi.wiley.com/10.1002/nla.343},
+volume = {11},
+year = {2004}
+}
+
+@article{Koutis2011,
+archivePrefix = {arXiv},
+arxivId = {arXiv:1102.4842v4},
+author = {Koutis, Ioannis and Miller, Gary L and Peng, Richard},
+eprint = {arXiv:1102.4842v4},
+file = {:home/tjhunter/Documents/Research/Papers/Koutis, Miller, Peng - 2011 - A nearly-m log n time solver for SDD linear systems.pdf:pdf},
+mendeley-groups = {SIC/inversion},
+pages = {1--16},
+title = {{A nearly-m log n time solver for SDD linear systems}},
+year = {2011}
+}
+
+
+
+The application references
+
+Kriging methods
+---------------
+
+@article{zhang2010kriging,
+  title={Kriging and cross-validation for massive spatial data},
+  author={Zhang, Hao and Wang, Yong},
+  journal={Environmetrics},
+  volume={21},
+  number={3-4},
+  pages={290--304},
+  year={2010},
+  publisher={Wiley Online Library}
+}
+
+@article{li2005analysis,
+  title={Analysis of computer experiments using penalized likelihood in Gaussian Kriging models},
+  author={Li, Runze and Sudjianto, Agus},
+  journal={Technometrics},
+  volume={47},
+  number={2},
+  year={2005}
+}
+
+@article{KelleyPace1997291,
+title = "Sparse spatial autoregressions ",
+journal = "Statistics and Probability Letters ",
+volume = "33",
+number = "3",
+pages = "291 - 297",
+year = "1997",
+note = "",
+issn = "0167-7152",
+doi = "http://dx.doi.org/10.1016/S0167-7152(96)00140-X",
+url = "http://www.sciencedirect.com/science/article/pii/S016771529600140X",
+author = "R. Kelley Pace and Ronald Barry",
+}
+
+
+
+Quantum methods
+---------------
+
+@book{atkins2011molecular,
+  title={Molecular quantum mechanics},
+  author={Atkins, Peter W and Friedman, Ronald S},
+  year={2011},
+  publisher={Oxford university press}
+}
+
+Big scary article
+@article{lowdin1955quantum,
+  title={Quantum theory of many-particle systems. III. Extension of the Hartree-Fock scheme to include degenerate systems and correlation effects},
+  author={L{\"o}wdin, Per-Olov},
+  journal={Physical review},
+  volume={97},
+  number={6},
+  pages={1509},
+  year={1955},
+  publisher={APS}
+}
+
+About some insane approximations for QCD
+@article{duncan1998efficient,
+  title={Efficient algorithm for QCD with light dynamical quarks},
+  author={Duncan, A and Eichten, E and Thacker, H},
+  journal={Physical Review D},
+  volume={59},
+  number={1},
+  pages={014505},
+  year={1998},
+  publisher={APS}
+}
+
+@article{bernardson1994monte,
+title = "Monte Carlo methods for estimating linear combinations of inverse matrix entries in lattice \{QCD\} ",
+journal = "Computer Physics Communications ",
+volume = "78",
+number = "3",
+pages = "256 - 264",
+year = "1994",
+note = "",
+issn = "0010-4655",
+doi = "http://dx.doi.org/10.1016/0010-4655(94)90004-3",
+url = "http://www.sciencedirect.com/science/article/pii/0010465594900043",
+author = "Shannon Bernardson and Paul McCarty and Chris Thron"
+}
+
+@article{deForcrand1989516,
+title = "Multigrid techniques for quark propagator ",
+journal = "Nuclear Physics B - Proceedings Supplements ",
+volume = "9",
+number = "0",
+pages = "516 - 520",
+year = "1989",
+note = "",
+issn = "0920-5632",
+doi = "http://dx.doi.org/10.1016/0920-5632(89)90153-9",
+url = "http://www.sciencedirect.com/science/article/pii/0920563289901539",
+author = "Philippe de Forcrand and Rajan Gupta"
+}
+
+@article{lee2003zone,
+  title={Zone determinant expansions for nuclear lattice simulations},
+  author={Lee, Dean J and Ipsen, Ilse CF},
+  journal={arXiv preprint nucl-th/0308052},
+  year={2003}
+}

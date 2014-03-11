@@ -88,7 +88,7 @@ def build(bld):
   bld.lyx2tex(bld.path.ant_glob('*.lyx'))
   bld.add_group()
   # Bibliography files.
-  bib_deps = 'references.bib path_inference.bib socc.bib biblio_arterial_spark.bib mendeley_biblio.bib'.split()
+  bib_deps = 'references.bib path_inference.bib socc.bib biblio_arterial_spark.bib mendeley_biblio.bib 2012_sparse_info.bib'.split()
   # Miscellaneous tex files
   tex_deps = 'ucbthesis.cls preamble.tex abstract.tex'.split()
   img_deps = []
