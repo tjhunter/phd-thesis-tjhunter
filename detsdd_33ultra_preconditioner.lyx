@@ -3,12 +3,12 @@
 \begin_document
 \begin_header
 \textclass article
-\use_default_options true
+\use_default_options false
 \maintain_unincluded_children false
 \language english
-\language_package default
+\language_package none
 \inputencoding auto
-\fontencoding global
+\fontencoding default
 \font_roman default
 \font_sans default
 \font_typewriter default
@@ -25,19 +25,20 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
-\use_mhchem 1
-\use_mathdots 1
+\use_mhchem 0
+\use_mathdots 0
 \cite_engine basic
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\use_refstyle 1
+\use_refstyle 0
 \index Index
 \shortcut idx
 \color #008000
@@ -59,6 +60,20 @@
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%stopskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Incremental sparsifiers
 \begin_inset CommandInset label
@@ -77,7 +92,7 @@ We can do better and achieve near-linear time by using ultra-sparsifiers.
  hence have a determinant that is relatively easy to compute, and furthermore
  that they are excellent spectral preconditioners, so the procedure 
 \family typewriter
-PreconditionedLogDetMonteCarlo
+PreconditionedLogDet- MonteCarlo
 \family default
  is efficient to apply.
  We reintroduce some concepts presented in 
@@ -363,7 +378,7 @@ key "Koutis2010"
 \begin_inset Formula $A$
 \end_inset
 
- if:
+ if: 
 \end_layout
 
 \begin_layout Enumerate
@@ -413,7 +428,7 @@ end{definition}
 
 \end_inset
 
- 
+
 \end_layout
 
 \begin_layout Standard
@@ -601,7 +616,7 @@ It should now become clear how we can combine a
 
 -good chain with the Algorithm 
 \family typewriter
-PreconditionedLogDetMonteCarlo
+Precondit- ionedLogDetMonteCarlo
 \family default
 .
  We start by building a chain.
@@ -763,6 +778,7 @@ reference "BROKEN: Ref: alg:The-main-alg..."
 \end_inset
 
 .
+ 
 \end_layout
 
 \end_body

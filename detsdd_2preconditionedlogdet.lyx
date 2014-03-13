@@ -3,15 +3,12 @@
 \begin_document
 \begin_header
 \textclass article
-\use_default_options true
-\begin_modules
-theorems-std
-\end_modules
+\use_default_options false
 \maintain_unincluded_children false
 \language english
-\language_package default
+\language_package none
 \inputencoding auto
-\fontencoding global
+\fontencoding default
 \font_roman default
 \font_sans default
 \font_typewriter default
@@ -34,14 +31,14 @@ theorems-std
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
-\use_mhchem 1
-\use_mathdots 1
+\use_mhchem 0
+\use_mathdots 0
 \cite_engine basic
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\use_refstyle 1
+\use_refstyle 0
 \index Index
 \shortcut idx
 \color #008000
@@ -175,28 +172,28 @@ begin{lemma}
 
 \end_inset
 
- 
+[Bernstein's inequality] 
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:bernstein"
 
 \end_inset
 
-Let 
-\begin_inset Formula $X_{1}\cdots X_{U}$
+ Let 
+\begin_inset Formula $X_{1}\cdots X_{n}$
 \end_inset
 
  be independent random variables with 
-\begin_inset Formula $\mathbb{E}\left[X_{u}\right]=0$
+\begin_inset Formula $\mathbb{E}\left[X_{i}\right]=0$
 \end_inset
 
 , 
-\begin_inset Formula $\left|X_{u}\right|<c$
+\begin_inset Formula $\left|X_{i}\right|<c$
 \end_inset
 
-.
+ almost surely.
  Call 
-\begin_inset Formula $\sigma^{2}=\frac{1}{U}\sum_{u}\text{Var}\left(X_{u}\right)$
+\begin_inset Formula $\sigma^{2}=\frac{1}{n}\sum_{i}\text{Var}\left(X_{i}\right)$
 \end_inset
 
 , then for all 
@@ -206,15 +203,12 @@ Let
 : 
 \begin_inset Formula 
 \[
-\mathbb{P}\left[\frac{1}{U}\sum_{u}X_{u}\geq\epsilon\right]\leq\exp\left(-\frac{U\epsilon^{2}}{2\sigma^{2}+2c\epsilon/3}\right)
+\mathbb{P}\left[\frac{1}{n}\Big|\sum_{i}X_{i}\Big|\geq\epsilon\right]\leq2\exp\left(-\frac{n\epsilon^{2}}{2\sigma^{2}+2c\epsilon/3}\right)
 \]
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -231,9 +225,7 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
-The proof of this result can be found in a lecture note from Peter Bartlett's
- class (stat241B/spring 2003).
- We can adapt some results from 
+We can adapt some results from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Barry1999"
@@ -292,7 +284,7 @@ Consider
 : 
 \begin_inset Formula 
 \[
-\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-\frac{1}{n}\mbox{Tr}\left(H\right)\right|\geq\epsilon\right]\leq\exp\left(-\frac{p\epsilon^{2}}{2n^{-1}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}+\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon}\right)
+\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-\frac{1}{n}\mbox{Tr}\left(H\right)\right|\geq\epsilon\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{4n^{-1}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}+2\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon/3}\right)
 \]
 
 \end_inset
@@ -310,7 +302,7 @@ end{lemma}
 
 \end_inset
 
- 
+
 \end_layout
 
 \begin_layout Standard
@@ -336,7 +328,7 @@ begin{proof}
 
  diagonal.
  We assume without loss of generality that 
-\begin_inset Formula $H=\text{diag}\left(\lambda_{1}...\lambda_{n}\right)$
+\begin_inset Formula $H=\text{diag}\left(\lambda_{1},\cdots,\lambda_{n}\right)$
 \end_inset
 
 .
@@ -373,10 +365,10 @@ key "Barry1999"
 \begin_inset Formula $\mathbb{E}\left[V_{i}\right]=0$
 \end_inset
 
- and: 
+ and 
 \begin_inset Formula 
 \[
-\text{Var}\left(V_{i}\right)=\frac{2}{n^{2}}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}
+\text{Var}\left(V_{i}\right)=\frac{2}{n(n+2)}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}
 \]
 
 \end_inset
@@ -389,14 +381,24 @@ Each of the variables
 \begin_inset Formula $V_{i}$
 \end_inset
 
- is independent (see 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Barry1999"
+ is independent, 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%(see 
+\backslash
+cite{Barry1999})
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
-), so invoking Lemma 
+so invoking Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lem:bernstein"
@@ -406,22 +408,33 @@ reference "lem:bernstein"
  gives: 
 \begin_inset Formula 
 \[
-\mathbb{P}\left[\frac{1}{p}\sum_{i=1}^{p}V_{i}\geq\epsilon\right]\leq\exp\left(-\frac{p\epsilon^{2}}{2\sigma^{2}+2\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon/3}\right)
+\mathbb{P}\left[\frac{1}{p}\left|\sum_{i=1}^{p}V_{i}\right|\geq\epsilon\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{2\sigma^{2}+2\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon/3}\right)
 \]
 
 \end_inset
 
 with 
-\begin_inset Formula $\sigma^{2}=\frac{2}{n^{2}}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}\leq\frac{2}{n^{2}}\sum_{i=1}^{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}=2n^{-1}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}$
+\begin_inset Formula $\sigma^{2}=\frac{2}{n(n+2)}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}\leq\frac{2}{n^{2}}\sum_{i=1}^{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}=\frac{2}{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}$
 \end_inset
 
 .
- Dropping the factor 
-\begin_inset Formula $2/3$
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%Dropping the factor $2/3$, we get our result.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 
-, we get our result.
- 
+
 \begin_inset ERT
 status collapsed
 
@@ -439,7 +452,7 @@ end{proof}
 
 \begin_layout Standard
 The previous lemma shows that if the eigenspectrum of a matrix is bounded,
- we can obtain a Hoeffding bound on the error done by sampling the trace.
+ we can obtain a Bernstein bound on the error incurred by sampling the trace.
  Furthermore, the convergence of the series 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -461,7 +474,7 @@ reference "eq:martin"
 
 ), we can bound the truncation error using the extremal eigenvalues.
  We formalize this intuition in the following theorem, which is adapted
- from the main Theorem in 
+ from the main theorem in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Barry1999"
@@ -469,7 +482,7 @@ key "Barry1999"
 \end_inset
 
 .
- While that main Theorem in 
+ While that main theorem in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Barry1999"
@@ -483,7 +496,7 @@ key "Barry1999"
 
 \begin_layout Standard
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -572,7 +585,7 @@ Given
 \end_inset
 
  by choosing 
-\begin_inset Formula $p\geq8\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)$
+\begin_inset Formula $p\geq8\left(\frac{2}{\epsilon}\log^{2}\left(1/\delta\right)+\frac{1}{3n\epsilon^{2}}\log\left(1/\delta\right)\right)\log\left(1/\eta\right)$
 \end_inset
 
  and 
@@ -608,8 +621,8 @@ The proof of this result is detailed in Appendix A.
 \end_layout
 
 \begin_layout Standard
-From this theoem we derive two results that justify the notion of preconditioner
-s for determinants: one for exact preconditioners and one for approximate
+From this theorem we derive two results that justify the notion of preconditione
+rs for determinants: one for exact preconditioners and one for approximate
  preconditioners.
  The corresponding algorithm, which we call 
 \family typewriter
@@ -744,7 +757,7 @@ The proof of this corollary is presented in Appendix A.
 
 \begin_layout Standard
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -803,7 +816,7 @@ approximation of
 \begin_inset Formula $B^{-1}y$
 \end_inset
 
-:
+: 
 \begin_inset Formula 
 \[
 \left\Vert C\left(y\right)-B^{-1}y\right\Vert _{B}\leq\nu\left\Vert B^{-1}y\right\Vert _{B}
@@ -825,13 +838,13 @@ Given
 
 , then the algorithm 
 \family typewriter
-ApproxPreconditionedLogDetMonteCarlo
+ApproxPreconditioned- LogDetMonteCarlo
 \family default
  returns a scalar 
 \begin_inset Formula $z$
 \end_inset
 
- so that:
+ so that: 
 \begin_inset Formula 
 \[
 \mathbb{P}\left[\left|z-n^{-1}\log\left|B^{-1}A\right|\right|\geq\epsilon\right]\leq\eta
@@ -852,12 +865,11 @@ by performing
 \end_inset
 
 .
- 
 \end_layout
 
 \begin_layout Standard
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -907,7 +919,7 @@ This last theorem shows that we can compute a good approximation of the
 \begin_inset Float algorithm
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -938,7 +950,7 @@ UltraLogDet
 \begin_inset Formula $\eta$
 \end_inset
 
-): 
+):
 \end_layout
 
 \begin_layout Plain Layout
@@ -983,7 +995,6 @@ begin{raggedright}
 \end_inset
 
  with a dense Cholesky factorization.
- 
 \end_layout
 
 \begin_layout Plain Layout
@@ -1026,8 +1037,6 @@ IncrementalSparsify(
 \end_inset
 
 )
-\series default
- 
 \end_layout
 
 \begin_layout Plain Layout
@@ -1070,8 +1079,6 @@ PartialCholesky(
 \end_inset
 
 )
-\series default
- 
 \end_layout
 
 \begin_layout Plain Layout
@@ -1222,8 +1229,6 @@ PreconditionedLogDetMonteCarlo(
 \end_inset
 
 )
-\series default
- 
 \end_layout
 
 \begin_layout Plain Layout
@@ -1274,8 +1279,6 @@ UltraLogDet(
 \end_inset
 
 )
-\series default
- 
 \end_layout
 
 \begin_layout Plain Layout
@@ -1322,7 +1325,7 @@ name "alg:The-main-algorithm"
 \begin_inset Float algorithm
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Algorithm 
@@ -1524,11 +1527,7 @@ Return
 \begin_inset Caption
 
 \begin_layout Plain Layout
-
-\series bold
 PreconditionedLogDetMonteCarlo
-\series default
-
 \begin_inset CommandInset label
 LatexCommand label
 name "alg:SampleLogDet"

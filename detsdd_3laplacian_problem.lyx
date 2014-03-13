@@ -1,22 +1,9 @@
-#LyX 2.0 created this file. For more info see http://www.lyx.org/
+#LyX file created by tex2lyx 2.0.3
 \lyxformat 413
 \begin_document
 \begin_header
 \textclass article
-\begin_preamble
-\include{amsmath}
-
-% \makeatother
-
-% \usepackage{babel}
-%   \providecommand{\corollaryname}{Corollary}
-%   \providecommand{\definitionname}{Definition}
-%   \providecommand{\lemmaname}{Lemma}
-%   \providecommand{\propositionname}{Proposition}
-% \providecommand{\theoremname}{Theorem}
-\end_preamble
 \use_default_options false
-\maintain_unincluded_children false
 \language english
 \language_package none
 \inputencoding auto
@@ -25,23 +12,17 @@
 \font_sans default
 \font_typewriter default
 \font_default_family default
-\use_non_tex_fonts false
 \font_sc false
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
-
 \graphics default
-\default_output_format default
-\output_sync 0
-\bibtex_command default
-\index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref false
+\use_hyperref 0
 \papersize default
 \use_geometry false
-\use_amsmath 2
+\use_amsmath 1
 \use_esint 1
 \use_mhchem 0
 \use_mathdots 0
@@ -51,10 +32,6 @@
 \paperorientation portrait
 \suppress_date false
 \use_refstyle 0
-\index Index
-\shortcut idx
-\color #008000
-\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -73,14 +50,18 @@
 \begin_body
 
 \begin_layout Section
+
 Ultra-sparsifiers as determinant preconditioners
 \end_layout
 
 \begin_layout Subsection
+
 Making the problem laplacian
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:Making-the-problem"
@@ -91,28 +72,25 @@ name "sec:Making-the-problem"
 \end_layout
 
 \begin_layout Standard
+
 From now on, we consider all matrices to be in 
 \begin_inset Formula $SDD_{n}$
 \end_inset
 
-.
- The techniques we will develop work on Laplacian matrices instead of SDD
- matrices.
- An SDD matrix is positive semi-definite while a Laplacian matrix is always
- singular, since its nullspace is spanned by 
+. The techniques we will develop work on Laplacian matrices instead of SDD matrices. An SDD matrix is positive semi-definite while a Laplacian matrix is always singular, since its nullspace is spanned by 
 \begin_inset Formula $\mathbf{1}$
 \end_inset
 
-.
- We generalize the definition of the determinant to handle this technicality.
- 
+. We generalize the definition of the determinant to handle this technicality.
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 
 \backslash
@@ -129,14 +107,10 @@ Pseudo-log-determinant (PLD):
 \begin_inset Formula $A\in\mathcal{S}^{n+}$
 \end_inset
 
- be a non-null positive semi-definite matrix.
- The pseudo-log-determinant is defined by the sum of the logarithms of all
- the positive eigenvalues: 
-\begin_inset Formula 
-\[
+ be a non-null positive semi-definite matrix. The pseudo-log-determinant is defined by the sum of the logarithms of all the positive eigenvalues: 
+\begin_inset Formula \[
 \text{ld}\left(A\right)=\sum_{\lambda_{i}>0}\log\left(\lambda_{i}\right)
 \]
-
 \end_inset
 
 where 
@@ -147,12 +121,11 @@ where
 \begin_inset Formula $A$
 \end_inset
 
-.
- 
+. 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 
 \backslash
@@ -165,32 +138,25 @@ end{definition}
 \end_layout
 
 \begin_layout Standard
-The interest of the PLD lies in the connection between SDD matrices and
- their associated Laplacian.
- Recall that an SDD matrix can be transformed into a Laplacian (which has
- all off-diagonal terms non-positive, and for which the sum of each row
- and each column is zero).
- As underlined in 
+
+The interest of the PLD lies in the connection between SDD matrices and their associated Laplacian. Recall that an SDD matrix can be transformed into a Laplacian (which has all off-diagonal terms non-positive, and for which the sum of each row and each column is zero). As underlined in 
 \begin_inset CommandInset citation
 LatexCommand cite
+after ""
 key "Gremban1996"
 
 \end_inset
 
-, solving an equation involving an SDD can be turned into solving an equation
- with an SDD of twice the same size in which all the off-diagonal terms
- are non-positive.
- This transform is also useful for computing determinants.
- The following lemma shows that computing the log-determinant of an SDD
- with positive off-diagonal entries can be turned into computing the log-determi
-nants of two SDD matrices with non-positive off-diagonal entries.
+, solving an equation involving an SDD can be turned into solving an equation with an SDD of twice the same size in which all the off-diagonal terms are non-positive. This transform is also useful for computing determinants. The following lemma shows that computing the log-determinant of an SDD with positive off-diagonal entries can be turned into computing the log-determinants of two SDD matrices with non-positive off-diagonal entries.
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -206,13 +172,10 @@ name "non-negative-conversion"
 
 \end_inset
 
-Consider the decomposition of a SDD matrix into a positive and a negative
- sum:
-\begin_inset Formula 
-\[
+Consider the decomposition of a SDD matrix into a sum of a positive and a negative term: 
+\begin_inset Formula \[
 A=P-N
 \]
-
 \end_inset
 
 with 
@@ -235,8 +198,7 @@ with
 \begin_inset Formula $\left|A_{ij}\right|=\left|P_{ij}\right|+\left|N_{ij}\right|$
 \end_inset
 
-.
- Then the matrices 
+. Then the matrices 
 \begin_inset Formula $\left(\begin{array}{cc}
 P & N\\
 N & P
@@ -247,25 +209,25 @@ N & P
 \begin_inset Formula $P+N\in SDD_{n}$
 \end_inset
 
- have all the off-diagonal coefficients non-positive, and we have the relation:
-\begin_inset Formula 
-\[
+ have all the off-diagonal coefficients non-positive, and we have the relation: 
+\begin_inset Formula \[
 \log\left|\left(\begin{array}{cc}
 P & N\\
 N & P
 \end{array}\right)\right|=\log\left|P+N\right|+\log\left|P-N\right|
 \]
-
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -278,10 +240,12 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -301,8 +265,7 @@ N & P
 \end{array}\right)$
 \end_inset
 
-.
- Consider 
+. Consider 
 \begin_inset Formula $\mu$
 \end_inset
 
@@ -318,10 +281,8 @@ N & P
 \begin_inset Formula $Ax=\mu x$
 \end_inset
 
-.
- Then:
-\begin_inset Formula 
-\[
+. Then: 
+\begin_inset Formula \[
 \left(\begin{array}{cc}
 P & N\\
 N & P
@@ -336,7 +297,6 @@ x\\
 -x
 \end{array}\right)
 \]
-
 \end_inset
 
 which shows that the vector 
@@ -354,8 +314,7 @@ x\\
 \begin_inset Formula $\mu$
 \end_inset
 
- .
- Similarly, if 
+ . Similarly, if 
 \begin_inset Formula $\eta$
 \end_inset
 
@@ -382,8 +341,7 @@ y
 \end{array}\right)$
 \end_inset
 
-.
- Since 
+. Since 
 \begin_inset Formula $C$
 \end_inset
 
@@ -403,8 +361,7 @@ y
 \begin_inset Formula $B$
 \end_inset
 
-.
- Thus 
+. Thus 
 \begin_inset Formula $\log\left|C\right|=\sum_{i}\log\mu_{i}+\sum_{i}\log\eta_{i}=\log\left|A\right|+\log\left|B\right|$
 \end_inset
 
@@ -412,10 +369,12 @@ y
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -428,10 +387,8 @@ end{proof}
 \end_layout
 
 \begin_layout Standard
-Furthermore, computing the determinant of SDD matrices with non-negative
- off-diagonal entries is equivalent to computing the PLD of Laplacian.
- Recall that a Laplacian matrix can be constructed from any SDD with non-positiv
-e off-diagonal entries matrix by adding a 
+
+Furthermore, computing the determinant of SDD matrices with non-negative off-diagonal entries is equivalent to computing the PLD of Laplacian. Recall that a Laplacian matrix can be constructed from any SDD with non-positive off-diagonal entries matrix by adding a 
 \begin_inset Quotes eld
 \end_inset
 
@@ -442,6 +399,7 @@ ground
  node (see Gremban's thesis 
 \begin_inset CommandInset citation
 LatexCommand cite
+after ""
 key "Gremban1996"
 
 \end_inset
@@ -450,10 +408,12 @@ key "Gremban1996"
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 
 \backslash
@@ -465,14 +425,12 @@ begin{definition}
  
 \emph on
 Augmented Laplacian of an SDD matrix.
-
 \emph default
  Let 
 \begin_inset Formula $A\in SDD_{n}$
 \end_inset
 
-.
- Let 
+. Let 
 \begin_inset Formula $L,D$
 \end_inset
 
@@ -492,20 +450,17 @@ Augmented Laplacian of an SDD matrix.
 \begin_inset Formula $A=L+D$
 \end_inset
 
-.
- The augmented matrix of 
+. The augmented matrix of 
 \begin_inset Formula $A$
 \end_inset
 
  is: 
-\begin_inset Formula 
-\[
+\begin_inset Formula \[
 L_{A}=\left(\begin{array}{cc}
 A & -\mathbf{d}\\
 -\mathbf{d}^{T} & h
 \end{array}\right)
 \]
-
 \end_inset
 
 with 
@@ -520,12 +475,11 @@ with
 \begin_inset Formula $h=\sum_{i}D_{ii}$
 \end_inset
 
-.
- 
+. 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 
 \backslash
@@ -538,6 +492,7 @@ end{definition}
 \end_layout
 
 \begin_layout Standard
+
 From now on, given any 
 \begin_inset Formula $A\in SDD_{n}$
 \end_inset
@@ -546,8 +501,7 @@ From now on, given any
 \begin_inset Formula $L_{A}$
 \end_inset
 
- associated to it, using the augmented Laplacian.
- This process is also reversible: to any Laplacian 
+ associated to it, using the augmented Laplacian. This process is also reversible: to any Laplacian 
 \begin_inset Formula $L$
 \end_inset
 
@@ -555,9 +509,7 @@ From now on, given any
 \begin_inset Formula $F_{L}$
 \end_inset
 
- (up to a permutation), and this transform preserves eigenvalues and matrix
- inequalities.
- We call this process 
+ (up to a permutation), and this transform preserves eigenvalues and matrix inequalities. We call this process 
 \begin_inset Quotes eld
 \end_inset
 
@@ -574,14 +526,15 @@ grounding
 \end_inset
 
  in the electrical sense of the SDD matrix as a Laplacian.
- 
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -594,13 +547,11 @@ begin{definition}
 \emph on
 Floating a Laplacian
 \emph default
-.
- Consider 
+. Consider 
 \begin_inset Formula $L$
 \end_inset
 
- a Laplacian matrix.
- Call 
+ a Laplacian matrix. Call 
 \begin_inset Formula $F_{L}$
 \end_inset
 
@@ -612,10 +563,12 @@ Floating a Laplacian
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -628,15 +581,17 @@ end{definition}
 \end_layout
 
 \begin_layout Standard
-The following lemma shows that the Laplacian matrix overdetermines a system,
- and that no information is lost by floating it.
+
+The following lemma shows that the Laplacian matrix overdetermines a system, and that no information is lost by floating it.
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -656,18 +611,20 @@ Consider
 \begin_inset Formula $Z$
 \end_inset
 
- a (weighted) Laplacian matrix of a connected graph, then:
+ a (weighted) Laplacian matrix of a connected graph, then: 
 \end_layout
 
 \begin_layout Enumerate
+
 Idempotence: 
 \begin_inset Formula $L_{F_{Z}}=Z$
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Enumerate
+
 The eigenvalues of 
 \begin_inset Formula $F_{Z}$
 \end_inset
@@ -680,17 +637,20 @@ The eigenvalues of
 \begin_inset Formula $F_{Z}$
 \end_inset
 
- are the same eigenvectors, truncated by the last coefficient.
+ are the same eigenvectors, truncated by the last coefficient. 
 \end_layout
 
 \begin_layout Enumerate
+
+
 \begin_inset Formula $\text{ld}\left(Z\right)=\log\left|F_{Z}\right|$
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Enumerate
+
 Given 
 \begin_inset Formula $Z_{1},Z_{2}$
 \end_inset
@@ -699,14 +659,16 @@ Given
 \begin_inset Formula $Z_{1}\succeq Z_{2}\Rightarrow F_{Z_{1}}\succeq F_{Z_{2}}$
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -719,20 +681,22 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
+
 The proof of this lemma is in Appendix B.
 \end_layout
 
 \begin_layout Standard
-Using the floating and the grounding procedures, we can transform the PLD
- of a Laplacian matrix into the log-determinant of a SDD matrix.
- The following proposition establishes this equivalence.
+
+Using the floating and the grounding procedures, we can transform the PLD of a Laplacian matrix into the log-determinant of a SDD matrix. The following proposition establishes this equivalence.
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -742,8 +706,6 @@ begin{lemma}
 \end_inset
 
  
-\shape up
-
 \begin_inset CommandInset label
 LatexCommand label
 name "pro:pld-properties"
@@ -758,10 +720,12 @@ Let
 \begin_inset Formula $L_{A}$
 \end_inset
 
- its augmented Laplacian.
+ its augmented Laplacian. 
 \end_layout
 
 \begin_layout Itemize
+
+
 \begin_inset Formula $\text{ld}\left(L_{A}\right)=\log\left|A\right|$
 \end_inset
 
@@ -769,12 +733,12 @@ Let
 \end_layout
 
 \begin_layout Itemize
+
 Let 
 \begin_inset Formula $A,B\in SDD_{n}$
 \end_inset
 
-.
- 
+. 
 \begin_inset Formula $\text{ld}\left(L_{A}L_{B}\right)=\text{ld}\left(L_{A}\right)+\text{ld}\left(L_{B}\right)$
 \end_inset
 
@@ -790,15 +754,16 @@ the pseudo inverse of
 \begin_inset Formula $L_{A}$
 \end_inset
 
-.
- 
+. 
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
 
-\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Standard
 
 
 \backslash
@@ -811,10 +776,12 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
+
+
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 
 \backslash
@@ -823,13 +790,11 @@ begin{proof}
 
 \end_inset
 
-The proofs of this lemma are straightforward and are contained in Appendix
- B.
- 
+The proofs of this lemma are straightforward and are contained in Appendix B. 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Plain Layout
+\begin_layout Standard
 
 
 \backslash
@@ -838,14 +803,12 @@ end{proof}
 
 \end_inset
 
- 
+
 \end_layout
 
 \begin_layout Standard
-A Laplacian matrix can be considered either for its graphical properties,
- or for its algebraic properties.
- Recent results has shown a deep connection between these two aspects, and
- let us develop a general framework for computing determinants: given 
+
+A Laplacian matrix can be considered either for its graphical properties, or for its algebraic properties. Recent results has shown a deep connection between these two aspects, and let us develop a general framework for computing determinants: given 
 \begin_inset Formula $G\in SDD_{n}$
 \end_inset
 
@@ -853,8 +816,7 @@ A Laplacian matrix can be considered either for its graphical properties,
 \begin_inset Formula $L_{G}$
 \end_inset
 
-, through the grounding procedure.
- Using graphical properties of 
+, through the grounding procedure. Using graphical properties of 
 \begin_inset Formula $L_{G}$
 \end_inset
 
@@ -862,13 +824,11 @@ A Laplacian matrix can be considered either for its graphical properties,
 \begin_inset Formula $L_{H}\subseteq L_{G}$
 \end_inset
 
- for which the PLD is easier to compute and that is a good approximation
- of 
+ for which the PLD is easier to compute and that is a good approximation of 
 \begin_inset Formula $L_{G}$
 \end_inset
 
-in the spectral sense.
- We can float the subgraph 
+in the spectral sense. We can float the subgraph 
 \begin_inset Formula $L_{H}$
 \end_inset
 
@@ -879,50 +839,43 @@ reference "sec:Preconditioned-log-determinants"
 
 \end_inset
 
- to approximate the reminder with high probability.
- More precisely:
-\begin_inset Formula 
-\begin{align*}
+ to approximate the remainder with high probability. More precisely: 
+\begin_inset Formula \begin{align*}
 \log\left|G\right| & =\text{ld}\left(L_{H}\right)-\log\left|F_{L_{H}}\right|+\log\left|G\right|\\
  & =\text{ld}\left(L_{H}\right)+\log\left|F_{L_{H}}^{-1}G\right|
 \end{align*}
-
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
+
 The first term 
 \begin_inset Formula $\text{ld}\left(L_{H}\right)$
 \end_inset
 
- is usually easier to compute by considering the graphical properties of
- 
+ is usually easier to compute by considering the graphical properties of 
 \begin_inset Formula $L_{H}$
 \end_inset
 
-, while the reminder 
+, while the remainder 
 \begin_inset Formula $\log\left|F_{L_{H}}^{-1}G\right|$
 \end_inset
 
- is approximated by sampling.
- Preconditioner graphs 
+ is approximated by sampling. Preconditioner graphs 
 \begin_inset Formula $L_{H}$
 \end_inset
 
- are typically efficient to factorize using Cholesky factorization, and
- close enough to 
+ are typically efficient to factorize using Cholesky factorization, and close enough to 
 \begin_inset Formula $G$
 \end_inset
 
- that the sampling procedure from the previous section can be applied to
- compute 
+ that the sampling procedure from the previous section can be applied to compute 
 \begin_inset Formula $\log\left|F_{L_{H}}^{-1}G\right|$
 \end_inset
 
-.
- We will see how to adapt Spielman and Teng's remarkable work on 
+. We will see how to adapt Spielman and Teng's remarkable work on 
 \emph on
 ultra-sparsifiers
 \emph default
@@ -930,8 +883,7 @@ ultra-sparsifiers
 \begin_inset Formula $H$
 \end_inset
 
- for the determinant.
- 
+ for the determinant. 
 \end_layout
 
 \end_body

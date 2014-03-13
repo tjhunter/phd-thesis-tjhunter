@@ -59,6 +59,20 @@
 
 \begin_body
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%stopskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Stretch bounds on preconditioners
 \begin_inset CommandInset label
@@ -413,8 +427,153 @@ A consequence is
 \begin_inset Formula $L_{G}\succeq L_{H}$
 \end_inset
 
+, and that for any connected graph 
+\begin_inset Formula $G$
+\end_inset
+
+, 
+\begin_inset Formula $\text{st}_{G}\left(G\right)=n-1$
+\end_inset
+
 .
- A number of properties of the stretch extend to general graphs using the
+ Scaling and matrix inequalities carry over with the stretch as well.
+ Given 
+\begin_inset Formula $A,B,C$
+\end_inset
+
+ connected graphs, and 
+\begin_inset Formula $\alpha,\beta>0$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\text{st}_{\alpha A}\left(\beta B\right)=\alpha^{-1}\beta\text{st}_{A}\left(B\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+L_{A}\preceq L_{B}\Rightarrow\text{st}_{A}\left(C\right)\geq\text{st}_{B}\left(C\right)
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+L_{A}\preceq L_{B}\Rightarrow\text{st}_{C}\left(A\right)\leq\text{st}_{C}\left(B\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+For any connected graph 
+\begin_inset Formula $G$
+\end_inset
+
+, 
+\begin_inset Formula $\text{st}_{G}\left(G\right)=n-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Consider the diagonalization of 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+: 
+\begin_inset Formula $L_{G}=P\Delta P^{T}$
+\end_inset
+
+ with 
+\begin_inset Formula $P\in\mathbb{R}^{n\times n-1}$
+\end_inset
+
+ and 
+\begin_inset Formula $\Delta=\text{diag}\left(\lambda_{1}\cdots\lambda_{n-1}\right)$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula 
+\[
+\text{st}_{G}\left(G\right)=\text{Tr}\left(P\Delta P^{T}P\Delta^{-1}P^{T}\right)=\text{Tr}\left(\Delta\Delta^{-1}\right)=n-1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A number of properties of the stretch extend to general graphs using the
  generalized stretch.
  In particular, the stretch inequality (Lemma 8.2 in 
 \begin_inset CommandInset citation
@@ -864,18 +1023,10 @@ with
 
 \begin_layout Standard
 Finally, note that if 
-\begin_inset Formula $G$
-\end_inset
-
- is a tree and 
 \begin_inset Formula $H=G$
 \end_inset
 
- (
-\begin_inset Formula $G$
-\end_inset
-
- is its own spanning tree), then 
+, then 
 \begin_inset Formula $\text{st}_{H}\left(G\right)=n-1$
 \end_inset
 
@@ -1073,6 +1224,431 @@ end{proof}
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Fast inexact estimates
+\end_layout
+
+\begin_layout Standard
+The bound presented in Equation 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:encadrement-1"
+
+\end_inset
+
+ has some interesting consequences if one is interested only in a rough
+ estimate of the log-determinant: if 
+\begin_inset Formula $\epsilon=O\left(1\right)$
+\end_inset
+
+, it is possible to approximate the log-determinant in expected time 
+\begin_inset Formula $\tilde{O}\left(m+n\log^{3}n\right)$
+\end_inset
+
+.
+ We will make use of this sparsification result from Spielman and Srivastava:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:sriva-sparsification"
+
+\end_inset
+
+(Theorem 12 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009"
+
+\end_inset
+
+).
+ Given a Laplacian 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+ with 
+\begin_inset Formula $m$
+\end_inset
+
+ edges, there is an expected 
+\begin_inset Formula $\tilde{O}\left(m/\epsilon^{2}\right)$
+\end_inset
+
+ algorithm that produces a graph 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ with 
+\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
+\end_inset
+
+ edges that satisfies 
+\begin_inset Formula $\left(1-\epsilon\right)L_{G}\preceq L_{H}\preceq\left(1+\epsilon\right)L_{G}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+An immediate consequence is that given any graph, we can find a graph with
+ a near-optimal stretch (up to an 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ factor) and 
+\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
+\end_inset
+
+ edges.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{lemma}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:low-stretch-bounding"
+
+\end_inset
+
+Given a Laplacian 
+\begin_inset Formula $L_{G}$
+\end_inset
+
+ with 
+\begin_inset Formula $m$
+\end_inset
+
+ edges, there is an expected 
+\begin_inset Formula $\tilde{O}\left(m/\epsilon^{2}\right)$
+\end_inset
+
+ algorithm that produces a graph 
+\begin_inset Formula $L_{H}$
+\end_inset
+
+ with 
+\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
+\end_inset
+
+ edges that satisfies 
+\begin_inset Formula $\left(n-1\right)\leq\text{st}_{H}\left(G\right)\preceq\frac{1+\epsilon}{1-\epsilon}\left(n-1\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{lemma}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Consider a graph 
+\begin_inset Formula $H$
+\end_inset
+
+ produced by Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:sriva-sparsification"
+
+\end_inset
+
+, which verifies 
+\begin_inset Formula $\left(1-\epsilon\right)L_{G}\preceq L_{H}\preceq\left(1+\epsilon\right)L_{G}$
+\end_inset
+
+.
+ Using the stretch over this matrix inequality, this implies:
+\begin_inset Formula 
+\[
+\text{st}_{\left(1-\epsilon\right)G}\left(G\right)\geq\text{st}_{H}\left(G\right)\geq\text{st}_{\left(1+\epsilon\right)G}\left(G\right)
+\]
+
+\end_inset
+
+which is equivalent to:
+\begin_inset Formula 
+\[
+\left(1-\epsilon\right)^{-1}\text{st}_{G}\left(G\right)\geq\text{st}_{H}\left(G\right)\geq\left(1+\epsilon\right)^{-1}\text{st}_{G}\left(G\right)
+\]
+
+\end_inset
+
+and the stretch of a connected graph with respect to itself is 
+\begin_inset Formula $n-1$
+\end_inset
+
+.
+ By rescaling 
+\begin_inset Formula $H$
+\end_inset
+
+ to 
+\begin_inset Formula $\left(1+\epsilon\right)^{-1}H$
+\end_inset
+
+, we get:
+\begin_inset Formula 
+\[
+\frac{1+\epsilon}{1-\epsilon}\left(n-1\right)\geq\text{st}_{H}\left(G\right)\geq n-1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here is the main result of this section:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proposition}
+\end_layout
+
+\end_inset
+
+There exists an algorithm that on input 
+\begin_inset Formula $A\in SDD_{n}$
+\end_inset
+
+, returns an approximation 
+\begin_inset Formula $n^{-1}\log\left|A\right|$
+\end_inset
+
+ with precision 
+\begin_inset Formula $1/2$
+\end_inset
+
+ in expected time 
+\begin_inset Formula $\tilde{O}\left(m+n\log^{3}n\log^{2}\kappa_{A}\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $\kappa_{A}$
+\end_inset
+
+ the condition number of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proposition}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{proof}
+\end_layout
+
+\end_inset
+
+Given 
+\begin_inset Formula $L_{A}$
+\end_inset
+
+, compute 
+\begin_inset Formula $H$
+\end_inset
+
+ from Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:low-stretch-bounding"
+
+\end_inset
+
+ using 
+\begin_inset Formula $\epsilon=1/16$
+\end_inset
+
+ so that 
+\begin_inset Formula $\left(n-1\right)\leq\text{st}_{H}\left(G\right)\preceq\left(1+1/8\right)\left(n-1\right)$
+\end_inset
+
+.
+ Then, using Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:stretch-pld-bounds"
+
+\end_inset
+
+, this leads to the bound:
+\begin_inset Formula 
+\[
+\text{\text{ld}}\left(H\right)\leq\log\left|A\right|\leq\text{ld}\left(H\right)+\frac{n-1}{4}
+\]
+
+\end_inset
+
+since 
+\begin_inset Formula $H$
+\end_inset
+
+ has 
+\begin_inset Formula $O\left(n\log n\right)$
+\end_inset
+
+ edges by construction, we can use Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:ultra_main"
+
+\end_inset
+
+ to compute a 
+\begin_inset Formula $1/4$
+\end_inset
+
+- approximation of 
+\begin_inset Formula $\text{ld}\left(H\right)$
+\end_inset
+
+ in expected time 
+\begin_inset Formula $\tilde{O}\left(n\log^{3}n\log^{2}\left(\kappa_{H}\right)\right)$
+\end_inset
+
+.
+ By construction 
+\begin_inset Formula $\kappa_{H}\leq\frac{1+1/16}{1-1/16}\kappa_{A}$
+\end_inset
+
+, hence the result.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{proof}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It would be interesting to see if this technique could be developed to handle
+ arbitrary precision as well.
 \end_layout
 
 \end_body
