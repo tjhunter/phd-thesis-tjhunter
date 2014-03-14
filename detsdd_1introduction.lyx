@@ -103,8 +103,39 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-We consider the problem of computing the determinant of symmetric, diagonally
- dominant (SDD) matrices, i.e.
+So far, our analysis has focused on the practical problem of estimating
+ large, graph-based statistical models.
+ We now consider the case of 
+\emph on
+extremely 
+\emph default
+large models with millions or billions of random variables.
+ At such a scale, any operation has to be completed in a time that is at
+ most linear with the structure of the problem.
+ Any algorithm that takes longer will be hopelessly slow at such a scale.
+ Such problems are not common (yet) in civil engineering application, but
+ they begin to crop up in other disciplines as we will see.
+ In this chapter, we do not make any attempt to present a practical solution.
+ We investigate how novel results in graph theory can inform the design
+ of low-complexity algorithms for machine learning.
+\end_layout
+
+\begin_layout Standard
+One of the simplest models to represent interactions between random variables
+ is the multivariate Gaussian model, also called Gaussian Markov Random
+ Field as we saw in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+.
+ Tuning the parameters of this model against a set of observations requires
+ computing the determinant of a very large sparse matrix, and this computation
+ is in general the bottleneck.
+ We consider a more restricted problem: computing the determinant of symmetric,
+ diagonally dominant (SDD) matrices, i.e.
  real symmetric matrices 
 \begin_inset Formula $A$
 \end_inset
