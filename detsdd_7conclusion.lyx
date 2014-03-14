@@ -81,18 +81,19 @@ Comments
 Since the bulk of the computations are performed in estimating the residue
  PLD, it would be interesting to see if this could be bypassed using better
  bounds based on the stretch.
-\end_layout
-
-\begin_layout Standard
-Also, even if this algorithm presents a linear bound, it requires a fairly
+ Also, even if this algorithm presents a linear bound, it requires a fairly
  advanced machinery (ST solvers) that may limit its practicality.
  Some heuristic implementation, for example based on algebraic multi-grid
  methods, could be a first step in this direction.
+ 
 \end_layout
 
 \begin_layout Standard
-The authors are much indebted to Satish Rao and Jim Demmel for suggesting
- the original idea and their helpful comments on the draft of this article.
+The author is much indebted to Satish Rao and Jim Demmel for suggesting
+ the original idea and their helpful comments on an earlier draft of this
+ discussion.
+ This chapter is based on a collaboration with Ahmed El Alaoui and Alexandre
+ Bayen, and is at this time being submitted to XXX.
 \end_layout
 
 \end_body

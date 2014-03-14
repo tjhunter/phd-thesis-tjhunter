@@ -67,7 +67,7 @@ status open
 
 
 \backslash
-chapter{Computing partition functions at very large scale}
+chapter{Computing determinants at very large scale}
 \end_layout
 
 \begin_layout Plain Layout
@@ -88,13 +88,95 @@ emph{in} C
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "chapter:detsdd"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Introduction
 \end_layout
 
 \begin_layout Standard
-We consider the problem of computing the determinant of symmetric, diagonally
- dominant (SDD) matrices, i.e.
+So far, our analysis has focused on the practical problem of estimating
+ large, graph-based statistical models.
+ We now consider the case of 
+\emph on
+extremely 
+\emph default
+large models with millions or billions of random variables.
+ At such a scale, any operation has to be completed in a time that is at
+ most linear with the structure of the problem.
+ Any algorithm that takes longer will be hopelessly slow at such a scale.
+ Such problems are not common (yet) in civil engineering application, but
+ they begin to crop up in other disciplines as we will see.
+ In this chapter, we do not make any attempt to present a practical solution.
+ We investigate how novel results in graph theory can inform the design
+ of low-complexity algorithms for machine learning.
+\end_layout
+
+\begin_layout Standard
+One of the simplest models to represent interactions between random variables
+ is the multivariate Gaussian model, also called Gaussian Markov Random
+ Field, that we used in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+.
+ Consider a Gaussian distribution 
+\begin_inset Formula $X\sim\mathcal{N}\left(\mu,\Sigma\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $\mu$
+\end_inset
+
+ is the mean and 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+ is the covariance matrix.
+ It is more convenient to consider the precision matrix 
+\begin_inset Formula $S=\Sigma^{-1}$
+\end_inset
+
+.
+ In most application, the precision matrix is sparse, the sparsity pattern
+ representing condition dependencies between the variables 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wainwright2008graphical"
+
+\end_inset
+
+.
+ The log-likelihood of one observation 
+\begin_inset Formula $x$
+\end_inset
+
+ is the sum of a log-determinant and a scalar product:
+\begin_inset Formula 
+\[
+\log\pi\left(x\right)=\frac{1}{2}\log\det S-\frac{1}{2}\left(x-\mu\right)^{T}S\left(x-\mu\right)-\frac{n}{2}\log\left(2\pi\right)
+\]
+
+\end_inset
+
+ Tuning the parameters of this model against a set of observations requires
+ computing the determinant of the precision matrix, and this computation
+ is in general the bottleneck.
+ Instead of considering the general problem of computing the determinant
+ of symmetric, positive-definite matrices, we focus on a more restricted
+ case: computing the determinant of symmetric, diagonally dominant (SDD)
+ matrices, i.e.
  real symmetric matrices 
 \begin_inset Formula $A$
 \end_inset
@@ -188,7 +270,7 @@ We use the notation
 : 
 \begin_inset Formula 
 \[
-\tilde{O}\left(m\epsilon^{-1}\log^{3}n\log^{2}\left(\frac{n\kappa\left(B\right)}{\epsilon}\right)\right)
+\tilde{O}\left(m\epsilon^{-2}\log^{3}n\log^{2}\left(\frac{n\kappa_{A}}{\epsilon}\right)\right)
 \]
 
 \end_inset

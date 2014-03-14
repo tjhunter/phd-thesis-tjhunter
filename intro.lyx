@@ -147,8 +147,8 @@ name "chapter:introduction"
 \begin_layout Standard
 Our society is increasingly dependent on very large infrastructure systems
  that provide vital services such as water, electricity, information, energy.
- Proeminent examples are telecommunication systems, power grids, water distribut
-ion systems or roads.
+ Prominent examples are telecommunication systems, power grids, water distributi
+on systems or roads.
  These systems are continuously monitored by a very vast array of sensors,
  which gather large streams of digital information.
  This network of sensors gives information about the aggregate state of
@@ -251,7 +251,7 @@ te to addressing this phenomenon.
 
 \begin_layout Standard
 One way to alleviate the effects of traffic congestion is to provide accurate
- and timely informations to drivers.
+ and timely information to drivers.
  Providing drivers with accurate traffic information reduces the stress
  associated with congestion and allows drivers to make informed decisions,
  which generally increases the efficiency of the entire road network
@@ -276,8 +276,8 @@ key "chorus2006use"
 
 .
  So far however, it seems only a small fraction of the drivers uses TIS
- mostly because the value of additional information is percieved as low
- compared to the experience fo the driver 
+ mostly because the value of additional information is perceived as low
+ compared to the experience of the driver 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gao2011cognitive"
@@ -384,14 +384,21 @@ reference "fig:tt_function"
 \end_inset
 
 ).
- Commercial providers (CITE google, navteq, telenav, inrix) have so far
- focused on the easier task of assigning a single number for the travel
- time on a road, which is usually understood as an average travel time
+ Commercial providers (CITE google)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "navteq,telenav,inrix"
+
+\end_inset
+
+ have so far focused on the easier task of assigning a single number for
+ the travel time on a road, which is usually understood as an average travel
+ time
 \begin_inset Foot
 status collapsed
 
 \begin_layout Plain Layout
-All these products carefully omit any labelling that could be interpreted
+All these products carefully omit any labeling that could be interpreted
  as a statistical guarantee on the information provided to drivers
 \end_layout
 
@@ -569,7 +576,7 @@ Fleet data.
 Smartphone data.
  Some global companies collect vehicular GPS data by using software installed
  in the device, like mapping software (Garmin.
- Google, INRIX, Noka, Waze, etc.) This data is believed to be of high frequency
+ Google, INRIX, Nokia, Waze, etc.) This data is believed to be of high frequency
  and to be more or less scrubbed from personal information during the collection
  process
 \begin_inset Foot
@@ -695,7 +702,7 @@ A validation module that implements different metrics of travel times
 \end_layout
 
 \begin_layout Standard
-Most of this code is available under an open source licence, and the output
+Most of this code is available under an open source license, and the output
  has been deployed as a web service
 \begin_inset Foot
 status open
@@ -770,7 +777,7 @@ Existing systems.
  Up to now, few researchers have attempted to tackle the full problem and
  to consider at the same time the problem of probe data (real data), scalability
  and accuracy.
- This approach has been mostly developped in the industry, which has developped
+ This approach has been mostly developed in the industry, which has developed
  solutions that scale to the whole world and can ingest thousands of observation
 s per second.
  However, there has been no published attempt to quantify the quality of
@@ -782,8 +789,8 @@ s per second.
  to reach a critical mass pose formidable challenges to researchers.
  Furthermore, companies that collect such data are loathe to share it with
  researchers for obvious legal and privacy reasons.
- The only successful examples of full platforms devellopped in academia
- that we are aware of are Cartel and 
+ The only successful examples of full platforms developed in academia that
+ we are aware of are Cartel and 
 \emph on
 Mobile Millennium
 \emph default
@@ -793,7 +800,7 @@ Mobile Millennium
 \end_layout
 
 \begin_layout Section
-Complexity of modelling traffic from GPS observations
+Complexity of modeling traffic from GPS observations
 \end_layout
 
 \begin_layout Standard
@@ -876,8 +883,8 @@ Mobile Millennium
  for the driver or the trip, a location encoded by latitude and longitude,
  and often some other elements such as heading, speed, status (empty, en
  route, etc.).
- These additional informations were usually found to be too noisy to be
- used in a systematic fashion, and were discarded.
+ These additional attributes were usually found to be too noisy to be used
+ in a systematic fashion, and were discarded.
  Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1085,7 +1092,7 @@ The number of observations (GPS points projected to the road network) by
 
 \begin_layout Standard
 The rest of this discussion will be decomposed as the following.
- In a first chapter, we will study how to recover travel time informations
+ In a first chapter, we will study how to recover travel time information
  from GPS data.
  In today's world, there are different characteristics in the data.
  This is why we are going to explore two possible scenarios:
@@ -1119,7 +1126,7 @@ reference "fig:power_law"
 
 \end_inset
 
-, this diffence is very large (by more than four orders of magnitude).
+, this difference is very large (by more than four orders of magnitude).
  Highways bear the brunt of heavy traffic and are used almost continuously
  throughout the day.
  Most of the roads however are part of the tertiary network in the suburban
@@ -1131,12 +1138,12 @@ a priori\SpecialChar \@.
  
 \emph default
 Between these two extreme lies a rich variety of road configurations with
- one, two or three lanes, stop signs, signalled lights, bus and bicycle
- lanes, etc.
- Any model that aims at a reasonable level of accurarcy must (1) be robust
+ one, two or three lanes, stop signs, signaled lights, bus and bicycle lanes,
+ etc.
+ Any model that aims at a reasonable level of accuracy must (1) be robust
  to a scarcity of data and/or noisy data, and (2) not depend too much on
  prior knowledge of the road network as it is always shifting and inaccurate.
- Bayesion statistical models provide a compelling solution to address these
+ Bayesian statistical models provide a compelling solution to address these
  two issues.
 \end_layout
 
@@ -1156,7 +1163,7 @@ Data driven inference.
  constants have to be calibrated, or a statistical model in which the statistica
 l parameters have to be adjusted to best match the observations, etc.
  Another approach is to assume that all observations are points in some
- arbitratry space, and that their distribution can be described in terms
+ arbitrary space, and that their distribution can be described in terms
  of these data points only.
  This is the non-parametric approach, which we will not consider here.
  There are two ways to approach the problem of building a model, which relate
@@ -1167,11 +1174,11 @@ l parameters have to be adjusted to best match the observations, etc.
  which is then tuned using this data.
  In the first principle approach, the scientist has some additional knowledge
  about the general laws that govern the phenomenon, such as the law of physics,
- some particular assumptions about speed, people's behaviour, etc.
+ some particular assumptions about speed, people's behavior, etc.
  Based on these laws, some general patterns can describe the phenomenon.
  For example, if cars on a highway were represented as a continuous fluid,
- then the treatment of highways through fluid dynamics will predict shockwaves,
- traffic jams around intersections, etc.
+ then the treatment of highways through fluid dynamics will predict shock
+ waves, traffic jams around intersections, etc.
  without having seen data.
  One could argue that with enough information and computing power, one could
  in principle select a set of optimal statistical model that could predict
@@ -1202,7 +1209,7 @@ explain
 predict
 \emph default
  the future or the unobserved data.
- In particural, some very strong simplifying assumptions will be made, and
+ In particular, some very strong simplifying assumptions will be made, and
  justified only by the power of the prediction they let us make.
  These assumptions are justified only in the light that they let us make
  reasonable 
@@ -1245,8 +1252,8 @@ reference "chapter:pif"
 Contribution:
 \bar default
  The chapter formalizes the problem of reconstructing trajectories from
- high- to low-frequency observations, and presents an algorithm, called
- the Path Inference Filter, to do that.
+ high to low-frequency observations, and presents an algorithm, called the
+ Path Inference Filter, to do that.
 \end_layout
 
 \begin_layout Standard
@@ -1275,7 +1282,7 @@ reference "chapter:socc"
  considers the case of large amounts of low-latency data, which is what
  is generally available nowadays.
  In this case, the estimation problem is mostly bound by computation times.
- If some further modelling assumptions are made about the independence of
+ If some further modeling assumptions are made about the independence of
  travel time distributions, we can build a model that can scale to hundreds
  of machines.
 \end_layout
@@ -1385,9 +1392,91 @@ Contribution:
  the network.
  We also introduce some new modelization techniques to represent transitory
  phenomenon on a graph, and we present a fast inference algorithm based
- on Fast Fourrier Transform to compute these travel times.
+ on Fast Fourier Transform to compute these travel times.
  Our implementation can work with long paths on a large road network with
  more than half a million road links.
+\end_layout
+
+\begin_layout Standard
+All the models presented so far have a reasonable size (less than a million
+ variables), for which inference and learning algorithms can be derived
+ by adapting tradititional techniques.
+ As the size of the problems at hand increases to truly enormous dimensions,
+ some radically different techniques may be required.
+ Learning the Gaussian model presented in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+ requires evaluating the determinant of a very large matrix, which is a
+ significant problem in linear algebra for very large matrices.
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:detsdd"
+
+\end_inset
+
+ presents a new algorithm that can compute the determinant of a class of
+ matrices (diagonally dominant matrices) in 
+\emph on
+expected near-linear time
+\emph default
+, which is a significant progress compared to the traditional intuition
+ that the computation time for the determinant is cubic with respect to
+ the dimension.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Contribution:
+\bar default
+ The chapter presents a number of algorithm for approximating the logarithm
+ of the determinant of real, symmetric, diagonally dominant matrices.
+ More specifically, given a matrix 
+\begin_inset Formula $A$
+\end_inset
+
+ of size 
+\begin_inset Formula $n\times n$
+\end_inset
+
+ with 
+\begin_inset Formula $m$
+\end_inset
+
+ non-zero coefficients, an 
+\begin_inset Formula $\epsilon-$
+\end_inset
+
+approximation of 
+\begin_inset Formula $n^{-1}\log\det A$
+\end_inset
+
+ can be computed with high probability in expected time 
+\begin_inset Formula $O\left(m\epsilon^{-2}\log^{3}n\log\left(\frac{\kappa_{A}}{\epsilon}\right)\log\log^{8}n\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $\kappa_{A}$
+\end_inset
+
+ is the condition number of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\bar under
+Publication:
+\bar default
+ This part is under submission at XXX.
 \end_layout
 
 \begin_layout Standard

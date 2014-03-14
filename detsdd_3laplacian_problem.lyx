@@ -681,8 +681,15 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
+The proof of this lemma is in Appendix B (page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "proof:floating-properties"
 
-The proof of this lemma is in Appendix B.
+\end_inset
+
+).
+
 \end_layout
 
 \begin_layout Standard
@@ -776,33 +783,15 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-begin{proof}
-\end_layout
+The proofs of this lemma are straightforward and are contained in Appendix
+ B (page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "proof:pld-properties"
 
 \end_inset
 
-The proofs of this lemma are straightforward and are contained in Appendix B. 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
-
-
-\backslash
-end{proof}
-\end_layout
-
-\end_inset
-
+).
 
 \end_layout
 

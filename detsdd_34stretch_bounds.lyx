@@ -672,7 +672,14 @@ reference "lem:simple-inequality"
 
 \end_inset
 
- in Appendix B.
+ in Appendix B (page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "lem:simple-inequality"
+
+\end_inset
+
+).
  The Laplacian 
 \begin_inset Formula $G$
 \end_inset
@@ -862,7 +869,14 @@ reference "lem:Jensen-inequality-matrix-logarithm-1"
 
 \end_inset
 
-, we have the following inequality: 
+ (see page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "lem:Jensen-inequality-matrix-logarithm-1"
+
+\end_inset
+
+), we have the following inequality: 
 \begin_inset Formula 
 \begin{eqnarray*}
 \text{ld}\left(\sqrt{L_{H}}^{+}L_{G}\sqrt{L_{H}}^{+}\right) & \leq & \left(n-1\right)\log\left(\frac{\text{Tr}\left(\sqrt{L_{H}}^{+}L_{G}\sqrt{L_{H}}^{+}\right)}{n-1}\right)\\
