@@ -88,6 +88,16 @@ emph{in} C
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "chapter:detsdd"
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section
 Introduction
 \end_layout
