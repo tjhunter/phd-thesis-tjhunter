@@ -67,7 +67,7 @@ status open
 
 
 \backslash
-chapter{Computing partition functions at very large scale}
+chapter{Computing determinants at very large scale}
 \end_layout
 
 \begin_layout Plain Layout
@@ -131,11 +131,52 @@ reference "chapter:kdd"
 \end_inset
 
 .
+ Consider a Gaussian distribution 
+\begin_inset Formula $X\sim\mathcal{N}\left(\mu,\Sigma\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $\mu$
+\end_inset
+
+ is the mean and 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+ is the covariance matrix.
+ It is more convenient to consider the precision matrix 
+\begin_inset Formula $S=\Sigma^{-1}$
+\end_inset
+
+.
+ In most application, the precision matrix is sparse, the sparsity pattern
+ representing condition dependencies between the variables 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wainwright2008graphical"
+
+\end_inset
+
+.
+ The log-likelihood of one observation 
+\begin_inset Formula $x$
+\end_inset
+
+ is the sum of a log-determinant and a scalar product:
+\begin_inset Formula 
+\[
+\log\pi\left(x\right)=\frac{1}{2}\log\det S-\frac{1}{2}\left(x-\mu\right)^{T}S\left(x-\mu\right)-\frac{n}{2}\log\left(2\pi\right)
+\]
+
+\end_inset
+
  Tuning the parameters of this model against a set of observations requires
- computing the determinant of a very large sparse matrix, and this computation
+ computing the determinant of the precision matrix, and this computation
  is in general the bottleneck.
- We consider a more restricted problem: computing the determinant of symmetric,
- diagonally dominant (SDD) matrices, i.e.
+ Instead of considering the general problem of computing the determinant
+ of symmetric, positive-definite matrices, we focus on a more restricted
+ case: computing the determinant of symmetric, diagonally dominant (SDD)
+ matrices, i.e.
  real symmetric matrices 
 \begin_inset Formula $A$
 \end_inset
