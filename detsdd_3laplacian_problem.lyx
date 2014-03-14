@@ -719,7 +719,14 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
-The proof of this lemma is in Appendix B.
+The proof of this lemma is in Appendix B (page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "proof:floating-properties"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -811,34 +818,15 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{proof}
-\end_layout
-
-\end_inset
-
 The proofs of this lemma are straightforward and are contained in Appendix
- B.
- 
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{proof}
-\end_layout
+ B (page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "proof:pld-properties"
 
 \end_inset
 
- 
+).
 \end_layout
 
 \begin_layout Standard

@@ -110,6 +110,13 @@ begin{proof}
 
 \end_inset
 
+
+\begin_inset CommandInset label
+LatexCommand label
+name "proof:floating-properties"
+
+\end_inset
+
 The first statement is obvious from the construction of the grounded Laplacian.
 \end_layout
 
@@ -200,7 +207,14 @@ begin{proof}
 
 
 \shape up
- Consider 
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "proof:pld-properties"
+
+\end_inset
+
+Consider 
 \begin_inset Formula $A,B\in SDD_{n}$
 \end_inset
 
@@ -345,6 +359,13 @@ status open
 \backslash
 begin{proof}
 \end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "proof:simple-inequality"
 
 \end_inset
 

@@ -604,7 +604,14 @@ end{theorem}
 \end_layout
 
 \begin_layout Standard
-The proof of this result is detailed in Appendix A.
+The proof of this result is detailed in Appendix A (page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "sub:det-sampling-proof"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
@@ -729,7 +736,14 @@ end{corollary}
 \end_layout
 
 \begin_layout Standard
-The proof of this corollary is presented in Appendix A.
+The proof of this corollary is presented in Appendix A (page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "proof:preconditioning"
+
+\end_inset
+
+).
  Usually, computing the exact inverse by an SDD matrix is too expensive.
  We can instead extend the previous result to consider a black box procedure
  that approximatively computes 
@@ -872,7 +886,14 @@ end{theorem}
 \end_layout
 
 \begin_layout Standard
-The proof of this result is detailed in Appendix A.
+The proof of this result is detailed in Appendix A (page 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "proof:preconditioning-approx"
+
+\end_inset
+
+).
  While the overall bound looks the same, the constant (taken away by the
  
 \begin_inset Formula $O\left(\right)$
