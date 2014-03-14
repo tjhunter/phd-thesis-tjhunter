@@ -74,41 +74,19 @@ status open
 \end_layout
 
 \begin_layout Standard
-\align center
+\begin_inset ERT
+status open
 
-\series bold
-Abstract
+\begin_layout Plain Layout
+
+
+\backslash
+begin{abstract}
 \end_layout
 
-\begin_layout Standard
-\align center
-Large-scale, low-latency state estimation of cyberphysical systems, with
- an application to traffic estimation
-\end_layout
+\end_inset
 
-\begin_layout Standard
-\align center
-by
-\end_layout
 
-\begin_layout Standard
-\align center
-Timothy Hunter
-\end_layout
-
-\begin_layout Standard
-\align center
-Doctor of Philosophy in Computer Sciences
-\end_layout
-
-\begin_layout Standard
-\align center
-University of California at Berkeley
-\end_layout
-
-\begin_layout Standard
-\align center
-Pieter Abbeel, Chair
 \end_layout
 
 \begin_layout Standard
@@ -156,6 +134,22 @@ These two algorithms have been implemented and deployed in a pipeline that
  an integrated fashion the problem of statistical estimation of traffic
  at a very large scale from streams of GPS data.
  
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{abstract}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
