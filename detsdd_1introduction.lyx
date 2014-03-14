@@ -123,7 +123,7 @@ large models with millions or billions of random variables.
 \begin_layout Standard
 One of the simplest models to represent interactions between random variables
  is the multivariate Gaussian model, also called Gaussian Markov Random
- Field as we saw in Chapter 
+ Field, that we used in Chapter 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chapter:kdd"
@@ -229,7 +229,7 @@ We use the notation
 : 
 \begin_inset Formula 
 \[
-\tilde{O}\left(m\epsilon^{-1}\log^{3}n\log^{2}\left(\frac{n\kappa\left(B\right)}{\epsilon}\right)\right)
+\tilde{O}\left(m\epsilon^{-2}\log^{3}n\log^{2}\left(\frac{n\kappa_{A}}{\epsilon}\right)\right)
 \]
 
 \end_inset
