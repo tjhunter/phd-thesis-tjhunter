@@ -248,10 +248,10 @@ UltraLogDet
 \begin_inset Formula $\epsilon$
 \end_inset
 
--approximation of the logarithm of the log-determinant with high probability
+-approximation of the logarithm of the determinant with high probability
  and in expected time
 \begin_inset Foot
-status open
+status collapsed
 
 \begin_layout Plain Layout
 We use the notation 
@@ -272,6 +272,25 @@ We use the notation
 \[
 \tilde{O}\left(m\epsilon^{-2}\log^{3}n\log^{2}\left(\frac{n\kappa_{A}}{\epsilon}\right)\right)
 \]
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+left(B
+\backslash
+right)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
 
 \end_inset
 
@@ -322,7 +341,7 @@ key "Koutis2010"
 \end_layout
 
 \begin_layout Standard
-The high complexity of the algorithm transpires through the large exponent
+The high sophistication of the algorithm transpires through the large exponent
  of 
 \begin_inset Formula $\log\log n$
 \end_inset
@@ -339,12 +358,12 @@ sifiers.
  be of more immediate practical interest.
 \end_layout
 
-\begin_layout Standard
-
-\series bold
+\begin_layout Subsection
 Background
-\series default
- There are two approaches in numerical linear algebra to approximately compute
+\end_layout
+
+\begin_layout Standard
+There are two approaches in numerical linear algebra to approximately compute
  a determinant (or the log of the determinant): by performing a (partial)
  Cholesky factorization of 
 \begin_inset Formula $A$
@@ -504,8 +523,8 @@ The determinant can then be computed by a sum of traces of the power of
 \end_inset
 
 .
- This line of reasoning has lead researchers to look for decompositions
- of 
+ This line of reasoning has led researchers to look for decompositions of
+ 
 \begin_inset Formula $A$
 \end_inset
 
@@ -589,13 +608,12 @@ key "Spielman2008"
 .
 \end_layout
 
+\begin_layout Subsection
+Applications
+\end_layout
+
 \begin_layout Standard
-
-\series bold
-Applications.
-
-\series default
- The problem of estimating determinants has important applications in spatial
+The problem of estimating determinants has important applications in spatial
  data analysis, statistical physics and statistics.
  In spatial statistics, it is often convenient to interpolate measurements
  in a 2-, 3- or 4-dimensional volume using a sparse Gaussian process, a
@@ -683,7 +701,7 @@ For these reasons, computing estimates of the log-determinant has been an
  active problem in physics and statistics.
  In particular, the Martin expansion presented in Equation 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:martin-expansion"
 
 \end_inset
@@ -742,181 +760,16 @@ key "Reusken2002"
  of the Cholesky decomposition, and its interaction with the eigenvalues
  of the complete matrix is not well understood.
  Using simpler methods based on sampling, we are able to carefully control
- the spectrum of the reminder, which in turn leads to strong convergence
+ the spectrum of the remainder, which in turn leads to strong convergence
  guarantees.
 \end_layout
 
-\begin_layout Standard
-
-\series bold
-Main results.
-
-\series default
- We first present some general results about the preconditioning of determinants.
- Consider 
-\begin_inset Formula $A\in SDD_{n}$
-\end_inset
-
- invertible, and some other matrix 
-\begin_inset Formula $B\in SDD_{n}$
-\end_inset
-
- that is close to 
-\begin_inset Formula $A$
-\end_inset
-
- in the spectral sense.
- All the results of this article stem from observing that:
-\begin_inset Formula 
-\begin{eqnarray*}
-\log\left|A\right| & = & \log\left|B\right|+\log\left|B^{-1}A\right|\\
- &  & \log\left|B\right|+\text{Tr}\left(\log\left(B^{-1}A\right)\right)
-\end{eqnarray*}
-
-\end_inset
-
-The first section is concerned with estimating the reminder term 
-\begin_inset Formula $\text{Tr}\left(\log\left(B^{-1}A\right)\right)$
-\end_inset
-
- using the Martin expansion.
- The exact inverse 
-\begin_inset Formula $B^{-1}$
-\end_inset
-
- is usually not available, but we are given instead a linear operator 
-\begin_inset Formula $C$
-\end_inset
-
- that is an 
-\begin_inset Formula $\epsilon-$
-\end_inset
-
-approximation of 
-\begin_inset Formula $B^{-1}$
-\end_inset
-
-, for example using a conjugate gradient method.
- We show in Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Preconditioned-log-determinants"
-
-\end_inset
-
- that if the precision of this approximation is high enough, we can estimate
- the reminder with high probability and with a reasonable number of calls
- to the operator 
-\begin_inset Formula $C$
-\end_inset
-
- (this sentence will be made precise in the rather technical Theorem 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "thm:preconditioning-approx"
-
-\end_inset
-
-).
- Using this general framework, the subsequent Section 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:Making-the-problem"
-
-\end_inset
-
- shows that spectral sparsifiers make excellent preconditioners that are
- close enough to 
-\begin_inset Formula $A$
-\end_inset
-
- and so that computing the Martin expansion is not too expansive.
- In particular, we build upon the recursive structure of Spielman-Teng ultra-spa
-rsifiers to obtain our main result:
+\begin_layout Subsection
+A note on scaling
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{theorem}
-\end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "thm:ultra_main"
-
-\end_inset
-
-On input 
-\begin_inset Formula $A\in SDD_{n}$
-\end_inset
-
- with 
-\begin_inset Formula $m$
-\end_inset
-
- non-zeros, 
-\begin_inset Formula $\epsilon>n^{-1}$
-\end_inset
-
-, 
-\begin_inset Formula $\eta>0$
-\end_inset
-
-, the algorithm 
-\family typewriter
-UltraLogDet
-\family default
- returns a scalar 
-\begin_inset Formula $z$
-\end_inset
-
- so that:
-\begin_inset Formula 
-\[
-\mathbb{P}\left[\left|z-n^{-1}\log\left|A\right|\right|>\epsilon\right]\leq\eta
-\]
-
-\end_inset
-
-and this algorithm completes in expected time 
-\begin_inset Formula $\tilde{O}\left(m\epsilon^{-1}\log^{2}n\log^{2}\left(\frac{\kappa\left(B\right)}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{theorem}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-A note on scaling.
-
-\series default
- Unlike other common characteristics of linear operators, the determinant
+Unlike other common characteristics of linear operators, the determinant
  and the log-determinant are very sensitive to dimensionality.
  We will follow the approach of Reuksen 
 \begin_inset CommandInset citation
@@ -987,6 +840,174 @@ The last inequality in particular shows that any perturbation to
 .
 \end_layout
 
+\begin_layout Subsection
+Main results
+\end_layout
+
+\begin_layout Standard
+We first present some general results about the preconditioning of determinants.
+ Consider 
+\begin_inset Formula $A\in SDD_{n}$
+\end_inset
+
+ invertible, and some other matrix 
+\begin_inset Formula $B\in SDD_{n}$
+\end_inset
+
+ that is close to 
+\begin_inset Formula $A$
+\end_inset
+
+ in the spectral sense.
+ All the results of this article stem from observing that: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\log\left|A\right| & = & \log\left|B\right|+\log\left|B^{-1}A\right|\\
+ &  & \log\left|B\right|+\text{Tr}\left(\log\left(B^{-1}A\right)\right)
+\end{eqnarray*}
+
+\end_inset
+
+The first section is concerned with estimating the remainder term 
+\begin_inset Formula $\text{Tr}\left(\log\left(B^{-1}A\right)\right)$
+\end_inset
+
+ using the Martin expansion.
+ The exact inverse 
+\begin_inset Formula $B^{-1}$
+\end_inset
+
+ is usually not available, but we are given instead a linear operator 
+\begin_inset Formula $C$
+\end_inset
+
+ that is an 
+\begin_inset Formula $\epsilon-$
+\end_inset
+
+approximation of 
+\begin_inset Formula $B^{-1}$
+\end_inset
+
+, for example using a conjugate gradient method.
+ We show in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Preconditioned-log-determinants"
+
+\end_inset
+
+ that if the precision of this approximation is high enough, we can estimate
+ the remainder with high probability and with a reasonable number of calls
+ to the operator 
+\begin_inset Formula $C$
+\end_inset
+
+ (this sentence will be made precise in the rather technical Theorem 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:preconditioning-approx"
+
+\end_inset
+
+).
+ Using this general framework, the subsequent Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Making-the-problem"
+
+\end_inset
+
+ shows that spectral sparsifiers make excellent preconditioners that are
+ close enough to 
+\begin_inset Formula $A$
+\end_inset
+
+ and so that computing the Martin expansion is not too expansive.
+ In particular, we build upon the recursive structure of Spielman-Teng ultra-spa
+rsifiers to obtain our main result:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{theorem}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:ultra_main"
+
+\end_inset
+
+On input 
+\begin_inset Formula $A\in SDD_{n}$
+\end_inset
+
+ with 
+\begin_inset Formula $m$
+\end_inset
+
+ non-zeros, 
+\begin_inset Formula $\eta>0$
+\end_inset
+
+, the algorithm 
+\family typewriter
+UltraLogDet
+\family default
+ returns a scalar 
+\begin_inset Formula $z$
+\end_inset
+
+ so that: 
+\begin_inset Formula 
+\[
+\mathbb{P}\left[\left|z-n^{-1}\log\left|A\right|\right|>\epsilon\right]\leq\eta
+\]
+
+\end_inset
+
+and this algorithm completes in expected time 
+\begin_inset Formula $\tilde{O}\left(m\epsilon^{-2}\log^{2}n\log^{2}\left(\frac{\kappa_{A}}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
+\end_inset
+
+.
+ Moreover, if 
+\begin_inset Formula $\epsilon>\Omega(n^{-1})$
+\end_inset
+
+, then the running time improves by an 
+\begin_inset Formula $\epsilon$
+\end_inset
+
+ factor.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{theorem}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Standard
 The rest of the article is structured as follows.
  In the next section, we present some results about estimating the log-determina
@@ -1005,6 +1026,7 @@ to compute the determinant of a matrix.
 ioners based on low-stretch spanning trees.
  Finally, Section 3.3 contains the proof of our main result, an algorithm
  to compute determinants in near-linear time.
+ 
 \end_layout
 
 \end_body

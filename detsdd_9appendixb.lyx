@@ -60,7 +60,7 @@
 \begin_body
 
 \begin_layout Section*
-Appendix B: Proofs of section 
+Appendix B: Proofs of Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Making-the-problem"
@@ -110,13 +110,6 @@ begin{proof}
 
 \end_inset
 
-
-\begin_inset CommandInset label
-LatexCommand label
-name "proof:floating-properties"
-
-\end_inset
-
 The first statement is obvious from the construction of the grounded Laplacian.
 \end_layout
 
@@ -163,100 +156,6 @@ Statement (4) is straightforward after observing that the floating procedure
 \end_inset
 
 , so it preserves the matrix inequalities.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{proof}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Proof of Lemma 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "pro:pld-properties"
-
-\end_inset
-
-.
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{proof}
-\end_layout
-
-\end_inset
-
-
-\shape up
- 
-\begin_inset CommandInset label
-LatexCommand label
-name "proof:pld-properties"
-
-\end_inset
-
-Consider 
-\begin_inset Formula $A,B\in SDD_{n}$
-\end_inset
-
- positive definite.
- Let 
-\begin_inset Formula $P=\left(I_{n}\,\mathbf{0}\right)$
-\end_inset
-
- be a projection matrix over the first 
-\begin_inset Formula $n$
-\end_inset
-
- columns of 
-\begin_inset Formula $L_{A}$
-\end_inset
-
-.
- 
-\shape default
-If 
-\begin_inset Formula $\lambda$
-\end_inset
-
- is an eigenvalue of 
-\begin_inset Formula $A$
-\end_inset
-
- with associated eigenvector 
-\begin_inset Formula $x$
-\end_inset
-
-, it is also an eigenvalue of 
-\begin_inset Formula $PL_{A}P^{T}$
-\end_inset
-
- with the same eigenvector.
- Thus 
-\begin_inset Formula $\text{ld}\left(L_{A}\right)=\log\left|A\right|$
-\end_inset
-
-.
- Using the floating procedure, the second statement is straightforward.
 \end_layout
 
 \begin_layout Standard
@@ -359,13 +258,6 @@ status open
 \backslash
 begin{proof}
 \end_layout
-
-\end_inset
-
-
-\begin_inset CommandInset label
-LatexCommand label
-name "proof:simple-inequality"
 
 \end_inset
 

@@ -66,7 +66,7 @@ status open
 
 \begin_layout Plain Layout
 
-%%stopskip
+%%stopskip  : marker for tim's thesis, please do not remove it :-)
 \end_layout
 
 \end_inset
@@ -92,7 +92,7 @@ We can do better and achieve near-linear time by using ultra-sparsifiers.
  hence have a determinant that is relatively easy to compute, and furthermore
  that they are excellent spectral preconditioners, so the procedure 
 \family typewriter
-PreconditionedLogDet- MonteCarlo
+PreconditionedLogDet-MonteCarlo
 \family default
  is efficient to apply.
  We reintroduce some concepts presented in 
@@ -324,6 +324,423 @@ key "Koutis2010"
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ Algorithm 
+\series bold
+UltraLogDet
+\series default
+(
+\begin_inset Formula $A$
+\end_inset
+
+,
+\begin_inset Formula $\epsilon$
+\end_inset
+
+,
+\begin_inset Formula $\eta$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ If 
+\begin_inset Formula $A$
+\end_inset
+
+ is of a small size (
+\begin_inset Formula $<$
+\end_inset
+
+100), directly compute 
+\begin_inset Formula $\text{ld}\left(A\right)$
+\end_inset
+
+ with a dense Cholesky factorization.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ Compute 
+\begin_inset Formula $B=$
+\end_inset
+
+
+\series bold
+IncrementalSparsify(
+\begin_inset Formula $A$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ Compute 
+\begin_inset Formula $D,A'=$
+\end_inset
+
+
+\series bold
+PartialCholesky(
+\begin_inset Formula $B$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% TODO: change the bounds to reflect the theorem
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $\eta\leftarrow\min\left(\frac{\epsilon}{8\kappa^{3}\kappa\left(B\right)},\frac{1}{2\kappa}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $p\leftarrow8\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $l\leftarrow\delta^{-1}\log\left(\frac{2}{\epsilon\delta}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ Compute 
+\begin_inset Formula $s=$
+\end_inset
+
+
+\series bold
+PreconditionedLogDetMonteCarlo(
+\begin_inset Formula $B,A,\eta,p,l$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{raggedright}
+\end_layout
+
+\end_inset
+
+ Return 
+\begin_inset Formula $s+\log\left|D\right|+$
+\end_inset
+
+
+\series bold
+UltraLogDet(
+\begin_inset Formula $A'$
+\end_inset
+
+,
+\begin_inset Formula $\epsilon$
+\end_inset
+
+,
+\begin_inset Formula $\eta$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{raggedright}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sketch of the main algorithm
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:The-main-algorithm"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -336,56 +753,48 @@ begin{definition}
 
 \end_inset
 
- Definition 7.1 from 
+ Definition 4.2 from 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Koutis2010"
+key "Koutis2011"
 
 \end_inset
 
 .
- 
-\begin_inset Formula $\kappa\left(n\right)$
+ Good preconditioning chain.
+ Let 
+\begin_inset Formula $d\in\mathbb{N}^{*}$
 \end_inset
 
--good chain.
- 
-\begin_inset Formula $\mathcal{C}=\left\{ A_{1}=A,B_{1},A_{2},\dots A_{d}\right\} $
+, 
+\begin_inset Formula $\mathcal{C}=\left\{ A_{1}=A,B_{1},A_{2},B_{2},A_{3}\dots B_{d-1},A_{d}\right\} $
 \end_inset
 
- a chain of graphs with 
-\begin_inset Formula $n_{i}$
-\end_inset
-
- and 
-\begin_inset Formula $m_{i}$
-\end_inset
-
- the number of vertices and edges of 
-\begin_inset Formula $A_{i}$
+ be a chain of graphs and 
+\begin_inset Formula $\mathcal{K}=\left(\kappa_{1}\cdots\kappa_{d-1}\right)\in\mathbb{R}_{+}^{d-1}$
 \end_inset
 
 .
- 
-\begin_inset Formula $\mathcal{C}$
+ We say that 
+\begin_inset Formula $\left\{ \mathcal{C},\mathcal{K}\right\} $
 \end_inset
 
- is 
-\begin_inset Formula $\kappa\left(n\right)$
-\end_inset
-
--good for 
+ is a good preconditioning chain for 
 \begin_inset Formula $A$
 \end_inset
 
- if: 
+ if there exists 
+\begin_inset Formula $\mathcal{U}=\left(\mu_{1}\cdots\mu_{d}\right)\in\mathbb{N}_{+}^{d}$
+\end_inset
+
+ so that:
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $A_{i}\preceq B_{i}\preceq\kappa\left(n_{i}\right)A_{i}$
+\begin_inset Formula $A_{i}\preceq B_{i}\preceq\kappa_{i}A_{i}$
 \end_inset
 
- 
+ .
 \end_layout
 
 \begin_layout Enumerate
@@ -400,11 +809,50 @@ GreedyElimination
 \begin_inset Formula $\left(B_{i}\right)$
 \end_inset
 
+ .
  
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% TODO: We need to explain greedy elimination somewhere
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $m_{i}/m_{i+1}\geq c_{r}\sqrt{\kappa\left(n_{i}\right)}$
+The number of edges of 
+\begin_inset Formula $A_{i}$
+\end_inset
+
+ is less than 
+\begin_inset Formula $\mu_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mu_{1}=\mu_{2}=m$
+\end_inset
+
+ where 
+\begin_inset Formula $m$
+\end_inset
+
+ is the number of edges of 
+\begin_inset Formula $A$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mu_{i}/\mu_{i+1}\geq c_{r}\left\lceil \sqrt{\kappa_{i}}\right\rceil $
 \end_inset
 
  for some constant 
@@ -413,6 +861,20 @@ GreedyElimination
 
 .
  
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\kappa_{i+1}\leq\kappa_{i}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mu_{d}$
+\end_inset
+
+ is smaller than some fixed arbitrary constant.
 \end_layout
 
 \begin_layout Standard
@@ -433,6 +895,22 @@ end{definition}
 
 \begin_layout Standard
 Good chains exist, as found by Koutis, Miller and Peng:
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% TODO: the newer version from Koutis2011 has a  good chain, but then it
+ produces  I think.
+ See the proof of their lemma 4.5
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -610,6 +1088,21 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% TODO: use the imbricated preconditioners, no need to recompute everything
+ every time :-)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 It should now become clear how we can combine a 
 \begin_inset Formula $\kappa\left(n\right)$
 \end_inset
@@ -702,7 +1195,7 @@ reference "eq:chain-recursion"
 \begin_inset Formula $\tilde{\mathcal{O}}\left(1\right)$
 \end_inset
 
- reminders 
+ remainders 
 \begin_inset Formula $\text{ld}\left(B_{i}^{+}A_{i}\right)$
 \end_inset
 
@@ -738,7 +1231,7 @@ reference "lem:linear-precond-existence"
  By Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "thm:preconditioning-approx"
+reference "thm:det-sampling-theorem"
 
 \end_inset
 
@@ -757,7 +1250,7 @@ reference "thm:preconditioning-approx"
  using Algorithm 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "BROKEN: Ref: alg:The-main-alg..."
+reference "alg:SampleLogDet"
 
 \end_inset
 
@@ -768,7 +1261,7 @@ reference "BROKEN: Ref: alg:The-main-alg..."
 
 .
  By a union bound, the result also holds on the sum of all the approximations
- of the reminders.
+ of the remainders.
  We can simplify this bound a little by assuming that 
 \begin_inset Formula $\epsilon\geq n^{-1}$
 \end_inset

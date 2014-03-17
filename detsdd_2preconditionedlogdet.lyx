@@ -131,7 +131,7 @@ Consider a real symmetric matrix
  From the Martin expansion: 
 \begin_inset Formula 
 \begin{equation}
-\log\left|I-S\right|=-\mbox{Tr}\left(\sum_{k=1}^{\infty}\frac{1}{k}S^{k}\right)\label{eq:martin}
+\log\left|I-S\right|=-\Tr\left(\sum_{k=1}^{\infty}\frac{1}{k}S^{k}\right)\label{eq:martin}
 \end{equation}
 
 \end_inset
@@ -193,7 +193,7 @@ name "lem:bernstein"
 
  almost surely.
  Call 
-\begin_inset Formula $\sigma^{2}=\frac{1}{n}\sum_{i}\text{Var}\left(X_{i}\right)$
+\begin_inset Formula $\sigma^{2}=\frac{1}{n}\sum_{i}\text{\textnormal{Var}}\left(X_{i}\right)$
 \end_inset
 
 , then for all 
@@ -260,7 +260,7 @@ Consider
 \end_inset
 
  with the assumption 
-\begin_inset Formula $\lambda_{\text{min}}I_{n}\preceq H\preceq\lambda_{\text{max}}I$
+\begin_inset Formula $\lambda_{\text{\textnormal{min}}}I_{n}\preceq H\preceq\lambda_{\text{\textnormal{max}}}I$
 \end_inset
 
 .
@@ -284,7 +284,7 @@ Consider
 : 
 \begin_inset Formula 
 \[
-\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-\frac{1}{n}\mbox{Tr}\left(H\right)\right|\geq\epsilon\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{4n^{-1}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}+2\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon/3}\right)
+\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-\frac{1}{n}\Tr\left(H\right)\right|\geq\epsilon\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{4n^{-1}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}+2\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon/3}\right)
 \]
 
 \end_inset
@@ -455,7 +455,7 @@ The previous lemma shows that if the eigenspectrum of a matrix is bounded,
  we can obtain a Bernstein bound on the error incurred by sampling the trace.
  Furthermore, the convergence of the series 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:martin"
 
 \end_inset
@@ -555,7 +555,7 @@ Consider
  samples: 
 \begin_inset Formula 
 \[
-\hat{y}_{p,l}=\frac{1}{p}\sum_{j=1}^{p}\sum_{k=1}^{l}\frac{1}{k}\frac{\mathbf{u}_{j}^{T}S^{k}\mathbf{u}_{j}}{\mathbf{u}_{j}^{T}\mathbf{u}_{j}}
+\hat{y}_{p,l}=-\frac{1}{p}\sum_{j=1}^{p}\sum_{k=1}^{l}\frac{1}{k}\frac{\mathbf{u}_{j}^{T}S^{k}\mathbf{u}_{j}}{\mathbf{u}_{j}^{T}\mathbf{u}_{j}}
 \]
 
 \end_inset
@@ -585,7 +585,7 @@ Given
 \end_inset
 
  by choosing 
-\begin_inset Formula $p\geq8\left(\frac{2}{\epsilon}\log^{2}\left(1/\delta\right)+\frac{1}{3n\epsilon^{2}}\log\left(1/\delta\right)\right)\log\left(1/\eta\right)$
+\begin_inset Formula $p\geq16\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(2/\eta\right)\log^{2}\left(\delta^{-1}\right)$
 \end_inset
 
  and 
@@ -617,14 +617,7 @@ end{theorem}
 \end_layout
 
 \begin_layout Standard
-The proof of this result is detailed in Appendix A (page 
-\begin_inset CommandInset ref
-LatexCommand pageref
-reference "sub:det-sampling-proof"
-
-\end_inset
-
-).
+The proof of this result is detailed in Appendix A.
 \end_layout
 
 \begin_layout Standard
@@ -718,7 +711,7 @@ PreconditionedLogDetMonteCarlo
 \end_inset
 
 , by performing 
-\begin_inset Formula $\mathcal{O}\left(\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log^{2}\left(\kappa\right)\log\left(\frac{n\kappa}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
+\begin_inset Formula $16\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2\kappa}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(\kappa\right)$
 \end_inset
 
  vector inversions from 
@@ -749,14 +742,7 @@ end{corollary}
 \end_layout
 
 \begin_layout Standard
-The proof of this corollary is presented in Appendix A (page 
-\begin_inset CommandInset ref
-LatexCommand pageref
-reference "proof:preconditioning"
-
-\end_inset
-
-).
+The proof of this corollary is presented in Appendix A.
  Usually, computing the exact inverse by an SDD matrix is too expensive.
  We can instead extend the previous result to consider a black box procedure
  that approximatively computes 
@@ -822,7 +808,7 @@ approximation of
 \begin_inset Formula $C$
 \end_inset
 
- returns an 
+ returns a 
 \begin_inset Formula $\nu-$
 \end_inset
 
@@ -852,7 +838,7 @@ Given
 
 , then the algorithm 
 \family typewriter
-ApproxPreconditioned- LogDetMonteCarlo
+PreconditionedLogDet- MonteCarlo
 \family default
  returns a scalar 
 \begin_inset Formula $z$
@@ -867,7 +853,7 @@ ApproxPreconditioned- LogDetMonteCarlo
 \end_inset
 
 by performing 
-\begin_inset Formula $64\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log^{2}\left(\kappa\right)\log\left(\frac{n\kappa}{\epsilon}\right)\log\left(\eta^{-1}\right)$
+\begin_inset Formula $64\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2\kappa}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(\kappa\right)$
 \end_inset
 
  vector calls to the operator 
@@ -898,20 +884,13 @@ end{theorem}
 \end_layout
 
 \begin_layout Standard
-The proof of this result is detailed in Appendix A (page 
-\begin_inset CommandInset ref
-LatexCommand pageref
-reference "proof:preconditioning-approx"
-
-\end_inset
-
-).
+The proof of this result is detailed in Appendix A.
  While the overall bound looks the same, the constant (taken away by the
  
-\begin_inset Formula $O\left(\right)$
+\begin_inset Formula $O\left(\cdot\right)$
 \end_inset
 
- notation) is twice as large as Corollary 
+ notation) is four times as large as in Corollary 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "cor:preconditioning"
@@ -934,412 +913,6 @@ This last theorem shows that we can compute a good approximation of the
  in the spectral sense, and (b) can be approximately inverted and the error
  introduced by the approximate inversion can be controlled.
  This happens to be the case for symmetric, diagonally dominant matrices.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float algorithm
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- Algorithm 
-\series bold
-UltraLogDet
-\series default
-(
-\begin_inset Formula $A$
-\end_inset
-
-,
-\begin_inset Formula $\epsilon$
-\end_inset
-
-,
-\begin_inset Formula $\eta$
-\end_inset
-
-):
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- If 
-\begin_inset Formula $A$
-\end_inset
-
- is of a small size (
-\begin_inset Formula $<$
-\end_inset
-
-100), directly compute 
-\begin_inset Formula $\text{ld}\left(A\right)$
-\end_inset
-
- with a dense Cholesky factorization.
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- Compute 
-\begin_inset Formula $B=$
-\end_inset
-
-
-\series bold
-IncrementalSparsify(
-\begin_inset Formula $A$
-\end_inset
-
-)
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- Compute 
-\begin_inset Formula $D,A'=$
-\end_inset
-
-
-\series bold
-PartialCholesky(
-\begin_inset Formula $B$
-\end_inset
-
-)
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- 
-\begin_inset Formula $\eta\leftarrow\min\left(\frac{\epsilon}{8\kappa^{3}\kappa\left(B\right)},\frac{1}{2\kappa}\right)$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- 
-\begin_inset Formula $p\leftarrow8\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- 
-\begin_inset Formula $l\leftarrow\delta^{-1}\log\left(\frac{2}{\epsilon\delta}\right)$
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- Compute 
-\begin_inset Formula $s=$
-\end_inset
-
-
-\series bold
-PreconditionedLogDetMonteCarlo(
-\begin_inset Formula $B,A,\eta,p,l$
-\end_inset
-
-)
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{raggedright}
-\end_layout
-
-\end_inset
-
- Return 
-\begin_inset Formula $s+\log\left|D\right|+$
-\end_inset
-
-
-\series bold
-UltraLogDet(
-\begin_inset Formula $A'$
-\end_inset
-
-,
-\begin_inset Formula $\epsilon$
-\end_inset
-
-,
-\begin_inset Formula $\eta$
-\end_inset
-
-)
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-
-\backslash
-end{raggedright}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption
-
-\begin_layout Plain Layout
-Sketch of the main algorithm
-\begin_inset CommandInset label
-LatexCommand label
-name "alg:The-main-algorithm"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1530,7 +1103,7 @@ up to precision
 \end_inset
 
 
-\begin_inset Formula $y\leftarrow y-p^{-1}z$
+\begin_inset Formula $y\leftarrow y+p^{-1}z$
 \end_inset
 
 

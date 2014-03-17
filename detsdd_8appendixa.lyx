@@ -172,11 +172,20 @@ Since
 
 \end_inset
 
-Using again triangle inequality, we can bound the error with respect to
+We have 
+\begin_inset Formula $\mathbb{E}\left[\hat{y}_{p,l}\right]=-\sum_{i=1}^{l}i^{-1}S^{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $y=-\sum_{i=1}^{\infty}i^{-1}S^{i}$
+\end_inset
+
+.
+ Using again triangle inequality, we can bound the error with respect to
  the expected value: 
 \begin_inset Formula 
 \begin{eqnarray*}
-\left|y-\mathbb{E}\left[\hat{y}_{p,l}\right]\right| & = & n^{-1}\left|\sum_{i=l+1}^{\infty}\frac{\left(-1\right)^{i}}{i}\mbox{Tr}\left(S^{k}\right)\right|\\
+\left|y-\mathbb{E}\left[\hat{y}_{p,l}\right]\right| & = & n^{-1}\left|\sum_{i=l+1}^{\infty}\frac{1}{i}\mbox{Tr}\left(S^{k}\right)\right|\\
  & \leq & n^{-1}\sum_{i=l+1}^{\infty}\frac{1}{i}\left|\mbox{Tr}\left(S^{k}\right)\right|\\
  & \leq & \frac{1}{n\left(l+1\right)}\sum_{i=l+1}^{\infty}\left|\mbox{Tr}\left(S^{k}\right)\right|\\
  & \leq & \frac{1}{l+1}\sum_{i=l+1}^{\infty}\left(1-\delta\right)^{k}\\
@@ -255,7 +264,7 @@ reference "lem:bernstein-trace"
  to conclude: 
 \begin_inset Formula 
 \[
-\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\left(\mathbf{u}_{i}^{T}\mathbf{u}_{i}\right)^{-1}\mathbf{u}_{i}^{T}H\mathbf{u}_{i}-n^{-1}\mbox{Tr}\left(H\right)\right|\geq\frac{\epsilon}{2}\right]\leq\exp\left(-\frac{p\epsilon^{2}}{8n^{-1}\left(\log\left(1/\delta\right)\right)^{2}+4\log\left(1/\delta\right)\epsilon}\right)
+\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\left(\mathbf{u}_{i}^{T}\mathbf{u}_{i}\right)^{-1}\mathbf{u}_{i}^{T}H\mathbf{u}_{i}-n^{-1}\mbox{Tr}\left(H\right)\right|\geq\frac{\epsilon}{2}\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{16n^{-1}\left(\log\left(1/\delta\right)\right)^{2}+4\log\left(1/\delta\right)\epsilon/3}\right)
 \]
 
 \end_inset
@@ -263,13 +272,13 @@ reference "lem:bernstein-trace"
 Thus, any choice of 
 \begin_inset Formula 
 \[
-p\geq8\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)\geq4\log\left(\eta^{-1}\right)\epsilon^{-2}\left(2n^{-1}\log^{2}\left(\delta^{-1}\right)+\epsilon\log\left(\delta^{-1}\right)\right)
+p\geq16\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(2/\eta\right)\log^{2}\left(\delta^{-1}\right)\geq\log\left(2/\eta\right)\epsilon^{-2}\left(16n^{-1}\log^{2}\left(\delta^{-1}\right)+\frac{4}{3}\epsilon\log\left(\delta^{-1}\right)\right)
 \]
 
 \end_inset
 
 satisfies the inequality:
-\begin_inset Formula $\exp\left(-\frac{p\epsilon^{2}}{8n^{-1}\left(\log\delta\right)^{2}+4\log\left(1/\delta\right)\epsilon}\right)\leq\eta$
+\begin_inset Formula $2\exp\left(-\frac{p\epsilon^{2}}{16n^{-1}\left(\log\left(1/\delta\right)\right)^{2}+4\log\left(1/\delta\right)\epsilon/3}\right)\leq\eta$
 \end_inset
 
 .
@@ -315,13 +324,6 @@ begin{proof}
 
 \end_inset
 
-
-\begin_inset CommandInset label
-LatexCommand label
-name "proof:preconditioning"
-
-\end_inset
-
  We introduce some notations that will prove useful for the rest of the
  article: 
 \begin_inset Formula 
@@ -343,11 +345,7 @@ with
 \begin_inset Formula $B^{-1/2}$
 \end_inset
 
- the inverse of the square root of the positive-definite matrix 
-\begin_inset Formula $B$
-\end_inset
-
-
+ the inverse of the square root
 \begin_inset Foot
 status collapsed
 
@@ -386,10 +384,14 @@ Given a real PSD matrix
 
 \end_inset
 
+ of the positive-definite matrix 
+\begin_inset Formula $B$
+\end_inset
+
 .
  The inequality 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:A-B-bounds"
 
 \end_inset
@@ -486,19 +488,19 @@ y_{l} & = & -\mbox{Tr}\left(\sum_{i=1}^{l}\frac{1}{i}S^{i}\right)\\
  & = & -\sum_{i=1}^{l}\frac{1}{i}\mbox{Tr}\left(\sum_{j}\left(\begin{array}{c}
 j\\
 i-j
-\end{array}\right)\left(B^{-1/2}AB^{-1/2}\right)^{j}\right)\\
+\end{array}\right)\left(-1\right)^{j}\left(B^{-1/2}AB^{-1/2}\right)^{j}\right)\\
  & = & -\sum_{i=1}^{l}\frac{1}{i}\sum_{j}\left(\begin{array}{c}
 j\\
 i-j
-\end{array}\right)\mbox{Tr}\left(\left(B^{-1/2}AB^{-1/2}\right)^{j}\right)\\
+\end{array}\right)\left(-1\right)^{j}\mbox{Tr}\left(\left(B^{-1/2}AB^{-1/2}\right)^{j}\right)\\
  & = & -\sum_{i=1}^{l}\frac{1}{i}\sum_{j}\left(\begin{array}{c}
 j\\
 i-j
-\end{array}\right)\mbox{Tr}\left(\left(B^{-1}A\right)^{j}\right)\\
+\end{array}\right)\left(-1\right)^{j}\mbox{Tr}\left(\left(B^{-1}A\right)^{j}\right)\\
  & = & -\sum_{i=1}^{l}\frac{1}{i}\mbox{Tr}\left(\sum_{j}\left(\begin{array}{c}
 j\\
 i-j
-\end{array}\right)\left(B^{-1}A\right)^{j}\right)\\
+\end{array}\right)\left(-1\right)^{j}\left(B^{-1}A\right)^{j}\right)\\
  & = & -\sum_{i=1}^{l}\frac{1}{i}\mbox{Tr}\left(H^{i}\right)
 \end{eqnarray*}
 
@@ -510,11 +512,11 @@ Hence, the practical computation of the latter sum can be done on
 
 .
  To conclude, if we compute 
-\begin_inset Formula $p=8\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(n\right)\log^{2}\left(\kappa\right)$
+\begin_inset Formula $p=16\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(2/\eta\right)\log^{2}\left(\kappa\right)$
 \end_inset
 
  truncated chains of length 
-\begin_inset Formula $l=2\kappa\log\left(\frac{n}{\kappa\epsilon}\right)$
+\begin_inset Formula $l=\kappa\log\left(\frac{2\kappa}{\epsilon}\right)$
 \end_inset
 
 , we get our result.
@@ -522,7 +524,7 @@ Hence, the practical computation of the latter sum can be done on
 \begin_inset Formula $lp$
 \end_inset
 
- multiplies by 
+ multiplications by 
 \begin_inset Formula $A$
 \end_inset
 
@@ -559,12 +561,6 @@ reference "thm:preconditioning-approx"
 \end_layout
 
 \begin_layout Standard
-\begin_inset CommandInset label
-LatexCommand label
-name "proof:preconditioning-approx"
-
-\end_inset
-
 We prove here the main result of Section 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -722,14 +718,14 @@ begin{proof}
 
 \end_inset
 
- Recall the definition of the matrix norm:
+ Recall the definition of the matrix norm: 
 \begin_inset Formula $\left\Vert S\right\Vert =\max_{x^{T}x\leq1}\sqrt{x^{T}Sx}$
 \end_inset
 
 .
  Since we know from Equation 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:s-encadrement"
 
 \end_inset
@@ -858,9 +854,9 @@ The approximation of the log-determinant is performed by computing sequences
 \begin_inset Formula $R$
 \end_inset
 
- operator on the previous element of the chain, starting from a unit Gaussian
- distribution 
-\begin_inset Formula $x_{0}\sim\mathcal{N}\left(0,\mathbf{I}\right)$
+ operator on the previous element of the chain, starting from a random variable
+ 
+\begin_inset Formula $x_{0}$
 \end_inset
 
 .
@@ -964,7 +960,33 @@ name "lem:nu-sequence-bound"
 
 \end_inset
 
-Consider 
+Let 
+\begin_inset Formula $H$
+\end_inset
+
+ be a linear operator and 
+\begin_inset Formula $D$
+\end_inset
+
+ a norm over the space of that linear operator.
+ Assume that the operator 
+\begin_inset Formula $H$
+\end_inset
+
+ is a contraction under this norm (
+\begin_inset Formula $\left\Vert H\right\Vert _{D}<1$
+\end_inset
+
+) and consider 
+\begin_inset Formula $\rho\in\left(0,1\right)$
+\end_inset
+
+ so that 
+\begin_inset Formula $\left\Vert H\right\Vert _{D}\leq\left(1-\rho\right)^{2}$
+\end_inset
+
+.
+ Consider 
 \begin_inset Formula $\left(x^{\left(k\right)}\right)_{k}$
 \end_inset
 
@@ -981,22 +1003,18 @@ approximate power sequence for the operator
 \end_inset
 
 .
- Assuming that 
-\begin_inset Formula $\left\Vert H\right\Vert _{D}\leq1-\rho$
+ If 
+\begin_inset Formula $\rho\leq1/2$
 \end_inset
 
- and that 
-\begin_inset Formula $2\nu\leq\rho\leq1/2$
+ and 
+\begin_inset Formula $\nu\leq\rho/2$
 \end_inset
 
-, the total error is bounded by 
-\begin_inset Formula $\mathcal{O}\left(\rho^{-3}\nu\right)$
-\end_inset
-
-: 
+, the total error is bounded: 
 \begin_inset Formula 
 \[
-\sum_{k=0}^{\infty}\left\Vert x^{\left(k\right)}-H^{k}x^{\left(0\right)}\right\Vert _{D}\leq4\nu\rho^{-3}\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\sum_{k=0}^{\infty}\left\Vert x^{\left(k\right)}-H^{k}x^{\left(0\right)}\right\Vert _{D}\leq4\rho^{-2}\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}
 \]
 
 \end_inset
@@ -1067,8 +1085,24 @@ We now bound the error on the
  & \leq & \left\Vert H\right\Vert _{D}\left\Vert x^{\left(k\right)}-H^{k}x^{\left(0\right)}\right\Vert _{D}+\nu\left\Vert Hx^{\left(k\right)}\right\Vert _{D}\\
  & = & \left\Vert H\right\Vert _{D}\omega_{k}+\nu\theta_{k}\\
  & \leq & \left\Vert H\right\Vert _{D}\omega_{k}+\nu\left(\omega_{k}+\left\Vert H\right\Vert _{D}^{k}\left\Vert x^{\left(0\right)}\right\Vert _{D}\right)\\
- & \leq & \left[\left(1-\rho\right)^{2}+\nu\right]\omega_{k}+\nu\left(1-\rho\right)^{2k}\left\Vert x^{\left(0\right)}\right\Vert _{D}
+ & \leq & \left[\left\Vert H\right\Vert _{D}+\nu\right]\omega_{k}+\nu\left\Vert H\right\Vert _{D}^{k}\left\Vert x^{\left(0\right)}\right\Vert _{D}
 \end{eqnarray*}
+
+\end_inset
+
+The assumption 
+\begin_inset Formula $\rho\leq1-\sqrt{\left\Vert H\right\Vert _{D}}$
+\end_inset
+
+ is equivalent to 
+\begin_inset Formula $\left\Vert H\right\Vert _{D}\leq\left(1-\rho\right)^{2}$
+\end_inset
+
+, so the last inequality implies:
+\begin_inset Formula 
+\[
+\omega_{k+1}\leq\left[\left(1-\rho\right)^{2}+\nu\right]\omega_{k}+\nu\left(1-\rho\right)^{2k}\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\]
 
 \end_inset
 
@@ -1085,97 +1119,116 @@ Note that the inequality
 \end_inset
 
 .
- We can assume without loss of generality that 
-\begin_inset Formula $0<\rho\leq1/2$
+ Using the hypothesis, this implies: 
+\begin_inset Formula 
+\begin{equation}
+\omega_{k+1}\leq\left(1-\rho\right)\omega_{k}+\nu\left(1-\rho\right)^{2k}\left\Vert x^{\left(0\right)}\right\Vert _{D}\label{eq:anon1}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We show by induction that:
+\begin_inset Formula 
+\[
+\forall k,\omega_{k}\leq\frac{\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}}{1-\sqrt{1-\rho}}\left(\sqrt{1-\rho}\right)^{k-1}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note first that 
+\begin_inset Formula 
+\[
+\omega_{1}=\left\Vert x^{\left(1\right)}-Hx^{\left(0\right)}\right\Vert _{D}\leq\nu\left\Vert Hx^{\left(0\right)}\right\Vert _{D}\leq\nu\left\Vert H\right\Vert _{D}\left\Vert x^{\left(0\right)}\right\Vert _{D}\leq\nu\left(1-\rho\right)^{2}\left\Vert x^{\left(0\right)}\right\Vert _{D}\leq\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}
+\]
+
+\end_inset
+
+So this relation is verified for 
+\begin_inset Formula $k=1$
 \end_inset
 
 .
- Under this condition, 
-\begin_inset Formula $\rho/2\leq\rho-\rho^{2}$
+ Now, assuming it is true for 
+\begin_inset Formula $k$
+\end_inset
+
+, we use Equation 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:anon1"
+
+\end_inset
+
+ to see that:
+\begin_inset Formula 
+\begin{eqnarray*}
+\omega_{k} & \leq & \left(1-\rho\right)\omega_{k}+\nu\left(1-\rho\right)^{2k}\left\Vert x^{\left(0\right)}\right\Vert _{D}\\
+ & \leq & \left(1-\rho\right)\omega_{k}+\nu\left(\sqrt{1-\rho}\right)^{k}\left\Vert x^{\left(0\right)}\right\Vert _{D}\\
+ & \leq & \nu\left\Vert x^{\left(0\right)}\right\Vert _{D}\left[\frac{\left(1-\rho\right)}{1-\sqrt{1-\rho}}\left(\sqrt{1-\rho}\right)^{k-1}+\left(\sqrt{1-\rho}\right)^{k}\right]\\
+ & = & \nu\left\Vert x^{\left(0\right)}\right\Vert _{D}\left(\sqrt{1-\rho}\right)^{k}\left[\frac{\sqrt{1-\rho}}{1-\sqrt{1-\rho}}+1\right]\\
+ & = & \frac{\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}}{1-\sqrt{1-\rho}}\left(\sqrt{1-\rho}\right)^{k}
+\end{eqnarray*}
+
+\end_inset
+
+which is the the property for 
+\begin_inset Formula $k+1$
 \end_inset
 
 .
- So the condition 
-\begin_inset Formula $2\nu\leq\rho$
+ Using this property, we can sum all the errors by a geometric series (note
+ that 
+\begin_inset Formula $\omega_{0}=0$
+\end_inset
+
+).
+ 
+\begin_inset Formula 
+\[
+\sum_{k=1}^{\infty}\omega_{k}\leq\frac{\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}}{1-\sqrt{1-\rho}}\sum_{k=0}^{\infty}\left(\sqrt{1-\rho}\right)^{k}=\frac{\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}}{\left(1-\sqrt{1-\rho}\right)^{2}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Finally, note that for 
+\begin_inset Formula $\rho\in\left(0,1/2\right)$
+\end_inset
+
+, the inequality 
+\begin_inset Formula $\nu\leq\rho/2$
 \end_inset
 
  implies 
-\begin_inset Formula $\left(1-\rho\right)^{2}+\nu\leq1-\rho$
+\begin_inset Formula $\nu\leq\rho-\rho^{2}$
 \end_inset
 
- which leads to: 
-\begin_inset Formula 
-\[
-\omega_{k+1}\leq\left(1-\rho\right)\omega_{k}+\nu\left(1-\rho\right)^{2k}\left\Vert x^{\left(0\right)}\right\Vert _{D}
-\]
-
+.
+ Furthermore, by concavity of the square root function, we have 
+\begin_inset Formula $\sqrt{1-\rho}\leq1-\rho/2$
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-By induction, one obtains: 
-\begin_inset Formula 
-\[
-\omega_{k}\leq\omega_{1}\left(1-\rho\right)^{k}+\frac{\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}}{\rho}\left(1-\rho\right)^{2k-1}
-\]
-
+ for 
+\begin_inset Formula $\rho\leq1$
 \end_inset
 
-and since 
-\begin_inset Formula $\omega_{1}=\left\Vert x^{\left(1\right)}-Hx^{\left(0\right)}\right\Vert _{D}\leq\nu\left\Vert Hx^{\left(0\right)}\right\Vert _{D}\leq\nu\left\Vert H\right\Vert _{D}\left\Vert x^{\left(0\right)}\right\Vert _{D}\leq\nu\left(1-\rho\right)^{2}\left\Vert x^{\left(0\right)}\right\Vert _{D}$
+.
+ Thus, 
+\begin_inset Formula $\left(1-\sqrt{1-\rho}\right)^{2}\geq\rho^{2}/4$
 \end_inset
 
-, we have a final bound that depends on 
-\begin_inset Formula $\nu$
-\end_inset
-
-: 
-\begin_inset Formula 
-\[
-\omega_{k}\leq\nu\left(1-\rho\right)^{2}\left\Vert x^{\left(0\right)}\right\Vert _{D}\left(1-\rho\right)^{k}+\frac{\nu\left\Vert x^{\left(0\right)}\right\Vert _{D}}{\rho}\left(1-\rho\right)^{2k-1}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-This is the sum of two geometric series, which give the bound: 
-\begin_inset Formula 
-\[
-\sum_{k}\omega_{k}\leq\nu\rho^{-1}\left[1+\frac{1}{\rho^{2}\left(1-\rho\right)^{2}}\right]\left\Vert x^{\left(0\right)}\right\Vert _{D}
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Since 
-\begin_inset Formula $\rho\leq1/2$
-\end_inset
-
-, it implies 
-\begin_inset Formula $\left(1-\rho\right)^{-2}\leq4$
-\end_inset
-
- and 
-\begin_inset Formula $1\leq\rho^{-2}$
-\end_inset
-
-, so we can further simplify: 
-\begin_inset Formula 
-\[
-\sum_{k}\omega_{k}\leq4\nu\rho^{-3}\left\Vert x^{\left(0\right)}\right\Vert _{D}
-\]
-
-\end_inset
-
-
+ and we get our result.
 \end_layout
 
 \begin_layout Standard
@@ -1230,12 +1283,12 @@ Consider
 \begin_inset Formula $x_{0}\in\mathbb{R}^{n}$
 \end_inset
 
-, 
-\begin_inset Formula $\nu\in\left(0,\varphi/2\right)$
+, and the additional hypothesis 
+\begin_inset Formula $\nu\in\left(0,\frac{1}{2\kappa}\right)$
 \end_inset
 
-, 
-\begin_inset Formula $\varphi\leq1/2$
+ and 
+\begin_inset Formula $\kappa\ge2$
 \end_inset
 
 , and 
@@ -1258,7 +1311,7 @@ approximate power sequence for the operator
  Then:
 \begin_inset Formula 
 \[
-\left|\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}R^{i}x_{0}-\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}x_{i}\right|\leq4\nu\kappa^{3}\kappa\left(B\right)\left\Vert x_{0}\right\Vert ^{2}
+\left|\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}R^{i}x_{0}-\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}x_{i}\right|\leq4\nu\kappa^{2}\sqrt{\kappa\left(B\right)}\left\Vert x_{0}\right\Vert ^{2}
 \]
 
 \end_inset
@@ -1314,7 +1367,7 @@ Call
  the truncated sequence: 
 \begin_inset Formula 
 \[
-\hat{z}=\sum_{i=1}^{l}\frac{1}{i}\left(x_{0}\right)^{T}x_{i}
+\hat{z}=\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}x_{i}
 \]
 
 \end_inset
@@ -1333,32 +1386,114 @@ z=\sum_{i=1}^{l}\frac{1}{i}x_{0}^{T}R^{i}x_{0}
 
 We now bound the error between the two sequences: 
 \begin_inset Formula 
-\[
-\left|\hat{z}-z\right|\leq\sum_{i=1}^{l}\frac{1}{i}\left|x_{0}^{T}\left(R^{i}x_{0}-x_{i}\right)\right|\leq\sum_{i=1}^{l}\left|x_{0}^{T}\left(R^{i}x_{0}-x_{i}\right)\right|\leq\sum_{i=1}^{l}\left|\left(B^{-1}x_{0}\right)^{T}B\left(R^{i}x_{0}-x_{i}\right)\right|
-\]
+\begin{equation}
+\left|\hat{z}-z\right|\leq\sum_{i=1}^{l}\frac{1}{i}\left|x_{0}^{T}\left(R^{i}x_{0}-x_{i}\right)\right|\leq\sum_{i=1}^{l}\left|x_{0}^{T}\left(R^{i}x_{0}-x_{i}\right)\right|\leq\sum_{i=1}^{l}\left|\left(B^{-1}x_{0}\right)^{T}B\left(R^{i}x_{0}-x_{i}\right)\right|\label{eq:anon}
+\end{equation}
 
 \end_inset
 
 Using the Cauchy-Schwartz inequality, we obtain: 
 \begin_inset Formula 
-\[
-\left|\left(B^{-1}x_{0}\right)^{T}B\left(R^{i}x_{0}-x_{i}\right)\right|=\left|\left\langle B^{-1}x_{0},R^{i}x_{0}-x_{i}\right\rangle _{B}\right|\leq\left\Vert B^{-1}x_{0}\right\Vert _{B}\left\Vert R^{i}x_{0}-x_{i}\right\Vert _{B}
-\]
+\begin{equation}
+\left|\left(B^{-1}x_{0}\right)^{T}B\left(R^{i}x_{0}-x_{i}\right)\right|=\left|\left\langle B^{-1}x_{0},R^{i}x_{0}-x_{i}\right\rangle _{B}\right|\leq\left\Vert B^{-1}x_{0}\right\Vert _{B}\left\Vert R^{i}x_{0}-x_{i}\right\Vert _{B}\label{eq:anon-1}
+\end{equation}
 
 \end_inset
 
-so that we can bound the deviation using the bound from Lemma 
+ From Lemma 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "lem:S-R-contractions"
+
+\end_inset
+
+, we have 
+\begin_inset Formula $\left\Vert R\right\Vert _{B}\leq\left(1-\varphi\right)^{2}$
+\end_inset
+
+, and from the hypothesis, we have 
+\begin_inset Formula $\nu\in\left(0,\varphi/2\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\varphi\le1/2$
+\end_inset
+
+, so we can bound the deviation using the bound from Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lem:nu-sequence-bound"
 
 \end_inset
 
-.
- 
+:
+\begin_inset Formula 
+\begin{equation}
+\sum_{i=1}^{l}\left\Vert R^{i}x_{0}-x_{i}\right\Vert _{B}\leq\sum_{i=1}^{\infty}\left\Vert R^{i}x_{0}-x_{i}\right\Vert _{B}\leq4\varphi^{-2}\nu\left\Vert x_{0}\right\Vert _{B}=4\kappa^{2}\nu\left\Vert x_{0}\right\Vert _{B}\label{eq:anon-2}
+\end{equation}
+
+\end_inset
+
+Combining Equations 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:anon"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:anon-1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:anon-2"
+
+\end_inset
+
+, we get: 
 \begin_inset Formula 
 \[
-\left|\hat{z}-z\right|\leq\left\Vert B^{-1}x_{0}\right\Vert _{B}\sum_{i=1}^{l}\left\Vert R^{i}x_{0}-x_{i}\right\Vert _{B}\leq4\nu\kappa^{3}\left\Vert B^{-1}x_{0}\right\Vert _{B}\left\Vert x_{0}\right\Vert _{B}\leq4\nu\kappa^{3}\kappa\left(B\right)\left\Vert x_{0}\right\Vert ^{2}
+\left|\hat{z}-z\right|\leq\left\Vert B^{-1}x_{0}\right\Vert _{B}\sum_{i=1}^{l}\left\Vert R^{i}x_{0}-x_{i}\right\Vert _{B}\leq4\nu\kappa^{2}\left\Vert B^{-1}x_{0}\right\Vert _{B}\left\Vert x_{0}\right\Vert _{B}
+\]
+
+\end_inset
+
+Finally, it is more convenient to consider the Euclidian norm for the norm
+ of 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+.
+ Call 
+\begin_inset Formula $\lambda_{\text{max }}$
+\end_inset
+
+ and 
+\begin_inset Formula $\lambda_{\text{min }}$
+\end_inset
+
+ the extremal eigenvalues of the positive semidefinite matrix 
+\begin_inset Formula $B$
+\end_inset
+
+.
+ By definition of the matrix norm: 
+\begin_inset Formula $\left\Vert x_{0}\right\Vert _{B}=\sqrt{x_{0}^{T}Bx_{0}}\leq\sqrt{\lambda_{\text{max}}}\left\Vert x_{0}\right\Vert $
+\end_inset
+
+ and 
+\begin_inset Formula $\left\Vert B^{-1}x_{0}\right\Vert _{B}=\sqrt{x_{0}^{T}B^{-1}x_{0}}\leq\sqrt{\lambda_{\text{min}}^{-1}}\left\Vert x_{0}\right\Vert $
+\end_inset
+
+ so we get:
+\begin_inset Formula 
+\[
+\left|\hat{z}-z\right|\leq4\nu\kappa^{2}\sqrt{\kappa\left(B\right)}\left\Vert x_{0}\right\Vert ^{2}
 \]
 
 \end_inset
@@ -1475,10 +1610,18 @@ reference "lem:partial-sequence-approximate"
 
 \end_inset
 
+ to the operator 
+\begin_inset Formula $R$
+\end_inset
+
+ under the norm 
+\begin_inset Formula $B$
+\end_inset
+
 , we get:
 \begin_inset Formula 
 \begin{eqnarray*}
-\left|z_{p,l}-\hat{y}_{p,l}\right| & \leq & 4\nu\kappa^{3}\kappa\left(B\right)\left[\frac{1}{p}\sum_{j=1}^{p}\left\Vert x_{0,j}\right\Vert ^{2}\right]=4\nu\kappa^{3}\kappa\left(B\right)
+\left|z_{p,l}-\hat{y}_{p,l}\right| & \leq & 4\nu\kappa^{2}\sqrt{\kappa\left(B\right)}\left[\frac{1}{p}\sum_{j=1}^{p}\left\Vert x_{0,j}\right\Vert ^{2}\right]=4\nu\kappa^{2}\sqrt{\kappa\left(B\right)}
 \end{eqnarray*}
 
 \end_inset
@@ -1493,7 +1636,7 @@ since
 
 , which gives us a deterministic bound.
  Consider 
-\begin_inset Formula $\nu\leq\min\left(\frac{\epsilon}{8\kappa^{3}\kappa\left(B\right)},\frac{1}{2\kappa}\right)$
+\begin_inset Formula $\nu\leq\min\left(\frac{\epsilon}{8\kappa^{2}\sqrt{\kappa\left(B\right)}},\frac{1}{2\kappa}\right)$
 \end_inset
 
 .
@@ -1515,7 +1658,7 @@ and
 \end_inset
 
  for a choice of 
-\begin_inset Formula $p\geq16\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)$
+\begin_inset Formula $p\geq16\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(2/\eta\right)\log^{2}\left(\delta^{-1}\right)$
 \end_inset
 
  and 
@@ -1524,10 +1667,14 @@ and
 
 .
  Hence, we get our bound result of 
-\begin_inset Formula $O\left(pl\right)=O\left(\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\eta^{-1}\right)\log^{2}\left(\delta^{-1}\right)\log\left(\frac{n}{\delta\epsilon}\right)\right)$
+\begin_inset Formula 
+\[
+pl=64\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(2/\eta\right)\log^{2}\left(\delta^{-1}\right)\log\left(\frac{n}{\delta\epsilon}\right)
+\]
+
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Standard

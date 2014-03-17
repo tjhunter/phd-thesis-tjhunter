@@ -3,12 +3,12 @@
 \begin_document
 \begin_header
 \textclass article
-\use_default_options true
+\use_default_options false
 \maintain_unincluded_children false
 \language english
-\language_package default
+\language_package none
 \inputencoding auto
-\fontencoding global
+\fontencoding default
 \font_roman default
 \font_sans default
 \font_typewriter default
@@ -25,19 +25,20 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
 \use_amsmath 1
 \use_esint 1
-\use_mhchem 1
-\use_mathdots 1
+\use_mhchem 0
+\use_mathdots 0
 \cite_engine basic
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\use_refstyle 1
+\use_refstyle 0
 \index Index
 \shortcut idx
 \color #008000
@@ -65,7 +66,7 @@ status open
 
 \begin_layout Plain Layout
 
-%%stopskip
+%%stopskip  : marker for tim's thesis, please do not remove it :-)
 \end_layout
 
 \end_inset
@@ -117,7 +118,9 @@ key "Abraham2008"
 
 .
  We restate their main result.
- 
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -130,44 +133,81 @@ begin{lemma}
 
 \end_inset
 
-(Theorem 1 from 
+(Lemma 9.2 from 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Abraham2008"
+key "Spielman2009a"
 
 \end_inset
 
 ).
- Consider 
-\begin_inset Formula $L_{G}$
+ Consider a weighted graph 
+\begin_inset Formula $G$
 \end_inset
 
- a weighted graph.
- There exists a tree 
-\begin_inset Formula $L_{T}$
+.
+ There exists a spanning tree 
+\begin_inset Formula $T$
 \end_inset
 
  that is a subgraph of 
-\begin_inset Formula $L_{G}$
+\begin_inset Formula $G$
 \end_inset
 
  so that: 
 \begin_inset Formula 
 \[
-L_{G}\preceq L_{T}\preceq\kappa L_{G}
+L_{T}\preceq L_{G}\preceq\kappa L_{T}
 \]
 
 \end_inset
 
 with 
-\begin_inset Formula $\kappa=Cm\log n\log\log n\left(\log\log\log n\right)^{3}$
-\end_inset
-
- for some constant 
-\begin_inset Formula $C>0$
+\begin_inset Formula $\kappa=\tilde{\mathcal{O}}\left(m\log n\right)$
 \end_inset
 
 .
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%$
+\backslash
+kappa=Cm
+\backslash
+log n
+\backslash
+log
+\backslash
+log n
+\backslash
+left(
+\backslash
+log
+\backslash
+log
+\backslash
+log n
+\backslash
+right)^{3}$ for some constant $C>0$.
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "lem:tree-st"
+
+\end_inset
+
+ 
 \begin_inset ERT
 status collapsed
 
@@ -180,7 +220,7 @@ end{lemma}
 
 \end_inset
 
- 
+
 \end_layout
 
 \begin_layout Standard
@@ -196,20 +236,34 @@ begin{proof}
 
 \end_inset
 
- This follows directly from 
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% TODO: this proof uses stretch, and still referes to the old bound.
+\end_layout
+
+\end_inset
+
+This follows directly from 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Abraham2008"
+key "Spielman2009a"
 
 \end_inset
 
 .
  
-\begin_inset Formula $L_{T}$
+\begin_inset Formula $T$
 \end_inset
 
  is a subgraph of 
-\begin_inset Formula $L_{G}$
+\begin_inset Formula $G$
 \end_inset
 
  (with the same weights on the edges), so 
@@ -225,18 +279,11 @@ key "Spielman2009a"
 
  for example for a proof of this fact).
  Furthermore, we have 
-\begin_inset Formula $L_{T}\preceq\text{st}_{G}\left(T\right)L_{G}$
+\begin_inset Formula $L_{G}\preceq\text{st}_{T}\left(G\right)L_{T}$
 \end_inset
 
 .
- This latter inequality is result of Boman and Hendrickson 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "Boman2004"
-
-\end_inset
-
- cited by Spielman et al.
+ This latter inequality is a result of Spielman et al.
  in 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -252,7 +299,22 @@ reference "lem:stretch-inequality"
 \end_inset
 
 .
- 
+ Finally, a result by 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Abraham2008"
+
+\end_inset
+
+ shows that 
+\begin_inset Formula $T$
+\end_inset
+
+ can be chosen such that 
+\begin_inset Formula $\text{st}_{T}\left(G\right)\leq\mathcal{O}(m\log n(\log\log n)^{3})$
+\end_inset
+
+.
 \begin_inset ERT
 status collapsed
 
@@ -331,15 +393,29 @@ Furthermore, computing
 \begin_inset Formula $O\left(n\right)$
 \end_inset
 
- computations by forward-backward substitution.
- Applying Corollary 
+ computations by forward-backward substitution (see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "duff1986direct"
+
+\end_inset
+
+).
+ Combining Corollary 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "cor:preconditioning"
 
 \end_inset
 
- gives immediately: 
+ and Lemma 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "lem:tree-st"
+
+\end_inset
+
+ gives immediately the following result.
 \end_layout
 
 \begin_layout Standard
@@ -375,12 +451,12 @@ Let
 \end_inset
 
  edges.
- Its PLD can be computed up to a precision of 
+ Its PLD can be computed up to a precision 
 \begin_inset Formula $\epsilon$
 \end_inset
 
  and with high probability in time 
-\begin_inset Formula $\tilde{O}\left(mn\left(\epsilon^{-1}+\frac{1}{n\epsilon^{2}}\right)\left(\log m\right)^{3}\left(\log n\right)^{2}\log\epsilon^{-1}\right)$
+\begin_inset Formula $\tilde{O}\left(m^{2}\log n\log^{2}\left(m\right)\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\right)$
 \end_inset
 
 .
@@ -412,19 +488,58 @@ begin{proof}
 
 \end_inset
 
- We assume 
-\begin_inset Formula $G$
+ Using Lemma 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "lem:tree-st"
+
 \end_inset
 
- is connected, hence 
-\begin_inset Formula $m\geq n$
+, we compute a low-stretch tree 
+\begin_inset Formula $L_{T}$
 \end_inset
 
- and 
-\begin_inset Formula $\log\kappa=\tilde{\mathcal{O}}\left(m\log n\right)$
+ so that 
+\begin_inset Formula $L_{T}\preceq L_{G}\preceq\kappa L_{T}$
+\end_inset
+
+ with 
+\begin_inset Formula $\kappa=\tilde{\mathcal{O}}\left(m\log n\right)$
 \end_inset
 
 .
+ Using Corollary 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "cor:preconditioning"
+
+\end_inset
+
+, approximating the PLD with high precision requires 
+\begin_inset Formula $\tilde{O}\left(\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2\kappa}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(\kappa\right)\right)=\tilde{O}\left(m\log n\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(m\right)\right)$
+\end_inset
+
+ inversions by the tree 
+\begin_inset Formula $T$
+\end_inset
+
+ (done in 
+\begin_inset Formula $O\left(n\right)$
+\end_inset
+
+) and vector products by the floated Laplacian 
+\begin_inset Formula $F_{L_{G}}$
+\end_inset
+
+(done in 
+\begin_inset Formula $O\left(m\right)$
+\end_inset
+
+).
+ The overall cost is 
+\begin_inset Formula $\tilde{O}\left(m^{2}\log n\log^{2}\left(m\right)\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\right)$
+\end_inset
+
  
 \begin_inset ERT
 status collapsed
@@ -442,9 +557,9 @@ end{proof}
 \end_layout
 
 \begin_layout Standard
-This bound may be of independent interest since it requires relatively little
- machinery to compute, and it is an improvement already for graphs with
- small vertex degree (
+This result may be of independent interest since it requires relatively
+ little machinery to compute, and it is a theoretical improvement already
+ for graphs with small vertex degree (
 \begin_inset Formula $m=\mathcal{O}\left(n^{1+o\left(1\right)}\right)$
 \end_inset
 
@@ -459,7 +574,7 @@ This bound may be of independent interest since it requires relatively little
 \end_inset
 
  since 
-\begin_inset Formula $L_{G}\preceq L_{T}$
+\begin_inset Formula $L_{G}\preceq\kappa L_{T}$
 \end_inset
 
 .
@@ -471,6 +586,7 @@ reference "sub:Stretch-bounds"
 \end_inset
 
  that we can compute a non-trivial lower bound as well.
+ 
 \end_layout
 
 \end_body
