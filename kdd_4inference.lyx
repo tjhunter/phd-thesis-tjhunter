@@ -857,6 +857,20 @@ f\left(a\left(q_{u:v}\right)^{T}\mu,\sigma\left(q_{u:v}\right)^{2}\right)=f\left
 
 \begin_layout Proof
 Using the definition of the partial mixture sum:
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% TODO: this goes out of the page
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
 \begin_inset Formula 
 \begin{eqnarray*}
 \widetilde{\pi}_{u:v}\left(i\rightarrow j\right) & = & \sum_{q=q_{u}\cdots q_{v}:q_{u}=i\,,\, q_{v}=j}\pi\left(q\right)f\left(a\left(q\right)^{T}\mu,\sigma\left(q\right)^{2}\right)\\

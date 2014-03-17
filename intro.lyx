@@ -1457,6 +1457,10 @@ approximation of
 \end_inset
 
  can be computed with high probability in expected time 
+\begin_inset Newline linebreak
+\end_inset
+
+
 \begin_inset Formula $O\left(m\epsilon^{-2}\log^{3}n\log\left(\frac{\kappa_{A}}{\epsilon}\right)\log\log^{8}n\right)$
 \end_inset
 
@@ -1476,7 +1480,8 @@ approximation of
 \bar under
 Publication:
 \bar default
- This part is under submission at XXX.
+ This part is under submission at the SIAM Journal of Matrix Analysis and
+ Applications.
 \end_layout
 
 \begin_layout Standard
