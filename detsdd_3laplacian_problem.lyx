@@ -192,16 +192,6 @@ t of a SDD system into the computation of two PLDs of Laplacians, as shown
 status open
 
 \begin_layout Plain Layout
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% easter
-\end_layout
-
-\end_inset
-
 The Gremban reduction can also be used, but as one coauthor expresses it,
  
 \begin_inset Quotes eld
@@ -217,6 +207,20 @@ the Kelner reduction is sexy
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% easter
+\end_layout
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
