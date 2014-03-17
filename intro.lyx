@@ -958,7 +958,7 @@ Temporal distribution of trajectories from a typical source of data.
  the horizontal axis corresponds to the sampling rate of the chunk.
  Most data is programmatically generated at fixed intervals (10, 60, 90,
  120 seconds), and most of it is generated at large intervals (> 10 seconds).
- Scale is ommitted for confidentiality reasons.
+ Scale is omitted for confidentiality reasons.
 \end_layout
 
 \end_inset
@@ -1376,7 +1376,7 @@ Contribution:
 \begin_layout Standard
 All the models presented so far have a reasonable size (less than a million
  variables), for which inference and learning algorithms can be derived
- by adapting tradititional techniques.
+ by adapting traditional techniques.
  As the size of the problems at hand increases to truly enormous dimensions,
  some radically different techniques may be required.
  Learning the Gaussian model presented in Chapter 
