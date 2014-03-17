@@ -74,12 +74,14 @@ chapter*{Appendices}
 
 
 \backslash
-epigraph{Mais on ne se bat pas dans l'espoir du succ
+epigraph{
 \backslash
-`{e}s! Non! non! C'est bien plus beau lorsque c'est inutile!}{Edmond Rostand,
+emph{Mais on ne se bat pas dans l'espoir du succ
+\backslash
+`{e}s! Non! non! C'est bien plus beau lorsque c'est inutile!}}{Edmond Rostand,
  
 \backslash
-emph{in} Cyrano de Bergerac}
+emph{Cyrano de Bergerac} }
 \end_layout
 
 \end_inset

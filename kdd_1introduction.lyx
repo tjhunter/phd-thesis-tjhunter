@@ -75,7 +75,9 @@ chapter{Large scale estimation of travel time correlations}
 
 
 \backslash
-epigraph{ Crombile maintenant ne venait plus au conseil;
+epigraph{
+\backslash
+emph{Crombile maintenant ne venait plus au conseil;
 \end_layout
 
 \begin_layout Plain Layout
@@ -112,12 +114,11 @@ le ramassaient avec les papiers qu'ils allaient vendre
 
 aux attach
 \backslash
-'{e}s militaires de l'empire voisin.
- }{Anatole France, 
+'{e}s militaires de l'empire voisin.}}{Anatole France, 
 \backslash
-emph{in} L'
+emph{L'
 \backslash
-^{i}le des pingouins} 
+^{i}le des pingouins}} 
 \end_layout
 
 \end_inset

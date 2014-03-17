@@ -75,13 +75,17 @@ chapter{A map-matching algorithm for GPS data}
 
 
 \backslash
-epigraph{Pourquoi donc, reprit le Sirien, citez-vous un certain Aristote
- en grec? C'est, r
+epigraph{
+\backslash
+emph{Pourquoi donc, reprit le Sirien, citez-vous un certain Aristote en
+ grec? C'est, r
 \backslash
 '{e}pliqua le savant, qu'il faut bien citer ce qu'on ne comprend point du
- tout dans la langue qu'on entend le moins.}{Voltaire 
+ tout dans la langue qu'on entend le moins.}}{Voltaire, 
 \backslash
-emph{in} Micromegas} 
+emph{Microm
+\backslash
+'{e}gas}} 
 \end_layout
 
 \end_inset

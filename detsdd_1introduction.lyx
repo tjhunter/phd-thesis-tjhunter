@@ -74,13 +74,15 @@ chapter{Computing determinants at very large scale}
 
 
 \backslash
-epigraph{Le faux se r
+epigraph{
 \backslash
-'{e}pand vite, et le vrai surnage lentement.}{George Sand, 
+emph{Le faux se r
 \backslash
-emph{in} C
+'{e}pand vite, et le vrai surnage lentement.}}{George Sand, 
 \backslash
-'{e}sarine Dietrich}
+emph{C
+\backslash
+'{e}sarine Dietrich}}
 \end_layout
 
 \end_inset
