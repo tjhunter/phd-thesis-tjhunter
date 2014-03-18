@@ -909,7 +909,7 @@ status open
 
 
 \begin_inset Graphics
-	filename figures-intro/sampleplot_trajs.png
+	filename docs-intro/sampleplot_trajs.pdf
 	width 8cm
 
 \end_inset
@@ -949,6 +949,23 @@ Temporal distribution of trajectories from a typical source of data.
  60 seconds, or at fixed intervals (10, 60, 90, 120 seconds).
  Most of it is generated at large intervals (> 10 seconds).
  Scale is omitted for confidentiality reasons.
+ The data used in each of the two data scenarios (
+\begin_inset Quotes eld
+\end_inset
+
+A
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+B
+\begin_inset Quotes erd
+\end_inset
+
+) is marked by an interval.
 \end_layout
 
 \end_inset
@@ -1004,11 +1021,28 @@ reference "fig:power_law"
 \end_layout
 
 \begin_layout Itemize
-A first scenario in which we have a lot of sparse GPS data
+A first scenario in which we only have high-frequency data (Scenario 
+\begin_inset Quotes eld
+\end_inset
+
+A
+\begin_inset Quotes erd
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Itemize
-A second scenario in which we have more high-frequency data
+A second scenario in which we have large amounts of sparse GPS data (Scenario
+ 
+\begin_inset Quotes eld
+\end_inset
+
+B
+\begin_inset Quotes erd
+\end_inset
+
+)
 \end_layout
 
 \begin_layout Standard
@@ -1132,6 +1166,12 @@ Between these two extreme lies a rich variety of road configurations with
 \begin_layout Standard
 
 \series bold
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\series bold
 Data driven inference.
 
 \series default
@@ -1174,6 +1214,11 @@ l parameters have to be adjusted to best match the observations, etc.
  Also, given a data-driven approach, our prior knowledge of the phenomenon
  will influence our choice of variables (representation problem), and give
  us some insight about the structure of dependencies between these variables.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

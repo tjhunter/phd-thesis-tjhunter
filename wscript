@@ -97,8 +97,8 @@ def build(bld):
   bld.oo2pdf(bld.path.ant_glob('docs-intro/*.odg'))
   tex_deps += ['acks.tex']
   tex_deps += ['intro.tex']
-  img_deps += ["docs-intro/%s.pdf"%d for d in 'power_law tt_function'.split()]
-  img_deps += "figures-intro/example_franklin.png  figures-intro/example_vanness.png  figures-intro/sampleplot_trajs.png".split()
+  img_deps += ["docs-intro/%s.pdf"%d for d in 'power_law tt_function sampleplot_trajs'.split()]
+  img_deps += "figures-intro/example_franklin.png  figures-intro/example_vanness.png".split()
   # PIF chapter deps
   bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odp'))
   bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odg'))
