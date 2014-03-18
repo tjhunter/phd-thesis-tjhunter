@@ -591,7 +591,7 @@ We you use [Google Maps], we may collect and process information about your
 
 \begin_layout Standard
 Probe data presents some compelling advantages over static sensors: it is
- easier to upgrade (for example by pushing software upgrades to devices),
+ much easier to upgrade (for example by pushing software upgrades to devices),
  it is cheaper to operate (the energy and transmission costs are shouldered
  by the end users) and its coverage is usually very extensive (see Figure
  
@@ -604,9 +604,10 @@ reference "fig:mm_cloud_point"
  for an example).
  It also presents some drawbacks: achieving reasonable levels of privacy
  is an open question, the coverage is dependent on the user base and may
- be poor in some areas, and the market fragmentation means that agreements
- must be negotiated with each company that collects GPS data (often gathered
- from different users).
+ be poor in some areas, some variables like vehicle counts are not directly
+ observable, and the market fragmentation means that agreements must be
+ negotiated with each company that collects GPS data (often gathered from
+ different users).
 \end_layout
 
 \begin_layout Standard
@@ -620,7 +621,7 @@ Pipeline.
 \emph on
 Mobile Millennium
 \emph default
- traffic platform.
+ traffic information system.
  
 \emph on
 Mobile Millennium
@@ -643,17 +644,16 @@ Mobile Millennium
 \emph on
 Mobile Millennium 
 \emph default
-is a research platform and can be used with various models of travel times.
+is a research platform and can be used with various models of travel time.
  We have built upon 
 \emph on
 Mobile Millennium
 \emph default
  to provide a statistical estimation engine for travel time, and expanding
- it was a significant contribution of our work.
- In this data-intensive task, the final output looks like a complete pipeline
- separated in multiple stages, each of the stages being responsible for
- a separate task.
- Our traffic pipeline is decomposed in the following steps 
+ it was a significant contribution of this work.
+ In this data-intensive task, the final output is a multi-stage pipeline
+ with each of the stages being responsible for a separate task.
+ This traffic pipeline is decomposed in the following modules 
 \begin_inset Note Note
 status collapsed
 
@@ -671,7 +671,7 @@ shown in Figure XXXX
 \end_layout
 
 \begin_layout Itemize
-An ingestion module that takes all the feeds and stores them into a database,
+An ingestion module that takes all the feeds and stores them in a database,
 \end_layout
 
 \begin_layout Itemize
@@ -684,7 +684,8 @@ Various travel time modules that compute travel time estimates on the road
 \end_layout
 
 \begin_layout Itemize
-A validation module that implements different metrics of travel times.
+A validation module that implements different metrics of travel times (mean
+ square error or log-likelihood for example).
 \end_layout
 
 \begin_layout Standard
@@ -744,35 +745,26 @@ key "spark"
 \begin_layout Standard
 
 \series bold
-Equilibrium.
-
-\series default
- In this scenario, we can consider that revealing the true state of the
- traffic to the participants will not change the dynamics of the overall
- phenomenon: the informed drivers will optimize their routes or schedule
- without changing (much) the global equilibrium of the other road users.
- 
-\end_layout
-
-\begin_layout Standard
-
-\series bold
 Existing systems.
 
 \series default
- Up to now, few researchers have attempted to tackle the full problem and
- to consider at the same time the problem of probe data (real data), scalability
- and accuracy.
- This approach has been mostly developed in the industry, which has developed
- solutions that scale to the whole world and can ingest thousands of observation
-s per second.
+ Up to now, researchers have mostly tackled traffic estimation by focusing
+ on the different subtasks of data collection, data filtering, road link
+ congestion detection, etc.
+ Research is usually done by using synthetic input or considering a small,
+ controlled environment.
+ Very few researchers have attempted to consider the complete task of traffic
+ estimation in a holistic manner.
+ There are formidable engineering challenges in building a reliable system
+ for mass collection of GPS data, and enlisting enough users to reach a
+ critical mass.
+ This is why fully integrated TIS have been mostly pioneered in the industry,
+ which has developed systems that scale to the whole world and that ingest
+ thousands of observations per second.
  However, there has been no published attempt to quantify the quality of
  the solutions offered by the industry.
  The terms of use generally limit scientific investigation of the output
  provided to the public.
- The engineering challenges involved in building a reliable system for mass
- collection of GPS data as well as the difficulty in enlisting enough users
- to reach a critical mass pose formidable challenges to researchers.
  Furthermore, companies that collect such data are loathe to share it with
  researchers due to obvious legal and privacy concerns.
  The only successful examples of full platforms developed in academia that
@@ -788,6 +780,9 @@ key "hull2006cartel"
 Mobile Millennium
 \emph default
 .
+ While researchers have made significant strides in tackling each subtask
+ individually, we observe that the lack of proper context leads to irrelevant
+ assumptions about the input data that may never be verified in practice.
  We hope that this dissertation will provide some insight as to the problems
  that are relevant to researchers in the field.
 \end_layout
@@ -800,7 +795,7 @@ Complexity of modeling traffic from GPS observations
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \align center
@@ -845,8 +840,8 @@ key "cabspotting"
 
 .
  Large circles in red show the position of the taxis at a given time and
- small dots (in black) show past positions (during the last five hours)
- of the taxi fleet.
+ small dots (in black) show past positions (during the last ten hours) of
+ the taxi fleet.
  The position of each vehicle is observed every minute.
 \begin_inset CommandInset label
 LatexCommand label
@@ -893,20 +888,20 @@ Mobile Millennium
 \end_layout
 
 \begin_layout Standard
-Our final objective is to give good information about travel times to user.
- We aim at a model of travel times that can give useful bounds on the travel
- times (in a statistical sense).
- This goal informs the complexity of the model that we want to build.
- In particular, we should aim at a model that can capture significant correlatio
-ns to the travel times between different links, since the unit of inference
- that we choose is the link on a road network.
+Our final objective is to give timely and accurate information about travel
+ times to the user.
+ We aim to develop a model of travel times that can give non-trivial, informativ
+e statistical bounds on the travel times.
+ This goal informs the complexity of the model that we wish to build.
+ In particular, we aim to develop models that capture significant correlations
+ in travel times between different road sections.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset space \hfill{}
@@ -950,8 +945,9 @@ Temporal distribution of trajectories from a typical source of data.
  All trajectories are observed in small chunks.
  The vertical axis corresponds to the overall duration of the chunk, and
  the horizontal axis corresponds to the sampling rate of the chunk.
- Most data is programmatically generated at fixed intervals (10, 60, 90,
- 120 seconds), and most of it is generated at large intervals (> 10 seconds).
+ Most data is programmatically generated at many intervals between 20 and
+ 60 seconds, or at fixed intervals (10, 60, 90, 120 seconds).
+ Most of it is generated at large intervals (> 10 seconds).
  Scale is omitted for confidentiality reasons.
 \end_layout
 
@@ -1025,7 +1021,7 @@ In both cases, we want to work at the scale of the city, and we will highlight
 \begin_inset Float figure
 wide false
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset ERT
@@ -1048,13 +1044,6 @@ centering
 \end_inset
 
 
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:power_law"
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -1067,6 +1056,13 @@ status open
 \begin_layout Plain Layout
 Power law distribution of GPS data.
 \end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:power_law"
 
 \end_inset
 
@@ -1103,7 +1099,8 @@ The number of observations (GPS points projected to the road network) by
 Spatial disparity.
 
 \series default
- It is clear to any driver that all the roads do not bear the same traffic.
+ It is clear to any driver that all the roads do not bear the same traffic
+ demand.
  As one can see on Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1217,8 +1214,8 @@ This thesis is organized as follows.
 \end_layout
 
 \begin_layout Standard
-As we saw, the GPS data is very noisy and needs to be filtered and map-matched
- onto the map before any use.
+GPS data can be very noisy and needs to be filtered and map-matched onto
+ the map before any use.
  This is a challenging issue due to the long intervals between each observation.
  Chapter 
 \begin_inset CommandInset ref
@@ -1227,8 +1224,8 @@ reference "chapter:pif"
 
 \end_inset
 
- presents an algorithm to map-match the GPS data at a very wide range of
- latencies and for a variety of computation/accuracy trade-offs.
+ presents an algorithm to map-match GPS data from a very wide range of latencies
+ and for a variety of computation/accuracy trade-offs.
 \end_layout
 
 \begin_layout Standard
@@ -1266,7 +1263,8 @@ reference "chapter:socc"
 
  considers the case of large amounts of low-latency data, which is what
  is generally available nowadays.
- In this case, the estimation problem is mostly bound by computation times.
+ In this case, the accuracy of the estimation problem is mostly bound by
+ computation times.
  If some further independence assumptions are made about travel time distributio
 ns, we can build a model that can scale to hundreds of machines.
 \end_layout
@@ -1299,11 +1297,12 @@ Mobile Millennium
 \emph on
 any 
 \emph default
-distribution of travel times that provided they expose a few functionalities
+distribution of travel times, provided they expose a few functionalities
  (sampling, parameter estimation from observations).
  This should be of interest to the traffic researchers and practitioners
- since our framework solves all the issues of using raw GPS samples to build
- traffic estimates at a very large scale with low latency.
+ since our framework solves the issues related to using raw GPS samples,
+ and let researchers build traffic estimates at a very large scale with
+ low latency.
  A probabilistic model of travel times on the arterial network is presented
  along with an online 
 \emph on
@@ -1345,11 +1344,12 @@ reference "chapter:kdd"
 
  makes different assumptions and explores the scenario in which a small
  amount of high-frequency observations are available to the researcher.
- In this case, it is hopeless to achieve real-time traffic estimation.
- However, one can hope for a good baseline/historical model of travel times
- that takes into account the correlation of traffic between different parts
- of the road network.
- We will first motivate this model by a careful look at the available data.
+ In this case, there is not enough data in real-time to achieve real-time
+ traffic estimation.
+ However, one can build a good baseline/historical model of travel times
+ that takes into account the correlation of travel time between different
+ segments of the road network.
+ We will motivate this model with a careful look at the available data.
 \end_layout
 
 \begin_layout Standard
@@ -1358,17 +1358,16 @@ reference "chapter:kdd"
 Contribution:
 \bar default
  The chapter presents a model for travel time that uses privacy-aware GPS
- data, and that provides distributions of travel times for any path across
- the network.
- We also introduce some new modelization techniques to represent transitory
- phenomenon on a graph, and we present a fast inference algorithm based
- on Fast Fourier Transform to compute these travel times.
- Our implementation can work with long paths on a large road network with
- more than half a million road links.
+ data, and that provides distributions of travel times for any path in the
+ road network.
+ We also present an efficient inference algorithm based on Fast Fourier
+ Transform to compute these travel times.
+ Our implementation can work with long paths (comprising hundreds of road
+ segments) on a large road network with more than half a million road links.
 \end_layout
 
 \begin_layout Standard
-All the models presented so far have a reasonable size (less than a million
+All the models considered so far have a reasonable size (less than a million
  variables), for which inference and learning algorithms can be derived
  by adapting traditional techniques.
  As the size of the problems at hand increases to truly enormous dimensions,
