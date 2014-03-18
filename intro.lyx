@@ -146,15 +146,18 @@ name "chapter:introduction"
 
 \begin_layout Standard
 Our society is increasingly dependent on very large infrastructure systems
- that provide vital services such as water, electricity, information, energy.
- Prominent examples are telecommunication systems, power grids, or water
- distribution systems.
+ that provide vital services such as water, electricity, information, or
+ energy.
+ Prominent examples are telecommunication systems, power grids, water distributi
+on or transportation systems.
  These systems are continuously monitored by a vast array of sensors, which
  gather large streams of digital information.
  This network of sensors gives information about the aggregate state of
  the system, or about local variables such as chemical concentrations, power
  output, temperatures, etc.
- These variables are then used to provide corrective feedback to the system.
+ This step is commonly referred to as state estimation or filtering.
+ These variables are then used to provide corrective feedback to the system
+ (control).
  In order to process this stream of information, it will be more and more
  common in the future to use massive amounts of computing power for the
  following reasons:
@@ -176,12 +179,12 @@ due to coupling effects, estimating the state of a large system is usually
 Furthermore, as monitoring networks grow in complexity and versatility,
  they are usually tasked with answering more complex questions such as predictin
 g the evolution of the system or performing diagnostics on critical sections
- (and provide some statistical guarantees about the quality of these diagnostics
-).
- These tasks often require much more computing power than providing aggregated
- measurements, and yet become an increasingly important part of the monitoring.
+ (and also providing some statistical guarantees about the quality of these
+ diagnostics).
+ These tasks often require much more computing power than aggregating measuremen
+ts, and yet become an increasingly important part of the monitoring.
  Examples include assessing the spread of toxic chemicals in a water system
- or radioactive surges in a nuclear core.
+ or detecting radioactive surges in a nuclear core.
  These tasks grow in complexity and will require more and more the use of
  advanced statistical and computing techniques in order to be completed
  in a timely manner.
@@ -208,7 +211,7 @@ l damage and transportation delays it causes.
 \end_inset
 
 
-\begin_inset Formula $2007$
+\begin_inset Formula $2012$
 \end_inset
 
  Urban Mobility Report
@@ -218,7 +221,7 @@ l damage and transportation delays it causes.
 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "tti"
+key "schrank2012tti"
 
 \end_inset
 
@@ -227,15 +230,15 @@ key "tti"
 \end_inset
 
 
-\begin_inset Formula $4.2$
+\begin_inset Formula $5.5$
 \end_inset
 
- billion hours of extra travel in the United States every year, which accounts
+ billion hours of extra travel in the United States in 2011, which accounted
  for 2.9 billion extra gallons of fuel and an additional cost of
 \begin_inset space ~
 \end_inset
 
-$78 billion.
+$121 billion.
  Amongst the modern man-made plagues, traffic congestion is a universally
  recognized challenge 
 \begin_inset CommandInset citation
@@ -272,16 +275,6 @@ key "ban_optimal_2008"
 \begin_inset CommandInset citation
 LatexCommand cite
 key "chorus2006use"
-
-\end_inset
-
-.
- So far however, only a small fraction of the drivers seems to use TIS,
- mostly because the value of additional information is perceived as low
- compared to the accumulated experience of the driver 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "gao2011cognitive"
 
 \end_inset
 
@@ -342,9 +335,9 @@ arterial roads
 \emph default
 are the major urban city streets that connect population centers within
  and between cities.
- The estimation problem is more challenging in the case of arterial roads
- due to the cost of deploying a wide network of sensors in large metropolitan
- areas.
+ The estimation problem is more challenging in the case of arterial roads,
+ due to the higher complexity of city traffic, and to the cost of deploying
+ a wide network of sensors in large metropolitan areas.
  Dedicated traffic sensors are expensive to install, maintain and operate,
  which limits the number of sensors that governmental agencies can deploy
  on the road network.
@@ -436,13 +429,12 @@ key "sen2004rationality"
  Furthermore, computing the full statistical distribution of travel times
  lets the user decide how much risk he or she is willing to take
 \begin_inset Foot
-status collapsed
+status open
 
 \begin_layout Plain Layout
 Of course, leaving an infinity of time before the event is the only strategy
  to arrive with probability one.
- We assume the driver's significant others would object to such a long trip
- to the airport.
+ We assume drivers would object to such a long trip to the airport.
 \end_layout
 
 \end_inset
@@ -472,7 +464,7 @@ centering
 
 \begin_inset Graphics
 	filename docs-intro/tt_function.pdf
-	width 8cm
+	width 12cm
 
 \end_inset
 
@@ -593,6 +585,8 @@ We you use [Google Maps], we may collect and process information about your
 \end_inset
 
 .
+ However, this data is seldom accessible to researchers due to privacy and
+ competitivity concerns.
 \end_layout
 
 \begin_layout Standard
