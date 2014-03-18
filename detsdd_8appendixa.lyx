@@ -327,7 +327,7 @@ begin{proof}
 \end_inset
 
  We introduce some notations that will prove useful for the rest of the
- article: 
+ appendix: 
 \begin_inset Formula 
 \[
 H=I-B^{-1}A

@@ -235,7 +235,7 @@ latency
 \emph default
 , which is all the more important as estimates are usually part of a larger
  decision system.
- In this article, we investigate the use of Discretized Streams (D-Streams)
+ In this chapter, we investigate the use of Discretized Streams (D-Streams)
  
 \begin_inset CommandInset citation
 LatexCommand cite

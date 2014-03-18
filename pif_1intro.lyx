@@ -175,9 +175,9 @@ A typical datum provided by a probe vehicle includes an identifier of the
 status open
 
 \begin_layout Plain Layout
-The experiments in this article use GPS observations only.
+The experiments in this dissertation use GPS observations only.
  However, nothing prevents the application of the algorithms presented in
- this article to other types of localized data.
+ this dissertation to other types of localized data.
 \end_layout
 
 \end_inset
@@ -741,7 +741,7 @@ key "giovannininovel"
 \end_inset
 
 .
- In the present article, we restrict ourselves to a class of models (the
+ In the present discussion, we restrict ourselves to a class of models (the
  exponential family distributions) that is rich enough to provide insight
  on the driving patterns of the vehicles.
  Furthermore, when using this class of models, the learning of new parameters

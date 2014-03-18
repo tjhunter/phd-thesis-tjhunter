@@ -861,7 +861,7 @@ We first present some general results about the preconditioning of determinants.
 \end_inset
 
  in the spectral sense.
- All the results of this article stem from observing that: 
+ All the results of this chapter stem from observing that: 
 \begin_inset Formula 
 \begin{eqnarray*}
 \log\left|A\right| & = & \log\left|B\right|+\log\left|B^{-1}A\right|\\
@@ -1011,7 +1011,7 @@ end{theorem}
 \end_layout
 
 \begin_layout Standard
-The rest of the article is structured as follows.
+The rest of the chapter is structured as follows.
  In the next section, we present some results about estimating the log-determina
 nt from a truncated expansion.
  These results will justify the use of 

@@ -75,10 +75,10 @@ name "sec:kdd_evaluation"
 \end_layout
 
 \begin_layout Standard
-The article presents an algorithm to turn GPS traces from a small fraction
- of the vehicles traveling on the road network into valuable traffic information
- to develop large scale traffic information platforms and optimal and robust
- routing capabilities.
+The previous section presents an algorithm to turn GPS traces from a small
+ fraction of the vehicles traveling on the road network into valuable traffic
+ information to develop large scale traffic information platforms and optimal
+ and robust routing capabilities.
  The value of the model depends crucially on the quality of the estimates
  of point to point travel time distribution.
  Another key feature of the algorithm is its computational complexity and
@@ -140,7 +140,7 @@ Comparison models
 
 \begin_layout Standard
 In this Section, the results of the model are compared to simpler models
- which arise as special cases of the model presented in the article.
+ which arise as special cases of the model presented in the chapter.
  We introduce these models and denominations, which we use throughout the
  evaluation.
 \begin_inset Newline newline
@@ -199,7 +199,7 @@ Multi-modal independent
 \begin_inset Newline newline
 \end_inset
 
- The model developed in this article is referred to as the 
+ The model developed in this chapter is referred to as the 
 \emph on
 MM-GMRF
 \emph default

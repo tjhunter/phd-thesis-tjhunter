@@ -86,7 +86,7 @@ name "sec:A-first-preconditioner"
 \end_layout
 
 \begin_layout Standard
-While the results in this section are not the main claims of this paper,
+While the results in this section are not the main claims of this chapter,
  we hope they will provide some intuition, and an easier path towards an
  implementation.
 \end_layout

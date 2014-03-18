@@ -599,8 +599,8 @@ The modeling pipeline
 \end_layout
 
 \begin_layout Standard
-We leverage these insight to develop the traffic estimation algorithm presented
- in this article: an end-to-end, scalable model for inferring path travel
+We leverage these insights to develop the traffic estimation algorithm presented
+ in this chapter: an end-to-end, scalable model for inferring path travel
  time distributions, referred to as a 
 \begin_inset Quotes eld
 \end_inset

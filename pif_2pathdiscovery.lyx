@@ -160,13 +160,13 @@ x=\left(l,o\right)
 status collapsed
 
 \begin_layout Plain Layout
-In all the rest of the article, we will consider a single vehicle.
+In all the rest of the discussion, we will consider a single vehicle.
  It is straightforward to consider multiple vehicles at once.
  --> Strange statement.
  IF you had multiple vehicles, wouldn't you already know from which vehicle
  each GPS reading came, and you'd just treat them as separate problems?
  Assuming so, I'd phrase this differently, perhaps as: "For the remainder
- of this article we will consider trajectory inference for a single probe
+ of this thesis we will consider trajectory inference for a single probe
  vehicle.
  In a practical traffic estimation system, one could run our approach independen
 tly for each probe vehicle." I might even leave out the last sentence as
@@ -178,7 +178,7 @@ tly for each probe vehicle." I might even leave out the last sentence as
 
 \end_inset
 
-Furthermore, for the remainder of this article we consider trajectory inference
+Furthermore, for the remainder of the chapter we consider trajectory inference
  for a single probe vehicle.
  
 \end_layout
@@ -479,7 +479,7 @@ omega(g|x)), and then the posterior ? It's not clear how the gridding interacts
 \end_layout
 
 \begin_layout Standard
-In the rest of this article, the boldface symbol 
+In the rest of this chapter, the boldface symbol 
 \begin_inset Formula $\mathbf{x}$
 \end_inset
 
