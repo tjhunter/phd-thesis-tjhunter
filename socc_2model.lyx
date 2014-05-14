@@ -210,7 +210,11 @@ key "mm-socc"
 \end_layout
 
 \begin_layout Subsection
-Overview of the Mobile Millennium pipeline
+Overview of the 
+\emph on
+Mobile Millennium
+\emph default
+ pipeline
 \end_layout
 
 \begin_layout Standard

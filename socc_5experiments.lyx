@@ -248,7 +248,11 @@ name "sub:experiment-scalability"
 
 \begin_layout Standard
 In this section, we evaluate how much the cloud implementation helped with
- scaling the Mobile Millennium  EM traffic estimation algorithm.
+ scaling the 
+\emph on
+Mobile Millennium
+\emph default
+  EM traffic estimation algorithm.
  Distributing the computation across machines provides a twofold advantage:
  each machine can perform computations in parallel, and the overall amount
  of memory available is much greater.
