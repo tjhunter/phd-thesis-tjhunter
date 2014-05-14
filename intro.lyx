@@ -182,7 +182,7 @@ g the evolution of the system or performing diagnostics on critical sections
  (and also providing some statistical guarantees about the quality of these
  diagnostics).
  These tasks often require much more computing power than aggregating measuremen
-ts, and yet become an increasingly important part of the monitoring.
+ts, and yet become an increasingly important part of the monitoring process.
  Examples include assessing the spread of toxic chemicals in a water system
  or detecting radioactive surges in a nuclear core.
  These tasks grow in complexity and will require more and more the use of
@@ -724,9 +724,9 @@ Scaling/Spark.
  This adds multiple scalability challenges: (1) the data to process is substanti
 ally larger, and (2) estimation algorithms need to scale to millions of
  variables, which is a hard challenge in Machine Learning in general.
- As a consequence, we investigate the use of innovating cloud computing
- frameworks that let scientific users deploy code across hundreds of computers
- in a transparent way.
+ As a consequence, we investigate the use of novel cloud computing frameworks
+ that let scientific users deploy code across hundreds of computers in a
+ transparent way.
  We have implemented some of our algorithms on top of the Spark computing
  framework 
 \begin_inset CommandInset citation
@@ -1153,7 +1153,7 @@ reference "fig:power_law"
 a priori\SpecialChar \@.
  
 \emph default
-Between these two extreme lies a rich variety of road configurations with
+Between these two extremes lies a rich variety of road configurations with
  one, two or three lanes, stop signs, signaled lights, bus and bicycle lanes,
  etc.
  Any model that aims at a reasonable level of accuracy must (1) be robust

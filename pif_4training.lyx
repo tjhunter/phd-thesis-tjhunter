@@ -807,7 +807,7 @@ Exponential family models
 \end_layout
 
 \begin_layout Standard
-We now express our formulation of Conditional Random Fields to a form compatible
+We now express our formulation of Conditional Random Fields in a form compatible
  with Equation
 \begin_inset space ~
 \end_inset

@@ -416,8 +416,7 @@ Hard closest point
 
 : A greedy deterministic model that computes the closest point and then
  finds the shortest path to reach this closest point from the previous point.
- This non-probabilistic model is the baseline against which we make comparison
- on 
+ This non-probabilistic model is the baseline which we compare against 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "greenfeld2002matching"
@@ -1768,8 +1767,8 @@ In the case of the complex model, the weights can provide some insight into
 \end_inset
 
 ).
- However, drivers show a clear preference to turn on the right as opposed
- to the left, as seen in Figure 
+ However, drivers show a clear preference to turn to the right, as seen
+ in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:left-right"

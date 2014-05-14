@@ -102,8 +102,8 @@ Large physical systems are increasingly prevalent, and designing estimation
 \end_layout
 
 \begin_layout Standard
-A common problem in trip planning is to make a given deadline, for example
- arriving at the airport within an hour.
+A common problem in trip planning is to make a given deadline such as arriving
+ at the airport within an hour.
  Existing routing services optimize for the expected time of arrival, but
  do not provide the most 
 \emph on
@@ -119,8 +119,8 @@ reliable
  of the GPS data input, and in the complexity of the model: a simpler streaming
  Expectation-Maximization algorithm that leverages very large volumes of
  extremely noisy data, and a novel Markov Model-Gaussian Markov Random Field
- that extracts global statistical correlations from high-frequency, privacy-awar
-e trajectories.
+ that extracts global statistical correlations from high-frequency, privacy-pres
+erving trajectories.
 \end_layout
 
 \begin_layout Standard

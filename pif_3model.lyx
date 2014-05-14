@@ -326,8 +326,7 @@ potential
 of the trajectory as:
 \begin_inset Formula 
 \begin{eqnarray}
-\phi\left(\tau|g^{1:T}\right) & = & \left[\prod_{t=1}^{T-1}\omega\left(g^{t}|x^{t}\right)\underline{\delta}\left(x^{t},p^{t}\right)\eta\left(p^{t}\right)\bar{\delta}\left(p^{t},x^{t+1}\right)\right]\nonumber \\
- &  & \cdot\omega\left(g^{T}|x^{T}\right)\label{eq:phi}
+\phi\left(\tau|g^{1:T}\right) & = & \left[\prod_{t=1}^{T-1}\omega\left(g^{t}|x^{t}\right)\underline{\delta}\left(x^{t},p^{t}\right)\eta\left(p^{t}\right)\bar{\delta}\left(p^{t},x^{t+1}\right)\right]\omega\left(g^{T}|x^{T}\right)\label{eq:phi}
 \end{eqnarray}
 
 \end_inset
@@ -955,25 +954,6 @@ reference "fig:hmm_failure"
 \end_inset
 
 , and the remote path will be selected as the most likely path.
-\end_layout
-
-\begin_layout Standard
-Due to their structures, all HMM models will be biased towards states that
- have the least expansions.
- In the case of a road network, this can be pathological.
- In particular, the HMM assumption will carry the effect of the selection
- bias as long as there are long disconnected segments of road.
- This can be particularly troublesome in the case of road networks since
- HMM models will end up being forced to assign too much weight to a highway
- (which is highly disconnected) and not enough to the road network alongside
- the highway.
- Our model, which is based on Conditional Random Fields, does not have this
- problem since the renormalization happens just once and is over all paths
- from start to end, rather than renormalizing for every single state transition
- independently.
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -1037,6 +1017,22 @@ name "fig:hmm_failure"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Due to their structures, all HMM models will be biased towards states that
+ have the least expansions.
+ In the case of a road network, this can be pathological.
+ In particular, the HMM assumption will carry the effect of the selection
+ bias as long as there are long disconnected segments of road.
+ This can be particularly troublesome in the case of road networks since
+ HMM models will end up being forced to assign too much weight to a highway
+ (which is highly disconnected) and not enough to the road network alongside
+ the highway.
+ Our model, which is based on Conditional Random Fields, does not have this
+ problem since the renormalization happens just once and is over all paths
+ from start to end, rather than renormalizing for every single state transition
+ independently.
 \end_layout
 
 \begin_layout Standard

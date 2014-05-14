@@ -78,7 +78,7 @@ of the road network.
  Each link is endowed with a number of physical attributes (link geometry,
  speed limit, number of lanes, type of road, etc.).
  Since each road link is directed, there will be other road links pointing
- at the start of that road link, and a set of road link starting at the
+ at the start of that road link, and a set of road links starting at the
  end of that road link: given a link of the road network, the links into
  which a vehicle can travel will be called 
 \emph on
@@ -353,7 +353,7 @@ In practice, the probability distribution
 .
  Links located beyond a certain radius need not be considered valid projection
  links, and may be discarded.
- In our experiments, we found that a value of 300 meters would give good
+ In our experiments, we found that a value of 80 meters would give good
  results.
 \end_layout
 
