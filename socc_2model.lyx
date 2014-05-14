@@ -907,6 +907,20 @@ key "hofleitnerTRBstatTraffic_2012"
  the distributions, which may lead to some overfitting.
  As we will see in the next section, this assumption may be dispensed with
  when more complex traffic distributions are considered.
+ This modelization is fairly crude but gives sensible results in our experiments.
+ It would be interesting to see how this holds as more data becomes available
+ in the future.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%% PA
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -1499,7 +1513,7 @@ sampling under a constraint: the Expectation step involves sampling
 .
  We will show in the next section how this operation can be performed efficientl
 y in the case of Gamma distributions.
- For more complicated distributions, importances sampling may be used.
+ For more complicated distributions, importance sampling may be used.
  This technique in turn only requires the knowledge of the unnormalized
  p.d.f.
  of the distribution, which is usually not a concern.

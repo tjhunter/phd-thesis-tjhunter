@@ -76,9 +76,8 @@ We now describe the design of the data processing pipeline of the
 Mobile Millennium 
 \emph default
 system.
- This framework takes as an input streams of raw GPS data from various sources,
- and outputs states of traffic, in the form of parameters of travel time
- distributions.
+ This framework takes streams of raw GPS data as input, and outputs states
+ of traffic, in the form of parameters of travel time distributions.
  We had the following requirements, which are shared with most automation
  system: 
 \end_layout
@@ -459,10 +458,10 @@ Interfacing with databases
  However, the database could not keep up with hundreds of queries at the
  same time.
  Replicating the database in the cluster did not lead to much improvement.
- Our solution was to use the database as a end point that would not be queried
- by the cloud computers: at the end of the map-matching step, the stream
- of map-matched observations is not only pushed to the database, but also
- to the Hadoop filesystem (HDFS) that is spread on the cluster.
+ Our solution was to use the database as an end point that would not be
+ queried by the cloud computers: at the end of the map-matching step, the
+ stream of map-matched observations is not only pushed to the database,
+ but also to the Hadoop filesystem (HDFS) that is spread on the cluster.
  We found the insertion mechanism to be fast enough for this pattern.
 \end_layout
 
@@ -483,8 +482,8 @@ Using immutable, stateless transforms
  these transformations (see Annex).
  The immutability is a key factor in performing operations in memory and
  in a fault-tolerant way.
- We found that in practice, we did not experience performance bottleneck
- from using this programming style.
+ We found that in practice, performance bottlenecks did not occur when using
+ this programming style.
 \end_layout
 
 \end_body

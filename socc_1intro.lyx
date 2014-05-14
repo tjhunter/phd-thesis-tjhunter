@@ -194,12 +194,12 @@ is a research platform and can be used with various models of travel times.
 \emph on
 any 
 \emph default
-distribution of travel times that provided they expose a few functionalities
- (sampling, parameter estimation from observations).
- This should be of interest to the traffic researchers and practitioners
- since our framework solves all the issues of using raw GPS samples to build
- traffic estimates at a very large scale with low latency.
- Our framework has been released under an open-sources license and is available
+distribution of travel times that provided this distribution exposes a few
+ functionalities (sampling, parameter estimation from observations).
+ This should be of interest to traffic researchers and practitioners since
+ our framework solves all the issues of using raw GPS samples to build traffic
+ estimates at a very large scale with low latency.
+ Our framework has been released under an open-source license and is available
  for download 
 \begin_inset CommandInset citation
 LatexCommand cite

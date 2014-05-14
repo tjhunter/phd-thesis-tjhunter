@@ -195,8 +195,8 @@ name "sub:experiment-data"
 
 \begin_layout Standard
 Our implementation was run on a road network that corresponds to the greater
- San Francisco Bay Area (506,685 road links), using some taxi data provided
- by the Cabspotting project 
+ San Francisco Bay Area (506,685 road links), using taxi data provided by
+ the Cabspotting project 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "cabspotting"
@@ -266,9 +266,9 @@ Scaling.
 \series default
  First, we evaluated how the runtime performance of the EM job could improve
  with an increasing number of nodes/cores.
- The job was to learn some historical traffic estimate for San Francisco
- downtown for a half-hour time-slice, using a large portion of the data
- split in one-hour intervals.
+ The job was to learn a historical traffic estimate for downtown San Francisco
+ for a half-hour time-slice, using a large portion of the data split in
+ one-hour intervals.
  This data included 259,215 observed trajectories, and the network consisted
  of 15,398 road links.
  We ran the experiment on two cloud platforms: the first was using Amazon
@@ -971,7 +971,7 @@ reference "fig:L2"
 
 \end_inset
 
-, provide some similar, if more acute, results.
+, provide similar, if not more acute, results.
  The RMSE is lowest for small to medium travels (in the range of 3-10 minutes).
 \end_layout
 
