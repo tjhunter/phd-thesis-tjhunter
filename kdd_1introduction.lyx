@@ -435,10 +435,6 @@ t links.
 \end_layout
 
 \begin_layout Standard
-We will see how it works together.
-\end_layout
-
-\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -499,11 +495,8 @@ Sets of trajectories collected around two main arterial in San Francisco:
  northbound Franklin street on the left and northbound Van Ness avenue on
  the right.
  The distance is normalized for each of the road link by the link length.
-\begin_inset Newline newline
-\end_inset
-
-Franklin street exhibits much more variability in the travel times due to
- weaker correlations between the traffic lights.
+ Franklin street exhibits much more variability in the travel times due
+ to weaker correlations between the traffic lights.
  Conversely, vehicles on Van Ness avenue are severely constrained and cannot
  drive too fast or too slow due to the scheduling of the traffic lights.
  We wish to capture this variability in travel times in our model.

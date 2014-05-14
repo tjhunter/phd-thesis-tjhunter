@@ -121,7 +121,7 @@ status open
 
 \begin_inset Graphics
 	filename docs-kdd/stopgo_2.pdf
-	width 5cm
+	width 10cm
 
 \end_inset
 
@@ -561,8 +561,8 @@ centering
 
 
 \begin_inset Graphics
-	filename figures-kdd/traj.pdf
-	width 5cm
+	filename docs-kdd/traj.pdf
+	width 8cm
 
 \end_inset
 

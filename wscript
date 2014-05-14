@@ -166,7 +166,7 @@ def build(bld):
   tex_deps += ['kdd_2stop-and-go.tex']
   img_deps += """docs-kdd/stopgo_1.pdf 
                docs-kdd/stopgo_2.pdf 
-               figures-kdd/traj.pdf 
+               docs-kdd/traj.pdf 
                figures-kdd/trajectory_estimation_example.png 
                docs-kdd/gaussians.pdf 
                docs-kdd/ttgraph_example.pdf""".split()
