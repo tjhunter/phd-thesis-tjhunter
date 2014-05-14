@@ -1135,7 +1135,7 @@ Spatial disparity.
 \series default
  It is clear to any driver that all the roads do not bear the same traffic
  demand.
- As one can see on Figure 
+ As one can see in Figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:power_law"

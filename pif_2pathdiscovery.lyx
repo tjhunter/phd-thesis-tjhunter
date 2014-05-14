@@ -736,7 +736,7 @@ Example of path exploration between two observations
 \end_inset
 
 Example of path exploration between two observations.
- The true trajectory and two associated GPS observations are shown on Figure
+ The true trajectory and two associated GPS observations are shown in Figure
  (a).
  Figure (b) shows the set of candidate projections associated with each
  observation.
