@@ -294,8 +294,8 @@ key "hofleitner_isttt_2010"
  suggests that the detection of stops explains most of the variability in
  the travel time distribution and underline the multi-modality of the distributi
 ons.
- We studied some high-frequency data collected during an experiment in San
- Francisco (see Section 
+ We studied high-frequency data collected during an experiment in San Francisco
+ (see Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:results"
@@ -420,9 +420,9 @@ travel time correlation inside each mode.
 \series default
  It is well known that vehicles at lights tend to travel together at the
  same speed.
- Besides the the number of stops, travel times may be correlated for the
- following reasons: (i) the behavior of individual drivers may be different:
- some car may travel notably faster than some others, (ii) congestion propagates
+ Besides the number of stops, travel times may be correlated for the following
+ reasons: (i) the behavior of individual drivers may be different: some
+ car may travel notably faster than some others, (ii) congestion propagates
  on the network, making neighboring links likely to have similar congestion
  levels.
  If a driver experiences a longer than usual travel time on a link because

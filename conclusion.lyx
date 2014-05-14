@@ -116,8 +116,8 @@ name "chapter:conclusion"
 
 \begin_layout Standard
 We now conclude this dissertation.
- This thesis presents a comprehensive study to the question of estimating
- travel times across a large road network.
+ This thesis presents a study to the question of estimating travel times
+ across a large road network.
  It studies the challenges of building a pipeline and estimation algorithms
  that operate at large scale from real-world datasets.
  In particular, it studies the limitations of available techniques when

@@ -377,7 +377,7 @@ filename "detsdd_9appendixb.lyx"
 \begin_layout Standard
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
-bibfiles "biblio_arterial_spark,mendeley_biblio,path_inference,references,socc"
+bibfiles "biblio_arterial_spark,mendeley_biblio,path_inference,references,socc,2012_sparse_info"
 options "plain"
 
 \end_inset

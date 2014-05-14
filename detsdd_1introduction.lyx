@@ -115,11 +115,14 @@ large models with millions or billions of random variables.
  At such a scale, any operation has to be completed in a time that is at
  most linear with the structure of the problem.
  Any algorithm that takes longer will be hopelessly slow at such a scale.
- Such problems are not common (yet) in civil engineering application, but
+ Such problems are not common (yet) in civil engineering applications, but
  they begin to crop up in other disciplines as we will see.
- In this chapter, we do not make any attempt to present a practical solution.
  We investigate how novel results in graph theory can inform the design
  of low-complexity algorithms for machine learning.
+ In this chapter, we present some algorithms which present some appealing
+ theoretical guarantees, but for which there is no known implementation.
+ We present these results with the hope that they will motivate further
+ research into practical algorithms.
 \end_layout
 
 \begin_layout Standard
@@ -343,7 +346,7 @@ key "Koutis2010"
 \end_layout
 
 \begin_layout Standard
-The high sophistication of the algorithm transpires through the large exponent
+The sophistication of the algorithm transpires through the large exponent
  of 
 \begin_inset Formula $\log\log n$
 \end_inset
@@ -375,8 +378,7 @@ There are two approaches in numerical linear algebra to approximately compute
 \end_layout
 
 \begin_layout Standard
-As mentioned above, the Cholesky factorization performs a decomposition
- of the form: 
+The Cholesky factorization performs a decomposition of the form: 
 \begin_inset Formula $A=PLDL^{T}P^{T}$
 \end_inset
 
@@ -424,7 +426,7 @@ We will use the
 
 \end_inset
 
-The complexity of dense Cholesky factorization for dense matrices is 
+The complexity of Cholesky factorization for dense matrices is 
 \begin_inset Formula $O\left(n^{3}\right)$
 \end_inset
 
@@ -593,7 +595,7 @@ We
 \emph on
  
 \emph default
-propose to combine these two approaches by decomposing the problem with
+propose to combine these two approaches by decomposing the problem into
  one component that is close to a tree (and is more amenable to Cholesky
  methods), and one component that has a bounded condition number.
  Our solution is to use a 
@@ -638,8 +640,8 @@ key "zhang2010kriging,li2005analysis"
 Computing the optimal parameters of this Gaussian process involves repeated
  evaluations of the partition function, which is a log-determinant.
  In this context, a diagonally dominant matrix for the Gram matrix of the
- process corresponds to distant interactions between points of measure (which
- is verified in some contexts, see 
+ process corresponds to interactions between points of measure far away
+ (which is verified in some contexts, see 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "KelleyPace1997291"
@@ -1020,7 +1022,14 @@ preconditioners
 \emph default
 to compute the determinant of a matrix.
  The techniques developed by Spielman et al.
- work on the Laplacians of weighted graphs.
+ work on the Laplacians of weighted graphs 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2010"
+
+\end_inset
+
+.
  Section 3 introduces some new concepts to expand the notion of determinants
  to Laplacian matrices, and presents a few straightforward results in the
  relations between graph Laplacians and SDD matrices.

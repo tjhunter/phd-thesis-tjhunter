@@ -89,6 +89,62 @@ emph{Cyrano de Bergerac} }
 
 \end_layout
 
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%% From http://tex.stackexchange.com/questions/97370/numbering-of-subsections-in-t
+he-appendix
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+thesubsection}{A.
+\backslash
+arabic{subsection}}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+%% Fix the header
+\end_layout
+
+\begin_layout Plain Layout
+
+%% http://tex.stackexchange.com/questions/56711/want-section-to-change-the-page-he
+ader
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+markright{Appendices}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Section*
 Appendix A: Proofs of Section 
 \begin_inset CommandInset ref
