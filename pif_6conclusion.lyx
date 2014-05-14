@@ -94,8 +94,18 @@ path inference filter
 \begin_layout Standard
 The algorithm exhibits robustness to noise as well as to the peculiarities
  of driving in urban road networks.
- It is competitive over a wide range of sampling rates (1 seconds to 2 minutes)
- and greatly outperforms intuitive deterministic algorithms.
+ It is competitive over a wide range of sampling rates (1 second to 2
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+minutes) and greatly outperforms intuitive deterministic algorithms.
  Furthermore, given a set of ground truth data, the filter can be automatically
  tuned using a fast supervised learning procedure.
  Alternatively, using enough regular GPS data with no ground truth, it can

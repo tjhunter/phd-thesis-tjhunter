@@ -176,7 +176,7 @@ key "mm,mm-socc"
 \emph on
 Mobile Millennium
 \emph default
- is intended to work at the scale of large metropolitan areas: the road
+ is designed to work at the scale of large metropolitan areas: the road
  network considered in this work is a real road network (a large portion
  of the greater Bay Area, comprising 506,685 road links) and the data for
  this work is collected from thousands of vehicles that generate millions
@@ -190,7 +190,7 @@ Mobile Millennium
 is a research platform and can be used with various models of travel times.
  The fundamental unit of estimation is the probability distribution of travel
  times over a single link of the road network.
- As we will see, our framework can accommodate 
+ As will be seen, our framework can accommodate 
 \emph on
 any 
 \emph default
