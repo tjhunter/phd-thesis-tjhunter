@@ -246,13 +246,13 @@ name "fig:forward-bias-problem"
 status open
 
 \begin_layout Plain Layout
-The forward bias problem with the Path Inference Filter
+The forward bias problem with the path inference filter
 \end_layout
 
 \end_inset
 
-The forward bias problem with the Path Inference Filter.
- The Path Inference Filter assumes that vehicles only go forward on a link.
+The forward bias problem with the path inference filter.
+ The path inference filter assumes that vehicles only go forward on a link.
  Due to noise in the observations, the points 
 \begin_inset Formula $t=2$
 \end_inset

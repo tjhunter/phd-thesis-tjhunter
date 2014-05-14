@@ -585,7 +585,7 @@ The observations we process all have a duration of one minute, but travel
 \end_layout
 
 \begin_layout Standard
-The longer trajectories are obtained from the Path Inference Filter.
+The longer trajectories are obtained from the path inference filter.
  They are then cuts into different pieces of the same length (1 minute,
  5 minutes, 10 minutes, 20 minutes).
  Each piece of trajectory is considered as an independent piece of trajectory

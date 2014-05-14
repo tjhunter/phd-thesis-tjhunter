@@ -182,7 +182,7 @@ We will first give an overview of the GPS data that is commercially available
  today, and an algorithm that converts raw GPS points to map-matched trajectorie
 s with high accuracy: the 
 \emph on
-Path Inference Filter
+path inference filter
 \emph default
  (PIF) 
 \begin_inset CommandInset citation
@@ -418,7 +418,7 @@ reference "fig:Example-of-observation"
  usually several streets that could be compatible with any given GPS observation.
  Simple deterministic algorithms to reconstruct trajectories fail due to
  misprojection or shortcuts.
- The Path Inference Filter 
+ The path inference filter 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "hunter12pathinference"
@@ -475,8 +475,8 @@ Example of observation
 Example of observation.
  The green mark represents an initial GPS reading, the orange mark represents
  a subsequent reading.
- The black line marks the path of the vehicle, as reconstructed by the Path
- Inference Filter between the two GPS points and the numbers are the indexes
+ The black line marks the path of the vehicle, as reconstructed by the path
+ inference filter between the two GPS points and the numbers are the indexes
  of each road link covered by this observation.
  Given a realization 
 \begin_inset Formula $x^{4}$

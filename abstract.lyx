@@ -97,8 +97,8 @@ Large physical systems are increasingly prevalent, and designing estimation
  is often a complex function of the data.
  At the same time, computing power is rapidly becoming a commodity.
  We show with the study of two estimation tasks in urban transportation
- how the proper design of algorithms can lead to huge gains in scalability
- compared to existing solutions.
+ how the proper design of algorithms can lead to significant gains in scalabilit
+y compared to existing solutions.
 \end_layout
 
 \begin_layout Standard

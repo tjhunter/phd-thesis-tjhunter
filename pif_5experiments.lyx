@@ -464,7 +464,7 @@ Shortest path
  Given paths of the same length, it will take the path leading to the closest
  point.
  The points projections are then recovered from the paths.
- This is similar to 
+ This is similar to the approach followed in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "giovannininovel,white2000some"
@@ -506,7 +506,7 @@ This model was trained on learning data by two procedures:
 
 \begin_layout Itemize
 Supervised learning, in which the true trajectory is provided to the learning
- algorithm leading to the 
+ algorithm, leading to the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -856,7 +856,7 @@ relative miscoverage
 
 \begin_layout Standard
 For about 0.06% of pairs of points, the true path could not be found by the
- A* algorithm and was manually added to the set of discovered paths
+ A* algorithm and was manually added to the set of discovered paths.
 \end_layout
 
 \begin_layout Standard

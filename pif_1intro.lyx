@@ -138,7 +138,7 @@ GPS receivers have enjoyed a widespread use in transportation and they are
 probe vehicle
 \emph default
 , and they relay information to a base station using the data channels of
- cellphone networks (3G, 4G).
+ cellphone networks (3G and 4G in particular).
  
 \end_layout
 
@@ -245,7 +245,7 @@ of the probe data.
 
 \begin_layout Standard
 In the case of a high temporal resolution (typically, a frequency greater
- than an observation per second), some highly successful methods have been
+ than one observation per second), some highly successful methods have been
  developed for continuous estimation 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -605,12 +605,12 @@ name "fig:pif_diagram"
 status open
 
 \begin_layout Plain Layout
-Dataflow of the Path Inference Filter
+Dataflow of the path inference filter
 \end_layout
 
 \end_inset
 
-Dataflow of the Path Inference Filter.
+Dataflow of the path inference filter.
  The filter takes GPS measurements as inputs, and returns probability distributi
 ons over paths and points.
 \end_layout

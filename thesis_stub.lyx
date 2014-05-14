@@ -67,6 +67,16 @@ Just meant to hold all the files together, so that the cross-references
 \begin_layout Standard
 \begin_inset CommandInset include
 LatexCommand input
+filename "abstract.lyx"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset include
+LatexCommand input
 filename "intro.lyx"
 
 \end_inset

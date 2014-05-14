@@ -1056,7 +1056,8 @@ In summary, the first solution is better for density estimations and the
 \begin_layout Standard
 
 \series bold
-Handling errors
+Handling errors.
+
 \series default
  Maps may contains some inaccuracies, and may not cover all the possible
  driving patterns.
@@ -1092,9 +1093,9 @@ on the trajectory graph
  (non-physical trajectories) for any trajectory.
  If a point becomes unreachable from the start point, the trajectory is
  broken, and restarted again from this point.
- Trajectory breaks were few (less than a dozen for our dataset), and a visual
- inspection showed that the vehicle was not following the topology of the
- network and instead made U-turns or breached through one-way roads.
+ Trajectory breaks were infrequent (less than a dozen for our dataset),
+ and a visual inspection showed that the vehicle was not following the topology
+ of the network and instead made U-turns or breached through one-way roads.
  Although we have not implemented these extensions, it is very natural to
  express the map errors in the probabilistic framework.
  These extensions are discussed in Sections 

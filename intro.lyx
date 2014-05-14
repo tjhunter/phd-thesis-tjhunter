@@ -164,15 +164,15 @@ on or transportation systems.
 \end_layout
 
 \begin_layout Itemize
-the sensing network is increasingly complex: it usually offers indirect
+The sensing network is increasingly complex: it usually offers indirect
  measurements of the state (the sensors are either not located in the area
  of interest or measure other variables correlated with the variables of
  interest).
 \end_layout
 
 \begin_layout Itemize
-due to coupling effects, estimating the state of a large system is usually
- much more difficult than estimating the states of the subsystems
+Due to coupling effects, estimating the state of a large system is usually
+ much more difficult than estimating the states of the subsystems.
 \end_layout
 
 \begin_layout Standard
@@ -206,15 +206,11 @@ Traffic.
 \series default
  Traffic congestion affects nearly everyone in the world due to the environmenta
 l damage and transportation delays it causes.
- The
-\begin_inset space ~
-\end_inset
+ The 
+\emph on
+2012 Urban Mobility Report
+\emph default
 
-
-\begin_inset Formula $2012$
-\end_inset
-
- Urban Mobility Report
 \begin_inset space ~
 \end_inset
 
@@ -295,7 +291,7 @@ The question of estimating traffic and providing accurate travel information
 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "lighthill_kinematic_1955"
+key "lighthill_kinematic_1955,whitham1957new"
 
 \end_inset
 
@@ -390,8 +386,8 @@ status open
 
 \begin_layout Plain Layout
 For various legal reasons, these products purposefully omit any labeling
- that could be interpreted as a statistical guarantee on the information
- provided to drivers
+ that could be interpreted as a statistical performance guarantee on the
+ information provided to drivers.
 \end_layout
 
 \end_inset
@@ -585,8 +581,8 @@ We you use [Google Maps], we may collect and process information about your
 \end_inset
 
 .
- However, this data is seldom accessible to researchers due to privacy and
- competitivity concerns.
+ However, this data is seldom accessible to researchers due to privacy,
+ market fragmentation, and competitivity concerns.
 \end_layout
 
 \begin_layout Standard
@@ -621,7 +617,14 @@ Pipeline.
 \emph on
 Mobile Millennium
 \emph default
- traffic information system.
+ traffic information system 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mmfinalreport"
+
+\end_inset
+
+.
  
 \emph on
 Mobile Millennium
@@ -653,7 +656,7 @@ Mobile Millennium
  it was a significant contribution of this work.
  In this data-intensive task, the final output is a multi-stage pipeline
  with each of the stages being responsible for a separate task.
- This traffic pipeline is decomposed in the following modules 
+ This traffic pipeline is decomposed in the following modules
 \begin_inset Note Note
 status collapsed
 
@@ -779,6 +782,13 @@ key "hull2006cartel"
 \emph on
 Mobile Millennium
 \emph default
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter2011SOCC"
+
+\end_inset
+
 .
  While researchers have made significant strides in tackling each subtask
  individually, we observe that the lack of proper context leads to irrelevant
@@ -829,9 +839,30 @@ Mobile Millennium
 An example of dataset available to 
 \emph on
 Mobile Millennium
+\begin_inset space ~
+\end_inset
+
+
 \emph default
- and processed by the path inference filter: taxicabs in San Francisco from
- the Cabspotting program 
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mmfinalreport"
+
+\end_inset
+
+ and processed by the path inference filter
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "hunter11pif"
+
+\end_inset
+
+: taxicabs in San Francisco from the Cabspotting program 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "cabspotting"
@@ -863,7 +894,7 @@ name "fig:mm_cloud_point"
 \end_layout
 
 \begin_layout Standard
-What sort of GPS information can be processed by the 
+What sort of GPS data can be processed by the 
 \emph on
 Mobile Millennium
 \emph default
@@ -1029,7 +1060,7 @@ A
 \begin_inset Quotes erd
 \end_inset
 
-)
+).
 \end_layout
 
 \begin_layout Itemize
@@ -1042,7 +1073,7 @@ B
 \begin_inset Quotes erd
 \end_inset
 
-)
+).
 \end_layout
 
 \begin_layout Standard
@@ -1306,8 +1337,8 @@ reference "chapter:socc"
 
 \end_inset
 
- considers the case of large amounts of low-latency data, which is what
- is generally available nowadays.
+ considers the case of large amounts of low-latency data, which is representativ
+e of datasets currently available.
  In this case, the accuracy of the estimation problem is mostly bound by
  computation times.
  If some further independence assumptions are made about travel time distributio
@@ -1319,8 +1350,15 @@ ns, we can build a model that can scale to hundreds of machines.
 \bar under
 Contribution:
 \bar default
- The chapter presents a model for travel times that can scale linearly to
- massive inputs of sparse observations and very large road networks.
+ Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:pif"
+
+\end_inset
+
+ presents a model for travel times that can scale linearly to massive inputs
+ of sparse observations and very large road networks.
  It uses the Spark programming framework 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1494,7 +1532,7 @@ approximation of
 \bar under
 Publication:
 \bar default
- This part is under submission at the SIAM Journal of Matrix Analysis and
+ This part will be submitted to the SIAM Journal of Matrix Analysis and
  Applications.
 \end_layout
 

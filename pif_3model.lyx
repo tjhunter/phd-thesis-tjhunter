@@ -1363,7 +1363,7 @@ partial trajectory
 : 
 \begin_inset Formula 
 \[
-\tau^{1:t}=x^{1}p^{1}\cdots x^{t}
+\tau^{1:t}=x^{1}p^{1}x^{2}p^{2}\cdots x^{t}
 \]
 
 \end_inset
@@ -1372,7 +1372,7 @@ For a partial trajectory, we define some partial potentials
 \begin_inset Formula $\phi\left(\tau^{1:t}|g^{1:t}\right)$
 \end_inset
 
- that depend only on the observations seen so far:
+ that only depend on the observations seen so far:
 \begin_inset Formula 
 \begin{eqnarray}
 \phi\left(\tau^{1:t}|g^{1:t}\right) & = & \omega\left(g^{1}|x^{1}\right)\prod_{t'=1}^{t-1}\underline{\delta}\left(x^{t'},p^{t'}\right)\eta\left(p^{t'}\right)\nonumber \\
@@ -1439,9 +1439,7 @@ reference "eq:def-partial-phi"
 i'\in\left[1,I^{t}\right]\\
 j\in\left[1,J^{t}\right]
 \end{array}}\begin{array}{l}
-\left[\phi_{i'}^{t}\underline{\delta}\left(x_{i'}^{t},p_{j}^{t}\right)\eta\left(p_{j}^{t}\right)\right.\\
-\left.\cdot\bar{\delta}\left(p_{j}^{t},x_{i}^{t+1}\right)\omega\left(g^{t+1}|x_{i}^{t+1}\right)\right]
-\end{array}\label{eq:rec-phi}
+\left.\left[\phi_{i'}^{t}\underline{\delta}\left(x_{i'}^{t},p_{j}^{t}\right)\eta\left(p_{j}^{t}\right)\right.\bar{\delta}\left(p_{j}^{t},x_{i}^{t+1}\right)\omega\left(g^{t+1}|x_{i}^{t+1}\right)\right]\end{array}\label{eq:rec-phi}
 \end{equation}
 
 \end_inset
