@@ -85,7 +85,7 @@ system.
 \begin_layout Itemize
 
 \emph on
-low latency
+Low latency
 \emph default
 : we wanted to investigate update rates as high as every few seconds.
 \end_layout
@@ -93,7 +93,7 @@ low latency
 \begin_layout Itemize
 
 \emph on
-scalability and high throughput
+Scalability and high throughput
 \emph default
 : the system should be able to handle tens or hundreds of thousands of measureme
 nts per second
@@ -102,7 +102,7 @@ nts per second
 \begin_layout Itemize
 
 \emph on
-robustness to failures
+Robustness to failures
 \emph default
 : the failure of machines should have a limited impact on the performance
  of the system
@@ -111,7 +111,7 @@ robustness to failures
 \begin_layout Itemize
 
 \emph on
-testing multiple scenarios
+Testing multiple scenarios
 \emph default
 : the GPS data needs to go through some complex filtering process (map-matching
  and trajectory reconstruction) before it can be used for estimation, and
@@ -124,7 +124,7 @@ testing multiple scenarios
 \begin_layout Itemize
 
 \emph on
-flexible deployment solution
+Flexible deployment solution
 \emph default
 : from the outset, our goal was to deploy our framework on a generic cloud
  solution such as Amazon EC2.
@@ -479,7 +479,7 @@ Using immutable, stateless transforms
  in control and automation.
  Thus, a stream is defined as a sequence of transforms on a dataset.
  The Scala programming language provides an elegant interface for expressing
- these transformations (see Annex).
+ these transformations (see Appendix).
  The immutability is a key factor in performing operations in memory and
  in a fault-tolerant way.
  We found that in practice, performance bottlenecks did not occur when using

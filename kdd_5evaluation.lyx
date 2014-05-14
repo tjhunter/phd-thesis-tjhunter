@@ -1187,7 +1187,7 @@ reference "fig:perf_gmrf"
 \end_inset
 
  the training time for different networks, all other parameters being equal.
- As one can see, the training time increases linearly with the number of
+ As can be seen, the training time increases linearly with the number of
  variables of the GMRF over a large range of network sizes.
  The graphs associated to each GMRF are extremely sparse: the average vertex
  degree of the largest graph is 9.46.

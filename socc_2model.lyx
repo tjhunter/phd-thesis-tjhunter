@@ -1106,8 +1106,6 @@ plates
 \emph default
 , i.e.
  a factorization of repeating variables.
- (Right) an expansion of a few elements of the plates.
- 
 \end_layout
 
 \end_inset
@@ -1502,7 +1500,7 @@ So far, we have not introduced a particular distribution for the travel
 \end_layout
 
 \begin_layout Itemize
-sampling under a constraint: the Expectation step involves sampling 
+Sampling under a constraint: the Expectation step involves sampling 
 \begin_inset Formula $X_{1}\cdots X_{U}$
 \end_inset
 
@@ -1520,7 +1518,7 @@ y in the case of Gamma distributions.
 \end_layout
 
 \begin_layout Itemize
-solving the maximum likelihood problem: in the M step, for each of the links,
+Solving the maximum likelihood problem: in the M step, for each of the links,
  we solve a problem of the form 
 \begin_inset Formula $\max_{\nu}\sum\tilde{w}^{\left(i\right)}\log\pi\left(\tilde{x}^{\left(i\right)};\nu\right)$
 \end_inset
@@ -1536,8 +1534,8 @@ solving the maximum likelihood problem: in the M step, for each of the links,
 \end_layout
 
 \begin_layout Standard
-As one can see, the minimum requirements for travel time distributions are
- very mild and may satisfy complex, multi-modal distributions.
+The minimum requirements for travel time distributions are very mild and
+ may satisfy complex, multi-modal distributions.
  However, using complex distributions involves learning a large number of
  parameters and may lead to overfitting when data is scarce.
  Since our goal is to study the validity of the framework for very large

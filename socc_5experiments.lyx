@@ -86,9 +86,15 @@ The raw performance of the machine learning algorithm, given a limited amount
 \end_layout
 
 \begin_layout Itemize
-The performance of the Streaming Spark framework in distributing computations
- across a cluster, and the computational performance improvement gained
- by additional hardware.
+The performance of the Streaming Spark framework 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "spark"
+
+\end_inset
+
+ in distributing computations across a cluster, and the computational performanc
+e improvement gained by additional hardware.
  
 \end_layout
 
@@ -517,7 +523,7 @@ To summarize, a large number of observations are lumped together and weighted
  according to the formula: 
 \begin_inset Formula 
 \[
-w=e^{-\Delta t_{\text{day}}^{-1}\left(t_{\text{obs}}-t_{\text{current}}\right)}e^{-\Delta t_{\text{week}}^{-1}\left(week_{\text{obs}}-week_{\text{current}}\right)}
+w=e^{-\Delta t_{\text{day}}^{-1}\left(t_{\text{obs}}-t_{\text{current}}\right)}e^{-\Delta t_{\text{week}}^{-1}\left(\text{wee}\text{k}_{\text{obs}}-\text{wee}\text{k}_{\text{current}}\right)}
 \]
 
 \end_inset
@@ -1081,7 +1087,7 @@ reference "fig:LL"
 \end_inset
 
  (Right) the mean of the log-likelihood.
- As one can see in this plot, the Gaussian distribution is significantly
+ As can be seen in this plot, the Gaussian distribution is significantly
  worse than the Gamma distribution: from inspection of the data, we could
  conclude that it performs very badly with long tail observations (unusually
  long stops at red lights).
@@ -1091,7 +1097,7 @@ stic mass to be assigned to negative travel times: a Gaussian distribution
  mostly positive values.
  This experiment should serve as another confirmation that modelling travel
  time noise with a Normal distribution is not only unrealistic, but also
- leads to erratic results in the face of real data.
+ leads to erratic results in the face of experimental data.
 \end_layout
 
 \end_body

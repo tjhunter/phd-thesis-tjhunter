@@ -657,7 +657,7 @@ Density.
 
  defined in Equation 
 \begin_inset CommandInset ref
-LatexCommand ref
+LatexCommand eqref
 reference "eq:Y"
 
 \end_inset
@@ -706,7 +706,7 @@ f_{\Gamma D}\left(x\right)\propto\prod_{i=1}^{n}f_{\Gamma}\left(x_{i};k_{i},\the
 \end_layout
 
 \begin_layout Proof
-euoe This proof is adapted from a similar proof 
+This proof is adapted from a similar proof 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "devroye1986non"
@@ -854,7 +854,7 @@ Now, we consider a change of variables for the joint variables
 \end_inset
 
 .
- This mapping is also invertible, with Jacobin 
+ This mapping is also invertible, with Jacobian 
 \begin_inset Formula $\hat{y}^{k}$
 \end_inset
 
