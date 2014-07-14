@@ -1,11 +1,15 @@
 \documentclass[masters]{ucbthesis}
-\usepackage[T1]{fontenc}
+% \usepackage[T2A,T1]{fontenc}
+\usepackage[latin9]{inputenc}
+% \usepackage[utf8]{inputenc}
+% \usepackage[russian,english]{babel}
 % \usepackage[utf8]{inputenc}
 \usepackage{setspace}
 \usepackage{amsmath}
 \usepackage{amssymb}
 % \usepackage{babel}
-\usepackage{biblatex}
+\usepackage{cite}
+% \usepackage[backend=bibtex]{biblatex}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{amsthm}
@@ -20,6 +24,11 @@
 \usepackage{wrapfig}
 \usepackage[chapter]{algorithm}
 
+% \DeclareRobustCommand{\cyrtext}{%
+%   \fontencoding{T2A}\selectfont\def\encodingdefault{T2A}}
+% \DeclareRobustCommand{\textcyr}[1]{\leavevmode{\cyrtext #1}}
+% \AtBeginDocument{\DeclareFontEncoding{T2A}{}{}}
+% 
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{lemma}{Lemma}
@@ -47,12 +56,7 @@
 
 % \newtheorem{theorem}{Jibberish}
 
-\bibliography{references}
-\bibliography{path_inference}
-\bibliography{socc}
-\bibliography{biblio_arterial_spark}
-\bibliography{mendeley_biblio}
-\bibliography{2012_sparse_info}
+
 
 \hyphenation{mar-gin-al-ia}
 
@@ -66,8 +70,8 @@ With An Application To Traffic Estimation}
 \degreesemester{Spring}
 \degreeyear{2014}
 \degree{Doctor of Philosophy}
-\chair{Professor Pieter Abbeel}
-\othermembers{Professor Alexandre Bayen \\
+\chair{Professor Alexandre Bayen}
+\othermembers{Professor Pieter Abbeel \\
   Professor Michael Franklin \\
   Professor Alexei Pozdnukhov}
 \numberofmembers{4}
@@ -162,7 +166,14 @@ To the millions of commuters who spend years of their lives behind the wheels.\\
 
 \input{conclusion}
 
-\printbibliography
+\bibliography{references,path_inference,socc,biblio_arterial_spark,mendeley_biblio,2012_sparse_info}
+% \bibliography{}
+% \bibliography{}
+% \bibliography{}
+% \bibliography{}
+% \bibliography{}
+\bibliographystyle{plain}
+% \printbibliography
 
 \input{detsdd_8appendixa}
 \input{detsdd_9appendixb}

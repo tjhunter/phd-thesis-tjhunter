@@ -16,6 +16,7 @@ indicated have been tested, other versions may work as well.
 - wget/curl
 - convert (imagemagick)
 - inkscape (from the command line)
+- latex with the double stroke package, texlive-cyrillic
 
 You need the following python packages:
 - numpy

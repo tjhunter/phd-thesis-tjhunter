@@ -125,8 +125,8 @@ We now conclude this dissertation.
 \end_layout
 
 \begin_layout Standard
-The industry has already deployed traffic information systems that serve
- millions of persons with great success.
+The private sector has already deployed traffic information systems that
+ serve millions of individuals with great success.
  These systems collect very large amounts of data from users and in return
  give some information about travel times.
  However, this process does not give any confidence interval or statistical
@@ -219,8 +219,19 @@ Statistical models are not restricted to a specific structure, and thus
  impact on surrounding road links, but it is a common assumption to consider
  each link to be independent.
  A lot of transportation literature has focused on adding some correlations,
- but the conservation laws behind it are complicated to model accurately.
- The simple model introduced in Chapter 
+ but the conservation laws behind it are challenging to model accurately.
+ The simple model introduced in Chapter
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "chapter:kdd"
@@ -274,8 +285,18 @@ Path Inference Filter
 \begin_layout Standard
 The algorithm exhibits robustness to noise as well as to the peculiarities
  of driving in urban road networks.
- It is competitive over a wide range of sampling rates (1 seconds to 2 minutes)
- and greatly outperforms intuitive deterministic algorithms.
+ It is competitive over a wide range of sampling rates (1 seconds to
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+~
+\end_layout
+
+\end_inset
+
+2 minutes) and greatly outperforms intuitive deterministic algorithms.
  Furthermore, given a set of ground truth data, the filter can be automatically
  tuned using a fast supervised learning procedure.
  Alternatively, using enough regular GPS data with no ground truth, it can
@@ -341,6 +362,13 @@ We analyze the accuracy of the model using probe vehicle data collected
  The quality of the results we obtain are competitive with the state of
  the state of the art in traffic, and also highlight the good scalability
  of our algorithm.
+ It remains to be seen how this system could be tested and deployed in an
+ industrial setting.
+ Furthermore, traffic information systems are only one component of a larger
+ set of vital services we have grown accustomed to depend upon.
+ It will be interesting to see how traffic can be combined with health monitorin
+g, weather, public safety systems to provide a comprehensive view of a large
+ megalopolis.
 \end_layout
 
 \end_body

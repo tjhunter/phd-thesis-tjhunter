@@ -1501,6 +1501,13 @@ Example of case handled by lagged smoothing
 
 \end_inset
 
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:highway-exit"
+
+\end_inset
+
 Example of case handled by lagged smoothing which disambiguates the results
  provided by tracking.
  An observation is available close to an exit ramp of a highway, for which
@@ -1508,13 +1515,6 @@ Example of case handled by lagged smoothing which disambiguates the results
  highway.
  Lagged smoothing analyzes subsequent points in the trajectory and can disambigu
 ate the situation.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:highway-exit"
-
-\end_inset
-
-
 \end_layout
 
 \end_inset

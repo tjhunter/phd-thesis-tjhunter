@@ -252,6 +252,8 @@ The forward bias problem with the path inference filter
 \end_inset
 
 The forward bias problem with the path inference filter.
+ The solid line is the path followed by the vehicle, and the solid red dots
+ are consecutive GPS observations made along this path.
  The path inference filter assumes that vehicles only go forward on a link.
  Due to noise in the observations, the points 
 \begin_inset Formula $t=2$
