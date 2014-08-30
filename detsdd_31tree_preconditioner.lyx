@@ -86,7 +86,7 @@ name "sec:A-first-preconditioner"
 \end_layout
 
 \begin_layout Standard
-While the results in this section are not the main claims of this chapter,
+While the results in this section are not the main claims of this paper,
  we hope they will provide some intuition, and an easier path towards an
  implementation.
 \end_layout
@@ -133,7 +133,7 @@ begin{lemma}
 
 \end_inset
 
-(Lemma 9.2 from 
+ (Lemma 9.2 from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Spielman2009a"
@@ -169,7 +169,7 @@ with
 .
  
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -236,21 +236,7 @@ begin{proof}
 
 \end_inset
 
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% TODO: this proof uses stretch, and still referes to the old bound.
-\end_layout
-
-\end_inset
-
-This follows directly from 
+ This follows directly from 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Spielman2009a"
@@ -291,7 +277,7 @@ key "Spielman2010"
 
 \end_inset
 
- that we generalize in Lemma 
+ that we will generalize further in Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lem:stretch-inequality"
@@ -315,6 +301,7 @@ key "Abraham2008"
 \end_inset
 
 .
+ 
 \begin_inset ERT
 status collapsed
 
@@ -390,7 +377,7 @@ Furthermore, computing
 \end_inset
 
  also takes 
-\begin_inset Formula $O\left(n\right)$
+\begin_inset Formula $\mathcal{O}\left(n\right)$
 \end_inset
 
  computations by forward-backward substitution (see 
@@ -455,11 +442,15 @@ Let
 \begin_inset Formula $\epsilon$
 \end_inset
 
- and with high probability in time 
-\begin_inset Formula $\tilde{O}\left(m^{2}\log n\log^{2}\left(m\right)\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\right)$
+ and with high probability in time: 
+\begin_inset Formula 
+\[
+\tilde{O}\left(m^{2}\log n\log^{2}\left(m\right)\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\right)
+\]
+
 \end_inset
 
-.
+
 \begin_inset ERT
 status collapsed
 
@@ -472,7 +463,7 @@ end{theorem}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -516,15 +507,20 @@ reference "cor:preconditioning"
 \end_inset
 
 , approximating the PLD with high precision requires 
-\begin_inset Formula $\tilde{O}\left(\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2\kappa}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(\kappa\right)\right)=\tilde{O}\left(m\log n\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(m\right)\right)$
+\begin_inset Formula 
+\begin{eqnarray*}
+\tilde{O}\left(\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2\kappa}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(\kappa\right)\right)\\
+=\tilde{O}\left(m\log n\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(m\right)\right)
+\end{eqnarray*}
+
 \end_inset
 
- inversions by the tree 
+inversions by the tree 
 \begin_inset Formula $T$
 \end_inset
 
  (done in 
-\begin_inset Formula $O\left(n\right)$
+\begin_inset Formula $\mathcal{O}\left(n\right)$
 \end_inset
 
 ) and vector products by the floated Laplacian 
@@ -532,15 +528,19 @@ reference "cor:preconditioning"
 \end_inset
 
 (done in 
-\begin_inset Formula $O\left(m\right)$
+\begin_inset Formula $\mathcal{O}\left(m\right)$
 \end_inset
 
 ).
- The overall cost is 
-\begin_inset Formula $\tilde{O}\left(m^{2}\log n\log^{2}\left(m\right)\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\right)$
+ The overall cost is
+\begin_inset Formula 
+\[
+\tilde{O}\left(m^{2}\log n\log^{2}\left(m\right)\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2m}{\epsilon}\right)\log\left(2/\eta\right)\right).
+\]
+
 \end_inset
 
- 
+
 \begin_inset ERT
 status collapsed
 
@@ -553,11 +553,21 @@ end{proof}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
-This result may be of independent interest since it requires relatively
+The previous result shows that the log-determinant can be computed in roughly
+ 
+\begin_inset Formula $\mathcal{O}\left(m^{2}\right)$
+\end_inset
+
+ (
+\begin_inset Formula $m$
+\end_inset
+
+ being the number of non-zero entries).
+ This result may be of independent interest since it requires relatively
  little machinery to compute, and it is a theoretical improvement already
  for graphs with small vertex degree (
 \begin_inset Formula $m=\mathcal{O}\left(n^{1+o\left(1\right)}\right)$
@@ -567,7 +577,11 @@ This result may be of independent interest since it requires relatively
 \begin_inset Formula $G$
 \end_inset
 
-.
+ (which has complexity 
+\begin_inset Formula $\mathcal{O}\left(n^{3}\right)$
+\end_inset
+
+ in all generality).
  Also, note that the PLD of the tree constructed above provides an upper
  bound to the log-determinant of 
 \begin_inset Formula $G$

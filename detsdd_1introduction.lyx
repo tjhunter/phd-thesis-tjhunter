@@ -378,7 +378,8 @@ There are two approaches in numerical linear algebra to approximately compute
 \end_layout
 
 \begin_layout Standard
-The Cholesky factorization performs a decomposition of the form: 
+As mentioned above, the Cholesky factorization performs a decomposition
+ of the form: 
 \begin_inset Formula $A=PLDL^{T}P^{T}$
 \end_inset
 
@@ -426,8 +427,8 @@ We will use the
 
 \end_inset
 
-The complexity of Cholesky factorization for dense matrices is 
-\begin_inset Formula $O\left(n^{3}\right)$
+The complexity of dense Cholesky factorization for dense matrices is 
+\begin_inset Formula $\mathcal{O}\left(n^{3}\right)$
 \end_inset
 
 .
@@ -450,7 +451,7 @@ key "meurant1999computer"
 \end_inset
 
  is a tree, then performing Cholesky factorization takes 
-\begin_inset Formula $O\left(n\right)$
+\begin_inset Formula $\mathcal{O}\left(n\right)$
 \end_inset
 
  time, and the matrix 
@@ -541,10 +542,14 @@ The determinant can then be computed by a sum of traces of the power of
 \end_inset
 
  being easier to compute and 
-\begin_inset Formula $U^{-1}V+I$
+\begin_inset Formula $U^{-1}V$
 \end_inset
 
- having a small spectral radius.
+ having a small spectral radius (less than 
+\begin_inset Formula $1$
+\end_inset
+
+).
  Then 
 \begin_inset Formula $\log\left|A\right|=\log\left|U\right|+\log\left|U^{-1}V+I\right|$
 \end_inset
@@ -595,7 +600,7 @@ We
 \emph on
  
 \emph default
-propose to combine these two approaches by decomposing the problem into
+propose to combine these two approaches by decomposing the problem with
  one component that is close to a tree (and is more amenable to Cholesky
  methods), and one component that has a bounded condition number.
  Our solution is to use a 
@@ -640,8 +645,8 @@ key "zhang2010kriging,li2005analysis"
 Computing the optimal parameters of this Gaussian process involves repeated
  evaluations of the partition function, which is a log-determinant.
  In this context, a diagonally dominant matrix for the Gram matrix of the
- process corresponds to interactions between points of measure far away
- (which is verified in some contexts, see 
+ process corresponds to distant interactions between points of measure (which
+ is verified in some contexts, see 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "KelleyPace1997291"
@@ -652,8 +657,7 @@ key "KelleyPace1997291"
  Determinants also play a crucial role in quantum physics and in theoretical
  physics.
  The wave function of a system of multiple fermion particles is an antisymmetric
- function which can be described as a determinant (Slatter determinant,
- 
+ function which can be described as a determinant (Slater determinant, 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "atkins2011molecular,lowdin1955quantum"
@@ -823,7 +827,7 @@ lity.
 
 \begin_inset Formula 
 \[
-\left|f\left(A+\epsilon I\right)-f\left(A\right)\right|\leq\epsilon\left\Vert A^{-1}\right\Vert _{2}+O\left(\epsilon^{2}\right)
+\left|f\left(A+\epsilon I\right)-f\left(A\right)\right|\leq\epsilon\left\Vert A^{-1}\right\Vert _{2}+\mathcal{O}\left(\epsilon^{2}\right)
 \]
 
 \end_inset
@@ -833,12 +837,12 @@ The last inequality in particular shows that any perturbation to
 \end_inset
 
  will be in the order 
-\begin_inset Formula $O\left(n\right)$
+\begin_inset Formula $\mathcal{O}\left(n\right)$
 \end_inset
 
 , and so that all the interesting log-determinants in practice will be dominated
  by some 
-\begin_inset Formula $O\left(n\right)$
+\begin_inset Formula $\mathcal{O}\left(n\right)$
 \end_inset
 
 .
@@ -863,7 +867,7 @@ We first present some general results about the preconditioning of determinants.
 \end_inset
 
  in the spectral sense.
- All the results of this chapter stem from observing that: 
+ All the results of this article stem from observing that: 
 \begin_inset Formula 
 \begin{eqnarray*}
 \log\left|A\right| & = & \log\left|B\right|+\log\left|B^{-1}A\right|\\
@@ -929,7 +933,7 @@ reference "sec:Making-the-problem"
 
  and so that computing the Martin expansion is not too expansive.
  In particular, we build upon the recursive structure of Spielman-Teng ultra-spa
-rsifiers to obtain our main result:
+rsifiers to obtain our main result: 
 \end_layout
 
 \begin_layout Standard
@@ -945,7 +949,7 @@ begin{theorem}
 
 \end_inset
 
-
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "thm:ultra_main"
@@ -981,7 +985,7 @@ UltraLogDet
 \end_inset
 
 and this algorithm completes in expected time 
-\begin_inset Formula $\tilde{O}\left(m\epsilon^{-2}\log^{2}n\log^{2}\left(\frac{\kappa_{A}}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
+\begin_inset Formula $\tilde{O}\left(m\epsilon^{-2}\log^{3}n\log^{2}\left(\frac{\kappa_{A}}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
 \end_inset
 
 .
@@ -989,14 +993,12 @@ and this algorithm completes in expected time
 \begin_inset Formula $\epsilon>\Omega(n^{-1})$
 \end_inset
 
-, then the running time improves by an 
+, then the running time improves by a factor 
 \begin_inset Formula $\epsilon$
 \end_inset
 
- factor.
-\end_layout
-
-\begin_layout Standard
+.
+ 
 \begin_inset ERT
 status collapsed
 

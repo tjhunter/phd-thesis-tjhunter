@@ -92,7 +92,7 @@ We can do better and achieve near-linear time by using ultra-sparsifiers.
  hence have a determinant that is relatively easy to compute, and furthermore
  that they are excellent spectral preconditioners, so the procedure 
 \family typewriter
-PreconditionedLogDet-MonteCarlo
+PreconditionedLogDetMonteCarlo
 \family default
  is efficient to apply.
  We reintroduce some concepts presented in 
@@ -116,7 +116,7 @@ key "Koutis2010,Spielman2009a"
 
 \begin_layout Standard
 The central idea to the Spielman-Teng preconditioner is to sample 
-\begin_inset Formula $O\left(n\right)$
+\begin_inset Formula $\mathcal{O}\left(n\right)$
 \end_inset
 
  edges from the graph 
@@ -295,7 +295,7 @@ SampleLogDet
 \end_inset
 
 , so the recursion completes in 
-\begin_inset Formula $O\left(\log\log n\right)$
+\begin_inset Formula $\mathcal{O}\left(\log n\right)$
 \end_inset
 
  steps.
@@ -787,7 +787,7 @@ key "Koutis2011"
 \begin_inset Formula $\mathcal{U}=\left(\mu_{1}\cdots\mu_{d}\right)\in\mathbb{N}_{+}^{d}$
 \end_inset
 
- so that:
+ so that: 
 \end_layout
 
 \begin_layout Enumerate
@@ -795,6 +795,7 @@ key "Koutis2011"
 \end_inset
 
  .
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -812,11 +813,15 @@ GreedyElimination
  .
  
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
 % TODO: We need to explain greedy elimination somewhere
+\end_layout
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -834,6 +839,7 @@ The number of edges of
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -849,6 +855,7 @@ The number of edges of
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -868,6 +875,7 @@ The number of edges of
 \end_inset
 
 .
+ 
 \end_layout
 
 \begin_layout Enumerate
@@ -875,6 +883,7 @@ The number of edges of
 \end_inset
 
  is smaller than some fixed arbitrary constant.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -894,23 +903,7 @@ end{definition}
 \end_layout
 
 \begin_layout Standard
-Good chains exist, as found by Koutis, Miller and Peng:
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% TODO: the newer version from Koutis2011 has a  good chain, but then it
- produces  I think.
- See the proof of their lemma 4.5
-\end_layout
-
-\end_inset
-
-
+Good chains exist, as found by Koutis, Miller and Peng: 
 \end_layout
 
 \begin_layout Standard
@@ -933,10 +926,10 @@ name "lem:good-chain"
 
 \end_inset
 
- (Lemma 7.3 from 
+ (Lemma 4.5 from 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Koutis2010"
+key "Koutis2011"
 
 \end_inset
 
@@ -944,7 +937,7 @@ key "Koutis2010"
 \begin_inset Formula $A$
 \end_inset
 
-, 
+, the algorithm 
 \family typewriter
 BuildChain
 \family default
@@ -955,29 +948,41 @@ BuildChain
  from 
 \begin_inset CommandInset citation
 LatexCommand cite
-key "Koutis2010"
+key "Koutis2011"
 
 \end_inset
 
- produces a 
-\begin_inset Formula $\tilde{O}\left(\log^{4}n\right)$
-\end_inset
-
--good chain for 
-\begin_inset Formula $A$
-\end_inset
-
- with probability 
+ produces with probability 
 \begin_inset Formula $1-p$
 \end_inset
 
-.
- The algorithm runs in time 
-\begin_inset Formula 
-\[
-\tilde{O}\left(\left(m\log n+n\log^{2}n\right)\log\left(1/p\right)\right)
-\]
+ a good preconditioning chain 
+\begin_inset Formula $\left\{ \mathcal{C},\mathcal{K}\right\} $
+\end_inset
 
+ such that 
+\begin_inset Formula $\kappa_{1}=\tilde{O}\left(\log^{2}n\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $\kappa_{i}=\kappa_{c}$
+\end_inset
+
+ for all 
+\begin_inset Formula $i\geq2$
+\end_inset
+
+ for some constant 
+\begin_inset Formula $\kappa_{c}$
+\end_inset
+
+.
+ The length of the chain is 
+\begin_inset Formula $d=\mathcal{O}\left(\log n\right)$
+\end_inset
+
+ and the algorithm runs in expected time 
+\begin_inset Formula $\tilde{O}\left(m\log n\right).$
 \end_inset
 
 
@@ -996,11 +1001,11 @@ end{lemma}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
-These chains furthermore can be used a good preconditioners for conjugate
+These chains furthermore can be used as good preconditioners for conjugate
  gradient and lead to near-linear algorithms for approximate inversion (Lemma
  7.2 from 
 \begin_inset CommandInset citation
@@ -1010,12 +1015,10 @@ key "Koutis2010"
 \end_inset
 
 ).
- This remarkable result has been significantly strenghtened in the previous
+ This remarkable result has been significantly strengthened in the previous
  years, so that SDD systems can be considered to be solved in (expected)
  linear time.
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
 status collapsed
 
@@ -1028,7 +1031,10 @@ begin{lemma}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:linear-precond-existence"
@@ -1072,6 +1078,7 @@ key "Koutis2011"
 \end_inset
 
 .
+ 
 \begin_inset ERT
 status collapsed
 
@@ -1088,40 +1095,23 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% TODO: use the imbricated preconditioners, no need to recompute everything
- every time :-)
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-It should now become clear how we can combine a 
-\begin_inset Formula $\kappa\left(n\right)$
-\end_inset
-
--good chain with the Algorithm 
+It should now become clear how we can combine a good chain with the Algorithm
+ 
 \family typewriter
-Precondit- ionedLogDetMonteCarlo
+PreconditionedLogDetMonteCarlo
 \family default
 .
  We start by building a chain.
  The partial Cholesky factorizations at each step of the chain provide an
- upper bound to 
+ upper bound on 
 \begin_inset Formula $\mbox{ld}\left(A\right)$
 \end_inset
 
 .
  We then refine this upper bound by running 
 \family typewriter
-PreconditionedLogDetMonteCarlo
+Preconditioned\SpecialChar \-
+LogDetMonteCarlo
 \family default
  at each state of the chain to approximate 
 \begin_inset Formula $\mbox{ld}\left(B_{i}^{+}A_{i}\right)$
@@ -1159,6 +1149,18 @@ reference "thm:ultra_main"
 .
 
 \series default
+ First, recall that we can consider either an SDD or its grounded Laplacian
+ thanks to the relation 
+\begin_inset Formula $\log|A|=\ld L_{A}$
+\end_inset
+
+.
+ Call 
+\begin_inset Formula $A_{1}=L_{A}$
+\end_inset
+
+ the first element of the chain.
+ In this proof, all the matrices will be Laplacian from now on.
  Using Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1170,29 +1172,119 @@ reference "lem:good-chain"
 \begin_inset Formula $\mathcal{C}=\left\{ A_{1}=A,B_{1},A_{2},\dots A_{d}\right\} $
 \end_inset
 
- a 
-\begin_inset Formula $\tilde{O}\left(\log^{4}n\right)$
-\end_inset
-
--good chain for 
-\begin_inset Formula $L_{A}$
+ a good chain for 
+\begin_inset Formula $A$
 \end_inset
 
 , with 
-\begin_inset Formula $d=\mathcal{O}\left(\log\log n\right)=\tilde{O}\left(1\right)$
+\begin_inset Formula $d=\mathcal{O}\left(\log n\right)$
 \end_inset
 
 .
- We use Equation 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:chain-recursion"
+ More precisely, since 
+\begin_inset Formula $A_{i+1}$
+\end_inset
+
+= 
+\family typewriter
+Greedy\SpecialChar \-
+Elimination
+\family default
+
+\begin_inset Formula $\left(B_{i}\right)$
+\end_inset
+
+, the Laplacian 
+\begin_inset Formula $B_{i}$
+\end_inset
+
+ can be factored as: 
+\begin_inset Formula 
+\[
+B_{i}=P_{i}L_{i}\left(\begin{array}{cc}
+D^{\left(i\right)} & 0\\
+0 & A_{i+1}
+\end{array}\right)L_{i}^{T}P_{i}^{T}
+\]
 
 \end_inset
 
- to compute the Cholesky terms for each stage of the chain, and we are left
- with estimating 
-\begin_inset Formula $\tilde{\mathcal{O}}\left(1\right)$
+with 
+\begin_inset Formula $P_{i}$
+\end_inset
+
+ a permutation matrix, 
+\begin_inset Formula $L_{i}$
+\end_inset
+
+ a lower triangular matrix with 
+\begin_inset Formula $1$
+\end_inset
+
+ one the diagonal and 
+\begin_inset Formula $D^{\left(i\right)}$
+\end_inset
+
+a positive definite diagonal matrix.
+ The matrix 
+\begin_inset Formula $D^{\left(i\right)}$
+\end_inset
+
+ is an immediate by-product of running the algorithm 
+\family typewriter
+GreedyElimination
+\family default
+ and can be obtained when forming the chain 
+\begin_inset Formula $\mathcal{C}$
+\end_inset
+
+ at no additional cost.
+\end_layout
+
+\begin_layout Standard
+From the discussion at the start of the section, it is clear that 
+\begin_inset Formula $\ld B_{i}=\sum_{k}\log D_{k}^{\left(i\right)}+\ld A_{i+1}$
+\end_inset
+
+.
+ From the discussion in Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Preconditioned-log-determinants"
+
+\end_inset
+
+, the log-determinant of 
+\begin_inset Formula $A$
+\end_inset
+
+ is: 
+\begin_inset Formula 
+\begin{eqnarray*}
+\log|A| & = & \ld A_{1}\\
+ & = & \ld B_{1}+\ld\left(B_{1}^{+}A_{1}\right)\\
+ & = & \sum_{k}\log D_{k}^{\left(1\right)}+\ld A_{2}+\ld\left(B_{1}^{+}A_{1}\right)\\
+ & ...\\
+ & = & \ld A_{d}+\sum_{i=1}^{d}\left(\sum_{k}\log D_{k}^{\left(i\right)}\right)+\sum_{i=1}^{d}\ld\left(B_{i}^{+}A_{i}\right)
+\end{eqnarray*}
+
+\end_inset
+
+The term 
+\begin_inset Formula $\ld A_{d}$
+\end_inset
+
+ can be estimated by dense Cholesky factorization at cost 
+\begin_inset Formula $\mathcal{O}\left(1\right)$
+\end_inset
+
+, and the diagonal Cholesky terms 
+\begin_inset Formula $\sum_{k}\log D_{k}^{\left(i\right)}$
+\end_inset
+
+ are already computed from the chain.
+ We are left with estimating the 
+\begin_inset Formula $d$
 \end_inset
 
  remainders 
@@ -1201,7 +1293,7 @@ reference "eq:chain-recursion"
 
 .
  By construction, 
-\begin_inset Formula $A_{i}\preceq B_{i}\preceq\kappa\left(n_{i}\right)A_{i}$
+\begin_inset Formula $A_{i}\preceq B_{i}\preceq\kappa_{i}A_{i}$
 \end_inset
 
  and by Lemma 
@@ -1212,11 +1304,11 @@ reference "lem:linear-precond-existence"
 \end_inset
 
 , there exists an operator 
-\begin_inset Formula $C$
+\begin_inset Formula $C_{i}$
 \end_inset
 
  so that 
-\begin_inset Formula $\left\Vert C\left(b\right)-A^{+}b\right\Vert _{A}<\nu\left\Vert A^{+}b\right\Vert _{A}$
+\begin_inset Formula $\left\Vert C_{i}\left(b\right)-B_{i}^{+}b\right\Vert _{B_{i}}<\nu\left\Vert B_{i}^{+}b\right\Vert _{B_{i}}$
 \end_inset
 
  for all 
@@ -1224,18 +1316,152 @@ reference "lem:linear-precond-existence"
 \end_inset
 
  with a choice of relative precision 
-\begin_inset Formula $\nu=\frac{\epsilon}{16\kappa^{3}\kappa\left(B\right)}$
+\begin_inset Formula $\nu=\frac{\epsilon}{16\kappa_{i}^{3}\kappa\left(B_{i}\right)}$
 \end_inset
 
 .
- By Theorem 
+\end_layout
+
+\begin_layout Standard
+This relative precision depends on the condition number 
+\begin_inset Formula $\kappa\left(B_{i}\right)$
+\end_inset
+
+ of 
+\begin_inset Formula $B_{i}$
+\end_inset
+
+.
+ We can coarsely relate this condition number to the condition number of
+ 
+\begin_inset Formula $A_{1}$
+\end_inset
+
+by noting the following: 
+\end_layout
+
+\begin_layout Itemize
+Since 
+\begin_inset Formula $A_{i}\preceq B_{i}\preceq\kappa_{i}A_{i}$
+\end_inset
+
+ by construction, 
+\begin_inset Formula $\kappa\left(B_{i}\right)\leq\kappa_{i}\kappa\left(A_{i}\right)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Itemize
+For diagonally dominant matrices or Laplacian matrices, the condition number
+ of the partial Cholesky factor is bounded by the condition number of the
+ original matrix.
+ This can be seen by analyzing one update in the Cholesky factorization.
+ Given a partially factorized matrix 
+\begin_inset Formula $\tilde{A}=\left(\begin{array}{ccc}
+I_{p} & 0 & 0\\
+0 & a & b\\
+0 & b^{T} & S
+\end{array}\right)$
+\end_inset
+
+, after factorization, the next matrix is 
+\begin_inset Formula $\left(\begin{array}{cc}
+I_{p+1} & 0\\
+0 & S-a^{-1}bb^{T}
+\end{array}\right)$
+\end_inset
+
+.
+ The spectrum of the Schur complement 
+\begin_inset Formula $S-a^{-1}bb^{T}$
+\end_inset
+
+is bounded by the spectrum of 
+\begin_inset Formula $\left(\begin{array}{cc}
+a & b\\
+b^{T} & S
+\end{array}\right)$
+\end_inset
+
+ (see Corollary 2.3 in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Zhang2005"
+
+\end_inset
+
+) and thus its condition number is upper bounded by that of 
+\begin_inset Formula $\tilde{A}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+As a consequence, we have for all 
+\begin_inset Formula $i$
+\end_inset
+
+: 
+\begin_inset Formula $\kappa\left(A_{i+1}\right)\leq\kappa\left(B_{i}\right)\leq\kappa_{i}\kappa\left(A_{i}\right)\leq\prod_{j=1}^{i}\kappa_{j}\kappa\left(A_{1}\right)=\tilde{O}\left(\kappa_{1}\kappa_{c}^{i-1}\kappa\left(A\right)\right)$
+\end_inset
+
+ with 
+\begin_inset Formula $\kappa_{c}$
+\end_inset
+
+ the constant introduced in Lemma 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "lem:good-chain"
+
+\end_inset
+
+.
+ This coarse analysis gives us the bound: 
+\begin_inset Formula 
+\[
+\kappa\left(B_{i}\right)\leq\tilde{O}\left(\kappa_{c}^{\log n}\log^{2}n~\kappa\left(A\right)\right)=\tilde{O}\left(n^{\log\kappa_{c}}\log^{2}n\ \kappa\left(A\right)\right).
+\]
+
+\end_inset
+
+Consider the relative precision 
+\begin_inset Formula $\tilde{\nu}=\tilde{\mathcal{O}}\left(n^{-\log\kappa_{c}}\log^{-8}n\frac{\epsilon}{\kappa\left(A\right)}\right)$
+\end_inset
+
+ so that 
+\begin_inset Formula $\tilde{\nu}\leq\nu_{i}$
+\end_inset
+
+ for all 
+\begin_inset Formula $i$
+\end_inset
+
+.
+ Constructing the operator 
+\begin_inset Formula $C_{i}$
+\end_inset
+
+ is a byproduct of forming the chain 
+\emph on
+
+\begin_inset Formula $\mathcal{C}$
+\end_inset
+
+.
+ 
+\emph default
+By Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "thm:det-sampling-theorem"
 
 \end_inset
 
-, each reminder 
+, each remainder 
 \begin_inset Formula $\text{ld}\left(B_{i}^{+}A_{i}\right)$
 \end_inset
 
@@ -1256,18 +1482,25 @@ reference "alg:SampleLogDet"
 
 .
  Furthermore, this algorithm works in expected time 
-\begin_inset Formula $\tilde{O}\left(m\log n\log\left(1/\nu\right)\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{n\kappa}{\nu}\right)\log^{2}\left(\kappa\right)\log\left(\eta^{-1}\right)\right)=\tilde{O}\left(m\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log^{2}n\log^{2}\left(\frac{\kappa\left(B\right)}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
+\begin_inset Formula 
+\begin{eqnarray*}
+ &  & \tilde{O}\left(m\log n\log\left(1/\tilde{\nu}\right)\kappa_{1}\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{n\kappa_{1}}{\tilde{\nu}}\right)\log^{2}\left(\kappa_{1}\right)\log\left(\eta^{-1}\right)\right)\\
+ &  & =\tilde{O}\left(m\log^{3}n\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log^{2}\left(\frac{n\kappa\left(A\right)}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)
+\end{eqnarray*}
+
 \end_inset
 
-.
- By a union bound, the result also holds on the sum of all the approximations
- of the remainders.
+By a union bound, the result also holds on the sum of all the 
+\begin_inset Formula $\log n$
+\end_inset
+
+ approximations of the remainders.
  We can simplify this bound a little by assuming that 
 \begin_inset Formula $\epsilon\geq n^{-1}$
 \end_inset
 
 , which then becomes 
-\begin_inset Formula $\tilde{O}\left(m\epsilon^{-1}\log^{2}n\log^{2}\left(\frac{\kappa\left(B\right)}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
+\begin_inset Formula $\tilde{O}\left(m\epsilon^{-1}\log^{3}n\log^{2}\left(\frac{n\kappa\left(A\right)}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
 \end_inset
 
 .

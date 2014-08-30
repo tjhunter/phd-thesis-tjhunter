@@ -128,7 +128,8 @@ The stretch of a graph is usually defined with respect to a (spanning) tree.
  In our analysis, it is convenient and straightforward to generalize this
  definition to arbitrary graphs.
  To our knowledge, this straightforward extension is not considered in the
- litterature, so we feel compelled to properly introduce it.
+ literature, so we feel compelled to properly introduce it.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -144,7 +145,7 @@ begin{definition}
 
 \end_inset
 
-
+ 
 \emph on
 Generalized stretch
 \emph default
@@ -184,7 +185,7 @@ name "Generalized-stretch"
 \begin_inset Formula $G$
 \end_inset
 
- with repect to graph 
+ with respect to graph 
 \begin_inset Formula $H$
 \end_inset
 
@@ -209,9 +210,7 @@ with
 \end_inset
 
 , and zero otherwise.
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
 status collapsed
 
@@ -269,7 +268,7 @@ key "Spielman2009b"
 \end_inset
 
  carry over to our definition of stretch.
- For the sake of completeness, we include this result:
+ For the sake of completeness, we include this result: 
 \end_layout
 
 \begin_layout Standard
@@ -285,7 +284,7 @@ begin{lemma}
 
 \end_inset
 
-
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:stretch-trace"
@@ -329,9 +328,6 @@ the pseudo-inverse of
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -344,7 +340,7 @@ end{lemma}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -360,11 +356,7 @@ begin{proof}
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-We denote 
+ We denote 
 \begin_inset Formula $E\left(u,v\right)$
 \end_inset
 
@@ -408,7 +400,7 @@ end{proof}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -472,7 +464,7 @@ begin{lemma}
 
 \end_inset
 
-For any connected graph 
+ For any connected graph 
 \begin_inset Formula $G$
 \end_inset
 
@@ -481,9 +473,6 @@ For any connected graph
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -496,7 +485,7 @@ end{lemma}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -512,7 +501,7 @@ begin{proof}
 
 \end_inset
 
-Consider the diagonalization of 
+ Consider the diagonalization of 
 \begin_inset Formula $L_{G}$
 \end_inset
 
@@ -553,7 +542,7 @@ end{proof}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -567,6 +556,7 @@ key "Spielman2009a"
 \end_inset
 
 ) can be generalized to arbitrary graphs (instead of spanning trees).
+ 
 \end_layout
 
 \begin_layout Standard
@@ -611,9 +601,6 @@ L_{G}\preceq\text{st}_{H}\left(G\right)L_{H}
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -642,7 +629,7 @@ begin{proof}
 
 \end_inset
 
-The proof is very similar to that of Lemma 8.2 in 
+ The proof is very similar to that of Lemma 8.2 in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Spielman2009b"
@@ -726,7 +713,7 @@ end{proof}
 This bound is remarkable as it relates any pair of (connected) graphs, as
  opposed to spanning trees or subgraphs.
  An approximation of the generalized stretch can be quickly computed using
- a construct detailled in 
+ a construct detailed in 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Spielman2009"
@@ -744,6 +731,7 @@ key "Spielman2009"
 \end_inset
 
  and the stretch.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -759,7 +747,7 @@ begin{theorem}
 
 \end_inset
 
-
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "thm:stretch-pld-bounds"
@@ -796,9 +784,6 @@ Let
 
 \begin_layout Standard
 This bound is tight.
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -811,7 +796,7 @@ end{theorem}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -899,7 +884,7 @@ The lower bound is slightly more involved.
 \begin_inset Formula $1\leq\lambda_{i}$
 \end_inset
 
- from the asumption 
+ from the assumption 
 \begin_inset Formula $L_{H}\preceq L_{G}$
 \end_inset
 
@@ -1021,6 +1006,7 @@ Finally, note that if
 \end_inset
 
 , which gives an equality.
+ 
 \begin_inset ERT
 status collapsed
 
@@ -1079,12 +1065,12 @@ reference "thm:stretch-pld-bounds"
 \end_inset
 
  by considering more general graphs.
- In this case, the machinery developped in Section 3 would not be necessary.
+ In this case, the machinery developed in Section 3 would not be necessary.
 \end_layout
 
 \begin_layout Standard
-From a practical perspective, the stretch can be calculated also with respect
- to the number of non-zero entries.
+From a practical perspective, the stretch can be calculated also in near-linear
+ time with respect to the number of non-zero entries.
 \end_layout
 
 \begin_layout Standard
@@ -1100,7 +1086,7 @@ begin{lemma}
 
 \end_inset
 
-
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:stretch-approx"
@@ -1146,9 +1132,6 @@ with high probability and in expected time
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -1161,7 +1144,7 @@ end{lemma}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1177,7 +1160,7 @@ begin{proof}
 
 \end_inset
 
-This is a straightforward consequence of Theorem 
+ This is a straightforward consequence of Theorem 
 \begin_inset Formula $2$
 \end_inset
 
@@ -1190,7 +1173,7 @@ key "Spielman2009"
 
 .
  Once the effective resistance of an edge can be approximated in time 
-\begin_inset Formula $O\left(\log n/\epsilon^{2}\right)$
+\begin_inset Formula $\mathcal{O}\left(\log n/\epsilon^{2}\right)$
 \end_inset
 
 , we can sum it and weight it by the conductance in 
@@ -1198,9 +1181,7 @@ key "Spielman2009"
 \end_inset
 
  for each edge.
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
 status collapsed
 
@@ -1230,7 +1211,7 @@ reference "eq:encadrement-1"
 
  has some interesting consequences if one is interested only in a rough
  estimate of the log-determinant: if 
-\begin_inset Formula $\epsilon=O\left(1\right)$
+\begin_inset Formula $\epsilon=\mathcal{O}\left(1\right)$
 \end_inset
 
 , it is possible to approximate the log-determinant in expected time 
@@ -1238,7 +1219,15 @@ reference "eq:encadrement-1"
 \end_inset
 
 .
- We will make use of this sparsification result from Spielman and Srivastava:
+ We will make use of this sparsification result from Spielman and Srivastava
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2009"
+
+\end_inset
+
+: 
 \end_layout
 
 \begin_layout Standard
@@ -1254,7 +1243,7 @@ begin{lemma}
 
 \end_inset
 
-
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:sriva-sparsification"
@@ -1286,7 +1275,7 @@ key "Spielman2009"
 \end_inset
 
  with 
-\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
+\begin_inset Formula $\mathcal{O}\left(n\log n/\epsilon^{2}\right)$
 \end_inset
 
  edges that satisfies 
@@ -1294,9 +1283,7 @@ key "Spielman2009"
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
 status collapsed
 
@@ -1319,10 +1306,11 @@ An immediate consequence is that given any graph, we can find a graph with
 \end_inset
 
  factor) and 
-\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
+\begin_inset Formula $\mathcal{O}\left(n\log n/\epsilon^{2}\right)$
 \end_inset
 
  edges.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1338,7 +1326,7 @@ begin{lemma}
 
 \end_inset
 
-
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:low-stretch-bounding"
@@ -1362,7 +1350,7 @@ Given a Laplacian
 \end_inset
 
  with 
-\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
+\begin_inset Formula $\mathcal{O}\left(n\log n/\epsilon^{2}\right)$
 \end_inset
 
  edges that satisfies 
@@ -1370,9 +1358,6 @@ Given a Laplacian
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -1401,7 +1386,7 @@ begin{proof}
 
 \end_inset
 
-Consider a graph 
+ Consider a graph 
 \begin_inset Formula $H$
 \end_inset
 
@@ -1474,7 +1459,7 @@ end{proof}
 \end_layout
 
 \begin_layout Standard
-Here is the main result of this section:
+Here is the main result of this section: 
 \end_layout
 
 \begin_layout Standard
@@ -1490,7 +1475,7 @@ begin{proposition}
 
 \end_inset
 
-There exists an algorithm that on input 
+ There exists an algorithm that on input 
 \begin_inset Formula $A\in SDD_{n}$
 \end_inset
 
@@ -1503,11 +1488,15 @@ There exists an algorithm that on input
 \end_inset
 
  in expected time 
-\begin_inset Formula $\tilde{O}\left(m+n\log^{3}n\log^{2}\kappa_{A}\right)$
+\begin_inset Newline linebreak
+\end_inset
+
+
+\begin_inset Formula $\tilde{O}\left(m+n\log^{3}n\log^{2}\kappa(A)\right)$
 \end_inset
 
  with 
-\begin_inset Formula $\kappa_{A}$
+\begin_inset Formula $\kappa(A)$
 \end_inset
 
  the condition number of 
@@ -1515,9 +1504,6 @@ There exists an algorithm that on input
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -1546,7 +1532,7 @@ begin{proof}
 
 \end_inset
 
-Given 
+ Given 
 \begin_inset Formula $L_{A}$
 \end_inset
 
@@ -1590,7 +1576,7 @@ since
 \end_inset
 
  has 
-\begin_inset Formula $O\left(n\log n\right)$
+\begin_inset Formula $\mathcal{O}\left(n\log n\right)$
 \end_inset
 
  edges by construction, we can use Theorem 
@@ -1609,18 +1595,16 @@ reference "thm:ultra_main"
 \end_inset
 
  in expected time 
-\begin_inset Formula $\tilde{O}\left(n\log^{3}n\log^{2}\left(\kappa_{H}\right)\right)$
+\begin_inset Formula $\tilde{O}\left(n\log^{3}n\log^{2}\left(\kappa(H)\right)\right)$
 \end_inset
 
 .
  By construction 
-\begin_inset Formula $\kappa_{H}\leq\frac{1+1/16}{1-1/16}\kappa_{A}$
+\begin_inset Formula $\kappa(H)\leq\frac{1+1/16}{1-1/16}\kappa(A)$
 \end_inset
 
 , hence the result.
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
 status collapsed
 

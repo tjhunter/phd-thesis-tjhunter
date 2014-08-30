@@ -97,6 +97,7 @@ From now on, we consider the computation of
 
 .
  We generalize the definition of the determinant to handle this technicality.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -185,47 +186,18 @@ key "kelner2013simple"
 \end_inset
 
 , Appendix A.
- Using the Kelner reduction, we can turn the computation of a the log-determinan
-t of a SDD system into the computation of two PLDs of Laplacians, as shown
- in the next lemma
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-The Gremban reduction can also be used, but as one coauthor expresses it,
- 
-\begin_inset Quotes eld
+ Using the Kelner et al.
+\begin_inset space \space{}
 \end_inset
 
-the Kelner reduction is sexy
-\begin_inset Quotes erd
-\end_inset
-
-.
-\end_layout
-
-\end_inset
-
-.
+reduction, we can turn the computation of a the log-determinant of a SDD
+ system into the computation of two PLDs of Laplacians, as shown in the
+ next lemma.
 \end_layout
 
 \begin_layout Standard
 \begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% easter
-\end_layout
-
-\end_inset
-
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -236,9 +208,13 @@ begin{lemma}
 
 \end_inset
 
-
+ 
 \emph on
-Kelner reduction for log-determinants.
+Kelner et al.
+\begin_inset space \space{}
+\end_inset
+
+reduction for log-determinants.
  
 \emph default
 Given an invertible SDD matrix 
@@ -249,7 +225,7 @@ Given an invertible SDD matrix
 \begin_inset Formula $A=D_{1}+A_{p}+A_{n}+D_{2}$
 \end_inset
 
- where:
+ where: 
 \end_layout
 
 \begin_layout Itemize
@@ -260,7 +236,7 @@ Given an invertible SDD matrix
 \begin_inset Formula $A$
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -271,7 +247,7 @@ is the matrix that contains all the negative off-diagonal terms of
 \begin_inset Formula $A$
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -282,7 +258,7 @@ is the matrix that contains all the negative off-diagonal terms of
 \begin_inset Formula $D_{1}\left(i,i\right)=\sum_{j\neq i}\left|A\left(i,j\right)\right|$
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Itemize
@@ -293,7 +269,7 @@ is the matrix that contains all the negative off-diagonal terms of
 \begin_inset Formula $D_{2}=A-A_{p}-A_{n}-D_{1}$
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -326,11 +302,8 @@ D_{1}+D_{2}/2+A_{n} & -D_{2}/2-A_{p}\\
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -346,7 +319,7 @@ end{lemma}
 
 \begin_layout Standard
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -357,7 +330,7 @@ begin{proof}
 
 \end_inset
 
-The matrices 
+ The matrices 
 \begin_inset Formula $\hat{A}$
 \end_inset
 
@@ -484,11 +457,9 @@ y
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
-status open
+status collapsed
 
 \begin_layout Plain Layout
 
@@ -553,7 +524,7 @@ begin{definition}
 
 \end_inset
 
-
+ 
 \emph on
 Floating a Laplacian
 \emph default
@@ -572,9 +543,7 @@ Floating a Laplacian
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
 status collapsed
 
@@ -608,7 +577,7 @@ begin{lemma}
 
 \end_inset
 
-
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:floating-properties"
@@ -656,6 +625,7 @@ Given
 \end_inset
 
  .
+ 
 \end_layout
 
 \begin_layout Standard
@@ -723,7 +693,7 @@ reference "sec:Preconditioned-log-determinants"
 \end_inset
 
  to approximate the remainder with high probability.
- More precisely:
+ More precisely: 
 \begin_inset Formula 
 \begin{eqnarray*}
 \ld\left(L_{G}\right) & = & \log\left|F_{L_{G}}\right|\\
@@ -775,6 +745,7 @@ ultra-sparsifiers
 \end_inset
 
  for the determinant.
+ 
 \end_layout
 
 \end_body

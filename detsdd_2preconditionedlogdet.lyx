@@ -156,7 +156,7 @@ This series of traces can be estimated by Monte Carlo sampling, up to precision
 
 .
  In order to bound the errors, we will bound the large deviation errors
- using the following Bernstein inequality:
+ using the following Bernstein inequality: 
 \end_layout
 
 \begin_layout Standard
@@ -172,7 +172,7 @@ begin{lemma}
 
 \end_inset
 
-[Bernstein's inequality] 
+ [Bernstein's inequality] 
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:bernstein"
@@ -209,6 +209,9 @@ name "lem:bernstein"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -284,7 +287,7 @@ Consider
 : 
 \begin_inset Formula 
 \[
-\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-\frac{1}{n}\Tr\left(H\right)\right|\geq\epsilon\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{4n^{-1}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}+2\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon/3}\right)
+\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-\frac{1}{n}\Tr\left(H\right)\right|\geq\epsilon\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{4\frac{\left(\lambda_{\max}-\lambda_{\min}\right)^{2}}{n}+2\frac{\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon}{3}}\right)
 \]
 
 \end_inset
@@ -302,7 +305,7 @@ end{lemma}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -414,11 +417,15 @@ reference "lem:bernstein"
 \end_inset
 
 with 
-\begin_inset Formula $\sigma^{2}=\frac{2}{n(n+2)}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}\leq\frac{2}{n^{2}}\sum_{i=1}^{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}=\frac{2}{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}$
+\begin_inset Formula 
+\begin{align*}
+\sigma^{2} & =\frac{2}{n(n+2)}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}\\
+ & \leq\frac{2}{n^{2}}\sum_{i=1}^{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}=\frac{2}{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}
+\end{align*}
+
 \end_inset
 
-.
- 
+
 \begin_inset ERT
 status collapsed
 
@@ -435,6 +442,9 @@ status collapsed
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -447,7 +457,7 @@ end{proof}
 
 \end_inset
 
-
+ 
 \end_layout
 
 \begin_layout Standard
@@ -601,6 +611,9 @@ Given
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
@@ -626,7 +639,9 @@ rs for determinants: one for exact preconditioners and one for approximate
  preconditioners.
  The corresponding algorithm, which we call 
 \family typewriter
-PreconditionedLogDetMonteCarlo
+Precond\SpecialChar \-
+itioned\SpecialChar \-
+LogDetMonteCarlo
 \family default
 , is presented in Algorithm 
 \begin_inset CommandInset ref
@@ -723,9 +738,7 @@ PreconditionedLogDetMonteCarlo
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
 status collapsed
 
@@ -745,7 +758,7 @@ end{corollary}
 The proof of this corollary is presented in Appendix A.
  Usually, computing the exact inverse by an SDD matrix is too expensive.
  We can instead extend the previous result to consider a black box procedure
- that approximatively computes 
+ that approximately computes 
 \begin_inset Formula $B^{-1}x$
 \end_inset
 
@@ -768,7 +781,7 @@ begin{theorem}
 
 \end_inset
 
-
+ 
 \begin_inset CommandInset label
 LatexCommand label
 name "thm:preconditioning-approx"
@@ -837,8 +850,12 @@ Given
 \end_inset
 
 , then the algorithm 
+\begin_inset Newline newline
+\end_inset
+
+ 
 \family typewriter
-PreconditionedLogDet- MonteCarlo
+PreconditionedLogDetMonteCarlo
 \family default
  returns a scalar 
 \begin_inset Formula $z$
@@ -865,9 +882,7 @@ by performing
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
+ 
 \begin_inset ERT
 status collapsed
 
@@ -887,7 +902,7 @@ end{theorem}
 The proof of this result is detailed in Appendix A.
  While the overall bound looks the same, the constant (taken away by the
  
-\begin_inset Formula $O\left(\cdot\right)$
+\begin_inset Formula $\mathcal{O}\left(\cdot\right)$
 \end_inset
 
  notation) is four times as large as in Corollary 
