@@ -1,9 +1,10 @@
-#LyX file created by tex2lyx 2.0.6
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
 \lyxformat 413
 \begin_document
 \begin_header
 \textclass article
 \use_default_options false
+\maintain_unincluded_children false
 \language english
 \language_package none
 \inputencoding auto
@@ -17,15 +18,18 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \default_output_format default
 \output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref 0
+\use_hyperref false
 \papersize default
 \use_geometry false
-\use_amsmath 2
+\use_amsmath 1
 \use_esint 1
 \use_mhchem 0
 \use_mathdots 0
@@ -35,6 +39,10 @@
 \paperorientation portrait
 \suppress_date false
 \use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -53,19 +61,12 @@
 \begin_body
 
 \begin_layout Standard
-
-
 \begin_inset ERT
-status collapsed
+status open
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %%stopskip  : marker for tim's thesis, please do not remove it :-)
-\end_layout
-
-\begin_layout Standard
-
-
 \end_layout
 
 \end_inset
@@ -74,7 +75,6 @@ status collapsed
 \end_layout
 
 \begin_layout Subsection
-
 Stretch bounds on preconditioners
 \begin_inset CommandInset label
 LatexCommand label
@@ -86,8 +86,8 @@ name "sub:Stretch-bounds"
 \end_layout
 
 \begin_layout Standard
-
-How good is the estimate provided by the preconditioner? Intuitively, this depends on how well the preconditioner 
+How good is the estimate provided by the preconditioner? Intuitively, this
+ depends on how well the preconditioner 
 \begin_inset Formula $L_{H}$
 \end_inset
 
@@ -95,11 +95,14 @@ How good is the estimate provided by the preconditioner? Intuitively, this depen
 \begin_inset Formula $L_{G}$
 \end_inset
 
-. This notion of quality of approximation can be formalized by the notion of 
+.
+ This notion of quality of approximation can be formalized by the notion
+ of 
 \emph on
 stretch
 \emph default
-. This section presents a deterministic bound on the PLD of 
+.
+ This section presents a deterministic bound on the PLD of 
 \begin_inset Formula $L_{G}$
 \end_inset
 
@@ -115,16 +118,24 @@ stretch
 \begin_inset Formula $H$
 \end_inset
 
-. This may be useful in practice as it gives a (tight) interval for the PLD before performing any Monte-Carlo estimation of the residual.
+.
+ This may be useful in practice as it gives a (tight) interval for the PLD
+ before performing any Monte-Carlo estimation of the residual.
 \end_layout
 
 \begin_layout Standard
+The stretch of a graph is usually defined with respect to a (spanning) tree.
+ In our analysis, it is convenient and straightforward to generalize this
+ definition to arbitrary graphs.
+ To our knowledge, this straightforward extension is not considered in the
+ litterature, so we feel compelled to properly introduce it.
+\end_layout
 
-The stretch of a graph is usually defined with respect to a (spanning) tree. In our analysis, it is convenient and straightforward to generalize this definition to arbitrary graphs. To our knowledge, this straightforward extension is not considered in the literature, so we feel compelled to properly introduce it. 
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -133,7 +144,7 @@ begin{definition}
 
 \end_inset
 
- 
+
 \emph on
 Generalized stretch
 \emph default
@@ -160,7 +171,8 @@ name "Generalized-stretch"
 \begin_inset Formula $L_{H}$
 \end_inset
 
- their respective Laplacians. The stretch of 
+ their respective Laplacians.
+ The stretch of 
 \begin_inset Formula $G$
 \end_inset
 
@@ -172,14 +184,16 @@ name "Generalized-stretch"
 \begin_inset Formula $G$
 \end_inset
 
- with respect to graph 
+ with repect to graph 
 \begin_inset Formula $H$
 \end_inset
 
 , 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \text{st}_{H}\left(G\right)=\sum_{\left(u,v\right)\in\mathcal{E}_{G}}L_{G}\left(u,v\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)
 \]
+
 \end_inset
 
 with 
@@ -194,11 +208,14 @@ with
 \begin_inset Formula $u$
 \end_inset
 
-, and zero otherwise. 
+, and zero otherwise.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -211,12 +228,12 @@ end{definition}
 \end_layout
 
 \begin_layout Standard
-
 If the graph 
 \begin_inset Formula $H$
 \end_inset
 
- is a tree, this is a standard definition of stretch, because the effective resistance 
+ is a tree, this is a standard definition of stretch, because the effective
+ resistance 
 \begin_inset Formula $\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)$
 \end_inset
 
@@ -239,24 +256,27 @@ If the graph
  (see Lemma 2.4 in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009b"
 
 \end_inset
 
-). Furthermore, the arguments to prove Theorem 2.1 in 
+).
+ Furthermore, the arguments to prove Theorem 2.1 in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009b"
 
 \end_inset
 
- carry over to our definition of stretch. For the sake of completeness, we include this result: 
+ carry over to our definition of stretch.
+ For the sake of completeness, we include this result:
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -265,7 +285,7 @@ begin{lemma}
 
 \end_inset
 
- 
+
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:stretch-trace"
@@ -275,7 +295,6 @@ name "lem:stretch-trace"
 (Straightforward generalization of Theorem 2.1 in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009b"
 
 \end_inset
@@ -292,10 +311,13 @@ key "Spielman2009b"
 \begin_inset Formula $L_{H}$
 \end_inset
 
- their respective Laplacians. Then: 
-\begin_inset Formula \[
+ their respective Laplacians.
+ Then: 
+\begin_inset Formula 
+\[
 \text{st}_{H}\left(G\right)=\text{Tr}\left(L_{H}^{+}L_{G}\right)
 \]
+
 \end_inset
 
 with 
@@ -307,10 +329,13 @@ the pseudo-inverse of
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -319,11 +344,14 @@ end{lemma}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -332,7 +360,11 @@ begin{proof}
 
 \end_inset
 
- We denote 
+
+\end_layout
+
+\begin_layout Standard
+We denote 
 \begin_inset Formula $E\left(u,v\right)$
 \end_inset
 
@@ -348,25 +380,26 @@ begin{proof}
 \begin_inset Formula $E\left(u,v\right)=\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}$
 \end_inset
 
-. This is the same arguments as the original proof: 
-\begin_inset Formula \begin{eqnarray*}
+.
+ This is the same arguments as the original proof: 
+\begin_inset Formula 
+\begin{eqnarray*}
 \text{Tr}\left(L_{H}^{+}L_{G}\right) & = & \sum_{\left(u,v\right)\in\mathcal{E}_{G}}L_{G}\left(u,v\right)\text{Tr}\left(E\left(u,v\right)L_{H}^{+}\right)\\
  & = & \sum_{\left(u,v\right)\in\mathcal{E}_{G}}L_{G}\left(u,v\right)\text{Tr}\left(\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\right)\\
  & = & \sum_{\left(u,v\right)\in\mathcal{E}_{G}}L_{G}\left(u,v\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\\
  & = & \text{st}_{H}\left(G\right)
 \end{eqnarray*}
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -375,7 +408,11 @@ end{proof}
 
 \end_inset
 
- A consequence is 
+
+\end_layout
+
+\begin_layout Standard
+A consequence is 
 \begin_inset Formula $\text{st}_{H}\left(G\right)\geq\text{Card}\left(\mathcal{E}_{G}\right)\geq n-1$
 \end_inset
 
@@ -399,7 +436,9 @@ end{proof}
 \begin_inset Formula $\text{st}_{G}\left(G\right)=n-1$
 \end_inset
 
-. Scaling and matrix inequalities carry over with the stretch as well. Given 
+.
+ Scaling and matrix inequalities carry over with the stretch as well.
+ Given 
 \begin_inset Formula $A,B,C$
 \end_inset
 
@@ -408,23 +447,23 @@ end{proof}
 \end_inset
 
 : 
-\begin_inset Formula \begin{align*}
+\begin_inset Formula 
+\begin{align*}
 \text{st}_{\alpha A}\left(\beta B\right) & =\alpha^{-1}\beta\text{st}_{A}\left(B\right)\\
 L_{A}\preceq L_{B} & \Rightarrow\text{st}_{A}\left(C\right)\geq\text{st}_{B}\left(C\right)\\
 L_{A}\preceq L_{B} & \Rightarrow\text{st}_{C}\left(A\right)\leq\text{st}_{C}\left(B\right)
 \end{align*}
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -433,7 +472,7 @@ begin{lemma}
 
 \end_inset
 
- For any connected graph 
+For any connected graph 
 \begin_inset Formula $G$
 \end_inset
 
@@ -442,10 +481,13 @@ begin{lemma}
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -454,11 +496,14 @@ end{lemma}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -467,7 +512,7 @@ begin{proof}
 
 \end_inset
 
- Consider the diagonalization of 
+Consider the diagonalization of 
 \begin_inset Formula $L_{G}$
 \end_inset
 
@@ -483,22 +528,23 @@ begin{proof}
 \begin_inset Formula $\Delta=\text{diag}\left(\lambda_{1},\cdots,\lambda_{n-1}\right)$
 \end_inset
 
-. Then 
-\begin_inset Formula \[
+.
+ Then 
+\begin_inset Formula 
+\[
 \text{st}_{G}\left(G\right)=\text{Tr}\left(P\Delta P^{T}P\Delta^{-1}P^{T}\right)=\text{Tr}\left(I_{n-1}\right)=n-1
 \]
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -507,19 +553,27 @@ end{proof}
 
 \end_inset
 
- A number of properties of the stretch extend to general graphs using the generalized stretch. In particular, the stretch inequality (Lemma 8.2 in 
+
+\end_layout
+
+\begin_layout Standard
+A number of properties of the stretch extend to general graphs using the
+ generalized stretch.
+ In particular, the stretch inequality (Lemma 8.2 in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009a"
 
 \end_inset
 
-) can be generalized to arbitrary graphs (instead of spanning trees). 
+) can be generalized to arbitrary graphs (instead of spanning trees).
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -528,7 +582,7 @@ begin{lemma}
 
 \end_inset
 
- 
+
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:stretch-inequality"
@@ -547,17 +601,23 @@ Let
 \begin_inset Formula $L_{H}$
 \end_inset
 
- their respective Laplacians. Then: 
-\begin_inset Formula \[
+ their respective Laplacians.
+ Then: 
+\begin_inset Formula 
+\[
 L_{G}\preceq\text{st}_{H}\left(G\right)L_{H}
 \]
+
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -566,11 +626,14 @@ end{lemma}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -579,10 +642,9 @@ begin{proof}
 
 \end_inset
 
- The proof is very similar to that of Lemma 8.2 in 
+The proof is very similar to that of Lemma 8.2 in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009b"
 
 \end_inset
@@ -594,57 +656,61 @@ reference "lem:simple-inequality"
 
 \end_inset
 
- in Appendix B. The Laplacian 
+ in Appendix B.
+ The Laplacian 
 \begin_inset Formula $G$
 \end_inset
 
  can be written as a linear combination of edge Laplacian matrices: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 L_{G}=\sum_{e\in\mathcal{E}_{G}}\omega_{e}L\left(e\right)=\sum_{\left(u,v\right)\in\mathcal{E}_{G}}\omega_{\left(u,v\right)}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}
 \]
+
 \end_inset
 
 and a positivity result on the Schur complement gives
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %using Lemma 
 \backslash
 ref{lem:simple-inequality} gives:
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
 \end_inset
 
 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}\preceq\Big(\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)\Big)L_{H}
 \]
+
 \end_inset
 
 By summing all the edge inequalities, we get: 
-\begin_inset Formula \begin{eqnarray*}
+\begin_inset Formula 
+\begin{eqnarray*}
 L_{G} & \preceq & \sum_{\left(u,v\right)\in\mathcal{E}_{G}}\omega_{\left(u,v\right)}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)^{T}L_{H}^{+}\left(\mathcal{X}_{u}-\mathcal{X}_{v}\right)L_{H}\\
  & \preceq & \text{st}_{H}\left(G\right)L_{H}
 \end{eqnarray*}
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -653,15 +719,23 @@ end{proof}
 
 \end_inset
 
- This bound is remarkable as it relates any pair of (connected) graphs, as opposed to spanning trees or subgraphs. An approximation of the generalized stretch can be quickly computed using a construct detailed in 
+
+\end_layout
+
+\begin_layout Standard
+This bound is remarkable as it relates any pair of (connected) graphs, as
+ opposed to spanning trees or subgraphs.
+ An approximation of the generalized stretch can be quickly computed using
+ a construct detailled in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009"
 
 \end_inset
 
-, as we will see below. We now introduce the main result of this section: a bound on the PLD of 
+, as we will see below.
+ We now introduce the main result of this section: a bound on the PLD of
+ 
 \begin_inset Formula $L_{G}$
 \end_inset
 
@@ -669,11 +743,14 @@ key "Spielman2009"
 \begin_inset Formula $L_{H}$
 \end_inset
 
- and the stretch. 
+ and the stretch.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -682,7 +759,7 @@ begin{theorem}
 
 \end_inset
 
- 
+
 \begin_inset CommandInset label
 LatexCommand label
 name "thm:stretch-pld-bounds"
@@ -701,26 +778,31 @@ Let
 \begin_inset Formula $L_{H}$
 \end_inset
 
- their respective Laplacians. Assuming 
+ their respective Laplacians.
+ Assuming 
 \begin_inset Formula $L_{H}\preceq L_{G}$
 \end_inset
 
 , then: 
-\begin_inset Formula \begin{equation}
+\begin_inset Formula 
+\begin{equation}
 \text{ld}\left(L_{H}\right)+\log\left(\text{st}_{H}\left(G\right)-n+2\right)\leq\text{ld}\left(L_{G}\right)\leq\text{ld}\left(L_{H}\right)+\left(n-1\right)\log\left(\frac{\text{st}_{H}\left(G\right)}{n-1}\right)\label{eq:encadrement-1}
 \end{equation}
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
 This bound is tight.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -729,11 +811,14 @@ end{theorem}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -746,7 +831,8 @@ begin{proof}
 \begin_inset Formula $\text{ld}\left(L_{H}^{+}L_{G}\right)$
 \end_inset
 
-. We have 
+.
+ We have 
 \begin_inset Formula $\text{ld}(L_{G})=\text{ld}(L_{H})+\text{ld}\left(L_{H}^{+}G\right)$
 \end_inset
 
@@ -762,7 +848,8 @@ begin{proof}
 \begin_inset Formula $T$
 \end_inset
 
-. From Lemma 
+.
+ From Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lem:Jensen-inequality-matrix-logarithm-1"
@@ -770,18 +857,19 @@ reference "lem:Jensen-inequality-matrix-logarithm-1"
 \end_inset
 
 , we have the following inequality: 
-\begin_inset Formula \begin{eqnarray*}
+\begin_inset Formula 
+\begin{eqnarray*}
 \text{ld}\left(\sqrt{L_{H}}^{+}L_{G}\sqrt{L_{H}}^{+}\right) & \leq & \left(n-1\right)\log\left(\frac{\text{Tr}\left(\sqrt{L_{H}}^{+}L_{G}\sqrt{L_{H}}^{+}\right)}{n-1}\right)\\
  & = & \left(n-1\right)\log\left(\frac{\text{Tr}\left(L_{H}^{+}L_{G}\right)}{n-1}\right)\\
  & = & \left(n-1\right)\log\left(\frac{\text{st}_{H}\left(G\right)}{n-1}\right)
 \end{eqnarray*}
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
 The latter equality is an application of Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -793,8 +881,8 @@ reference "lem:stretch-trace"
 \end_layout
 
 \begin_layout Standard
-
-The lower bound is slightly more involved. Call 
+The lower bound is slightly more involved.
+ Call 
 \begin_inset Formula $\lambda_{i}$
 \end_inset
 
@@ -806,19 +894,22 @@ The lower bound is slightly more involved. Call
 \begin_inset Formula $\sigma=\text{st}_{H}\left(G\right)$
 \end_inset
 
-. We have 
+.
+ We have 
 \begin_inset Formula $1\leq\lambda_{i}$
 \end_inset
 
- from the assumption 
+ from the asumption 
 \begin_inset Formula $L_{H}\preceq L_{G}$
 \end_inset
 
-. By definition: 
+.
+ By definition: 
 \begin_inset Formula $\text{ld}\left(L_{H}^{+}L_{G}\right)=\sum_{i}\log\lambda_{i}$
 \end_inset
 
-. Furthermore, we know from Lemma 
+.
+ Furthermore, we know from Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lem:stretch-trace"
@@ -829,15 +920,18 @@ reference "lem:stretch-trace"
 \begin_inset Formula $\sum_{i}\lambda_{i}=\sigma$
 \end_inset
 
-. The upper and lower bounds on 
+.
+ The upper and lower bounds on 
 \begin_inset Formula $\lambda_{i}$
 \end_inset
 
  give: 
-\begin_inset Formula \begin{align*}
+\begin_inset Formula 
+\begin{align*}
 \text{ld}\left(L_{H}^{+}L_{G}\right)\geq & \min\,\sum_{i}\log\lambda_{i}\\
  & \text{s.t.}\,\lambda_{i}\geq1,\,\sum_{i}\lambda_{i}=\sigma
 \end{align*}
+
 \end_inset
 
 Since there are precisely 
@@ -848,7 +942,8 @@ Since there are precisely
 \begin_inset Formula $\lambda_{i}$
 \end_inset
 
-, one can show that the minimization problem above has a unique minimum which is 
+, one can show that the minimization problem above has a unique minimum
+ which is 
 \begin_inset Formula $\log\left(\sigma-n+2\right)$
 \end_inset
 
@@ -856,7 +951,6 @@ Since there are precisely
 \end_layout
 
 \begin_layout Standard
-
 To see that, consider the equivalent problem of minimizing 
 \begin_inset Formula $\sum_{i}\log\left(1+u_{i}\right)$
 \end_inset
@@ -869,10 +963,13 @@ To see that, consider the equivalent problem of minimizing
 \begin_inset Formula $u_{i}\geq0$
 \end_inset
 
-. Note that: 
-\begin_inset Formula \[
+.
+ Note that: 
+\begin_inset Formula 
+\[
 \sum_{i}\log\left(1+u_{i}\right)=\log\left(\prod_{i}\left[1+u_{i}\right]\right)=\log\left(1+\sum_{i}u_{i}+\text{Poly}\left(u\right)\right)
 \]
+
 \end_inset
 
 with 
@@ -895,15 +992,19 @@ with
 \begin_inset Formula $u_{i\geq2}=0$
 \end_inset
 
-. Thus the vector 
+.
+ Thus the vector 
 \begin_inset Formula $\lambda^{*}=\left(\sigma-n+2,\,1\cdots1\right)^{T}$
 \end_inset
 
- is (a) a solution to the minimization problem above, and (b) the objective value of any feasible vector 
+ is (a) a solution to the minimization problem above, and (b) the objective
+ value of any feasible vector 
 \begin_inset Formula $\lambda$
 \end_inset
 
- is higher or equal. Thus, this is the solution (unique up to a permutation). Hence we have 
+ is higher or equal.
+ Thus, this is the solution (unique up to a permutation).
+ Hence we have 
 \begin_inset Formula $\text{ld}\left(L_{H}^{+}L_{G}\right)\geq\sum_{i}\log\lambda_{i}^{*}=\log\left(\sigma-n+2\right)$
 \end_inset
 
@@ -911,7 +1012,6 @@ with
 \end_layout
 
 \begin_layout Standard
-
 Finally, note that if 
 \begin_inset Formula $H=G$
 \end_inset
@@ -920,11 +1020,11 @@ Finally, note that if
 \begin_inset Formula $\text{st}_{H}\left(G\right)=n-1$
 \end_inset
 
-, which gives an equality. 
+, which gives an equality.
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -933,7 +1033,11 @@ end{proof}
 
 \end_inset
 
- Note that Lemma 
+
+\end_layout
+
+\begin_layout Standard
+Note that Lemma 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "lem:stretch-inequality"
@@ -948,14 +1052,17 @@ reference "lem:stretch-inequality"
 \begin_inset Formula $\text{ld}\left(L_{H}\right)\leq\text{ld}\left(L_{G}\right)\leq\text{ld}\left(L_{H}\right)+n\log\text{st}_{H}\left(G\right)$
 \end_inset
 
-. The inequalities in Theorem 
+.
+ The inequalities in Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "thm:stretch-pld-bounds"
 
 \end_inset
 
- are stronger. Interestingly, it does not make assumption on the topology of the graphs (such as 
+ are stronger.
+ Interestingly, it does not make assumption on the topology of the graphs
+ (such as 
 \begin_inset Formula $L_{H}$
 \end_inset
 
@@ -963,20 +1070,28 @@ reference "thm:stretch-pld-bounds"
 \begin_inset Formula $L_{G}$
 \end_inset
 
-). Research on conditioners has focused so far on low-stretch approximations that are subgraphs of the original graph. It remains to be seen if some better preconditioners can be found with stretches in 
+).
+ Research on conditioners has focused so far on low-stretch approximations
+ that are subgraphs of the original graph.
+ It remains to be seen if some better preconditioners can be found with
+ stretches in 
 \begin_inset Formula $\mathcal{O}\left(n\right)$
 \end_inset
 
- by considering more general graphs. In this case, the machinery developed in Section 3 would not be necessary.
+ by considering more general graphs.
+ In this case, the machinery developped in Section 3 would not be necessary.
 \end_layout
 
 \begin_layout Standard
+From a practical perspective, the stretch can be calculated also with respect
+ to the number of non-zero entries.
+\end_layout
 
-From a practical perspective, the stretch can be calculated also in near-linear time with respect to the number of non-zero entries. 
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -985,7 +1100,7 @@ begin{lemma}
 
 \end_inset
 
- 
+
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:stretch-approx"
@@ -1004,11 +1119,13 @@ Let
 \begin_inset Formula $L_{H}$
 \end_inset
 
- their respective Laplacians. Call 
+ their respective Laplacians.
+ Call 
 \begin_inset Formula $r=\max_{e}L_{H}\left(e\right)/\min_{e}L_{H}\left(e\right)$
 \end_inset
 
-. Given 
+.
+ Given 
 \begin_inset Formula $\epsilon>0$
 \end_inset
 
@@ -1017,9 +1134,11 @@ Let
 \end_inset
 
  so that: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \left(1-\epsilon\right)\text{st}_{H}\left(G\right)\leq y\leq\left(1+\epsilon\right)\text{st}_{H}\left(G\right)
 \]
+
 \end_inset
 
 with high probability and in expected time 
@@ -1027,10 +1146,13 @@ with high probability and in expected time
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1039,11 +1161,14 @@ end{lemma}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1052,31 +1177,34 @@ begin{proof}
 
 \end_inset
 
- This is a straightforward consequence of Theorem 
+This is a straightforward consequence of Theorem 
 \begin_inset Formula $2$
 \end_inset
 
  in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009"
 
 \end_inset
 
-. Once the effective resistance of an edge can be approximated in time 
-\begin_inset Formula $\mathcal{O}\left(\log n/\epsilon^{2}\right)$
+.
+ Once the effective resistance of an edge can be approximated in time 
+\begin_inset Formula $O\left(\log n/\epsilon^{2}\right)$
 \end_inset
 
 , we can sum it and weight it by the conductance in 
 \begin_inset Formula $G$
 \end_inset
 
- for each edge. 
+ for each edge.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1089,12 +1217,10 @@ end{proof}
 \end_layout
 
 \begin_layout Subsection
-
 Fast inexact estimates
 \end_layout
 
 \begin_layout Standard
-
 The bound presented in Equation 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1102,27 +1228,24 @@ reference "eq:encadrement-1"
 
 \end_inset
 
- has some interesting consequences if one is interested only in a rough estimate of the log-determinant: if 
-\begin_inset Formula $\epsilon=\mathcal{O}\left(1\right)$
+ has some interesting consequences if one is interested only in a rough
+ estimate of the log-determinant: if 
+\begin_inset Formula $\epsilon=O\left(1\right)$
 \end_inset
 
 , it is possible to approximate the log-determinant in expected time 
 \begin_inset Formula $\tilde{O}\left(m+n\log^{3}n\right)$
 \end_inset
 
-. We will make use of this sparsification result from Spielman and Srivastava 
-\begin_inset CommandInset citation
-LatexCommand cite
-after ""
-key "Spielman2009"
+.
+ We will make use of this sparsification result from Spielman and Srivastava:
+\end_layout
 
-\end_inset
-
-: 
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1131,7 +1254,7 @@ begin{lemma}
 
 \end_inset
 
- 
+
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:sriva-sparsification"
@@ -1141,12 +1264,12 @@ name "lem:sriva-sparsification"
 (Theorem 12 in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009"
 
 \end_inset
 
-). Given a Laplacian 
+).
+ Given a Laplacian 
 \begin_inset Formula $L_{G}$
 \end_inset
 
@@ -1163,18 +1286,21 @@ key "Spielman2009"
 \end_inset
 
  with 
-\begin_inset Formula $\mathcal{O}\left(n\log n/\epsilon^{2}\right)$
+\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
 \end_inset
 
  edges that satisfies 
 \begin_inset Formula $\left(1-\epsilon\right)L_{G}\preceq L_{H}\preceq\left(1+\epsilon\right)L_{G}$
 \end_inset
 
-. 
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1187,20 +1313,23 @@ end{lemma}
 \end_layout
 
 \begin_layout Standard
-
-An immediate consequence is that given any graph, we can find a graph with a near-optimal stretch (up to an 
+An immediate consequence is that given any graph, we can find a graph with
+ a near-optimal stretch (up to an 
 \begin_inset Formula $\epsilon$
 \end_inset
 
  factor) and 
-\begin_inset Formula $\mathcal{O}\left(n\log n/\epsilon^{2}\right)$
+\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
 \end_inset
 
- edges. 
+ edges.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1209,7 +1338,7 @@ begin{lemma}
 
 \end_inset
 
- 
+
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:low-stretch-bounding"
@@ -1233,7 +1362,7 @@ Given a Laplacian
 \end_inset
 
  with 
-\begin_inset Formula $\mathcal{O}\left(n\log n/\epsilon^{2}\right)$
+\begin_inset Formula $O\left(n\log n/\epsilon^{2}\right)$
 \end_inset
 
  edges that satisfies 
@@ -1241,10 +1370,13 @@ Given a Laplacian
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1253,11 +1385,14 @@ end{lemma}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1266,7 +1401,7 @@ begin{proof}
 
 \end_inset
 
- Consider a graph 
+Consider a graph 
 \begin_inset Formula $H$
 \end_inset
 
@@ -1281,23 +1416,29 @@ reference "lem:sriva-sparsification"
 \begin_inset Formula $\left(1-\epsilon\right)L_{G}\preceq L_{H}\preceq\left(1+\epsilon\right)L_{G}$
 \end_inset
 
-. Using the stretch over this matrix inequality, this implies: 
-\begin_inset Formula \[
+.
+ Using the stretch over this matrix inequality, this implies: 
+\begin_inset Formula 
+\[
 \text{st}_{\left(1+\epsilon\right)G}\left(G\right)\leq\text{st}_{H}\left(G\right)\leq\text{st}_{\left(1-\epsilon\right)G}\left(G\right)
 \]
+
 \end_inset
 
 which is equivalent to: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \left(1+\epsilon\right)^{-1}\text{st}_{G}\left(G\right)\leq\text{st}_{H}\left(G\right)\leq\left(1-\epsilon\right)^{-1}\text{st}_{G}\left(G\right)
 \]
+
 \end_inset
 
 and the stretch of a connected graph with respect to itself is 
 \begin_inset Formula $n-1$
 \end_inset
 
-. By rescaling 
+.
+ By rescaling 
 \begin_inset Formula $H$
 \end_inset
 
@@ -1306,21 +1447,21 @@ and the stretch of a connected graph with respect to itself is
 \end_inset
 
 , we get: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 n-1\leq\text{st}_{H}\left(G\right)\leq\frac{1+\epsilon}{1-\epsilon}\left(n-1\right)
 \]
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1333,12 +1474,14 @@ end{proof}
 \end_layout
 
 \begin_layout Standard
+Here is the main result of this section:
+\end_layout
 
-Here is the main result of this section: 
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1347,7 +1490,7 @@ begin{proposition}
 
 \end_inset
 
- There exists an algorithm that on input 
+There exists an algorithm that on input 
 \begin_inset Formula $A\in SDD_{n}$
 \end_inset
 
@@ -1360,15 +1503,11 @@ begin{proposition}
 \end_inset
 
  in expected time 
-\begin_inset Newline linebreak
-\end_inset
-
-
-\begin_inset Formula $\tilde{O}\left(m+n\log^{3}n\log^{2}\kappa(A)\right)$
+\begin_inset Formula $\tilde{O}\left(m+n\log^{3}n\log^{2}\kappa_{A}\right)$
 \end_inset
 
  with 
-\begin_inset Formula $\kappa(A)$
+\begin_inset Formula $\kappa_{A}$
 \end_inset
 
  the condition number of 
@@ -1376,10 +1515,13 @@ begin{proposition}
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1388,11 +1530,14 @@ end{proposition}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1401,7 +1546,7 @@ begin{proof}
 
 \end_inset
 
- Given 
+Given 
 \begin_inset Formula $L_{A}$
 \end_inset
 
@@ -1424,7 +1569,8 @@ reference "lem:low-stretch-bounding"
 \begin_inset Formula $\left(n-1\right)\leq\text{st}_{H}\left(G\right)\preceq\left(1+1/8\right)\left(n-1\right)$
 \end_inset
 
-. Then, using Theorem 
+.
+ Then, using Theorem 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "thm:stretch-pld-bounds"
@@ -1432,9 +1578,11 @@ reference "thm:stretch-pld-bounds"
 \end_inset
 
 , this leads to the bound: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \text{\text{ld}}\left(H\right)\leq\log\left|A\right|\leq\text{ld}\left(H\right)+\frac{n-1}{4}
 \]
+
 \end_inset
 
 since 
@@ -1442,7 +1590,7 @@ since
 \end_inset
 
  has 
-\begin_inset Formula $\mathcal{O}\left(n\log n\right)$
+\begin_inset Formula $O\left(n\log n\right)$
 \end_inset
 
  edges by construction, we can use Theorem 
@@ -1461,18 +1609,22 @@ reference "thm:ultra_main"
 \end_inset
 
  in expected time 
-\begin_inset Formula $\tilde{O}\left(n\log^{3}n\log^{2}\left(\kappa(H)\right)\right)$
+\begin_inset Formula $\tilde{O}\left(n\log^{3}n\log^{2}\left(\kappa_{H}\right)\right)$
 \end_inset
 
-. By construction 
-\begin_inset Formula $\kappa(H)\leq\frac{1+1/16}{1-1/16}\kappa(A)$
+.
+ By construction 
+\begin_inset Formula $\kappa_{H}\leq\frac{1+1/16}{1-1/16}\kappa_{A}$
 \end_inset
 
-, hence the result. 
+, hence the result.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -1485,8 +1637,9 @@ end{proof}
 \end_layout
 
 \begin_layout Standard
-
-It would be interesting to see if this technique could be developed to handle arbitrary precision as well. 
+It would be interesting to see if this technique could be developed to handle
+ arbitrary precision as well.
+ 
 \end_layout
 
 \end_body

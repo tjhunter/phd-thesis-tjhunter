@@ -1,13 +1,14 @@
-#LyX file created by tex2lyx 2.0.6
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
 \lyxformat 413
 \begin_document
 \begin_header
 \textclass article
-\use_default_options false
+\use_default_options true
+\maintain_unincluded_children false
 \language english
-\language_package none
+\language_package default
 \inputencoding auto
-\fontencoding default
+\fontencoding global
 \font_roman default
 \font_sans default
 \font_typewriter default
@@ -17,24 +18,30 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \default_output_format default
 \output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
-\spacing single
-\use_hyperref 0
+\use_hyperref false
 \papersize default
 \use_geometry false
-\use_amsmath 2
+\use_amsmath 1
 \use_esint 1
-\use_mhchem 0
-\use_mathdots 0
+\use_mhchem 1
+\use_mathdots 1
 \cite_engine basic
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
 \suppress_date false
-\use_refstyle 0
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -52,21 +59,139 @@
 
 \begin_body
 
-\begin_layout Section
+\begin_layout Standard
+\begin_inset ERT
+status open
 
+\begin_layout Plain Layout
+
+
+\backslash
+chapter{Computing determinants at very large scale}
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+epigraph{
+\backslash
+emph{Le faux se r
+\backslash
+'{e}pand vite, et le vrai surnage lentement.}}{George Sand, 
+\backslash
+emph{C
+\backslash
+'{e}sarine Dietrich}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset label
+LatexCommand label
+name "chapter:detsdd"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
 Introduction
 \end_layout
 
 \begin_layout Standard
+So far, our analysis has focused on the practical problem of estimating
+ large, graph-based statistical models.
+ We now consider the case of 
+\emph on
+extremely 
+\emph default
+large models with millions or billions of random variables.
+ At such a scale, any operation has to be completed in a time that is at
+ most linear with the structure of the problem.
+ Any algorithm that takes longer will be hopelessly slow at such a scale.
+ Such problems are not common (yet) in civil engineering applications, but
+ they begin to crop up in other disciplines as we will see.
+ We investigate how novel results in graph theory can inform the design
+ of low-complexity algorithms for machine learning.
+ In this chapter, we present some algorithms which present some appealing
+ theoretical guarantees, but for which there is no known implementation.
+ We present these results with the hope that they will motivate further
+ research into practical algorithms.
+\end_layout
 
-We consider the problem of computing the determinant of symmetric, diagonally dominant (SDD) matrices, i.e. real symmetric matrices 
+\begin_layout Standard
+One of the simplest models to represent interactions between random variables
+ is the multivariate Gaussian model, also called Gaussian Markov Random
+ Field, that we used in Chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chapter:kdd"
+
+\end_inset
+
+.
+ Consider a Gaussian distribution 
+\begin_inset Formula $X\sim\mathcal{N}\left(\mu,\Sigma\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $\mu$
+\end_inset
+
+ is the mean and 
+\begin_inset Formula $\Sigma$
+\end_inset
+
+ is the covariance matrix.
+ It is more convenient to consider the precision matrix 
+\begin_inset Formula $S=\Sigma^{-1}$
+\end_inset
+
+.
+ In most application, the precision matrix is sparse, the sparsity pattern
+ representing condition dependencies between the variables 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "wainwright2008graphical"
+
+\end_inset
+
+.
+ The log-likelihood of one observation 
+\begin_inset Formula $x$
+\end_inset
+
+ is the sum of a log-determinant and a scalar product:
+\begin_inset Formula 
+\[
+\log\pi\left(x\right)=\frac{1}{2}\log\det S-\frac{1}{2}\left(x-\mu\right)^{T}S\left(x-\mu\right)-\frac{n}{2}\log\left(2\pi\right)
+\]
+
+\end_inset
+
+ Tuning the parameters of this model against a set of observations requires
+ computing the determinant of the precision matrix, and this computation
+ is in general the bottleneck.
+ Instead of considering the general problem of computing the determinant
+ of symmetric, positive-definite matrices, we focus on a more restricted
+ case: computing the determinant of symmetric, diagonally dominant (SDD)
+ matrices, i.e.
+ real symmetric matrices 
 \begin_inset Formula $A$
 \end_inset
 
  for which: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 A_{ii}\geq\sum_{j\neq i}\left|A_{ij}\right|
 \]
+
 \end_inset
 
 The set of all such matrices of size 
@@ -81,7 +206,8 @@ The set of all such matrices of size
 \begin_inset Formula $\mathcal{S}_{n}$
 \end_inset
 
-. Call 
+.
+ Call 
 \begin_inset Formula $m$
 \end_inset
 
@@ -89,7 +215,9 @@ The set of all such matrices of size
 \begin_inset Formula $A$
 \end_inset
 
-. We are interested in computing the determinant of sparse matrices, i.e. matrices for which 
+.
+ We are interested in computing the determinant of sparse matrices, i.e.
+ matrices for which 
 \begin_inset Formula $m\ll n^{2}$
 \end_inset
 
@@ -97,20 +225,27 @@ The set of all such matrices of size
 \end_layout
 
 \begin_layout Standard
-
-The best exact algorithm known for computing the determinant of general matrices, the Cholesky factorization, runs in a cubic complexity 
-\begin_inset Formula $\mathcal{O}\left(n^{3}\right)$
+The best exact algorithm known for computing the determinant of general
+ matrices, the Cholesky factorization, runs in a cubic complexity 
+\begin_inset Formula $O\left(n^{3}\right)$
 \end_inset
 
-. Computing the factorization can be sped up for a few specific patterns such as trees, but no algorithm has been shown to work in a generic way for 
+.
+ Computing the factorization can be sped up for a few specific patterns
+ such as trees, but no algorithm has been shown to work in a generic way
+ for 
 \begin_inset Formula $SDD_{n}$
 \end_inset
 
-, let alone general symmetric matrices. We present an algorithm that returns an approximation of the logarithm of the determinant in time quasi-linear with the number of non-zero entries of 
+, let alone general symmetric matrices.
+ We present an algorithm that returns an approximation of the logarithm
+ of the determinant in time quasi-linear with the number of non-zero entries
+ of 
 \begin_inset Formula $A$
 \end_inset
 
-. More specifically, we show that our algorithm, 
+.
+ More specifically, we show that our algorithm, 
 \family typewriter
 UltraLogDet
 \family default
@@ -118,15 +253,14 @@ UltraLogDet
 \begin_inset Formula $\epsilon$
 \end_inset
 
--approximation of the logarithm of the determinant with high probability and in expected time
+-approximation of the logarithm of the determinant with high probability
+ and in expected time
 \begin_inset Foot
 status collapsed
 
-
-\begin_layout Standard
-
+\begin_layout Plain Layout
 We use the notation 
-\begin_inset Formula $\tilde{\mathcal{O}}$
+\begin_inset Formula $\tilde{O}$
 \end_inset
 
  to hide a factor at most 
@@ -139,16 +273,18 @@ We use the notation
 \end_inset
 
 : 
-\begin_inset Formula \[
-\tilde{\mathcal{O}}\left(m\epsilon^{-2}\log^{3}n\log^{2}\left(\frac{n\kappa_{A}}{\epsilon}\right)\right)
+\begin_inset Formula 
+\[
+\tilde{O}\left(m\epsilon^{-2}\log^{3}n\log^{2}\left(\frac{n\kappa_{A}}{\epsilon}\right)\right)
 \]
+
 \end_inset
 
 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %
 \backslash
@@ -157,8 +293,7 @@ left(B
 right)
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -168,7 +303,6 @@ right)
 \end_layout
 
 \begin_layout Standard
-
 where 
 \begin_inset Formula $\kappa_{A}$
 \end_inset
@@ -177,31 +311,34 @@ where
 \begin_inset Formula $A$
 \end_inset
 
-. This algorithm builds upon the work of Spielman and Teng on 
+.
+ This algorithm builds upon the work of Spielmann and Teng on 
 \emph on
 ultra-sparsifiers
 \emph default
  
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2009a"
 
 \end_inset
 
-, and it critically exploits the recent improvements from Koutis, Miller and Peng 
+, and it critically exploits the recent improvements from Koutis, Miller
+ and Peng 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Koutis2010"
 
 \end_inset
 
-. This is to our knowledge the first algorithm that presents a nearly linear complexity which depends neither on the condition number of 
+.
+ This is to our knowledge the first algorithm that presents a nearly linear
+ complexity which depends neither on the condition number of 
 \begin_inset Formula $A$
 \end_inset
 
- (except through a log-term) nor on a specific pattern for the non-zero coefficients of 
+ (except through a log-term) nor on a specific pattern for the non-zero
+ coefficients of 
 \begin_inset Formula $A$
 \end_inset
 
@@ -209,22 +346,31 @@ key "Koutis2010"
 \end_layout
 
 \begin_layout Standard
-
-The high sophistication of the algorithm transpires through the large exponent of 
+The sophistication of the algorithm transpires through the large exponent
+ of 
 \begin_inset Formula $\log\log n$
 \end_inset
 
-. However, our algorithm will directly benefit from any improvement on ultra-sparsifiers. Given the considerable practical importance of such preconditioners, we expect some fast improvements in this area. Also, the bulk of the work is performed in a Monte Carlo procedure that is straightforward to parallelize. Furthermore, we also present simpler, non-optimal algorithms that compute upper and lower bounds of the logarithm of the determinant, and that may be of more immediate practical interest.
+.
+ However, our algorithm will directly benefit from any improvement on ultra-spar
+sifiers.
+ Given the considerable practical importance of such preconditioners, we
+ expect some fast improvements in this area.
+ Also, the bulk of the work is performed in a Monte Carlo procedure that
+ is straightforward to parallelize.
+ Furthermore, we also present simpler, non-optimal algorithms that compute
+ upper and lower bounds of the logarithm of the determinant, and that may
+ be of more immediate practical interest.
 \end_layout
 
 \begin_layout Subsection
-
 Background
 \end_layout
 
 \begin_layout Standard
-
-There are two approaches in numerical linear algebra to approximately compute a determinant (or the log of the determinant): by performing a (partial) Cholesky factorization of 
+There are two approaches in numerical linear algebra to approximately compute
+ a determinant (or the log of the determinant): by performing a (partial)
+ Cholesky factorization of 
 \begin_inset Formula $A$
 \end_inset
 
@@ -232,8 +378,7 @@ There are two approaches in numerical linear algebra to approximately compute a 
 \end_layout
 
 \begin_layout Standard
-
-As mentioned above, the Cholesky factorization performs a decomposition of the form: 
+The Cholesky factorization performs a decomposition of the form: 
 \begin_inset Formula $A=PLDL^{T}P^{T}$
 \end_inset
 
@@ -253,7 +398,8 @@ As mentioned above, the Cholesky factorization performs a decomposition of the f
 \begin_inset Formula $D$
 \end_inset
 
- a diagonal matrix of non-negative coefficients. Then the log-determinant of 
+ a diagonal matrix of non-negative coefficients.
+ Then the log-determinant of 
 \begin_inset Formula $A$
 \end_inset
 
@@ -261,46 +407,50 @@ As mentioned above, the Cholesky factorization performs a decomposition of the f
 \begin_inset Foot
 status collapsed
 
-
-\begin_layout Standard
-
+\begin_layout Plain Layout
 We will use the 
 \begin_inset Formula $\left|\cdot\right|$
 \end_inset
 
- operator to denote the determinant, it will be clear from the context that it is different from the absolute value.
+ operator to denote the determinant, it will be clear from the context that
+ it is different from the absolute value.
 \end_layout
 
 \end_inset
 
 : 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \log\left|A\right|=\sum_{i}\log D_{ii}
 \]
+
 \end_inset
 
-The complexity of dense Cholesky factorization for dense matrices is 
-\begin_inset Formula $\mathcal{O}\left(n^{3}\right)$
+The complexity of Cholesky factorization for dense matrices is 
+\begin_inset Formula $O\left(n^{3}\right)$
 \end_inset
 
-. Unfortunately, Cholesky factorization usually does not gain much from the knowledge of the sparsity pattern due to the 
+.
+ Unfortunately, Cholesky factorization usually does not gain much from the
+ knowledge of the sparsity pattern due to the 
 \emph on
 fill-in problem
 \emph default
  (see 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "meurant1999computer"
 
 \end_inset
 
-, section 3.2). There is one case, though, for which Cholesky factorization is efficient: if the sparsity pattern of 
+, section 3.2).
+ There is one case, though, for which Cholesky factorization is efficient:
+ if the sparsity pattern of 
 \begin_inset Formula $A$
 \end_inset
 
  is a tree, then performing Cholesky factorization takes 
-\begin_inset Formula $\mathcal{O}\left(n\right)$
+\begin_inset Formula $O\left(n\right)$
 \end_inset
 
  time, and the matrix 
@@ -310,12 +460,12 @@ key "meurant1999computer"
  is a banded matrix 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "liu1990eliminationtrees"
 
 \end_inset
 
-. If the sparsity pattern of 
+.
+ If the sparsity pattern of 
 \begin_inset Formula $A$
 \end_inset
 
@@ -323,7 +473,6 @@ key "liu1990eliminationtrees"
 \end_layout
 
 \begin_layout Standard
-
 When the matrix 
 \begin_inset Formula $A$
 \end_inset
@@ -334,7 +483,6 @@ When the matrix
 
  is less than
 \begin_inset space ~
-
 \end_inset
 
 
@@ -344,15 +492,16 @@ When the matrix
 , one can use the remarkable Martin expansion of the log-determinant 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "martin1992approximations"
 
 \end_inset
 
 : 
-\begin_inset Formula \begin{equation}
+\begin_inset Formula 
+\begin{equation}
 \log\left|A\right|=\text{Tr}\left(\log A\right)\label{eq:martin-expansion}
 \end{equation}
+
 \end_inset
 
 where 
@@ -360,20 +509,26 @@ where
 \end_inset
 
  is the matrix logarithm defined by the series expansion: 
-\begin_inset Formula \begin{equation}
+\begin_inset Formula 
+\begin{equation}
 \log A=\sum_{i=0}^{\infty}\frac{\left(-1\right)^{i}}{i+1}M^{i}\label{eq:matrix-log}
 \end{equation}
+
 \end_inset
 
-The determinant can then be computed by a sum of traces of the power of 
+The determinant can then be computed by a sum of traces of the power of
+ 
 \begin_inset Formula $M$
 \end_inset
 
-, and the rate of convergence of this series is driven by the spectral radius 
+, and the rate of convergence of this series is driven by the spectral radius
+ 
 \begin_inset Formula $M$
 \end_inset
 
-. This line of reasoning has led researchers to look for decompositions of 
+.
+ This line of reasoning has led researchers to look for decompositions of
+ 
 \begin_inset Formula $A$
 \end_inset
 
@@ -386,30 +541,32 @@ The determinant can then be computed by a sum of traces of the power of
 \end_inset
 
  being easier to compute and 
-\begin_inset Formula $U^{-1}V$
+\begin_inset Formula $U^{-1}V+I$
 \end_inset
 
- having a small spectral radius (less than 
-\begin_inset Formula $1$
-\end_inset
-
-). Then 
+ having a small spectral radius.
+ Then 
 \begin_inset Formula $\log\left|A\right|=\log\left|U\right|+\log\left|U^{-1}V+I\right|$
 \end_inset
 
-. The most common decomposition 
+.
+ The most common decomposition 
 \begin_inset Formula $U,V$
 \end_inset
 
- is in terms of block diagonal and off-diagonal terms, which can then use Hadamard inequalities on the determinant to bound the error 
+ is in terms of block diagonal and off-diagonal terms, which can then use
+ Hadamard inequalities on the determinant to bound the error 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Ipsen2006"
 
 \end_inset
 
-. Diagonal blocks also have the advantage of having determinants easy to compute. However, this approach requires some strong assumptions on the condition number of 
+.
+ Diagonal blocks also have the advantage of having determinants easy to
+ compute.
+ However, this approach requires some strong assumptions on the condition
+ number of 
 \begin_inset Formula $A$
 \end_inset
 
@@ -417,7 +574,6 @@ key "Ipsen2006"
 \end_layout
 
 \begin_layout Standard
-
 The trace approach is driven by 
 \emph on
 spectral properties 
@@ -432,20 +588,23 @@ properties
 \emph default
 (the non-zero pattern)
 \emph on
-. 
+.
+ 
 \emph default
 We
 \emph on
  
 \emph default
-propose to combine these two approaches by decomposing the problem with one component that is close to a tree (and is more amenable to Cholesky methods), and one component that has a bounded condition number. Our solution is to use a 
+propose to combine these two approaches by decomposing the problem into
+ one component that is close to a tree (and is more amenable to Cholesky
+ methods), and one component that has a bounded condition number.
+ Our solution is to use a 
 \emph on
 spectral sparsifier
 \emph default
  introduced by Spielman in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Spielman2008"
 
 \end_inset
@@ -454,72 +613,86 @@ key "Spielman2008"
 \end_layout
 
 \begin_layout Subsection
-
 Applications
 \end_layout
 
 \begin_layout Standard
-
-The problem of estimating determinants has important applications in spatial data analysis, statistical physics and statistics. In spatial statistics, it is often convenient to interpolate measurements in a 2-, 3- or 4-dimensional volume using a sparse Gaussian process, a technique known in the geospatial community as 
+The problem of estimating determinants has important applications in spatial
+ data analysis, statistical physics and statistics.
+ In spatial statistics, it is often convenient to interpolate measurements
+ in a 2-, 3- or 4-dimensional volume using a sparse Gaussian process, a
+ technique known in the geospatial community as 
 \emph on
 kriging 
 \emph default
 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "zhang2010kriging,li2005analysis"
 
 \end_inset
 
 
 \emph on
-. 
+.
+ 
 \emph default
-Computing the optimal parameters of this Gaussian process involves repeated evaluations of the partition function, which is a log-determinant. In this context, a diagonally dominant matrix for the Gram matrix of the process corresponds to distant interactions between points of measure (which is verified in some contexts, see 
+Computing the optimal parameters of this Gaussian process involves repeated
+ evaluations of the partition function, which is a log-determinant.
+ In this context, a diagonally dominant matrix for the Gram matrix of the
+ process corresponds to interactions between points of measure far away
+ (which is verified in some contexts, see 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "KelleyPace1997291"
 
 \end_inset
 
-). Determinants also play a crucial role in quantum physics and in theoretical physics. The wave function of a system of multiple fermion particles is an antisymmetric function which can be described as a determinant (Slater determinant, 
+).
+ Determinants also play a crucial role in quantum physics and in theoretical
+ physics.
+ The wave function of a system of multiple fermion particles is an antisymmetric
+ function which can be described as a determinant (Slatter determinant,
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "atkins2011molecular,lowdin1955quantum"
 
 \end_inset
 
-). In the theory of quantum chromodynamics (QCD), the interaction between particles can be discretized on a lattice, and the energy level of particles is the determinant of some functional operators over this lattice 
+).
+ In the theory of quantum chromodynamics (QCD), the interaction between
+ particles can be discretized on a lattice, and the energy level of particles
+ is the determinant of some functional operators over this lattice 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "duncan1998efficient"
 
 \end_inset
 
-. It is itself a very complex problem because of the size of the matrices involved for any non-trivial problem, for which the number of variables is typically in the millions 
+.
+ It is itself a very complex problem because of the size of the matrices
+ involved for any non-trivial problem, for which the number of variables
+ is typically in the millions 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "bernardson1994monte"
 
 \end_inset
 
-. In this setting, the restriction to diagonally dominant matrices can be interpreted as an interaction between relatively massive particles 
+.
+ In this setting, the restriction to diagonally dominant matrices can be
+ interpreted as an interaction between relatively massive particles 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "deForcrand1989516"
 
 \end_inset
 
-, or as a bound on the propagation of interactions between sites in the lattice 
+, or as a bound on the propagation of interactions between sites in the
+ lattice 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "bernardson1994monte"
 
 \end_inset
@@ -528,8 +701,9 @@ key "bernardson1994monte"
 \end_layout
 
 \begin_layout Standard
-
-For these reasons, computing estimates of the log-determinant has been an active problem in physics and statistics. In particular, the Martin expansion presented in Equation 
+For these reasons, computing estimates of the log-determinant has been an
+ active problem in physics and statistics.
+ In particular, the Martin expansion presented in Equation 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:martin-expansion"
@@ -539,15 +713,14 @@ reference "eq:martin-expansion"
  is extensively used in quantum physics 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Ipsen2006"
 
 \end_inset
 
-, and it can be combined with sampling method to estimate the trace of a matrix series (
+, and it can be combined with sampling method to estimate the trace of a
+ matrix series (
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Zhang2008"
 
 \end_inset
@@ -555,7 +728,6 @@ key "Zhang2008"
 ,
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "McCourt2008"
 
 \end_inset
@@ -563,41 +735,49 @@ key "McCourt2008"
 ,
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Zhang2007"
 
 \end_inset
 
-). Another different line of research has worked on bounds on the values of the determinant itself. This is deeply connected to simplifying statistical models using variational methods. Such a relaxation using a message-passing technique is presented in 
+).
+ Another different line of research has worked on bounds on the values of
+ the determinant itself.
+ This is deeply connected to simplifying statistical models using variational
+ methods.
+ Such a relaxation using a message-passing technique is presented in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Wainwright2006"
 
 \end_inset
 
-. Our method is close in spirit to Reuksen's work 
+.
+ Our method is close in spirit to Reuksen's work 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Reusken2002"
 
 \end_inset
 
- by the use of a preconditioner. However, Reuksen considers preconditioners based on a clever approximation of the Cholesky decomposition, and its interaction with the eigenvalues of the complete matrix is not well understood. Using simpler methods based on sampling, we are able to carefully control the spectrum of the remainder, which in turn leads to strong convergence guarantees.
+ by the use of a preconditioner.
+ However, Reuksen considers preconditioners based on a clever approximation
+ of the Cholesky decomposition, and its interaction with the eigenvalues
+ of the complete matrix is not well understood.
+ Using simpler methods based on sampling, we are able to carefully control
+ the spectrum of the remainder, which in turn leads to strong convergence
+ guarantees.
 \end_layout
 
 \begin_layout Subsection
-
 A note on scaling
 \end_layout
 
 \begin_layout Standard
-
-Unlike other common characteristics of linear operators, the determinant and the log-determinant are very sensitive to dimensionality. We will follow the approach of Reuksen 
+Unlike other common characteristics of linear operators, the determinant
+ and the log-determinant are very sensitive to dimensionality.
+ We will follow the approach of Reuksen 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Reusken2002"
 
 \end_inset
@@ -610,11 +790,17 @@ regularized log-determinant
 \begin_inset Formula $f\left(A\right)=n^{-1}\log\left|A\right|$
 \end_inset
 
- instead of the log-determinant. The regularized determinant has appealing properties with respect to dimensionality. In particular, its sensitivity to perturbations does not increase with the dimensionality, but only depends on spectral properties of the operator 
+ instead of the log-determinant.
+ The regularized determinant has appealing properties with respect to dimensiona
+lity.
+ In particular, its sensitivity to perturbations does not increase with
+ the dimensionality, but only depends on spectral properties of the operator
+ 
 \begin_inset Formula $A$
 \end_inset
 
-. For example, calling 
+.
+ For example, calling 
 \begin_inset Formula $\lambda_{\min}$
 \end_inset
 
@@ -627,15 +813,19 @@ regularized log-determinant
 \end_inset
 
 , respectively: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \log\lambda_{\min}\leq f\left(A\right)\leq\log\lambda_{\max}
 \]
+
 \end_inset
 
 
-\begin_inset Formula \[
-\left|f\left(A+\epsilon I\right)-f\left(A\right)\right|\leq\epsilon\left\Vert A^{-1}\right\Vert _{2}+\mathcal{O}\left(\epsilon^{2}\right)
+\begin_inset Formula 
+\[
+\left|f\left(A+\epsilon I\right)-f\left(A\right)\right|\leq\epsilon\left\Vert A^{-1}\right\Vert _{2}+O\left(\epsilon^{2}\right)
 \]
+
 \end_inset
 
 The last inequality in particular shows that any perturbation to 
@@ -643,24 +833,24 @@ The last inequality in particular shows that any perturbation to
 \end_inset
 
  will be in the order 
-\begin_inset Formula $\mathcal{O}\left(n\right)$
+\begin_inset Formula $O\left(n\right)$
 \end_inset
 
-, and so that all the interesting log-determinants in practice will be dominated by some 
-\begin_inset Formula $\mathcal{O}\left(n\right)$
+, and so that all the interesting log-determinants in practice will be dominated
+ by some 
+\begin_inset Formula $O\left(n\right)$
 \end_inset
 
 .
 \end_layout
 
 \begin_layout Subsection
-
 Main results
 \end_layout
 
 \begin_layout Standard
-
-We first present some general results about the preconditioning of determinants. Consider 
+We first present some general results about the preconditioning of determinants.
+ Consider 
 \begin_inset Formula $A\in SDD_{n}$
 \end_inset
 
@@ -672,18 +862,22 @@ We first present some general results about the preconditioning of determinants.
 \begin_inset Formula $A$
 \end_inset
 
- in the spectral sense. All the results of this article stem from observing that: 
-\begin_inset Formula \begin{eqnarray*}
+ in the spectral sense.
+ All the results of this chapter stem from observing that: 
+\begin_inset Formula 
+\begin{eqnarray*}
 \log\left|A\right| & = & \log\left|B\right|+\log\left|B^{-1}A\right|\\
  &  & \log\left|B\right|+\text{Tr}\left(\log\left(B^{-1}A\right)\right)
 \end{eqnarray*}
+
 \end_inset
 
 The first section is concerned with estimating the remainder term 
 \begin_inset Formula $\text{Tr}\left(\log\left(B^{-1}A\right)\right)$
 \end_inset
 
- using the Martin expansion. The exact inverse 
+ using the Martin expansion.
+ The exact inverse 
 \begin_inset Formula $B^{-1}$
 \end_inset
 
@@ -699,14 +893,17 @@ approximation of
 \begin_inset Formula $B^{-1}$
 \end_inset
 
-, for example using a conjugate gradient method. We show in Section 
+, for example using a conjugate gradient method.
+ We show in Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Preconditioned-log-determinants"
 
 \end_inset
 
- that if the precision of this approximation is high enough, we can estimate the remainder with high probability and with a reasonable number of calls to the operator 
+ that if the precision of this approximation is high enough, we can estimate
+ the remainder with high probability and with a reasonable number of calls
+ to the operator 
 \begin_inset Formula $C$
 \end_inset
 
@@ -717,22 +914,29 @@ reference "thm:preconditioning-approx"
 
 \end_inset
 
-). Using this general framework, the subsequent Section 
+).
+ Using this general framework, the subsequent Section 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Making-the-problem"
 
 \end_inset
 
- shows that spectral sparsifiers make excellent preconditioners that are close enough to 
+ shows that spectral sparsifiers make excellent preconditioners that are
+ close enough to 
 \begin_inset Formula $A$
 \end_inset
 
- and so that computing the Martin expansion is not too expansive. In particular, we build upon the recursive structure of Spielman-Teng ultra-sparsifiers to obtain our main result: 
+ and so that computing the Martin expansion is not too expansive.
+ In particular, we build upon the recursive structure of Spielman-Teng ultra-spa
+rsifiers to obtain our main result:
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -741,7 +945,7 @@ begin{theorem}
 
 \end_inset
 
- 
+
 \begin_inset CommandInset label
 LatexCommand label
 name "thm:ultra_main"
@@ -769,28 +973,34 @@ UltraLogDet
 \end_inset
 
  so that: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \mathbb{P}\left[\left|z-n^{-1}\log\left|A\right|\right|>\epsilon\right]\leq\eta
 \]
+
 \end_inset
 
 and this algorithm completes in expected time 
-\begin_inset Formula $\tilde{O}\left(m\epsilon^{-2}\log^{3}n\log^{2}\left(\frac{\kappa_{A}}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
+\begin_inset Formula $\tilde{O}\left(m\epsilon^{-2}\log^{2}n\log^{2}\left(\frac{\kappa_{A}}{\epsilon}\right)\log\left(\eta^{-1}\right)\right)$
 \end_inset
 
-. Moreover, if 
+.
+ Moreover, if 
 \begin_inset Formula $\epsilon>\Omega(n^{-1})$
 \end_inset
 
-, then the running time improves by a factor 
+, then the running time improves by an 
 \begin_inset Formula $\epsilon$
 \end_inset
 
-. 
+ factor.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -803,12 +1013,31 @@ end{theorem}
 \end_layout
 
 \begin_layout Standard
-
-The rest of the article is structured as follows. In the next section, we present some results about estimating the log-determinant from a truncated expansion. These results will justify the use of 
+The rest of the chapter is structured as follows.
+ In the next section, we present some results about estimating the log-determina
+nt from a truncated expansion.
+ These results will justify the use of 
 \emph on
 preconditioners 
 \emph default
-to compute the determinant of a matrix. The techniques developed by Spielman et al. work on the Laplacians of weighted graphs. Section 3 introduces some new concepts to expand the notion of determinants to Laplacian matrices, and presents a few straightforward results in the relations between graph Laplacians and SDD matrices. Section 3.2 will use these new concepts to introduce a first family of preconditioners based on low-stretch spanning trees. Finally, Section 3.3 contains the proof of our main result, an algorithm to compute determinants in near-linear time. 
+to compute the determinant of a matrix.
+ The techniques developed by Spielman et al.
+ work on the Laplacians of weighted graphs 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Spielman2010"
+
+\end_inset
+
+.
+ Section 3 introduces some new concepts to expand the notion of determinants
+ to Laplacian matrices, and presents a few straightforward results in the
+ relations between graph Laplacians and SDD matrices.
+ Section 3.2 will use these new concepts to introduce a first family of precondit
+ioners based on low-stretch spanning trees.
+ Finally, Section 3.3 contains the proof of our main result, an algorithm
+ to compute determinants in near-linear time.
+ 
 \end_layout
 
 \end_body

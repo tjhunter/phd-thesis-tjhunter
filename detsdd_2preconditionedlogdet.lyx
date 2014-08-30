@@ -1,9 +1,10 @@
-#LyX file created by tex2lyx 2.0.6
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
 \lyxformat 413
 \begin_document
 \begin_header
 \textclass article
 \use_default_options false
+\maintain_unincluded_children false
 \language english
 \language_package none
 \inputencoding auto
@@ -17,15 +18,18 @@
 \font_osf false
 \font_sf_scale 100
 \font_tt_scale 100
+
 \graphics default
 \default_output_format default
 \output_sync 0
+\bibtex_command default
+\index_command default
 \paperfontsize default
 \spacing single
-\use_hyperref 0
+\use_hyperref false
 \papersize default
 \use_geometry false
-\use_amsmath 2
+\use_amsmath 1
 \use_esint 1
 \use_mhchem 0
 \use_mathdots 0
@@ -35,6 +39,10 @@
 \paperorientation portrait
 \suppress_date false
 \use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
 \secnumdepth 3
 \tocdepth 3
 \paragraph_separation indent
@@ -53,7 +61,6 @@
 \begin_body
 
 \begin_layout Section
-
 Preconditioned log-determinants
 \begin_inset CommandInset label
 LatexCommand label
@@ -65,19 +72,19 @@ name "sec:Preconditioned-log-determinants"
 \end_layout
 
 \begin_layout Standard
-
-We begin by a close inspection of a simple sampling algorithm to compute log-determinants, presented first in 
+We begin by a close inspection of a simple sampling algorithm to compute
+ log-determinants, presented first in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Barry1999"
 
 \end_inset
 
-. We will first present some error bounds on this algorithm that expand on bounds previously presented in 
+.
+ We will first present some error bounds on this algorithm that expand on
+ bounds previously presented in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Bai1996"
 
 \end_inset
@@ -85,16 +92,16 @@ key "Bai1996"
  and 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Barry1999"
 
 \end_inset
 
-. This section considers general symmetric matrices and does not make assumptions about diagonal dominance.
+.
+ This section considers general symmetric matrices and does not make assumptions
+ about diagonal dominance.
 \end_layout
 
 \begin_layout Standard
-
 Consider a real symmetric matrix 
 \begin_inset Formula $S\in\mathcal{S}_{n}^{+}$
 \end_inset
@@ -111,7 +118,8 @@ Consider a real symmetric matrix
 \begin_inset Formula $\delta\in\left(0,1\right)$
 \end_inset
 
-. Our goal is to compute 
+.
+ Our goal is to compute 
 \begin_inset Formula $\log\left|I-S\right|$
 \end_inset
 
@@ -119,22 +127,26 @@ Consider a real symmetric matrix
 \begin_inset Formula $\epsilon$
 \end_inset
 
- and with high probability. From the Martin expansion: 
-\begin_inset Formula \begin{equation}
+ and with high probability.
+ From the Martin expansion: 
+\begin_inset Formula 
+\begin{equation}
 \log\left|I-S\right|=-\Tr\left(\sum_{k=1}^{\infty}\frac{1}{k}S^{k}\right)\label{eq:martin}
 \end{equation}
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
-This series of traces can be estimated by Monte Carlo sampling, up to precision 
+This series of traces can be estimated by Monte Carlo sampling, up to precision
+ 
 \begin_inset Formula $\epsilon$
 \end_inset
 
- with high probability, by truncating the series and by replacing the exact trace evaluation by 
+ with high probability, by truncating the series and by replacing the exact
+ trace evaluation by 
 \begin_inset Formula $x^{T}S^{k}x$
 \end_inset
 
@@ -142,11 +154,16 @@ This series of traces can be estimated by Monte Carlo sampling, up to precision
 \begin_inset Formula $x$
 \end_inset
 
-. In order to bound the errors, we will bound the large deviation errors using the following Bernstein inequality: 
+.
+ In order to bound the errors, we will bound the large deviation errors
+ using the following Bernstein inequality:
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -155,7 +172,7 @@ begin{lemma}
 
 \end_inset
 
- [Bernstein's inequality] 
+[Bernstein's inequality] 
 \begin_inset CommandInset label
 LatexCommand label
 name "lem:bernstein"
@@ -174,7 +191,8 @@ name "lem:bernstein"
 \begin_inset Formula $\left|X_{i}\right|<c$
 \end_inset
 
- almost surely. Call 
+ almost surely.
+ Call 
 \begin_inset Formula $\sigma^{2}=\frac{1}{n}\sum_{i}\text{\textnormal{Var}}\left(X_{i}\right)$
 \end_inset
 
@@ -183,21 +201,18 @@ name "lem:bernstein"
 \end_inset
 
 : 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \mathbb{P}\left[\frac{1}{n}\Big|\sum_{i}X_{i}\Big|\geq\epsilon\right]\leq2\exp\left(-\frac{n\epsilon^{2}}{2\sigma^{2}+2c\epsilon/3}\right)
 \]
+
 \end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 
 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -206,19 +221,25 @@ end{lemma}
 
 \end_inset
 
- We can adapt some results from 
+
+\end_layout
+
+\begin_layout Standard
+We can adapt some results from 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Barry1999"
 
 \end_inset
 
- to prove this bound on the deviation from the trace. 
+ to prove this bound on the deviation from the trace.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -242,7 +263,8 @@ Consider
 \begin_inset Formula $\lambda_{\text{\textnormal{min}}}I_{n}\preceq H\preceq\lambda_{\text{\textnormal{max}}}I$
 \end_inset
 
-. Consider 
+.
+ Consider 
 \begin_inset Formula $p$
 \end_inset
 
@@ -254,21 +276,24 @@ Consider
 \begin_inset Formula $i=1\cdots p$
 \end_inset
 
-. Then for all 
+.
+ Then for all 
 \begin_inset Formula $\epsilon>0$
 \end_inset
 
 : 
-\begin_inset Formula \[
-\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-\frac{1}{n}\Tr\left(H\right)\right|\geq\epsilon\right] \leq 2\exp\left(-\frac{p\epsilon^{2}}{4\frac{\left(\lambda_{\max}-\lambda_{\min}\right)^{2}}{n}+2\frac{\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon}{3}}\right)
+\begin_inset Formula 
+\[
+\mathbb{P}\left[\left|\frac{1}{p}\sum_{i=1}^{p}\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-\frac{1}{n}\Tr\left(H\right)\right|\geq\epsilon\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{4n^{-1}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}+2\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon/3}\right)
 \]
+
 \end_inset
 
 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -277,11 +302,14 @@ end{lemma}
 
 \end_inset
 
- 
+
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -298,11 +326,13 @@ begin{proof}
 \begin_inset Formula $H$
 \end_inset
 
- diagonal. We assume without loss of generality that 
+ diagonal.
+ We assume without loss of generality that 
 \begin_inset Formula $H=\text{diag}\left(\lambda_{1},\cdots,\lambda_{n}\right)$
 \end_inset
 
-. Again without loss of generality, we assume that 
+.
+ Again without loss of generality, we assume that 
 \begin_inset Formula $\lambda'_{\max}=\lambda_{\max}-\lambda_{\min}$
 \end_inset
 
@@ -314,14 +344,15 @@ begin{proof}
 \begin_inset Formula $H'=H-\lambda_{\min}I$
 \end_inset
 
-). Call 
+).
+ Call 
 \begin_inset Formula $V_{i}=\frac{\mathbf{u}_{i}^{T}H\mathbf{u}_{i}}{\mathbf{u}_{i}^{T}\mathbf{u}_{i}}-n^{-1}\text{Tr}\left(H\right)$
 \end_inset
 
-. Using results from 
+.
+ Using results from 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Barry1999"
 
 \end_inset
@@ -335,16 +366,17 @@ key "Barry1999"
 \end_inset
 
  and 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \text{Var}\left(V_{i}\right)=\frac{2}{n(n+2)}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}
 \]
+
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-
 Each of the variables 
 \begin_inset Formula $V_{i}$
 \end_inset
@@ -353,15 +385,14 @@ Each of the variables
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 %(see 
 \backslash
 cite{Barry1999})
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -375,44 +406,39 @@ reference "lem:bernstein"
 \end_inset
 
  gives: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \mathbb{P}\left[\frac{1}{p}\left|\sum_{i=1}^{p}V_{i}\right|\geq\epsilon\right]\leq2\exp\left(-\frac{p\epsilon^{2}}{2\sigma^{2}+2\left(\lambda_{\max}-\lambda_{\min}\right)\epsilon/3}\right)
 \]
+
 \end_inset
 
 with 
-\begin_inset Formula \begin{align*}
-\sigma^{2} & =\frac{2}{n(n+2)}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}\\
- & \leq\frac{2}{n^{2}}\sum_{i=1}^{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}=\frac{2}{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}
-\end{align*}
+\begin_inset Formula $\sigma^{2}=\frac{2}{n(n+2)}\sum_{i=1}^{n}\left(\lambda_{i}-n^{-1}\text{Tr}\left(H\right)\right)^{2}\leq\frac{2}{n^{2}}\sum_{i=1}^{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}=\frac{2}{n}\left(\lambda_{\max}-\lambda_{\min}\right)^{2}$
+\end_inset
+
+.
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%Dropping the factor $2/3$, we get our result.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
 \end_inset
 
 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
-
-%Dropping the factor $2/3$, we get our result. 
-\end_layout
-
-\begin_layout Standard
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-
-
-\begin_inset ERT
-status collapsed
-
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -421,7 +447,13 @@ end{proof}
 
 \end_inset
 
- The previous lemma shows that if the eigenspectrum of a matrix is bounded, we can obtain a Bernstein bound on the error incurred by sampling the trace. Furthermore, the convergence of the series 
+
+\end_layout
+
+\begin_layout Standard
+The previous lemma shows that if the eigenspectrum of a matrix is bounded,
+ we can obtain a Bernstein bound on the error incurred by sampling the trace.
+ Furthermore, the convergence of the series 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:martin"
@@ -432,34 +464,41 @@ reference "eq:martin"
 \begin_inset Formula $S$
 \end_inset
 
-. If we truncate the series (
+.
+ If we truncate the series (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:martin"
 
 \end_inset
 
-), we can bound the truncation error using the extremal eigenvalues. We formalize this intuition in the following theorem, which is adapted from the main theorem in 
+), we can bound the truncation error using the extremal eigenvalues.
+ We formalize this intuition in the following theorem, which is adapted
+ from the main theorem in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Barry1999"
 
 \end_inset
 
-. While that main theorem in 
+.
+ While that main theorem in 
 \begin_inset CommandInset citation
 LatexCommand cite
-after ""
 key "Barry1999"
 
 \end_inset
 
- only considered a confidence interval based on the covariance properties of Gaussian distribution, we generalize this result to a more general Bernstein bound. 
+ only considered a confidence interval based on the covariance properties
+ of Gaussian distribution, we generalize this result to a more general Bernstein
+ bound.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -487,7 +526,8 @@ Consider
 \begin_inset Formula $\delta\in\left(0,1\right)$
 \end_inset
 
-. Call 
+.
+ Call 
 \begin_inset Formula $y=n^{-1}\log\left|I-S\right|$
 \end_inset
 
@@ -499,7 +539,8 @@ Consider
 \begin_inset Formula $i=1\cdots p$
 \end_inset
 
- all independent. Call 
+ all independent.
+ Call 
 \begin_inset Formula $\hat{y}_{p,l}$
 \end_inset
 
@@ -512,9 +553,11 @@ Consider
 \end_inset
 
  samples: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \hat{y}_{p,l}=-\frac{1}{p}\sum_{j=1}^{p}\sum_{k=1}^{l}\frac{1}{k}\frac{\mathbf{u}_{j}^{T}S^{k}\mathbf{u}_{j}}{\mathbf{u}_{j}^{T}\mathbf{u}_{j}}
 \]
+
 \end_inset
 
 Given 
@@ -550,21 +593,18 @@ Given
 \end_inset
 
 : 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \mathbb{P}\left[\left|y-\hat{y}_{p,l}\right|\geq\epsilon\right]\leq\eta
 \]
+
 \end_inset
-
-
-\end_layout
-
-\begin_layout Standard
 
 
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -573,16 +613,20 @@ end{theorem}
 
 \end_inset
 
- The proof of this result is detailed in Appendix A.
+
 \end_layout
 
 \begin_layout Standard
+The proof of this result is detailed in Appendix A.
+\end_layout
 
-From this theorem we derive two results that justify the notion of preconditioners for determinants: one for exact preconditioners and one for approximate preconditioners. The corresponding algorithm, which we call 
+\begin_layout Standard
+From this theorem we derive two results that justify the notion of preconditione
+rs for determinants: one for exact preconditioners and one for approximate
+ preconditioners.
+ The corresponding algorithm, which we call 
 \family typewriter
-Precond\SpecialChar \-
-itioned\SpecialChar \-
-LogDetMonteCarlo
+PreconditionedLogDetMonteCarlo
 \family default
 , is presented in Algorithm 
 \begin_inset CommandInset ref
@@ -591,11 +635,14 @@ reference "alg:SampleLogDet"
 
 \end_inset
 
-. 
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -632,9 +679,11 @@ approximation of
 \end_inset
 
 : 
-\begin_inset Formula \begin{equation}
+\begin_inset Formula 
+\begin{equation}
 A\preceq B\preceq\kappa A\label{eq:A-B-bounds}
 \end{equation}
+
 \end_inset
 
 Given 
@@ -673,11 +722,14 @@ PreconditionedLogDetMonteCarlo
 \begin_inset Formula $A$
 \end_inset
 
-. 
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -690,16 +742,24 @@ end{corollary}
 \end_layout
 
 \begin_layout Standard
-
-The proof of this corollary is presented in Appendix A. Usually, computing the exact inverse by an SDD matrix is too expensive. We can instead extend the previous result to consider a black box procedure that approximately computes 
+The proof of this corollary is presented in Appendix A.
+ Usually, computing the exact inverse by an SDD matrix is too expensive.
+ We can instead extend the previous result to consider a black box procedure
+ that approximatively computes 
 \begin_inset Formula $B^{-1}x$
 \end_inset
 
-. If the error introduced by the approximate inversion is small enough, the result from the previous corollary still holds. This is what the following theorem establishes: 
+.
+ If the error introduced by the approximate inversion is small enough, the
+ result from the previous corollary still holds.
+ This is what the following theorem establishes:
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -708,7 +768,7 @@ begin{theorem}
 
 \end_inset
 
- 
+
 \begin_inset CommandInset label
 LatexCommand label
 name "thm:preconditioning-approx"
@@ -735,7 +795,8 @@ approximation of
 \begin_inset Formula $\kappa\geq2$
 \end_inset
 
-. Furthermore, assume there exists a linear operator 
+.
+ Furthermore, assume there exists a linear operator 
 \begin_inset Formula $C$
 \end_inset
 
@@ -756,9 +817,11 @@ approximation of
 \end_inset
 
 : 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \left\Vert C\left(y\right)-B^{-1}y\right\Vert _{B}\leq\nu\left\Vert B^{-1}y\right\Vert _{B}
 \]
+
 \end_inset
 
 Given 
@@ -774,21 +837,19 @@ Given
 \end_inset
 
 , then the algorithm 
-\begin_inset Newline newline
-\end_inset
-
- 
 \family typewriter
-PreconditionedLogDetMonteCarlo
+PreconditionedLogDet- MonteCarlo
 \family default
  returns a scalar 
 \begin_inset Formula $z$
 \end_inset
 
  so that: 
-\begin_inset Formula \[
+\begin_inset Formula 
+\[
 \mathbb{P}\left[\left|z-n^{-1}\log\left|B^{-1}A\right|\right|\geq\epsilon\right]\leq\eta
 \]
+
 \end_inset
 
 by performing 
@@ -803,11 +864,14 @@ by performing
 \begin_inset Formula $A$
 \end_inset
 
-. 
+.
+\end_layout
+
+\begin_layout Standard
 \begin_inset ERT
 status collapsed
 
-\begin_layout Standard
+\begin_layout Plain Layout
 
 
 \backslash
@@ -820,9 +884,10 @@ end{theorem}
 \end_layout
 
 \begin_layout Standard
-
-The proof of this result is detailed in Appendix A. While the overall bound looks the same, the constant (taken away by the 
-\begin_inset Formula $\mathcal{O}\left(\cdot\right)$
+The proof of this result is detailed in Appendix A.
+ While the overall bound looks the same, the constant (taken away by the
+ 
+\begin_inset Formula $O\left(\cdot\right)$
 \end_inset
 
  notation) is four times as large as in Corollary 
@@ -836,8 +901,8 @@ reference "cor:preconditioning"
 \end_layout
 
 \begin_layout Standard
-
-This last theorem shows that we can compute a good approximation of the log-determinant if the preconditioner 
+This last theorem shows that we can compute a good approximation of the
+ log-determinant if the preconditioner 
 \begin_inset Formula $B$
 \end_inset
 
@@ -845,20 +910,18 @@ This last theorem shows that we can compute a good approximation of the log-dete
 \begin_inset Formula $A$
 \end_inset
 
- in the spectral sense, and (b) can be approximately inverted and the error introduced by the approximate inversion can be controlled. This happens to be the case for symmetric, diagonally dominant matrices.
+ in the spectral sense, and (b) can be approximately inverted and the error
+ introduced by the approximate inversion can be controlled.
+ This happens to be the case for symmetric, diagonally dominant matrices.
 \end_layout
 
 \begin_layout Standard
-
-
 \begin_inset Float algorithm
 wide false
 sideways false
 status open
 
-
-\begin_layout Standard
-
+\begin_layout Plain Layout
 Algorithm 
 \series bold
 PreconditionedLogDetMonteCarlo
@@ -886,17 +949,14 @@ PreconditionedLogDetMonteCarlo
 ):
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset Formula $y\leftarrow0$
 \end_inset
 
 
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 for 
 \begin_inset Formula $j$
 \end_inset
@@ -912,16 +972,12 @@ for
 :
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 Sample 
@@ -931,16 +987,12 @@ Sample
 
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
@@ -950,16 +1002,12 @@ Sample
 
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
@@ -969,16 +1017,12 @@ Sample
 
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 for 
@@ -996,26 +1040,20 @@ for
 :
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
@@ -1024,7 +1062,6 @@ for
 
 
 \begin_inset space ~
-
 \end_inset
 
 up to precision 
@@ -1034,26 +1071,20 @@ up to precision
 
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
@@ -1063,16 +1094,12 @@ up to precision
 
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset space ~
-
 \end_inset
 
 
 \begin_inset space ~
-
 \end_inset
 
 
@@ -1082,8 +1109,7 @@ up to precision
 
 \end_layout
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 Return 
 \begin_inset Formula $y$
 \end_inset
@@ -1091,13 +1117,10 @@ Return
 
 \end_layout
 
-\begin_layout Standard
-
-
+\begin_layout Plain Layout
 \begin_inset Caption
 
-\begin_layout Standard
-
+\begin_layout Plain Layout
 PreconditionedLogDetMonteCarlo
 \begin_inset CommandInset label
 LatexCommand label
