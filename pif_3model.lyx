@@ -1514,7 +1514,7 @@ Example of case handled by lagged smoothing which disambiguates the results
  the algorithm has to decide if it corresponds to the vehicle exiting the
  highway.
  Lagged smoothing analyzes subsequent points in the trajectory and can disambigu
-ate the situation.
+ate the case.
 \end_layout
 
 \end_inset
