@@ -761,9 +761,9 @@ Existing systems.
  There are formidable engineering challenges in building a reliable system
  for mass collection of GPS data, and enlisting enough users to reach a
  critical mass.
- This is why fully integrated TIS have been mostly pioneered in the industry,
- which has developed systems that scale to the whole world and that ingest
- thousands of observations per second.
+ This is why fully integrated TIS have been mostly pioneered in the transportati
+on industry, which has developed systems that scale to the whole world and
+ that ingest thousands of observations per second.
  However, there has been no published attempt to quantify the quality of
  the solutions offered by the industry.
  The terms of use generally limit scientific investigation of the output
@@ -790,11 +790,11 @@ key "hunter2011SOCC"
 \end_inset
 
 .
- While researchers have made significant strides in tackling each subtask
- individually, we observe that the lack of proper context leads to irrelevant
- assumptions about the input data that may never be verified in practice.
- We hope that this dissertation will provide some insight as to the problems
- that are relevant to researchers in the field.
+ Researchers have made significant strides in tackling each subtask individually.
+ However, this focused approach does not tackle integration and scalability
+ issues that arise when one considers the whole pipeline.
+ We hope that this work will provide some insight as to the problems that
+ are relevant to researchers in the field.
 \end_layout
 
 \begin_layout Section
@@ -1192,64 +1192,6 @@ Between these two extremes lies a rich variety of road configurations with
  prior knowledge of the road network as it is always shifting or inaccurate.
  Bayesian statistical models provide a compelling solution to address these
  two issues.
-\end_layout
-
-\begin_layout Standard
-
-\series bold
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-
-\series bold
-Data driven inference.
-
-\series default
- The ultimate goal is to use available measurements to build a function
- that given new (unseen) data, provides some estimate of the state of the
- system, and some validation of this state.
- This function will be a estimator.
- It often a fixed structure and some parameters that depend on this particular
- structure that can be tuned given available data.
- For example, this function could be a physical model where the physical
- constants have to be calibrated, or a statistical model in which the statistica
-l parameters have to be adjusted to best match the observations, etc.
- Another approach is to assume that all observations are points in some
- arbitrary space, and that their distribution can be described in terms
- of these data points only.
- This is the non-parametric approach, which we will not consider here.
- There are two ways to approach the problem of building a model, which relate
- into how much the existing data at hand play a role in elaborating a structure:
- a statistical approach and an approach based on first principles.
- These two ways are complementary.
- In the statistical approach, the data is used to prescribe a structure,
- which is then tuned using this data.
- In the first principle approach, the scientist has some additional knowledge
- about the general laws that govern the phenomenon, such as the law of physics,
- some particular assumptions about speed, people's behavior, etc.
- Based on these laws, some general patterns can describe the phenomenon.
- For example, if cars on a highway were represented as a continuous fluid,
- then the treatment of highways through fluid dynamics will predict shock
- waves, traffic jams around intersections, etc.
- without having seen data.
- One could argue that with enough information and computing power, one could
- in principle select a set of optimal statistical model that could predict
- (but not explain) the most minute details of the phenomenon.
- In the other hand, with the perfect knowledge of the conditions and a rigorous
- derivation that takes into account all the experimental biases, the first
- principle approach could full predict the data collected.
- In practice, due to our ignorance of some important parts of the experiment,
- we need to make some simplifying assumptions in a model and compensate
- by inferring some constants from collected observations.
- Also, given a data-driven approach, our prior knowledge of the phenomenon
- will influence our choice of variables (representation problem), and give
- us some insight about the structure of dependencies between these variables.
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard

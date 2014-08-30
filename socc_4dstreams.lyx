@@ -347,7 +347,6 @@ key "scala"
  Furthermore, the compact syntax of the Scala language hides all the complexitie
 s of distribution, replication and data access pattern behind an intuitive
  programming interface.
- A relevant portion of the code of the algorithm is provided in the Appendix.
  This code instantiates a D-Stream with the raw data and derives some other
  D-Streams that correspond to each step of the algorithm.
  As can be seen, this code leverages the functional API of Spark and Scala
@@ -381,7 +380,7 @@ centering
 
 
 \begin_inset Graphics
-	filename figures-socc/1431958694_1373050204.jpg
+	filename figures-socc/absamecolourproof5yq.png
 	display false
 	width 10cm
 
@@ -394,8 +393,23 @@ centering
 \begin_inset Caption
 
 \begin_layout Plain Layout
-Despite what your eye is reconstructing, the following image is perfectly
- static.
+Despite what your eyes are interpreting, the squares labelled 
+\begin_inset Quotes eld
+\end_inset
+
+A
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+B
+\begin_inset Quotes erd
+\end_inset
+
+ on the left image have the same color!
 \end_layout
 
 \end_inset
@@ -479,7 +493,7 @@ Using immutable, stateless transforms
  in control and automation.
  Thus, a stream is defined as a sequence of transforms on a dataset.
  The Scala programming language provides an elegant interface for expressing
- these transformations (see Appendix).
+ these transformations.
  The immutability is a key factor in performing operations in memory and
  in a fault-tolerant way.
  We found that in practice, performance bottlenecks did not occur when using
