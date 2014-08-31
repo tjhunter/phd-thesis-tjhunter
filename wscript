@@ -98,7 +98,6 @@ def build(bld):
   tex_deps += ['acks.tex']
   tex_deps += ['intro.tex']
   img_deps += ["docs-intro/%s.pdf"%d for d in 'power_law tt_function sampleplot_trajs'.split()]
-  img_deps += "figures-intro/example_franklin.png  figures-intro/example_vanness.png".split()
   # PIF chapter deps
   bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odp'))
   bld.oo2pdf(bld.path.ant_glob('docs-pif/*.odg'))
@@ -161,6 +160,7 @@ def build(bld):
   tex_deps += ['kdd_1introduction.tex']
   img_deps += ['docs-kdd/pipeline.pdf']
   img_deps += ['docs-kdd/map.pdf']
+  img_deps += ['docs-kdd/example_franklin.pdf', 'docs-kdd/example_vanness.pdf']
   img_deps += ['figures-kdd/example_bimodal_link.pdf',
 	       'figures-kdd/network_export_6.pdf']
   tex_deps += ['kdd_2stop-and-go.tex']

@@ -446,7 +446,7 @@ status open
 
 
 \begin_inset Graphics
-	filename figures-intro/example_franklin.png
+	filename docs-kdd/example_franklin.pdf
 	lyxscale 10
 	width 7cm
 
@@ -457,15 +457,8 @@ status open
 \end_inset
 
 
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset space \hfill{}
-\end_inset
-
-
 \begin_inset Graphics
-	filename figures-intro/example_vanness.png
+	filename docs-kdd/example_vanness.pdf
 	lyxscale 10
 	width 7cm
 
