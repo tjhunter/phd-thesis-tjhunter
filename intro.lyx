@@ -152,6 +152,12 @@ Our society is increasingly dependent on very large infrastructure systems
 on or transportation systems.
  These systems are continuously monitored by a vast array of sensors, which
  gather large streams of digital information.
+ The integration of the physical processes of this system with the computational
+ processes is called a 
+\emph on
+cyberphysical system
+\emph default
+.
  This network of sensors gives information about the aggregate state of
  the system, or about local variables such as chemical concentrations, power
  output, temperatures, etc.
@@ -797,6 +803,26 @@ key "hunter2011SOCC"
  are relevant to researchers in the field.
 \end_layout
 
+\begin_layout Standard
+Traffic estimation and control goes beyond the roads and the cars that circulate
+ thereupon.
+ It involves complex, distributed computations that monitor the flow of
+ cars (the physical part of the process).
+ Crucial to these computations is a sensing infrastructure that infers the
+ state of the vehicular network.
+ This tight coupling between physical and logical processes characterizes
+ the overall system as a cyberphysical system.
+ It is common in computer science to assume that correctness is decoupled
+ from performance: a slow but correct program is annoying but eventually
+ completes its task.
+ This is not the case in a cyberphysical system.
+ The physics of the process change the state of the system while computations
+ are performed, because these changes happen concurrently, not sequentially,
+ to the computational process.
+ This is why performance and timeliness of the computations are such a critical
+ aspect.
+\end_layout
+
 \begin_layout Section
 Complexity of modeling traffic from GPS observations
 \end_layout
@@ -812,7 +838,7 @@ status open
 \begin_inset Graphics
 	filename figures-pif/example_cloud_point_sf.png
 	lyxscale 30
-	width 70col%
+	width 90col%
 
 \end_inset
 

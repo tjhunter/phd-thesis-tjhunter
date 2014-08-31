@@ -867,7 +867,7 @@ We first present some general results about the preconditioning of determinants.
 \end_inset
 
  in the spectral sense.
- All the results of this article stem from observing that: 
+ All the results of this section stem from observing that: 
 \begin_inset Formula 
 \begin{eqnarray*}
 \log\left|A\right| & = & \log\left|B\right|+\log\left|B^{-1}A\right|\\
