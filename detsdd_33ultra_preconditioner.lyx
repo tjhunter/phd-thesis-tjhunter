@@ -503,17 +503,6 @@ end{raggedright}
 \end_inset
 
 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% TODO: change the bounds to reflect the theorem
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -812,21 +801,6 @@ GreedyElimination
 
  .
  
-\begin_inset ERT
-status collapsed
-
-\begin_layout Plain Layout
-
-% TODO: We need to explain greedy elimination somewhere
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Enumerate

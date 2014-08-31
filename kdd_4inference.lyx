@@ -857,27 +857,20 @@ f\left(a\left(q_{u:v}\right)^{T}\mu,\sigma\left(q_{u:v}\right)^{2}\right)=f\left
 
 \begin_layout Proof
 Using the definition of the partial mixture sum:
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% TODO: this goes out of the page
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Proof
 \begin_inset Formula 
 \begin{eqnarray*}
 \widetilde{\pi}_{u:v}\left(i\rightarrow j\right) & = & \sum_{q=q_{u}\cdots q_{v}:q_{u}=i\,,\, q_{v}=j}\pi\left(q\right)f\left(a\left(q\right)^{T}\mu,\sigma\left(q\right)^{2}\right)\\
- & = & \sum_{k=1}^{m}\sum_{q_{u+2:v}:q_{v}=j}\pi\left(i,\, k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
- & = & \sum_{k=1}^{m}\sum_{q_{u+2:v}:q_{v}=j}\pi_{u}\left(i,k\right)\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
- & = & \sum_{k=1}^{m}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\\
- & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{m}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\right]\\
+ & = & \sum_{k=1}^{m}\sum_{q_{u+2:v}:q_{v}=j}\pi\left(i,\, k,\, q_{u+2:v}\right)\\
+ &  & \times f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
+ & = & \sum_{k=1}^{m}\sum_{q_{u+2:v}:q_{v}=j}\pi_{u}\left(i,k\right)\pi\left(k,\, q_{u+2:v}\right)\\
+ &  & \times f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu+\mu_{\left(u,i\right)},\sigma\left(k,\, q_{u+2:v}\right)^{2}+\Delta_{\left(u,i\right)}\right)\\
+ & = & \sum_{k=1}^{m}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)\\
+ &  & \times f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\\
+ & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\\
+ &  & \times\left[\sum_{k=1}^{m}\pi_{u}\left(i,k\right)\sum_{q_{u+2:v}:q_{v}=j}\pi\left(k,\, q_{u+2:v}\right)f\left(a\left(k,\, q_{u+2:v}\right)^{T}\mu,\sigma\left(k,\, q_{u+2:v}\right)^{2}\right)\right]\\
  & = & f\left(\mu_{\left(u,i\right)},\Delta_{\left(u,i\right)}\right)\odot\left[\sum_{k=1}^{m}\pi_{u}\left(i,k\right)\widetilde{\pi}_{u+1:v}\left(k\rightarrow j\right)\right]
 \end{eqnarray*}
 

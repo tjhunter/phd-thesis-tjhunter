@@ -726,7 +726,11 @@ PreconditionedLogDetMonteCarlo
 \end_inset
 
 , by performing 
-\begin_inset Formula $16\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2\kappa}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(\kappa\right)$
+\begin_inset Formula 
+\[
+16\kappa\left(\frac{1}{\epsilon}+\frac{1}{n\epsilon^{2}}\right)\log\left(\frac{2\kappa}{\epsilon}\right)\log\left(2/\eta\right)\log^{2}\left(\kappa\right)
+\]
+
 \end_inset
 
  vector inversions from 
