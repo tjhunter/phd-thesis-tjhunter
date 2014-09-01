@@ -1105,7 +1105,7 @@ Let
 \end_layout
 
 \begin_layout Standard
-Similarly, defining the number of observations of both 
+Similarly, we define the number of observations of both 
 \begin_inset Formula $X_{i}$
 \end_inset
 
@@ -1113,11 +1113,15 @@ Similarly, defining the number of observations of both
 \begin_inset Formula $X_{j}$
 \end_inset
 
-: 
-\begin_inset Formula $N_{i\cap j}=\text{card}\left(\left\{ p\,:\, i\in W_{a}\text{ and }j\in W_{a}\right\} \right)$
+:
+\begin_inset Formula 
+\[
+N_{i\cap j}=\text{card}\left(\left\{ p\,:\, i\in W_{a}\text{ and }j\in W_{a}\right\} \right)
+\]
+
 \end_inset
 
-, we can approximate the mean of any function 
+We can approximate the mean of any function 
 \begin_inset Formula $f\left(X_{i},X_{j}\right)$
 \end_inset
 
